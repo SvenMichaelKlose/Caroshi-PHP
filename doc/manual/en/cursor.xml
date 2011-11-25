@@ -1,0 +1,72 @@
+  <!--
+  GENERIC CURSOR CLASSES
+  -->
+
+  <chapter id="sect-cursor">
+    <title>Generic cursor interfaces to secondary storage</title>
+    <para>
+      This section of the library provides a bunch of classes
+      with a common set of methods to access data on secondary storage,
+      like a filesystem or a SQL database. They are called
+      <emphasis>cursors</emphasis>.
+    </para>
+
+    <para>
+      A cursor <emphasis>points</emphasis> to a particular record in a
+      result set that must be queried before. The cursor can step
+      only forward through a result set.
+    </para>
+
+    <para>
+      Cursor objects are persistent and can be serialized. This feature is
+      use to transport information where a record is stored.
+      When unserialised, a record field can be read or written through the
+      cursor object immediately.
+    </para>
+
+    <para>
+      Cursors provide a subset of iterator methods so code that uses
+      cursors can also use iterators.
+    </para>
+
+    <para>
+      Since the cursor API is very small, new cursors can be implemented
+      quickly.
+    </para>
+
+    <para>
+      Cursors can be stacked which means that a cursor can use another one
+      as the data source, and still behave as one. This allows to
+      write filters that filter data read or written to a database.
+    </para>
+
+    <sect1>
+      <title>Constructing and querying a cursor</title>
+      <para>
+        The following example set the db connection for all sql cursors and
+        queries all records from table 'persons'. It then steps through
+        the result set and print each person's name.
+      </para>
+
+      <programlisting>
+<![CDATA[
+  require_once 'cursors/sql.class.php';
+
+  ssi_sql::set_db (new dbi ('database', 'localhost', 'user', 'password'));
+
+  $c =& new ssi_sql ();
+  $c->source = 'persons';
+  $c->query ('age>23');
+  while ($r =& $c->get ())
+    echo $r['name'] . "<br>";
+]]>
+      </programlisting>
+
+      <para>
+        The source and query format may vary between different cursor
+        implementations.
+        The SQL cursor take the table name as the source and a WHERE clause
+        for the query.
+      </para>
+    </sect1>
+  </chapter>

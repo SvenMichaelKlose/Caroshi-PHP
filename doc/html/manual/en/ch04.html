@@ -1,0 +1,111 @@
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<title>Chapter 4. Generic cursor interfaces to secondary storage</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.29">
+<link rel="home" href="index.html" title="Caroshi">
+<link rel="up" href="index.html" title="Caroshi">
+<link rel="previous" href="ch03s03.html" title="More about the database interfaces">
+<link rel="next" href="ch05.html" title="Chapter 5. Application base class">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">Chapter 4. Generic cursor interfaces to secondary storage</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="ch03s03.html">Prev</a> </td>
+<th width="60%" align="center"> </th>
+<td width="20%" align="right"> <a href="ch05.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div id="sect-cursor" class="chapter">
+<div class="titlepage"><div><h2 class="title">
+<a name="sect-cursor"></a>Chapter 4. Generic cursor interfaces to secondary storage</h2></div></div>
+<div class="toc">
+<p><b>Table of Contents</b></p>
+<dl><dt> <a href="ch04.html#id2715583">Constructing and querying a cursor</a>
+</dt></dl>
+</div>
+<p>
+      This section of the library provides a bunch of classes
+      with a common set of methods to access data on secondary storage,
+      like a filesystem or a SQL database. They are called
+      <i>cursors</i>.
+    </p>
+<p>
+      A cursor <i>points</i> to a particular record in a
+      result set that must be queried before. The cursor can step
+      only forward through a result set.
+    </p>
+<p>
+      Cursor objects are persistent and can be serialized. This feature is
+      use to transport information where a record is stored.
+      When unserialised, a record field can be read or written through the
+      cursor object immediately.
+    </p>
+<p>
+      Cursors provide a subset of iterator methods so code that uses
+      cursors can also use iterators.
+    </p>
+<p>
+      Since the cursor API is very small, new cursors can be implemented
+      quickly.
+    </p>
+<p>
+      Cursors can be stacked which means that a cursor can use another one
+      as the data source, and still behave as one. This allows to
+      write filters that filter data read or written to a database.
+    </p>
+<div class="sect1">
+<a name="id2715583"></a><div class="titlepage"><div><h2 class="title" style="clear: all">
+<a name="id2715583"></a><span class="title">Constructing and querying a cursor</span>
+</h2></div></div>
+<p>
+        The following example set the db connection for all sql cursors and
+        queries all records from table 'persons'. It then steps through
+        the result set and print each person's name.
+      </p>
+<pre class="programlisting">
+
+  require_once 'cursors/sql.class.php';
+
+  ssi_sql::set_db (new dbi ('database', 'localhost', 'user', 'password'));
+
+  $c =&amp; new ssi_sql ();
+  $c-&gt;source = 'persons';
+  $c-&gt;query ('age&gt;23');
+  while ($r =&amp; $c-&gt;get ())
+    echo $r['name'] . &quot;&lt;br&gt;&quot;;
+
+      </pre>
+<p>
+        The source and query format may vary between different cursor
+        implementations.
+        The SQL cursor take the table name as the source and a WHERE clause
+        for the query.
+      </p>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="ch03s03.html">Prev</a> </td>
+<td width="20%" align="center"><a href="index.html">Home</a></td>
+<td width="40%" align="right"> <a href="ch05.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">More about the database interfaces </td>
+<td width="20%" align="center"><a href="index.html">Up</a></td>
+<td width="40%" align="right"> Chapter 5. Application base class</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

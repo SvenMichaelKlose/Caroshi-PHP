@@ -1,0 +1,65 @@
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<title>View-Funktionen</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.29">
+<link rel="home" href="index.html" title="Caroshi-Tutorial">
+<link rel="up" href="ch02.html" title="Chapter 2. Die Applikationsklasse">
+<link rel="previous" href="ch02s04.html" title="application Beispiel">
+<link rel="next" href="ch03.html" title="Chapter 3. Die web-basierte Benutzeroberflaeche">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">View-Funktionen</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="ch02s04.html">Prev</a> </td>
+<th width="60%" align="center">Chapter 2. Die Applikationsklasse</th>
+<td width="20%" align="right"> <a href="ch03.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect1">
+<a name="id2764386"></a><div class="titlepage"><div><h2 class="title" style="clear: all">
+<a name="id2764386"></a><span class="title">View-Funktionen</span>
+</h2></div></div>
+<p>
+Eine andere Funktion als defaultview() kann nur ueber eine von Klasse
+application erzeugte URL aufgerufen werden. Dazu muss der Name der Funktion
+und evtl. eine Referenz auf dessen Klasse mit add_view() oder add_viewfunc()
+registriert werden.
+      </p>
+<p>
+Jedem view kann ein Array von Argumenten uebergeben werden. Die Namen der
+Schluessel sollten jedoch nicht mit einem Unterstrich '_' beginnen, da sie
+sonst Gefahr laufen mit internen Daten der Bibliothek zu kollidieren.
+Views selbst lesen Argumente mit Hilfe der Getter-Funktion application::arg()
+aus:
+      </p>
+<p>
+<a href="02_hello_world_linked.php" target="_top">Beispielanwendung</a>
+<a href="02_hello_world_linked.php.txt" target="_top">(Quelltext)</a>
+      </p>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="ch02s04.html">Prev</a> </td>
+<td width="20%" align="center"><a href="index.html">Home</a></td>
+<td width="40%" align="right"> <a href="ch03.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">application Beispiel </td>
+<td width="20%" align="center"><a href="ch02.html">Up</a></td>
+<td width="40%" align="right"> Chapter 3. Die web-basierte Benutzeroberflaeche</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

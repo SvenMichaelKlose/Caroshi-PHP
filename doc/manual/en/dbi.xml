@@ -1,0 +1,78 @@
+<!--
+  ### DATABASE UTILITIES ###
+-->
+
+<chapter id="sect-db">
+   <title>Database interfaces</title>
+   <sect1>
+      <para>
+         Freeing you from hacking SQL queries is the main purpose of the
+         database interfaces. At the time there's only support for
+         MySQL databases.
+      </para>
+   </sect1>
+
+   <sect1>
+      <title>Using the dbctrl interface</title>
+
+      <para>
+         Class dbctrl is the common interface to SQL databases used
+         throughout the whole library. Here's an example that shows
+         how to connect to a database and perform queries:
+      </para>
+
+      <programlisting>
+<![CDATA[
+include 'dbi/dbctrl.class';
+include 'proc/debug_dump.php';
+
+# Try to connect to a local MySQL database.
+$db =& new dbctrl ('localhost', 'mydatabase', 'myuser', 'mypassword');
+if (!$db->is_connected ())
+   die ("Couldn't connect to database.");
+
+# Dump the whole content of table 'mytable'.
+$res =& $db->query ('SELECT * FROM mytable');
+while ($row = $res->get ())
+   debug_dump ($row);
+]]>
+      </programlisting>
+
+      <para>
+         Every query returns a db_result object where each result can be
+         fetched using get(). It returns NULL if there's no result at all.
+      </para>
+
+      <para>
+         To reduce the overhead typing complete SQL queries there're
+         four functions that assemble them for you: select(), insert(),
+         update() and delete(). The order of arguments is the same like
+         it is in the resulting SQL query. Here're some examples:
+      </para>
+
+      <programlisting>
+<![CDATA[
+$res =& $db->query ('SELECT * FROM persons WHERE age>23 ORDER BY name');
+$res =& $db->select ('*', 'persons', 'age>23', 'ORDER BY name');
+
+$res =& $db->query ('INSERT INTO persons SET name="Annegret",age=25');
+$res =& $db->insert ('persons', 'name="Annegret",age=25');
+
+$res =& $db->query ('UPDATE persons SET age=24 WHERE name="Annegret"');
+$res =& $db->update ('persons', 'age=24', 'name="Annegret"');
+
+$res =& $db->query ('DELETE FROM persons WHERE age<23');
+$res =& $db->delete ('persons', 'age<23');
+]]>
+      </programlisting>
+   </sect1>
+
+   <sect1>
+      <title>More about the database interfaces</title>
+      <para>
+         Oh dear, this is all about the many classes in the libraries
+         database section because of a simple reason: Lots of old stuff is
+         removed and replaced by new container interfaces.
+      </para>
+   </sect1>
+</chapter>

@@ -1,0 +1,56 @@
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<title>Batched function calls</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.29">
+<link rel="home" href="index.html" title="Caroshi">
+<link rel="up" href="ch05.html" title="Chapter 5. Application base class">
+<link rel="previous" href="ch05s05.html" title="Subsession arguments">
+<link rel="next" href="ch05s07.html" title="Destruction">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">Batched function calls</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="ch05s05.html">Prev</a> </td>
+<th width="60%" align="center">Chapter 5. Application base class</th>
+<td width="20%" align="right"> <a href="ch05s07.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect1">
+<a name="id2714330"></a><div class="titlepage"><div><h2 class="title" style="clear: all">
+<a name="id2714330"></a><span class="title">Batched function calls</span>
+</h2></div></div>
+<p>
+        Batching function calls means to pass a set of functions to link()
+        which are called in a fixed order. This allows one to call something
+        else after a form function or functions which to rather simple
+        operations like inserting a record and then call the page function
+        again. To batch functions one on another add the name and arguemnt
+        to the link() function using view::set_next().
+      </p>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="ch05s05.html">Prev</a> </td>
+<td width="20%" align="center"><a href="index.html">Home</a></td>
+<td width="40%" align="right"> <a href="ch05s07.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">Subsession arguments </td>
+<td width="20%" align="center"><a href="ch05.html">Up</a></td>
+<td width="40%" align="right"> Destruction</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

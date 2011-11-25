@@ -1,0 +1,46 @@
+<?xml version='1.0'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+                  "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+<!ENTITY intro SYSTEM "intro.xml">
+<!ENTITY sql SYSTEM "sql.xml">
+<!ENTITY cursor SYSTEM "cursor.xml">
+<!ENTITY application SYSTEM "application.xml">
+<!ENTITY user_interface SYSTEM "user_interface.xml">
+]>
+
+<book>
+  <bookinfo>
+    <title>Caroshi</title>
+    <author>
+      <firstname>Sven Michael</firstname>
+      <surname>Klose</surname>
+      <affiliation>
+        <address><email>sven@devcon.net</email></address>
+      </affiliation>
+    </author>
+
+    <copyright>
+      <year>2002</year>
+      <holder>Sven Michael Klose</holder>
+      <holder>dev/consulting GmbH</holder>
+    </copyright>
+
+    <abstract>
+      <para>
+        Entwicklung von PHP-Anwendungen mit der Caroshi-Bibliothek.
+      </para>
+      <para>
+<![CDATA[
+$Id: manual.xml,v 1.4 2002/06/22 19:12:52 sven Exp $
+]]>
+      </para>
+    </abstract>
+  </bookinfo>
+
+  &intro;
+  &sql;
+  &cursor;
+  &application;
+  &user_interface;
+
+</book>

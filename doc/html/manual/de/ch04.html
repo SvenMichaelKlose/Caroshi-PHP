@@ -1,0 +1,94 @@
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<title>Chapter 4. Der Applikation-Server</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.29">
+<link rel="home" href="index.html" title="Caroshi">
+<link rel="up" href="index.html" title="Caroshi">
+<link rel="previous" href="ch03s03.html" title="Mischen von Cursors verschiedener Typen">
+<link rel="next" href="ch04s02.html" title="Aufbau und Ablauf einer Anwendung">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">Chapter 4. Der Applikation-Server</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="ch03s03.html">Prev</a> </td>
+<th width="60%" align="center"> </th>
+<td width="20%" align="right"> <a href="ch04s02.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div id="intro" class="chapter">
+<div class="titlepage"><div><h2 class="title">
+<a name="intro"></a>Chapter 4. Der Applikation-Server</h2></div></div>
+<div class="toc">
+<p><b>Table of Contents</b></p>
+<dl>
+<dt> <a href="ch04.html#events">Das Event-Modell</a>
+</dt>
+<dt> <a href="ch04s02.html">Aufbau und Ablauf einer Anwendung</a>
+</dt>
+<dt> <a href="ch04s03.html">Event-Argumente</a>
+</dt>
+<dt> <a href="ch04s04.html">Subsessions</a>
+</dt>
+<dt> <a href="ch04s05.html">Stapelverarbeitung von Events</a>
+</dt>
+</dl>
+</div>
+<div class="sect1">
+<a name="events"></a><div class="titlepage"><div><h2 class="title" style="clear: all">
+<a name="events"></a><span class="title">Das Event-Modell</span>
+</h2></div></div>
+<p>
+        Der Application-Server arbeitet ereignisorientiert. Er vermittelt
+        Nachrichten, sog. <i>Ereignisse</i> zwischen dem
+        Webserver und der Anwendung sowie Teilen der Anwendung untereinander.
+      </p>
+<p>
+        Ereignisse bestehen aus Objekten der Klasse <i>event</i>
+        und enthalten den Namen des Empfängers sowie beliebig viele
+        Argumente, die durch ihre Namen identifiziert werden.
+      </p>
+<p>
+        Events können serialisiert und zu einem beliebigen späteren
+        Zeitpunkt ausgelöst werden. Der Empfänger besteht aus einer
+        gewöhnlichen benutzerdefinierten PHP-Funktion, der als einziger
+        Parameter eine Referenz auf die Applikationsklasse übergeben wird.
+        Über sie können die Event-Argumente abgerufen und neue
+        Events erzeugt werden.
+      </p>
+<p>
+        Das erste Event wird beim Aufruf der Anwendung aus der URL generiert,
+        oder mit Hilfe eines darin enthaltenen, einmaligen Schlüsselns,
+        einem <i>Token</i>, aus der Datenbank abgerufen und
+        ausgelöst. Danach können neue URLs aus Events erzeugt werden.
+      </p>
+<p>
+        
+      </p>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="ch03s03.html">Prev</a> </td>
+<td width="20%" align="center"><a href="index.html">Home</a></td>
+<td width="40%" align="right"> <a href="ch04s02.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">Mischen von Cursors verschiedener Typen </td>
+<td width="20%" align="center"><a href="index.html">Up</a></td>
+<td width="40%" align="right"> Aufbau und Ablauf einer Anwendung</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<title>Ausgabe von Tabellen und Widgets</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.29">
+<link rel="home" href="index.html" title="Caroshi-Tutorial">
+<link rel="up" href="ch03.html" title="Chapter 3. Die web-basierte Benutzeroberflaeche">
+<link rel="previous" href="ch03.html" title="Chapter 3. Die web-basierte Benutzeroberflaeche">
+<link rel="next" href="ch04.html" title="Chapter 4. SQL-Zugriffe">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">Ausgabe von Tabellen und Widgets</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="ch03.html">Prev</a> </td>
+<th width="60%" align="center">Chapter 3. Die web-basierte Benutzeroberflaeche</th>
+<td width="20%" align="right"> <a href="ch04.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect1">
+<a name="id2716874"></a><div class="titlepage"><div><h2 class="title" style="clear: all">
+<a name="id2716874"></a><span class="title">Ausgabe von Tabellen und Widgets</span>
+</h2></div></div>
+<p>
+Hier ein Beispiel zum erstellen eines Formulars mit Daten zu einer einzelnen
+Person:
+       </p>
+<pre class="programlisting">
+
+  function person_formular ()
+  [
+    $ui =&amp; admin_panel::instance ();
+
+    $felder = array ('Name' =&gt; 'name', 'Vorname' =&gt; 'vorname',
+                     'Email' =&gt; 'email', 'Fon' =&gt; 'fon', 'Fax' =&gt; 'fax');
+    $p-&gt;open_table ();
+    foreach ($felder as $beschreibung =&gt; $feldname) {
+      $ui-&gt;open_row ();
+      $ui-&gt;label ($beschreibung);
+      $ui-&gt;inputline ($feldname);
+      $ui-&gt;close_row ();
+    }
+    $p-&gt;close_table ();
+  }
+
+       </pre>
+<p>
+Diese Funktion gibt fuenf Eingabezeilen mit Beschriftung zeilenweise in einer
+eigenen Tabelle aus. Sie wird mehrfach wiederverwendet - obwohl ihr keine
+Argumente uebergeben werden. Ruft man sie von defaultview() aus auf,
+funktioniert die Ausgabe anstandslos. Tabellenzellen werden automatisch
+geoeffnet und geschlossen. Tabellenzeilen wurden hier mit open_row() und
+close_row() manuell gesteuert, da diese sonst ebenfalls automatisch fuer
+jedes Widget erzeugt, und diese dann eine ganze Zeile beanspruchen, wuerden.
+       </p>
+<p>
+Nachdem init() und close() angepasst wurden, kann die Funktion mit einer neuen
+defaultview()-Funktion getestet werden:
+       </p>
+<pre class="programlisting">
+
+  function defaultview ()
+  {
+    $ui =&amp; admin_panel::instance ();
+
+    $ui-&gt;open_form ();
+    $this-&gt;person_formular ();
+    $ui-&gt;close_form ();
+  }
+
+        </pre>
+<p>
+<a href="04_form_in_table.php" target="_top">Beispielanwendung</a>
+<a href="04_form_in_table.php.txt" target="_top">(Quelltext)</a>
+      </p>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="ch03.html">Prev</a> </td>
+<td width="20%" align="center"><a href="index.html">Home</a></td>
+<td width="40%" align="right"> <a href="ch04.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">Chapter 3. Die web-basierte Benutzeroberflaeche </td>
+<td width="20%" align="center"><a href="ch03.html">Up</a></td>
+<td width="40%" align="right"> Chapter 4. SQL-Zugriffe</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

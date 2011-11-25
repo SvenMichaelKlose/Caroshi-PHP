@@ -1,0 +1,90 @@
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<title>Editor for records without references</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.29">
+<link rel="home" href="index.html" title="Caroshi">
+<link rel="up" href="ch07.html" title="Chapter 7. Toolkits for the user interface">
+<link rel="previous" href="ch07s03.html" title="Range editor">
+<link rel="next" href="ch07s05.html" title="dbi search">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">Editor for records without references</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="ch07s03.html">Prev</a> </td>
+<th width="60%" align="center">Chapter 7. Toolkits for the user interface</th>
+<td width="20%" align="right"> <a href="ch07s05.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect1">
+<a name="sect-tk-record-edit"></a><div class="titlepage"><div><h2 class="title" style="clear: all">
+<a name="sect-tk-record-edit"></a><span class="title">Editor for records without references</span>
+</h2></div></div>
+<p>
+        This module lets the user edit and search records in a single
+	source. This module is based on the
+	<a href="ch07.html#sect-tk-autoform">autoform</a> and
+	<a href="ch07s05.html">dbisearch</a> toolkit.
+      </p>
+<div class="sect2">
+<a name="func-tk-record-edit-init"></a><div class="titlepage"><div><h3 class="title">
+<a name="func-tk-record-edit-init"></a><span class="title">tk_record_edit_init ()</span>
+</h3></div></div>
+<pre class="synopsis">
+  void tk_record_edit_init (&amp;$application_object);
+	</pre>
+<p>
+	  This function initialises the module.
+	</p>
+</div>
+<div class="sect2">
+<a name="func-tk-record-edit"></a><div class="titlepage"><div><h3 class="title">
+<a name="func-tk-record-edit"></a><span class="title">tk_record_edit ()</span>
+</h3></div></div>
+<pre class="synopsis">
+  void tk_record_edit (&amp;$application_object);
+	</pre>
+<p>
+	  Module's entry page function. The following arguments can be
+	  passed:
+	</p>
+<div class="itemizedlist"><ul>
+<li><p>
+<a name="id2776840"></a>
+	      source - Specifies the source of records to edit.
+	    </p></li>
+<li><p>
+<a name="id2776850"></a>
+	      list_fields - Array of fields that should be displayed in lists.
+	      If not specified all fields are shown if not configured otherwise
+	      in the according <a href="ch07.html#sect-tk-autoform">autoform</a>
+	      configuration.
+	    </p></li>
+</ul></div>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="ch07s03.html">Prev</a> </td>
+<td width="20%" align="center"><a href="index.html">Home</a></td>
+<td width="40%" align="right"> <a href="ch07s05.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">Range editor </td>
+<td width="20%" align="center"><a href="ch07.html">Up</a></td>
+<td width="40%" align="right"> dbi search</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

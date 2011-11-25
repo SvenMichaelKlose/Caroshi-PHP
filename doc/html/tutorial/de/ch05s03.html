@@ -1,0 +1,98 @@
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<title>Automatisches generien von Formularen</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.29">
+<link rel="home" href="index.html" title="Caroshi-Tutorial">
+<link rel="up" href="ch05.html" title="Chapter 5. Erweiterungen der Benutzeroeberfläche">
+<link rel="previous" href="ch05s02.html" title="Volltextsuche">
+<link rel="next" href="ch05s04.html" title="Leere SQL-Record via Link erstellen">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">Automatisches generien von Formularen</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="ch05s02.html">Prev</a> </td>
+<th width="60%" align="center">Chapter 5. Erweiterungen der Benutzeroeberfläche</th>
+<td width="20%" align="right"> <a href="ch05s04.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect1">
+<a name="id2764837"></a><div class="titlepage"><div><h2 class="title" style="clear: all">
+<a name="id2764837"></a><span class="title">Automatisches generien von Formularen</span>
+</h2></div></div>
+<p>
+Der Aufruf von
+      </p>
+<pre class="programlisting">
+
+  $this-&gt;personen_formular ();
+
+      </pre>
+<p>
+laesst sich ersetzen durch
+      </p>
+<pre class="programlisting">
+
+  tk_autoform_create_form ($this, 'source');
+
+      </pre>
+<p>
+und fuehrt zum gleichen Resultat, wenn die Beschreibungen der Feldnamen in
+die Datenbankbeschreibung eingetragen und die automatische Ausgabe des
+Primarschluessels unterdrueckt wird.
+      </p>
+<pre class="programlisting">
+
+    # Definiere Tabelle 'personen' mit Feldnamen und SQL-Typ.
+    $def-&gt;define_table (
+      'personen',
+      array (array ('n' =&gt; 'id',
+                    'autoform' =&gt; 'hide', # Keine automatisches Widget erzeugen.
+                    't' =&gt; 'INT NOT NULL AUTO_INCREMENT PRIMARY KEY'),
+             array ('n' =&gt; 'name',
+	            'd' =&gt; 'Name',
+	            't' =&gt; 'VARCHAR(255) NOT NULL'),
+             array ('n' =&gt; 'vorname',
+	            'd' =&gt; 'Vorname',
+	            't' =&gt; 'VARCHAR(255) NOT NULL'),
+             array ('n' =&gt; 'email',
+	            'd' =&gt; 'E-Mail',
+	            't' =&gt; 'VARCHAR(255) NOT NULL'),
+             array ('n' =&gt; 'fon',
+	            'd' =&gt; 'Fon',
+	            't' =&gt; 'VARCHAR(255) NOT NULL'),
+             array ('n' =&gt; 'fax',
+	            'd' =&gt; 'Fax',
+	            't' =&gt; 'VARCHAR(255) NOT NULL'))
+    );
+
+      </pre>
+<p>
+Nun kann personen_formular() entfernt werden.
+      </p>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="ch05s02.html">Prev</a> </td>
+<td width="20%" align="center"><a href="index.html">Home</a></td>
+<td width="40%" align="right"> <a href="ch05s04.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">Volltextsuche </td>
+<td width="20%" align="center"><a href="ch05.html">Up</a></td>
+<td width="40%" align="right"> Leere SQL-Record via Link erstellen</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

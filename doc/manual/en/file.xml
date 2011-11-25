@@ -1,0 +1,28 @@
+  <chapter id="sect-file">
+    <title>File functions</title>
+    <sect1 id="func-magic2mime">
+      <title>magic2mime ()</title>
+      <synopsis>
+string magic2mime ($filename);
+      </synopsis>
+    </sect1>
+
+    <sect1 id="func-htpasswd-read">
+      <title>htpasswd_read ()</title>
+      <synopsis>
+array htpasswd_read ($file = '.htpasswd');
+      </synopsis>
+      <para>
+        This function reads htpasswd file and returns an account
+        array. The keys contain the user names, the values the crypted
+        password.
+        The returned argument can be passed to http_auth directly.
+      </para>
+      <programlisting>
+# Authenticate using local .htpasswd file.
+include 'lib/http_auth.php';
+include 'lib/htpasswd.php';
+http_auth (htpasswd_read ('.htpasswd'), 'Admin login');
+      </programlisting>
+    </sect1>
+  </chapter>

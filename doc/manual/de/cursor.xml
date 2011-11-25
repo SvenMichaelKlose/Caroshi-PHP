@@ -1,0 +1,138 @@
+  <chapter id="cursors">
+    <title>Cursor-Schnittstellen</title>
+
+    <para>
+      Die h&auml;ufigste Art des Zugriffs auf externe Datenquellen wie
+      SQL-DAtenbanken und Dateien ist, neben der Auswahl der abzurufenden
+      Daten, das <emphasis>sequentielle</emphasis> lesen von Datens&auml;tzen.
+      Da sich die standardm&auml;ssig verf&uuml;gbaren Schnittstellen zum
+      Zugriff auf verschiedene Datenquellen teils v&ouml;llig unterscheiden
+      w&auml;re eine einheitliche Schnittstelle, zumindest f&uuml;r die
+      n&ouml;tigsten Operationen w&uuml;nschenswert. An eine eiheitliche
+      Schnittstelle halten sich die <emphasis>Cursor-Klassen</emphasis> von
+      Caroshi. Cursors sind zudem persistent, also serialisierbar. Ein Cursor
+      mit ausgew&auml;hlten Datens&auml;tzen kann mit Algorithmen bearbeitet
+      werden, welche die Natur der Daten nicht kennen m&uuml;ssen.
+      Weiterhin kann ein ausgelesener Datensatz ebenso transparent modifiziert
+      und zur&uuml;ckgeschrieben werden.
+    </para>
+
+    <sect1 id="cursor-sql">
+      <title>SQL-Cursors</title>
+
+      <para>
+        Als Beispiel verwenden wir den SQL-Cursor der Klasse
+        'cursor_sql'. Um diesen zu konstruieren muss zun&auml;chst eine globale
+        Datenverbindung f&uuml;r alle SQL-Cursors festgelegt werden.
+      </para>
+
+      <programlisting>
+<![CDATA[
+$db =& new dbctrl ('localhost', 'mydb', 'sven', 'secret');
+cursor_sql::set_db ($db);
+]]>
+      </programlisting>
+
+      <para>
+        Ein Cursor kann nun ohne Parameter erzeugt werden:
+      </para>
+
+      <programlisting>
+<![CDATA[
+$c =& new cursor_sql ();
+]]>
+      </programlisting>
+
+      <para>
+        Nun muss die Datenquelle ('source') festgelegt werden. Bei SQL-Cursors
+        ist dies der Name einer Tabelle aus der gelesen werden soll:
+      </para>
+
+      <programlisting>
+<![CDATA[
+$c->set_source ('my_table');
+]]>
+      </programlisting>
+
+      <para>
+        Nun k&ouml;nnen Datens&auml;tze angefordert werden. Die Methode
+        query() erwartet dazu eine WHERE-Klausel (ohne
+        WHERE-Schl&uuml;sselwort) und optional eine Teilklausel, z.B.
+        zum sortieren der Records:
+      </para>
+
+      <programlisting>
+<![CDATA[
+$c->query ('age<23', 'ORDER BY age ASC');
+$c->query ('age<23');
+]]>
+      </programlisting>
+
+      <para>
+        Sollen alle Records ausgelesen werden, sind keine Parameter notwendig:
+      </para>
+
+      <programlisting>
+<![CDATA[
+$c->query ();
+]]>
+      </programlisting>
+
+      <para>
+        Nun k&ouml;nnen die angeforderten Elemente einzeln ausgelesen werden:
+      </para>
+
+      <programlisting>
+<![CDATA[
+while ($record =& $c->get ())
+   debug_dump ($record);
+]]>
+      </programlisting>
+    </sect1>
+
+    <sect1 id="cursor-serialisieren">
+      <title>Cursors serialisieren</title>
+      <para>
+        Cursors k&ouml;nnen serialisiert werden, um einen Satz von Records
+        ohne R&uuml;cksicht auf die Art der Datenquelle zu transportieren und
+        generische Algorithmen auf sie anwenden zu k&ouml;nnen.
+      </para>
+
+      <programlisting>
+<![CDATA[
+$c->query ('age<23');
+$s = serialize ($c);
+]]>
+      </programlisting>
+
+      <para>
+        Ein serialisierter Cursor kann z.B. in einer SQL-Datenbank abgelegt
+        werden, wovon das User-Interface regen Gebrauch macht.
+        Zu beachten ist bei SQL-Cursors, das vor den unserialisieren die
+        globale Datenverbindung gesetzt sein muss.
+      </para>
+
+      <programlisting>
+<![CDATA[
+$c = unserialize ($sc);
+while ($record =& $c->get ())
+   debug_dump ($record);
+]]>
+      </programlisting>
+    </sect1>
+
+    <sect1 id="cursor-merged">
+      <title>Mischen von Cursors verschiedener Typen</title>
+
+      <para>
+        cursor_merged-Objekte bieten die M&ouml;glichkeit meherere
+        Cursor-Objekte zu einem einzigen zusammenzufassen. Die Cursors
+        werden der Methode query() als Array &uuml;bergeben.
+        Beim auslesen wechselt get() zum n&auml;chsten Cursor, wenn der
+        aktuelle vollst&auml;ndig ausgelesen wurde.
+        Aufrufe von key(), field(), source() und set_field() werden an den
+        zuletzt ausgelesenen Cursor weitergeleitet. set_source(), set_key(),
+        create() und delete() k&ouml;nnen nicht verwendet werden.
+      </para>
+    </sect1>
+  </chapter>

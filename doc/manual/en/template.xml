@@ -1,0 +1,22 @@
+  <chapter id="sect-template">
+    <title>Template functions</title>
+    <para>
+    </para>
+    <sect1 id="func-quick-template">
+      <title>quick_template ()</title>
+      <synopsis>
+string quick_template ($tag_array, $template);
+      </synopsis>
+      <para>
+        This function replaces all tags named like $tag_array's key
+        by the according values in $template and returns it.
+      </para>
+      <programlisting>
+# This example will replace the tag &lt;fubar&gt; by the real meaning of
+# the word.
+$tags = array ('fubar' =&gt; 'fouled up beyond all reason');
+$template = 'Proprietary and closed-source software is mostly &lt;fubar&gt;.';
+echo quick_template ($tags, $template);
+      </programlisting>
+    </sect1>
+  </chapter>

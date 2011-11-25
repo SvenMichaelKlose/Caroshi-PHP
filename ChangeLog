@@ -1,0 +1,5677 @@
+2002-08-25 01:14  sven
+
+	* CHANGES, README, proc/libinfo.php: Release 0.2.0
+
+2002-08-25 00:45  sven
+
+	* CHANGES, admin_panel/admin_panel.class,
+	admin_panel/admin_panel.class.php, admin_panel/tk/dbobj_ls.php,
+	admin_panel/tk/record_edit.php, admin_panel/tk/treeview.class,
+	admin_panel/tk/treeview.class.php, dbi/dbconf.class,
+	dbi/dbconf.class.php, dbi/dbctrl.class, dbi/dbctrl.class.php,
+	dbi/dbdepend.class, dbi/dbdepend.class.php, dbi/dbi.class,
+	dbi/dbi.class.php, dbi/dbobj.class, dbi/dbobj.class.php,
+	dbi/dbsession.class, dbi/dbsession.class.php, dbi/dbwrapper.class,
+	dbi/dbwrapper.class.php, doc/tutorial/de/01_hello_world.php,
+	doc/tutorial/de/02_hello_world_linked.php,
+	doc/tutorial/de/03_ui.php, doc/tutorial/de/04_form_in_table.php,
+	doc/tutorial/de/05_form_edit.php, doc/tutorial/de/06_list.php,
+	doc/tutorial/de/07_form_create.php, doc/tutorial/de/08_delete.php,
+	doc/tutorial/de/09_delete_group.php, proc/application.class,
+	proc/application.class.php, proc/panic.class, proc/panic.php,
+	text/xml/scanner.class, text/xml/scanner.class.php,
+	text/xml/template.class, text/xml/template.class.php,
+	text/xml/template_cached.class, text/xml/template_cached.class.php:
+	Moved files to names with .php postfix.
+
+2002-08-25 00:08  sven
+
+	* admin_panel/formviews.php: Correct indentation.
+
+2002-08-23 23:50  sven
+
+	* README: [no log message]
+
+2002-08-23 23:49  sven
+
+	* TODO: New needs added.
+
+2002-08-23 23:40  sven
+
+	* CHANGES: [no log message]
+
+2002-08-23 23:39  sven
+
+	* proc/application.class: call_single(): Invoke __call_sub() if
+	event contains a caller.
+
+2002-08-23 23:38  sven
+
+	* proc/event.class.php: set_caller(): Store caller to new member
+	variable 'caller' instead of inserting a new event that calls
+	application::__call_sub(). Calling __call_sub() is now done in
+	application::call_single(). set_next() can now be used after a
+	set_caller () for the same event without messing up the batch.
+
+2002-08-23 23:11  sven
+
+	* CHANGES, admin_panel/formviews.php: form_safe(): Renamed to
+	form_cache().
+
+2002-08-23 23:09  sven
+
+	* CHANGES, admin_panel/_form_element.class.php,
+	admin_panel/admin_panel.class, admin_panel/formviews.php:
+	admin_panel::use_filter(), admin_panel::use_element_filters()
+	Methods removed.
+
+2002-08-23 23:05  sven
+
+	* doc/manual/en/: admin_panel.xml, application.xml, cursor.xml,
+	dbi.xml, getting_started.xml: Corrected outdated parts.
+
+2002-08-23 22:39  sven
+
+	* CHANGES, doc/manual/en/intro.xml: Added new contributor: Andreas
+	Holmgrein <ah@devcon.net>.
+
+2002-08-23 22:35  sven
+
+	* doc/tutorial/de/manual.xml: [no log message]
+
+2002-08-22 18:31  sven
+
+	* CHANGES: [no log message]
+
+2002-08-22 18:29  sven
+
+	* doc/tutorial/de/: 05_form_edit.php, 06_list.php,
+	07_form_create.php, 08_delete.php, 09_delete_group.php: Fixed
+	example programs.
+
+2002-08-20 17:08  sven
+
+	* admin_panel/formviews.php, object/error.class.php: Fix comments.
+
+2002-08-19 23:06  sven
+
+	* admin_panel/formviews.php: form_check(): Fix bugs.
+
+2002-08-16 02:22  sven
+
+	* CHANGES, libinfo.php, admin_panel/widgets.php: proc/libinfo.php
+	moved to the root directory. Release 0.1.14.
+
+2002-08-16 02:04  sven
+
+	* CHANGES: [no log message]
+
+2002-08-16 02:03  sven
+
+	* proc/application.class: _application_init(): Force a new session
+	if not already exists.
+
+2002-08-16 02:03  sven
+
+	* test.php: File is inoperable.
+
+2002-08-16 01:56  sven
+
+	* dbi/dbsession.class: [no log message]
+
+2002-08-16 01:45  sven
+
+	* CHANGES: [no log message]
+
+2002-08-16 01:45  sven
+
+	* admin_panel/formviews.php: form_check(): Now uses Perl-compatible
+	regular expressions for its checks. The dbdepend object is not used
+	anymore in this file.
+
+2002-08-07 14:00  sven
+
+	* CHANGES: [no log message]
+
+2002-08-07 13:59  sven
+
+	* proc/debug_dump.php: debug_dump(): Do not modify the displayed
+	array (did a ksort and the data to dump was passed by reference).
+
+2002-08-07 13:10  sven
+
+	* CHANGES: [no log message]
+
+2002-08-07 13:09  sven
+
+	* admin_panel/records.php: record_create_set(): Fix creation of new
+	cursor.
+
+2002-08-07 13:08  sven
+
+	* admin_panel/formviews.php: Fix last commit.
+
+2002-08-07 12:44  sven
+
+	* admin_panel/formviews.php: form_parser(): Save filtered elements
+	to element array (see also admin_panel::use_element_filters ()).
+
+2002-07-20 18:21  sven
+
+	* CHANGES: [no log message]
+
+2002-07-20 18:19  sven
+
+	* admin_panel/admin_panel.class: open_form(): Only call
+	set_default_formevent() with a valid event.
+
+2002-07-01 18:26  sven
+
+	* CHANGES, proc/libinfo.php: Update to release 0.1.13.
+
+2002-07-01 18:25  sven
+
+	* doc/manual/de/user_interface.xml: [no log message]
+
+2002-07-01 18:19  sven
+
+	* proc/application.class:  close(): Don't stop program execution.
+
+2002-07-01 18:11  sven
+
+	* doc/manual/de/: application.xml, user_interface.xml: [no log
+	message]
+
+2002-06-26 15:35  sven
+
+	* doc/manual/de/intro.xml: [no log message]
+
+2002-06-26 15:29  sven
+
+	* doc/manual/de/application.xml: [no log message]
+
+2002-06-25 03:03  sven
+
+	* CHANGES, admin_panel/admin_panel.class, admin_panel/util.php,
+	admin_panel/tk/autoform/autoform.php, object/singleton.class.php,
+	proc/application.class, proc/event.class.php,
+	text/xml/scanner.class: Added function parameter type checks.
+
+2002-06-24 19:07  sven
+
+	* admin_panel/tk/tree_edit.php: Fix calls to application server.
+
+2002-06-23 18:17  sven
+
+	* admin_panel/widgets.php, proc/libinfo.php: Global constants that
+	started with 'DPB_' now start with 'CAROSHI_'.
+
+2002-06-23 18:09  sven
+
+	* test.php, admin_panel/widgets.php, doc/manual/de/intro.xml,
+	doc/manual/en/getting_started.xml, doc/manual/en/intro.xml,
+	doc/manual/en/manual.xml, doc/manual/en/toolkits.xml,
+	doc/tutorial/de/04_form_in_table.php, doc/tutorial/de/manual.xml,
+	net/http/auth.php: Project renamed from 'dev/con php base' to
+	'Caroshi'.
+
+2002-06-23 17:47  sven
+
+	* doc/manual/de/user_interface.xml: [no log message]
+
+2002-06-23 17:22  sven
+
+	* doc/manual/de/: application.xml, cursor.xml: Texte neu
+	formuliert.
+
+2002-06-23 16:52  sven
+
+	* CHANGES: [no log message]
+
+2002-06-23 16:51  sven
+
+	* container/: container_array.class.php, iterator.class.php,
+	iterator_array.class.php: Comments added.
+
+2002-06-22 21:13  sven
+
+	* container/container.class.php,
+	container/container_array.class.php, container/iterator.class.php,
+	container/iterator_array.class.php, doc/manual/de/sql.xml: Intial
+	import.
+
+2002-06-22 21:12  sven
+
+	* doc/manual/de/: intro.xml, manual.xml: [no log message]
+
+2002-06-18 22:18  sven
+
+	* doc/manual/de/intro.xml: [no log message]
+
+2002-06-18 22:18  sven
+
+	* admin_panel/formviews.php: Fix typos.
+
+2002-06-17 03:04  sven
+
+	* CHANGES: [no log message]
+
+2002-06-17 02:55  sven
+
+	* admin_panel/formviews.php: form_parser(): Run elements through
+	element write filter if any specified.
+
+2002-06-17 02:55  sven
+
+	* admin_panel/admin_panel.class: _element_filter_read,
+	_element_filter_write: New variables hold the names of element
+	filters to use.
+	
+	use_element_filters(): New function sets the names of element
+	filters to use witht following form elements.
+	
+	value(): Run read value through element read filter.
+	
+	_new_formtoken(): Store name of element write filter in form
+	element object.
+
+2002-06-17 02:52  sven
+
+	* admin_panel/_form_element.class.php: element_filter_write: New
+	variable holds the name of the filter to run a posted value
+	through.
+
+2002-06-15 01:21  sven
+
+	* CHANGES: [no log message]
+
+2002-06-15 01:18  sven
+
+	* cursor/cursor.class.php: _restore_result(): New function restores
+	a result.
+	
+	__wakeup(): New function marks the cursor as waked up.
+	
+	get(): Restore result set first if cursor was waked up.
+	
+	$_selection, $_order, $_num_gets, $_waked_up: New member variables
+	that help restoring a result set.
+
+2002-06-15 01:16  sven
+
+	* cursor/sql.class.php: Fix comment.
+
+2002-06-15 01:15  sven
+
+	* doc/manual/de/intro.xml: [no log message]
+
+2002-06-14 16:35  sven
+
+	* CHANGES, proc/libinfo.php: Update to release 0.1.12.
+
+2002-06-14 16:34  sven
+
+	* TODO: [no log message]
+
+2002-06-13 18:55  sven
+
+	* admin_panel/util.php: util_init_modules(): New function
+	initialises one or more modules by calling their init functions.
+
+2002-06-13 18:37  sven
+
+	* admin_panel/: admin_panel.class, formviews.php, records.php,
+	tk/dbconf.php, tk/list_move.php, tk/range_edit/range_edit.php: Use
+	new utility functions.
+
+2002-06-13 18:35  sven
+
+	* admin_panel/util.php: Initial import.
+
+2002-06-13 18:35  sven
+
+	* admin_panel/tk/autoform/ext/dbisearch.php: Added API reference
+	comment.
+
+2002-06-09 02:52  sven
+
+	* cursor/cursor.class.php: API reference comments added.
+
+2002-06-09 02:20  sven
+
+	* object/is_error.php: [no log message]
+
+2002-06-09 02:16  sven
+
+	* CHANGES: [no log message]
+
+2002-06-09 02:15  sven
+
+	* object/: error.class.php, is_error.php: Initial import.
+
+2002-06-08 23:23  sven
+
+	* CHANGES: [no log message]
+
+2002-06-08 23:14  sven
+
+	* admin_panel/tk/dbisearch.php: File moved to directory dbisearch.
+
+2002-06-08 23:11  sven
+
+	* admin_panel/tk/dbisearch/browse.php: Initial import.
+
+2002-06-08 23:10  sven
+
+	* admin_panel/tk/dbisearch/dbisearch.php: File moved.
+
+2002-06-08 22:20  sven
+
+	* admin_panel/: admin_panel.class, mime.php: _mime_init(): New
+	funciton initialises the MIME module.
+
+2002-06-08 22:16  sven
+
+	* admin_panel/tk/dbisearch.php: tk_dbisearch_has_result(): Fix
+	check if there was a query.
+
+2002-06-08 22:09  sven
+
+	* proc/application.class: call_single(): Output document header for
+	null event handler by default.
+
+2002-06-08 22:02  sven
+
+	* dbi/dbctrl.class: Include dbi/dbwrapper.class.
+
+2002-06-08 21:59  sven
+
+	* admin_panel/admin_panel.class, admin_panel/tk/record_edit.php,
+	cursor/cursor.class.php, dbi/dbctrl.class, dbi/dbi.class,
+	dbi/dbsession.class, dbi/dbwrapper.class, dbi/types.php,
+	object/singleton.class.php, proc/application.class,
+	string/htmllig2latin.php: Use require_once() instead of require()
+	(and don't check if file is already included).
+
+2002-06-02 05:33  sven
+
+	* proc/application.class: Fix null event handler variable access.
+
+2002-06-02 05:32  sven
+
+	* admin_panel/records.php: record_update(): Highlight event
+	context.
+
+2002-06-02 05:03  sven
+
+	* proc/application.class: set_null_handler(): New function sets the
+	default null event handler (use if not 'defaultview').
+
+2002-06-02 05:01  sven
+
+	* admin_panel/tk/autoform/autoform.php: tk_autoform_list_cursor():
+	Try to get field list from application's dbdepend object.
+
+2002-06-02 05:00  sven
+
+	* admin_panel/tk/dbisearch.php: Code cleanup.
+
+2002-06-02 03:29  sven
+
+	* admin_panel/tk/dbisearch.php: tk_dbisearch(): No limit if there's
+	no initial offset and no initial limit.
+
+2002-06-02 02:07  sven
+
+	* CHANGES, proc/libinfo.php: Update to release 0.1.11.
+
+2002-06-02 01:43  sven
+
+	* CHANGES: CHANGES
+
+2002-06-02 01:34  sven
+
+	* admin_panel/tk/dbisearch.php: _tk_dbisearch_query_sql_cursors():
+	Jump over cursor if result set is smaller than the offset. Correct
+	offset bug.
+
+2002-06-01 23:55  sven
+
+	* admin_panel/tk/dbisearch.php: Debug code removed.
+
+2002-06-01 23:43  sven
+
+	* admin_panel/tk/autoform/ext/dbisearch.php:
+	tk_autoform_list_search_results(): Use new
+	tk_autoform_list_cursor().
+
+2002-06-01 23:42  sven
+
+	* admin_panel/tk/autoform/autoform.php: tk_autoform_init(): Code
+	cleanup.
+	
+	tk_autoform_list_results(): Renamed to tk_autoform_list_cursor().
+	Added new argument '$cursor'. The context cursor is not used any
+	longer. Multiple sources can be configured separately, so this also
+	works with cursor_merged object with different sources.
+
+2002-06-01 23:37  sven
+
+	* admin_panel/tk/dbisearch.php: Object tk_dbisearch_query: Variable
+	'sources' removed.
+	
+	_tk_dbisearch_query_sql_cursors(): Made offset and limit work
+	across multiple cursors.
+
+2002-06-01 20:37  sven
+
+	* cursor/merged.class.php: source(), set_key(), key(), field(),
+	type(), id(): Return nothing if there's no cursor set.
+
+2002-06-01 20:33  sven
+
+	* cursor/cursor.class.php: query(): Code cleanup.
+
+2002-06-01 20:33  sven
+
+	* admin_panel/tk/autoform/autoform.php:
+	_tk_autoform_create_widget(): Fix reference bug.
+
+2002-06-01 19:15  sven
+
+	* doc/manual/de/user_interface.xml, CHANGES: [no log message]
+
+2002-06-01 19:14  sven
+
+	* doc/manual/de/manual.xml: Include user interface section.
+
+2002-06-01 19:14  sven
+
+	* admin_panel/widgets.php: textarea(): Virutally wrap text.
+
+2002-06-01 19:13  sven
+
+	* admin_panel/records.php: record_delete(): Event argument 'key'
+	not used anymore.
+
+2002-06-01 19:12  sven
+
+	* admin_panel/admin_panel.class: url(): Don't overwrite existing
+	context.
+
+2002-06-01 15:25  sven
+
+	* admin_panel/admin_panel.class: API referemce update.
+
+2002-06-01 15:22  sven
+
+	* doc/manual/en/: admin_panel.xml, application.xml: Removed
+	outdated documentation.
+
+2002-06-01 15:02  sven
+
+	* CHANGES: [no log message]
+
+2002-06-01 15:01  sven
+
+	* proc/application.class: Member variable $path removed.
+
+2002-06-01 15:00  sven
+
+	* text/xml/template_cached.class: Fix comment.
+
+2002-06-01 07:06  sven
+
+	* admin_panel/_form_element.class.php, admin_panel/_view.class.php,
+	admin_panel/admin_panel.class, admin_panel/widgets.php,
+	admin_panel/tk/range_edit/range_edit.php, dbi/dbconf.class,
+	dbi/dbsession.class, dbi/dbtoken.class.php, proc/application.class,
+	text/xml/scanner.class, time/date.php: Fix data types in API
+	reference comments (use boolean instead of bool and integer instead
+	of int).
+
+2002-06-01 06:53  sven
+
+	* admin_panel/tk/treeview.class: [no log message]
+
+2002-06-01 06:45  sven
+
+	* file/htpasswd.php, file/magic2mime.php,
+	net/email/check_email_addr.php, net/email/rfc2110.inc.php,
+	net/http/auth.php, string/germanlig2ascii.php,
+	string/htmllig2latin.php, string/strhead.php,
+	text/quick_template.php, text/xml/scanner.class,
+	text/xml/template.class, text/xml/template_cached.class,
+	time/date.php: Added API reference comments.
+
+2002-06-01 03:33  sven
+
+	* admin_panel/: _form_element.class.php, _view.class.php,
+	admin_panel.class, formviews.php, mime.php, records.php,
+	widgets.php, tk/dbconf.php, tk/dbisearch.php, tk/dbobj_ls.php,
+	tk/fsb.php, tk/list_move.php, tk/quick_record.php,
+	tk/record_edit.php, tk/tree_edit.php, tk/treeview.class,
+	tk/xml_template.php, tk/autoform/autoform.php,
+	tk/range_edit/range_edit.php: Added API reference comments.
+
+2002-05-31 21:21  sven
+
+	* admin_panel/_form_element.class.php, admin_panel/_view.class.php,
+	admin_panel/admin_panel.class, admin_panel/formviews.php,
+	admin_panel/mime.php, admin_panel/records.php,
+	admin_panel/widgets.php, cursor/cursor.class.php,
+	cursor/dbconf.class.php, cursor/merged.class.php,
+	cursor/php_array.class.php, cursor/sql.class.php, dbi/dbconf.class,
+	dbi/dbctrl.class, dbi/dbdepend.class, dbi/dbi.class,
+	dbi/dbobj.class, dbi/dbresult.class.php, dbi/dbsession.class,
+	dbi/dbsort.php, dbi/dbtoken.class.php, dbi/dbtree.php,
+	dbi/dbwrapper.class, object/is_a.php, object/singleton.class.php:
+	Added API reference package labels.
+
+2002-05-31 20:51  sven
+
+	* proc/: _subsession.class.php, application.class, debug_dump.php,
+	event.class.php, libinfo.php, panic.class, profile.php: Added API
+	reference package label 'Application server'.
+
+2002-05-31 19:17  sven
+
+	* CHANGES: [no log message]
+
+2002-05-31 19:11  sven
+
+	* proc/application.class: Code cleanup.
+
+2002-05-31 19:10  sven
+
+	* admin_panel/tk/autoform/autoform.php:
+	tk_autoform_create_widget(): Die if there's no dbdepend definitiion
+	for a field.
+
+2002-05-31 19:06  sven
+
+	* proc/event.class.php: event(): Die if handler name is not a
+	string.
+
+2002-05-31 18:57  sven
+
+	* admin_panel/tk/dbisearch.php: tk_dbisearch(): Splitted up into
+	several new functions.
+	
+	_tk_dbisearch_query_sql_cursors(),
+	_tk_dbisearch_create_sql_queries(), _tk_dbisearch_get_field(),
+	_tk_dbisearch_create_query(): New functions.
+	
+	API reference comments added.
+
+2002-05-31 14:11  sven
+
+	* admin_panel/tk/dbisearch.php: Code cleanup.
+
+2002-05-31 14:09  sven
+
+	* cursor/cursor.class.php: is_queried: New member variable is set
+	to true if query() was called.
+	
+	current(): Don't get() if last call was to current().
+
+2002-05-31 14:07  sven
+
+	* admin_panel/admin_panel.class: show_ref(): Don't use reference to
+	database record - will give you funny results if no record was
+	fetched.
+
+2002-05-31 13:52  sven
+
+	* admin_panel/admin_panel.class: open_context(): Do not dump
+	argument if it's not a cursor.
+
+2002-05-31 13:51  sven
+
+	* cursor/sql.class.php: _get(): Code cleanup.
+
+2002-05-29 04:02  sven
+
+	* proc/application.class: call_single(): Fix bugs previously
+	committed bugs...
+
+2002-05-29 03:50  sven
+
+	* proc/application.class: Updated comments and variables to new
+	event terminology.
+
+2002-05-29 02:50  sven
+
+	* admin_panel/admin_panel.class: admin_panel(): Call singleton().
+	Use record_cache_fetch().
+	
+	instance(): New function returns a reference to the one and only
+	instance of admin_panel.
+
+2002-05-29 02:24  sven
+
+	* TODO: Timeout for dbsession already implemented.
+
+2002-05-29 02:20  sven
+
+	* CHANGES: [no log message]
+
+2002-05-29 02:15  sven
+
+	* admin_panel/formviews.php: record_cache_fetch(): New function
+	fetches the record cache from the session object in
+	application::session.
+
+2002-05-29 02:13  sven
+
+	* admin_panel/tk/autoform/autoform.php: tk_autoform_list_results():
+	Don't access admin_panel's context object directly - use
+	admin_panel::get_cursor() intead.
+
+2002-05-29 02:12  sven
+
+	* proc/debug_dump.php: debug_dump(): Handle NULL values.
+
+2002-05-29 02:11  sven
+
+	* object/singleton.class.php: singleton(): New constructor takes a
+	reference to the object of the derived class and stores it for
+	instance().
+	
+	instance(): Now takes the class name of the singleton to get. It
+	must be overloaded by the derived class.
+
+2002-05-29 02:09  sven
+
+	* cursor/merged.class.php: set_key(): Wrap to last get'ed cursor.
+
+2002-05-29 02:07  sven
+
+	* doc/manual/de/user_interface.xml: Initial import.
+
+2002-05-29 02:07  sven
+
+	* doc/manual/de/: application.xml, cursor.xml: [no log message]
+
+2002-05-29 01:04  sven
+
+	* doc/manual/de/application.xml: Initial import.
+
+2002-05-29 01:04  sven
+
+	* doc/manual/: de/cursor.xml, de/manual.xml, en/manual.xml: [no log
+	message]
+
+2002-05-29 00:25  sven
+
+	* CHANGES: [no log message]
+
+2002-05-29 00:21  sven
+
+	* doc/manual/de/: cursor.xml, intro.xml, manual.xml,
+	stylesheet.xml: Initial import.
+
+2002-05-28 17:48  sven
+
+	* CHANGES: [no log message]
+
+2002-05-28 17:47  sven
+
+	* admin_panel/tk/dbisearch.php: _tk_dbisearch_query(): Take
+	tk_dbisearch_query object instead of separate values.
+	
+	tk_dbisearch(): Code cleanup.
+
+2002-05-24 14:01  bp
+
+	* admin_panel/tk/autoform/autoform.php: Fixed typo: $p is now $c
+
+2002-05-24 14:01  bp
+
+	* admin_panel/tk/dbisearch.php: Added attribute "order" to
+	tk_dbisearch_query (e.g. "name DESC").
+
+2002-05-24 02:37  sven
+
+	* CHANGES: [no log message]
+
+2002-05-24 01:50  sven
+
+	* CHANGES: [no log message]
+
+2002-05-24 01:49  sven
+
+	* test.php, admin_panel/_form_element.class.php,
+	admin_panel/_view.class.php, admin_panel/admin_panel.class,
+	admin_panel/formviews.php, admin_panel/mime.php,
+	admin_panel/records.php, admin_panel/widgets.php,
+	admin_panel/tk/dbconf.php, admin_panel/tk/dbisearch.php,
+	admin_panel/tk/dbobj_ls.php, admin_panel/tk/fsb.php,
+	admin_panel/tk/list_move.php, admin_panel/tk/quick_record.php,
+	admin_panel/tk/record_edit.php, admin_panel/tk/tree_edit.php,
+	admin_panel/tk/treeview.class, admin_panel/tk/xml_template.php,
+	admin_panel/tk/autoform/autoform.php,
+	admin_panel/tk/autoform/ext/dbisearch.php,
+	admin_panel/tk/range_edit/range_edit.php, cursor/cursor.class.php,
+	cursor/dbconf.class.php, cursor/merged.class.php,
+	cursor/php_array.class.php, cursor/sql.class.php, dbi/dbconf.class,
+	dbi/dbctrl.class, dbi/dbdepend.class, dbi/dbi.class,
+	dbi/dbobj.class, dbi/dbresult.class.php, dbi/dbsession.class,
+	dbi/dbsort.php, dbi/dbtoken.class.php, dbi/dbtree.php,
+	dbi/dbwrapper.class, dbi/types.php,
+	doc/tutorial/de/01_hello_world.php,
+	doc/tutorial/de/02_hello_world_linked.php,
+	doc/tutorial/de/03_ui.php, doc/tutorial/de/04_form_in_table.php,
+	doc/tutorial/de/05_form_edit.php, doc/tutorial/de/06_list.php,
+	doc/tutorial/de/07_form_create.php, doc/tutorial/de/08_delete.php,
+	doc/tutorial/de/09_delete_group.php, file/htpasswd.php,
+	file/magic2mime.php, net/email/check_email_addr.php,
+	net/email/rfc2110.inc.php, net/http/auth.php,
+	object/singleton.class.php, proc/_subsession.class.php,
+	proc/application.class, proc/event.class.php, proc/libinfo.php,
+	proc/panic.class, proc/profile.php, string/germanlig2ascii.php,
+	string/htmllig2latin.php, string/strhead.php,
+	text/quick_template.php, text/xml/scanner.class,
+	text/xml/tag_handlers.php, text/xml/template.class,
+	text/xml/template_cached.class, time/date.php: Start file with
+	'\<?php'.
+
+2002-05-24 01:36  sven
+
+	* dbi/dbtoken.class.php: This file needs object/is_a.php.
+
+2002-05-23 04:00  sven
+
+	* CHANGES: [no log message]
+
+2002-05-23 03:52  sven
+
+	* proc/application.class: set_timeout(): New function sets the
+	timeout for all session and event data.
+
+2002-05-23 03:52  sven
+
+	* dbi/dbtoken.class.php: dbtoken(): Use is_a() instead of is_object
+	for argument checks.
+	
+	set_timeout(): New function sets the timeout for all tokens in
+	seconds.
+	
+	write(): Add slashes to data before write to database.
+	
+	clear_al(), _kill_all_tokens(), _write_token(): Code cleanuo.
+
+2002-05-23 03:48  sven
+
+	* admin_panel/tk/autoform/ext/dbisearch.php:
+	tk_autoform_list_search_results(): Use new tk_dbisearch result
+	functions.
+
+2002-05-23 03:47  sven
+
+	* admin_panel/tk/dbisearch.php: tk_dbisearch(): Search over
+	multiple tables. Always return a cursor_merged object.
+	
+	tk_dbisearch_get_resultview(): Renamed to
+	tk_dbisearch_get_result(). Returns a corsor_merged object that
+	contains the last search result.
+	
+	tk_dbisearch_has_results(): Tests on cursor, not admin_panel
+	context.
+
+2002-05-23 03:42  sven
+
+	* cursor/merged.class.php: Initial import.
+
+2002-05-23 03:41  sven
+
+	* admin_panel/admin_panel.class: open_context(): Die if Argument is
+	not a cursor.
+
+2002-05-23 01:45  sven
+
+	* cursor/sql.class.php: _get(): Don't store the fetched record to a
+	member variable. This is already done by class 'cursor'.
+
+2002-05-23 01:45  sven
+
+	* cursor/cursor.class.php: get(): Store fetched reord to member
+	variable for all cursor types.
+
+2002-05-17 20:10  bp
+
+	* admin_panel/admin_panel.class: Fixed 'typo': view() is now
+	event()
+
+2002-05-17 20:06  bp
+
+	* admin_panel/tk/dbconf.php, cursor/dbconf.class.php: Fixed
+	serialization bug.
+
+2002-05-17 19:12  bp
+
+	* admin_panel/tk/dbconf.php, cursor/dbconf.class.php: DBConf
+	toolkit stuff works again.
+
+2002-05-17 18:20  sven
+
+	* admin_panel/admin_panel.class: Didn't add context to links -
+	fixed.
+
+2002-05-15 15:22  sven
+
+	* CHANGES: [no log message]
+
+2002-05-15 15:14  sven
+
+	* admin_panel/admin_panel.class: API reference comments added.
+
+2002-05-15 13:43  sven
+
+	* CHANGES: [no log message]
+
+2002-05-15 13:39  sven
+
+	* admin_panel/admin_panel.class: set_default_formevent(): New
+	function sets the default event for the current form context.
+
+2002-05-14 20:06  sven
+
+	* CHANGES, proc/libinfo.php: Update to release 0.1.10.
+
+2002-05-14 19:37  sven
+
+	* proc/application.class: arg(): Tighten acces to subsession
+	argument (using reference).
+
+2002-05-14 19:34  sven
+
+	* proc/application.class: arg(): Use event::arg() to get an
+	argument.
+
+2002-05-14 19:34  sven
+
+	* proc/event.class.php: arg(): New function. Returns an argument by
+	name.
+	
+	set_arg(): New function sets an argument.
+
+2002-05-13 19:50  sven
+
+	* admin_panel/formviews.php, admin_panel/records.php,
+	admin_panel/tk/dbconf.php, admin_panel/tk/dbobj_ls.php,
+	admin_panel/tk/list_move.php, admin_panel/tk/quick_record.php,
+	admin_panel/tk/record_edit.php, admin_panel/tk/tree_edit.php,
+	admin_panel/tk/xml_template.php,
+	admin_panel/tk/autoform/autoform.php,
+	admin_panel/tk/range_edit/range_edit.php,
+	doc/tutorial/de/02_hello_world_linked.php,
+	doc/tutorial/de/05_form_edit.php, doc/tutorial/de/06_list.php,
+	doc/tutorial/de/07_form_create.php, doc/tutorial/de/08_delete.php,
+	doc/tutorial/de/09_delete_group.php: Update to new
+	application.class and admin_panel.class layout.
+
+2002-05-13 19:49  sven
+
+	* proc/view.class.php: File removed. application class views are
+	now called events.
+
+2002-05-13 19:47  sven
+
+	* admin_panel/admin_panel.class: open_source(), close_source():
+	Replaced by open_context() and close_context(). Now
+	open_form()/close_form() must be used explicitly.
+	
+	open_context(): New function opens a new context using cursor
+	passed as the argument.  close_source(): New function returns to
+	the former context if any.
+	
+	set_field(), query(), get(): Functions removed. Use get_cursor()
+	instead.
+	
+	open_form(): Now takes a default event to call if form is posted
+	without a submuit button carrying an own event.
+
+2002-05-13 19:42  sven
+
+	* proc/application.class: view(): Renamed to event().
+	
+	call_view(): Renamed to call().
+	
+	call_single_view(): Renamed to call_single().
+	
+	_url2view(): Renamed to url2event().
+	
+	$subargs: Renamed to $_subargs.
+	
+	$_view: Renamed to $_event.
+	
+	$_views: Renamed to $_handlers.
+
+2002-05-13 19:39  sven
+
+	* proc/event.class.php: Initial import.
+
+2002-05-11 20:44  sven
+
+	* CHANGES: [no log message]
+
+2002-05-11 19:56  sven
+
+	* admin_panel/tk/autoform/autoform.php: TK_AUTOFORM_LABELS: New
+	constant specifies that a descriptive label is to be generated for
+	each widget.
+	
+	TK_AUTOFORM_NO_INPUT: New constant specifies that just output
+	widgets should be used.
+	
+	tk_autoform_create_widget(): Takes new constants instead of boolean
+	label flag.
+
+2002-05-10 17:30  sven
+
+	* admin_panel/tk/autoform/autoform.php: Take argument 'order' for
+	lookup fields. The content will be added to the select clause when
+	looking up the foureign table.
+
+2002-05-09 18:19  sven
+
+	* CHANGES, proc/libinfo.php: Update to release 0.1.9.
+
+2002-05-09 18:18  sven
+
+	* admin_panel/admin_panel.class: Code reformatted.
+
+2002-05-09 17:41  sven
+
+	* admin_panel/admin_panel.class, admin_panel/mime.php,
+	admin_panel/tk/dbobj_ls.php, admin_panel/tk/treeview.class,
+	cursor/sql.class.php, dbi/dbconf.class, dbi/dbi.class,
+	dbi/dbobj.class, dbi/dbsession.class, dbi/dbsort.php,
+	dbi/dbtoken.class.php, dbi/dbtree.php, proc/application.class,
+	text/xml/template_cached.class: Update to new dbresult layout.
+
+2002-05-09 17:41  sven
+
+	* dbi/dbresult.class.php: fetch_array(): Function renamed to get().
+
+2002-05-09 17:41  sven
+
+	* doc/manual/en/intro.xml: [no log message]
+
+2002-05-09 17:41  sven
+
+	* doc/manual/en/dbi.xml: Removed old documentation.
+
+2002-05-05 20:40  bp
+
+	* admin_panel/: admin_panel.class, widgets.php: code cleanups in
+	method confirm. Still not really nice.
+
+2002-05-05 17:55  sven
+
+	* admin_panel/tk/autoform/autoform.php:
+	tk_autoform_create_widget(): Fix column name in referenced tables
+	(lookup widget).
+
+2002-05-04 17:52  sven
+
+	* admin_panel/tk/dbisearch.php: tk_dbisearch_has_result(): Didn't
+	notice if nothing was found (TK_DBISEARCH_NOT_FOUND was never
+	returned). - fixed.
+
+2002-05-04 16:40  sven
+
+	* admin_panel/tk/dbisearch.php: tk_dbisearch_query: New class
+	replaces rat tail of arguments.
+	
+	tk_dbisearch(): Only take a single argument containing a
+	tk_dbisearch_query object. New argument 'limit' reduces the number
+	of records returned. New argument 'offset' specifies the offset of
+	the limited result set.
+	
+	_tk_dbisearch_create_query(): New function creates an SQL query for
+	a form element. This code was moved out of tk_dbisearch() to reduce
+	the function size.
+	
+	tk_dbisearch_get_query_object(): New function returns the last
+	tk_dbisearch_query object, so it can be reused for browsing etc.
+	
+	tk_dbisearch_get_resultsize(): Function removed. Access the query
+	object's 'size' variable for the number of total records that match
+	the query (unlimited).
+
+2002-05-04 14:02  sven
+
+	* text/xml/template.class: Function comments added.
+	
+	fetch_tree(): Display full path if file doesn't exist.
+
+2002-04-29 21:50  sven
+
+	* doc/tutorial/de/: 05_form_edit.php, 06_list.php,
+	07_form_create.php, 08_delete.php, 09_delete_group.php: Ported to
+	new version of the library.
+
+2002-04-29 19:56  sven
+
+	* CHANGES: [no log message]
+
+2002-04-29 19:33  sven
+
+	* admin_panel/tk/dbisearch.php: tk_dbisearch(): New argument
+	'limit' specifies the maximum number of entries to return in the
+	result set. If limit is not specified all entries are returned.
+	'offset' specifies the offset of the limited result window. The
+	default is 0.
+	
+	tk_dbisearch_get_resultsize(): New function returns the number of
+	entries in a result set.
+
+2002-04-29 19:30  sven
+
+	* cursor/: cursor.class.php, sql.class.php: size(): New function
+	returns number of entries in set.
+
+2002-04-29 17:33  sven
+
+	* CHANGES, proc/libinfo.php: Update to release 0.1.8.
+
+2002-04-29 17:20  sven
+
+	* doc/: manual/en/admin_panel.xml, manual/en/application.xml,
+	manual/en/bugs.xml, tutorial/de/02_hello_world_linked.php,
+	tutorial/de/05_form_edit.php, tutorial/de/06_list.php,
+	tutorial/de/07_form_create.php, tutorial/de/08_delete.php,
+	tutorial/de/09_delete_group.php: application class layout changed.
+
+2002-04-29 17:07  sven
+
+	* proc/view.class.php: Added comments.
+
+2002-04-29 17:07  sven
+
+	* proc/application.class: _application_istall(): Fix missing init.
+
+2002-04-29 17:07  sven
+
+	* dbi/dbsession.class: force_key(): Fix insert into sql table.
+
+2002-04-29 16:03  sven
+
+	* admin_panel/admin_panel.class, admin_panel/formviews.php,
+	admin_panel/records.php, admin_panel/tk/dbconf.php,
+	admin_panel/tk/dbisearch.php, admin_panel/tk/dbobj_ls.php,
+	admin_panel/tk/fsb.php, admin_panel/tk/list_move.php,
+	admin_panel/tk/quick_record.php, admin_panel/tk/tree_edit.php,
+	admin_panel/tk/autoform/autoform.php,
+	admin_panel/tk/range_edit/range_edit.php, dbi/dbtoken.class.php:
+	application::add_view()/application::add_viewfunc(): Renamed to
+	add_method()/add_function().
+
+2002-04-29 16:02  sven
+
+	* proc/application.class: add_viewfunc(): Method renamed to
+	add_function().  add_view(): Method renamed to add_method().
+	
+	Code cleanup. Comments added.
+
+2002-04-29 16:02  sven
+
+	* dbi/dbsession.class: Comments added.
+	
+	unset(): Write session back to database.
+
+2002-04-26 19:54  sven
+
+	* doc/manual/en/intro.xml: Use list for contributors.
+
+2002-04-26 19:49  sven
+
+	* doc/manual/en/intro.xml: Updated credits: Tim Mattison
+	<bdonor@cloud9.net>.
+
+2002-04-26 17:01  sven
+
+	* CHANGES, proc/libinfo.php: Update to release 0.1.7.
+
+2002-04-26 16:46  sven
+
+	* proc/application.class: run(): Initialise token table name if not
+	in configuration file.
+
+2002-04-26 03:15  sven
+
+	* CHANGES, proc/libinfo.php: Update to release 0.1.6.
+
+2002-04-26 03:10  sven
+
+	* proc/application.class: _application_init(): Create intial key if
+	table name is set.
+
+2002-04-26 03:09  sven
+
+	* dbi/dbsession.class: Fix initialisation of private member
+	variable '_data'.
+
+2002-04-25 17:07  sven
+
+	* CHANGES, TODO: [no log message]
+
+2002-04-25 17:06  sven
+
+	* proc/application.class: 'application_session_table': New variable
+	in configuration file set the name of the sql name for session
+	data.
+
+2002-04-25 17:04  sven
+
+	* dbi/dbsession.class: set_table(): New function sets the name of
+	the sql table to use.
+	
+	Code cleanup.
+
+2002-04-25 16:42  sven
+
+	* proc/application.class: Take new variable
+	'application_token_table' from configuration file to set the sql
+	table for dbtoken().
+
+2002-04-25 16:41  sven
+
+	* dbi/dbtoken.class.php: set_table(): New function sets the name of
+	the sql table to use.
+
+2002-04-23 19:20  sven
+
+	* TODO, doc/manual/en/cursor.xml: [no log message]
+
+2002-04-23 19:19  sven
+
+	* doc/manual/en/cursor.xml: Removed unexplained code.
+
+2002-04-23 15:00  sven
+
+	* CHANGES: [no log message]
+
+2002-04-23 14:57  sven
+
+	* cursor/sql.class.php: set(): Die if field doesn't exist.
+
+2002-04-23 14:56  sven
+
+	* admin_panel/tk/autoform/autoform.php:
+	_tk_autoform_create_widget(): Print labels properly again.
+
+2002-04-23 14:50  sven
+
+	* admin_panel/tk/dbisearch.php: tk_dbisearch(): Trim form data.
+
+2002-04-12 21:29  sven
+
+	* CHANGES: [no log message]
+
+2002-04-12 21:29  sven
+
+	* cursor/sql.class.php: _query(): Add WHERE keyword so the user
+	doesn't have to.
+
+2002-04-12 21:06  sven
+
+	* object/is_a.php: Use is_subclass_of() again (doesn't crash
+	anymore).
+
+2002-04-12 21:04  sven
+
+	* admin_panel/formviews.php: form_update(): Avoid warning is
+	error_reporing is set to its maximum.
+
+2002-04-12 18:10  sven
+
+	* CHANGES, proc/libinfo.php: Update to release 0.1.5.
+
+2002-04-12 16:51  sven
+
+	* CHANGES: [no log message]
+
+2002-04-12 16:51  sven
+
+	* admin_panel/formviews.php: form_update(): Take list of names of
+	fields that must be ignored in optional argument
+	'ignored_elements'.
+
+2002-04-12 16:48  sven
+
+	* admin_panel/records.php: record_create(): Code cleanup.
+
+2002-04-12 00:26  sven
+
+	* admin_panel/tk/: dbconf.php, list_move.php, tree_edit.php: Fix
+	syntax errors.
+
+2002-04-11 23:12  sven
+
+	* doc/manual/en/: admin_panel.xml, application.xml, cursor.xml,
+	toolkits.xml: Update to current APIs.
+
+2002-04-11 22:59  sven
+
+	* CHANGES: [no log message]
+
+2002-04-11 22:58  sven
+
+	* proc/application.class: args(): New function returns array of
+	current view's arguments.
+
+2002-04-11 22:56  sven
+
+	* dbi/dbtoken.class.php: create(): Accesses unknown variable -
+	fixed.
+
+2002-04-11 16:15  sven
+
+	* CHANGES: [no log message]
+
+2002-04-11 16:13  sven
+
+	* admin_panel/tk/autoform/autoform.php:
+	tk_autoform_create_widget(): Fix access to dbdepend config.
+
+2002-04-10 14:44  sven
+
+	* CHANGES, README, TODO, proc/libinfo.php: Update to release 0.1.4.
+
+2002-04-10 14:26  sven
+
+	* proc/application.class: Member variable 'args' removed.
+
+2002-04-10 14:22  sven
+
+	* doc/tutorial/de/: 06_list.php, 08_delete.php,
+	09_delete_group.php: Update to new class layouts.
+
+2002-04-10 14:09  sven
+
+	* doc/manual/en/: admin_panel.xml, application.xml, intro.xml: [no
+	log message]
+
+2002-04-10 14:09  sven
+
+	* proc/application.class: Fix subsession management.
+
+2002-04-10 14:08  sven
+
+	* dbi/dbtoken.class.php: clear_all(): Fix access to session object.
+
+2002-04-10 14:08  sven
+
+	* admin_panel/tk/autoform/autoform.php: tk_autoform_list_results():
+	Access to current view fixed.
+
+2002-04-10 14:07  sven
+
+	* admin_panel/tk/xml_template.php: Call to _read_form() renamed to
+	form_parser().
+
+2002-04-10 14:06  sven
+
+	* admin_panel/records.php: _record_delete_go(): Function renamed to
+	record_delete_force().
+
+2002-04-10 14:05  sven
+
+	* admin_panel/admin_panel.class: Calls to _read_form() renamed to
+	form_parser().
+	
+	_new_formfield(): Store subsession information in token.
+
+2002-04-10 14:04  sven
+
+	* admin_panel/formviews.php: _read_form(): Function renamed to
+	form_parser().
+	
+	Code cleanups.
+
+2002-04-10 14:02  sven
+
+	* admin_panel/tk/dbisearch.php: Code cleanup.
+
+2002-04-09 14:33  sven
+
+	* doc/manual/en/application.xml: API reference moved into source.
+
+2002-04-09 14:26  sven
+
+	* doc/manual/en/dbi.xml: API reference moved into source.
+
+2002-04-09 14:25  sven
+
+	* dbi/dbconf.class: PHPDoc comments added.
+
+2002-04-09 14:04  sven
+
+	* doc/manual/en/dbi.xml, proc/debug_dump.php: API reference moved
+	into source.
+
+2002-04-09 13:56  sven
+
+	* dbi/dbdepend.class: PHPDoc comments added.
+
+2002-04-08 23:54  sven
+
+	* proc/view.class.php: $have_new_sub, $return_from_sub: Member
+	variable removed.
+	
+	set_caller(): Redirect to __call_sub view of application class.
+
+2002-04-08 23:53  sven
+
+	* proc/application.class: Use new subsession object.  PHPDoc
+	comments added.
+	
+	_call_view(): Renamed to call_single_view() which calls a view
+	without batching.
+	
+	__call_sub(): New page function creates a new subsession.
+
+2002-04-08 23:51  sven
+
+	* proc/_subsession.class.php: Initial import.
+
+2002-04-08 23:48  sven
+
+	* dbi/dbtoken.class.php: get(): Write buffered tokens to be in
+	sync.
+	
+	write(): New function updates an existing token.
+
+2002-04-08 23:47  sven
+
+	* admin_panel/records.php: _records_init(): Use default tokens.
+	
+	record_delete(): Check if there're views for both options.
+
+2002-04-08 23:45  sven
+
+	* admin_panel/admin_panel.class: close(): Fix call to application.
+
+2002-04-05 19:29  sven
+
+	* string/htmllig2latin.php: Set up translation table only once.
+
+2002-04-05 19:26  sven
+
+	* string/htmllig2latin.php: htmllig2latin(): Use php's translation
+	table.
+
+2002-04-05 19:18  sven
+
+	* CHANGES: [no log message]
+
+2002-04-05 18:09  sven
+
+	* admin_panel/: admin_panel.class, formviews.php: Make source work
+	with new application class layout.
+
+2002-04-05 18:08  sven
+
+	* proc/application.class: Include file 'dbi/dbtoken.class.php'.
+	
+	application::_tokens: New member variable contains reference to
+	tokenizer.
+	
+	kill_all_tokens(), _kill_old_tokens(), _write_token(),
+	_write_tokens(), get_token(), new_token(): Functions removed.
+
+2002-04-05 18:05  sven
+
+	* dbi/dbtoken.class.php: Initial import.
+
+2002-04-05 16:57  sven
+
+	* admin_panel/admin_panel.class: Derive admin_panel class from base
+	class singleton.
+	
+	instance(): Function removed.
+
+2002-04-05 16:55  sven
+
+	* object/singleton.class.php: Initial import.
+
+2002-04-05 16:45  sven
+
+	* admin_panel/tk/: dbconf.php, dbobj_ls.php, fsb.php,
+	list_move.php, quick_record.php, record_edit.php, tree_edit.php,
+	xml_template.php, autoform/autoform.php, range_edit/range_edit.php:
+	Make code work with new layouts of classes application,
+	admin_panel, dbctrl and dbi.
+
+2002-04-05 16:42  sven
+
+	* cursor/sql.class.php: Update to new dbctrl class layout.
+
+2002-04-05 16:42  sven
+
+	* cursor/php_array.class.php, doc/manual/en/admin_panel.xml,
+	doc/manual/en/application.xml, doc/manual/en/intro.xml,
+	doc/manual/en/wishlist.xml,
+	doc/tutorial/de/02_hello_world_linked.php,
+	doc/tutorial/de/05_form_edit.php, doc/tutorial/de/06_list.php,
+	doc/tutorial/de/07_form_create.php, doc/tutorial/de/08_delete.php,
+	doc/tutorial/de/09_delete_group.php: [no log message]
+
+2002-04-05 16:40  sven
+
+	* proc/application.class: view(): new function. Returns current
+	view object.
+	
+	call_view(), link(): Take view object instead of view name and
+	argument array pair. A plain view object is created if a string is
+	passed instead.
+	
+	_arg_set(), arg_set_next(), arg_set_caller(): Functions removed.
+
+2002-04-05 16:35  sven
+
+	* object/is_a.php: is_a(): Do not die if argument isnot an object.
+	PHP bug: Don't use is_suibclass_of().
+
+2002-04-05 16:33  sven
+
+	* dbi/dbi.class: Update to new dbctrl class layout.
+
+2002-04-05 16:33  sven
+
+	* dbi/dbwrapper.class: Class db_result moved to file
+	dbi/dbresult.class.php.
+	
+	PhpDoc comments added.
+
+2002-04-05 16:32  sven
+
+	* dbi/dbctrl.class: PhpDoc comments added.
+	
+	get_working_copy(): Renamed to table_prefix().	set_working_copy():
+	Renamed to set_table_prefix().
+
+2002-04-05 16:28  sven
+
+	* admin_panel/records.php: _record_create_continue(),
+	record_delete(), _record_delete_go(): Take view object instead of
+	view name and argument pair.
+
+2002-04-05 16:27  sven
+
+	* admin_panel/formviews.php: Update to new _form_element class
+	layout.
+
+2002-04-05 16:20  sven
+
+	* admin_panel/admin_panel.class: Class _admin_panel_view: Moved to
+	file admin_panel/_view.class.php.
+	
+	Class _form_element: Moved to file
+	admin_panel/_form_element.class.php.
+	
+	open_source(), confirm(), submit_name(), submit_button(),
+	submit_image(), _looselink(), link(), image_link(), url(),
+	_new_formtoken(): Take view object instead of name and argument
+	array.
+	
+	checkbox(), _new_formfield() Take view object instead of argument
+	array.
+	
+	cmd(), cmd_create(): Functions removed.
+
+2002-04-05 16:09  sven
+
+	* admin_panel/_form_element.class.php, admin_panel/_view.class.php,
+	dbi/dbresult.class.php, proc/view.class.php: Initial import.
+
+2002-04-05 16:06  sven
+
+	* TODO: [no log message]
+
+2002-04-01 15:42  sven
+
+	* dbi/dbundo.class: File should be rewritten (doesn't work).
+
+2002-04-01 15:40  sven
+
+	* dbi/dbchk.php: File doesn't work - removed.
+
+2002-03-29 23:48  sven
+
+	* doc/manual/en/intro.xml: Shame on me - the credits were missing.
+
+2002-03-29 23:11  sven
+
+	* CHANGES, proc/libinfo.php: Release 0.1.3
+
+2002-03-29 23:06  sven
+
+	* README: [no log message]
+
+2002-03-29 22:47  sven
+
+	* admin_panel/tk/range_edit/range_edit.php, doc/manual/en/dbi.xml:
+	[no log message]
+
+2002-03-28 20:37  sven
+
+	* admin_panel/records.php: record_delete(): Cancel deletion if
+	cursor_list array is empty.
+
+2002-03-28 20:12  sven
+
+	* doc/mk.xsltproc.sh: Don't output timing.
+
+2002-03-28 20:10  sven
+
+	* CHANGES: [no log message]
+
+2002-03-28 19:03  sven
+
+	* doc/manual/en/toolkits.xml: [no log message]
+
+2002-03-28 19:02  sven
+
+	* doc/manual/en/toolkits.xml: func-tk-autoform-create-widget: New
+	section.
+
+2002-03-28 18:54  sven
+
+	* admin_panel/tk/autoform/autoform.php:
+	tk_autoform_create_widget(): New function creates a single widget
+	with (optional) label.
+
+2002-03-28 14:27  sven
+
+	* admin_panel/records.php: record_create(): Fix bugs in source set
+	generation.
+
+2002-03-28 14:22  sven
+
+	* admin_panel/formviews.php: form_update(), form_has_content(): Die
+	if there's no form.
+
+2002-03-23 23:51  sven
+
+	* CHANGES, proc/libinfo.php: Update to release 0.1.2.
+
+2002-03-23 23:43  sven
+
+	* admin_panel/admin_panel.class: header(): Always print header.
+
+2002-03-23 20:17  sven
+
+	* doc/tutorial/de/manual.xml: Added working examples.
+
+2002-03-23 19:53  sven
+
+	* doc/tutorial/de/: .dbi.conf.php, mktxtfiles.sh: Initial import.
+
+2002-03-23 19:46  sven
+
+	* doc/tutorial/de/: 01_hello_world.php, 02_hello_world_linked.php,
+	03_ui.php, 04_form_in_table.php, 05_form_edit.php, 06_list.php,
+	07_form_create.php, 08_delete.php, 09_delete_group.php: Initial
+	import.
+
+2002-03-23 19:20  sven
+
+	* CHANGES: [no log message]
+
+2002-03-23 19:18  sven
+
+	* admin_panel/formviews.php, admin_panel/records.php,
+	admin_panel/tk/range_edit/range_edit.php,
+	doc/tutorial/de/manual.xml: Bugfix.
+
+2002-03-23 19:18  sven
+
+	* admin_panel/admin_panel.class: header(): New function prints
+	header instead of constructor.
+
+2002-03-23 16:16  sven
+
+	* CHANGES: [no log message]
+
+2002-03-23 16:16  sven
+
+	* admin_panel/admin_panel.class, admin_panel/formviews.php,
+	admin_panel/records.php, admin_panel/tk/dbisearch.php,
+	admin_panel/tk/list_move.php, admin_panel/tk/autoform/autoform.php,
+	admin_panel/tk/range_edit/range_edit.php, cursor/cursor.class.php,
+	cursor/php_array.class.php, cursor/sql.class.php: Class cursor:
+	Added getter and setter functions.
+
+2002-03-23 16:14  sven
+
+	* proc/debug_dump.php: debug_dump(): Flush output.
+
+2002-03-22 20:31  sven
+
+	* cursor/sql.class.php: get(): Store current record for
+	cursor::current().
+
+2002-03-22 14:50  sven
+
+	* cursor/cursor.class.php: current(): New method returns first or
+	last get()'ed record.
+
+2002-03-22 14:16  sven
+
+	* cursor/php_array.class.php: Reimport from
+	admin_panel/ssi/php_array.php
+
+2002-03-22 05:58  sven
+
+	* admin_panel/formviews.php, admin_panel/mime.php,
+	admin_panel/records.php, admin_panel/widgets.php,
+	admin_panel/tk/dbisearch.php, admin_panel/tk/autoform/autoform.php,
+	admin_panel/tk/autoform/ext/dbisearch.php,
+	admin_panel/tk/range_edit/range_edit.php, cursor/cursor.class.php,
+	cursor/sql.class.php, dbi/dbctrl.class, dbi/dbdepend.class,
+	dbi/dbi.class, dbi/dbsession.class, dbi/dbwrapper.class,
+	proc/application.class, proc/debug_dump.php, proc/libinfo.php,
+	proc/panic.class: Update copyright notice.
+
+2002-03-22 05:58  sven
+
+	* CHANGES: [no log message]
+
+2002-03-22 05:54  sven
+
+	* TODO: [no log message]
+
+2002-03-22 05:32  sven
+
+	* text/xml/scanner.class: Print debug dump of template if it's not
+	well-formed.
+
+2002-03-22 04:56  sven
+
+	* admin_panel/tk/autoform/autoform.php:
+	tk_autoform_lists_results(): Fix access to form element's cursor.
+
+2002-03-22 04:21  sven
+
+	* admin_panel/: formviews.php, tk/dbisearch.php,
+	tk/range_edit/range_edit.php: Update to new form element and cursor
+	variable names.
+
+2002-03-22 04:04  sven
+
+	* CHANGES, proc/libinfo.php: Update to release 0.1.1.
+
+2002-03-22 03:57  sven
+
+	* doc/manual/en/admin_panel.xml: Added section class-form-element.
+
+2002-03-22 03:56  sven
+
+	* admin_panel/admin_panel.class, admin_panel/records.php,
+	cursor/cursor.class.php: Class _admin_panel_view: Member variable
+	'ssi' renamed to 'cursor'.
+	
+	Class _form_element: Member variable 'ssi' renamed to 'cursor'.
+	
+	Class cursor: Member variable 'ssi' renamed to 'type'.
+
+2002-03-22 03:32  sven
+
+	* proc/application.class: call_view(): Return reference to called
+	functions return value.
+
+2002-03-22 00:19  sven
+
+	* doc/manual/en/admin_panel.xml: [no log message]
+
+2002-03-22 00:15  sven
+
+	* admin_panel/formviews.php, admin_panel/records.php,
+	doc/manual/en/admin_panel.xml: Cleanup. Unified arguments to
+	record_create()/form_create().
+
+2002-03-22 00:15  sven
+
+	* CHANGES, TODO: [no log message]
+
+2002-03-22 00:13  sven
+
+	* dbi/dbi.class: create_row(): Don't set fields marked readonly.
+
+2002-03-21 22:35  sven
+
+	* cursor/cursor.class.php: factory(): New static method returns a
+	new cursor of a type.
+
+2002-03-21 22:35  sven
+
+	* cursor/sql.class.php: delete(): Die if there's no source.
+
+2002-03-21 22:32  sven
+
+	* object/is_a.php: Initial import.
+
+2002-03-21 21:23  sven
+
+	* proc/application.class: arg(): Return nothing if argument doesn't
+	exist.
+
+2002-03-21 19:26  sven
+
+	* cursor/sql.class.php: delete(): Don't take any arguments. Delete
+	the record the cursor points to.
+
+2002-03-21 02:08  sven
+
+	* CHANGES: [no log message]
+
+2002-03-21 01:57  sven
+
+	* admin_panel/records.php: _create_multisource(): Added argument
+	checking.
+
+2002-03-21 01:56  sven
+
+	* doc/: ssi.xml, manual/en/cursor.xml, manual/en/manual.xml:
+	Renamed file ssi.xml to cursor.xml
+
+2002-03-21 01:54  sven
+
+	* doc/: ssi.xml, manual/en/admin_panel.xml: [no log message]
+
+2002-03-21 01:08  sven
+
+	* doc/manual/en/dbi.xml: Fix link.
+
+2002-03-21 01:07  sven
+
+	* doc/manual/en/session.xml: Added func-dbsession-clear.
+
+2002-03-20 23:33  sven
+
+	* doc/manual/en/application.xml: Added note about session variables
+	outside a modules lifetime.
+
+2002-03-20 23:21  sven
+
+	* CHANGES: [no log message]
+
+2002-03-20 23:20  sven
+
+	* admin_panel/formviews.php, doc/manual/en/admin_panel.xml:
+	form_has_content(): New function checks if a form contains any
+	data.
+
+2002-03-20 22:33  sven
+
+	* CHANGES: [no log message]
+
+2002-03-20 22:32  sven
+
+	* admin_panel/admin_panel.class, doc/manual/en/admin_panel.xml:
+	admin_panel::open_widget(): Open dynamic table cell for a widget. 
+	admin_panel::close_widget(): Close dynamic table cell.
+	
+	admin_panel::_open(), admin_panel::_close(): Methods removed.
+
+2002-03-20 22:30  sven
+
+	* doc/manual/en/bugs.xml: [no log message]
+
+2002-03-20 22:28  sven
+
+	* doc/manual/en/dbi.xml: Corrected typos.
+
+2002-03-20 21:53  sven
+
+	* admin_panel/tk/: range_edit.php, range_edit/range_edit.php:
+	admin_panel/tk/range_edit.php moved to
+	admin_panel/tk/range_edit/range_edit.php
+
+2002-03-20 21:42  sven
+
+	* CHANGES: [no log message]
+
+2002-03-20 21:41  sven
+
+	* doc/manual/en/session.xml: Update to current dbsession layout.
+
+2002-03-20 21:41  sven
+
+	* dbi/dbsession.class: sid(): Function removed.
+
+2002-03-20 21:19  sven
+
+	* CHANGES: Added changes between 0.1.0 and 0.1.1.
+
+2002-03-20 21:17  sven
+
+	* doc/manual/en/application.xml: [no log message]
+
+2002-03-20 21:13  sven
+
+	* proc/application.class: TOKEN_DEFAULT, TOKEN_ONETIME,
+	TOKEN_REUSE: Constants defined for token types passed to
+	add_viewfunc() and add_view().
+
+2002-03-20 20:40  sven
+
+	* proc/debug_dump.php: debug_dump(): Print objects also. Code
+	cleanup.
+
+2002-03-20 20:39  sven
+
+	* admin_panel/tk/autoform/ext/dbisearch.php:
+	tk_autoform_list_search_result(): Return status of last search.
+
+2002-03-20 20:39  sven
+
+	* admin_panel/tk/dbisearch.php: tk:dbisearch(): Take new argument
+	'not_all'. If it is not null, all records are not listed when the
+	query was empty.
+
+2002-03-20 19:42  sven
+
+	* admin_panel/admin_panel.class: [no log message]
+
+2002-03-20 19:40  sven
+
+	* admin_panel/admin_panel.class: get_ssi(): Renamed to
+	get_cursor():
+	
+	set_ssi(): Renamed to set_cursor():
+
+2002-03-20 19:33  sven
+
+	* admin_panel/tk/: dbconf.php, dbisearch.php, list_move.php,
+	range_edit.php, tree_edit.php: Make toolkit work with header and
+	footer functions.
+
+2002-03-20 19:32  sven
+
+	* proc/application.class: call_view(): Don't call header or footer
+	function for internal view.
+
+2002-03-20 19:32  sven
+
+	* doc/manual/en/: admin_panel.xml, intro.xml: [no log message]
+
+2002-03-20 04:58  sven
+
+	* proc/application.class, doc/manual/en/admin_panel.xml: [no log
+	message]
+
+2002-03-20 04:58  sven
+
+	* dbi/dbsession.class: Wait 10h before a session idles out.
+
+2002-03-20 04:57  sven
+
+	* admin_panel/tk/dbisearch.php: tk_dbisearch(): Add more arument
+	checking.
+
+2002-03-20 04:57  sven
+
+	* admin_panel/records.php: record_delete(): Takes new argument
+	'ssi_list' as an alternative to '_ssi'.
+
+2002-03-20 04:56  sven
+
+	* admin_panel/admin_panel.class: paragraph(): Completely reopen all
+	tables.
+
+2002-03-20 00:13  sven
+
+	* cursor/sql.class.php: cursor_sql::query(): Use order clause.
+
+2002-03-20 00:12  sven
+
+	* cursor/cursor.class.php: Initialise member variable key to 0.
+
+2002-03-20 00:12  sven
+
+	* admin_panel/admin_panel.class: cmd_create(): Fix arguments to
+	_open().
+
+2002-03-20 00:10  sven
+
+	* doc/manual/en/: admin_panel.xml, dbi.xml, getting_started.xml,
+	manual.xml: [no log message]
+
+2002-03-20 00:10  sven
+
+	* doc/manual/en/: intro.xml, session.xml: Import section
+	sect-session
+
+2002-03-19 20:42  sven
+
+	* admin_panel/formviews.php: form_create(): Use configured message.
+
+2002-03-19 20:42  sven
+
+	* admin_panel/records.php: record_init(): Add default messages for
+	record_create().
+	
+	record_create(): Use configured messge.
+	
+	_create_multisource(): Ignore '_ssi' argument.
+
+2002-03-19 20:39  sven
+
+	* admin_panel/admin_panel.class: Code cleanup.
+
+2002-03-19 06:46  sven
+
+	* admin_panel/records.php: form_init(): Don't output header or
+	footer for record functions. Define Enlish messages,
+
+2002-03-19 06:45  sven
+
+	* admin_panel/formviews.php: form_init(): Don't output header or
+	footer for form functions.
+
+2002-03-19 06:44  sven
+
+	* admin_panel/admin_panel.class: Remove unused code.
+
+2002-03-19 05:27  sven
+
+	* proc/application.class: call_view(): Call start_view() before and
+	end_view() after the function if they exist.
+
+2002-03-19 05:26  sven
+
+	* admin_panel/admin_panel.class: headline(), widget(): Behave like
+	other widgets in tables.
+	
+	close_source(): Die if there's no view to pop from the view stack.
+
+2002-03-17 18:30  sven
+
+	* proc/libinfo.php: Update release info.
+
+2002-03-17 18:28  sven
+
+	* CHANGES: [no log message]
+
+2002-03-17 18:28  sven
+
+	* README: Initial import.
+
+2002-03-17 18:20  sven
+
+	* doc/manual/en/intro.xml, TODO: [no log message]
+
+2002-03-17 18:15  sven
+
+	* admin_panel/: admin_panel.class, formviews.php, tk/dbisearch.php:
+	Use new cursor section of generic secondary storage interfaces.
+
+2002-03-17 18:14  sven
+
+	* cursor/: cursor.class.php, sql.class.php: Initial import.
+
+2002-03-17 18:13  sven
+
+	* test.php: Outdated tests removed.
+
+2002-03-15 23:43  sven
+
+	* admin_panel/widgets.php: header(): Print library version in
+	comment.
+
+2002-03-15 23:42  sven
+
+	* proc/libinfo.php: Initial import.
+
+2002-03-15 23:42  sven
+
+	* doc/: ssi.xml, manual/en/admin_panel.xml,
+	manual/en/application.xml, manual/en/bugs.xml, manual/en/intro.xml,
+	manual/en/wishlist.xml: [no log message]
+
+2002-03-15 18:30  sven
+
+	* admin_panel/: admin_panel.class, formviews.php: Moved file upload
+	infos to _form_element class.
+
+2002-03-15 18:29  sven
+
+	* TODO: [no log message]
+
+2002-03-15 17:46  sven
+
+	* dbi/dbdepend.class: Check for double definitions.
+
+2002-03-15 06:45  sven
+
+	* proc/debug_dump.php: debug_dump(): Print objects.
+
+2002-03-15 06:44  sven
+
+	* admin_panel/tk/range_edit.php: Use _form_element class.
+
+2002-03-15 06:44  sven
+
+	* admin_panel/tk/dbisearch.php: tk_dbisearch(): Use where clause if
+	there's no query.
+
+2002-03-15 06:43  sven
+
+	* admin_panel/records.php: record_delete(): Highlight only record
+	wide.
+
+2002-03-15 06:42  sven
+
+	* admin_panel/admin_panel.class: cmd_delete(): Function removed.
+	Use link() to record_delete instead.
+
+2002-03-15 00:56  sven
+
+	* admin_panel/: admin_panel.class, formviews.php,
+	tk/range_edit.php: admin_panel class: Store form information in
+	_form_field objects.
+
+2002-03-15 00:55  sven
+
+	* admin_panel/tk/dbisearch.php: Code cleanup.
+
+2002-03-14 22:30  sven
+
+	* admin_panel/tk/dbisearch.php: Don't match empty field with LIKE
+	expression.
+
+2002-03-14 21:46  sven
+
+	* admin_panel/tk/dbisearch.php: Another where clause bug fix.
+
+2002-03-14 21:36  sven
+
+	* admin_panel/tk/dbisearch.php: tk_dbisearch(): Fix concatenation
+	of where clause.
+
+2002-03-14 21:35  sven
+
+	* admin_panel/tk/autoform/ext/dbisearch.php: Code cleanup.
+
+2002-03-14 21:35  sven
+
+	* admin_panel/records.php: record_delete(): Fix key bug.
+
+2002-03-14 21:34  sven
+
+	* admin_panel/admin_panel.class: Fix ihghlighting.
+
+2002-03-14 20:52  sven
+
+	* admin_panel/records.php: record_delete(), _delete4real():
+	Functions fixed.
+
+2002-03-14 20:43  sven
+
+	* admin_panel/records.php: ssi_dbi::create(): Take key of parent
+	node in trees (optional).
+
+2002-03-14 20:42  sven
+
+	* admin_panel/admin_panel.class: get_ssi(): Arguments removed.
+
+2002-03-14 03:40  sven
+
+	* admin_panel/tk/range_edit.php: Update to new SSI interface.
+
+2002-03-14 03:40  sven
+
+	* doc/: ssi.xml, manual/en/manual.xml: New section sect-ssi.
+
+2002-03-14 02:06  sven
+
+	* CHANGES, TODO: [no log message]
+
+2002-03-14 02:01  sven
+
+	* admin_panel/admin_panel.class, admin_panel/formviews.php,
+	admin_panel/records.php, admin_panel/tk/list_move.php,
+	text/xml/scanner.class: update to new SSI and argument layout.
+
+2002-03-14 00:41  sven
+
+	* admin_panel/: records.php, tk/dbisearch.php,
+	tk/autoform/autoform.php, tk/autoform/ext/dbisearch.php: Update to
+	new SSI interface.
+
+2002-03-14 00:31  sven
+
+	* admin_panel/admin_panel.class: ssi_cursor::ssi_cursor(): New
+	constructor takes type of SSI.
+	
+	ssi_cursor::string_id(): Renamed to id().
+	
+	_admin_panel_view: Takes reference to SSI in 'ssi' instead of
+	record position.
+	
+	admin_panel::_default_args(): Store SSI in token instead of record
+	position.
+	
+	admin_panel::admin_panel(): Create dummy SSI.
+	
+	use_ssi(): Renamed to set_ssi().
+	
+	get_ssi(): New function returns reference to currently used SSI.
+	
+	use_view(), add_ssi(): Functions removed.
+	
+	set(), create(), delete(): Functions removed (see get_ssi()).
+	
+	view_id(): Function removed. Use ssi_cursor::id() instead.
+
+2002-03-13 18:29  sven
+
+	* doc/manual/en/admin_panel.xml: sect-ui-table: Updated to new
+	behaviour.
+
+2002-03-13 10:18  sven
+
+	* admin_panel/tk/dbisearch.php: tk_dbisearch():Take where argument.
+	Fix baseexp and empty_fields bug.
+
+2002-03-13 07:53  sven
+
+	* admin_panel/tk/dbisearch.php: tk_dbisearch(): Fixed
+	empty_elements bug.
+
+2002-03-13 07:46  sven
+
+	* admin_panel/admin_panel.class: Fixed table nesting. Nesting is
+	only checked if they're really printed.
+
+2002-03-13 07:45  sven
+
+	* doc/tutorial/de/stylesheet.xml: [no log message]
+
+2002-03-13 03:42  sven
+
+	* CHANGES: Initial import.
+
+2002-03-13 03:17  sven
+
+	* TODO: [no log message]
+
+2002-03-13 02:15  sven
+
+	* admin_panel/admin_panel.class: Use of undefined variables -
+	fixed.
+
+2002-03-06 19:28  sven
+
+	* admin_panel/tk/dbisearch.php: form_dbisearch(): Rewritten und
+	renamed to tk_dbisearch. The new version can be configured for
+	multiple sources and fields. Form fields are not matched to table
+	field names anymore.
+
+2002-03-06 17:05  sven
+
+	* text/xml/template.class: Don't echo document, return it.
+
+2002-03-06 17:03  sven
+
+	* doc/: manual/en/dbi.xml, manual/en/intro.xml,
+	manual/en/stylesheet.xml, tutorial/de/stylesheet.xml: [no log
+	message]
+
+2002-02-27 22:18  sven
+
+	* doc/: mk.xsltproc.sh, tutorial/de/manual.xml,
+	tutorial/de/stylesheet.xml: Initial import.
+
+2002-02-27 22:17  sven
+
+	* doc/manual/en/: admin_panel.xml, application.xml, bugs.xml,
+	date.xml, dbi.xml, file.xml, getting_started.xml, http.xml,
+	intro.xml, mail.xml, manual.xml, string.xml, stylesheet.xml,
+	template.xml, toolkits.xml, widget.xml, wishlist.xml: Split up
+	manual into multiple files.
+
+2002-02-26 08:02  sven
+
+	* admin_panel/tk/autoform/autoform.php: tk_autoform_create_form:
+	Print new extended field types 'textarea' and 'show'.
+
+2002-02-26 08:01  sven
+
+	* dbi/dbi.class: create_row(): Don't set primary if not in
+	preset_values array.
+
+2002-02-25 23:48  sven
+
+	* admin_panel/admin_panel.class: _open(), _close(): New internal
+	functions open and close a cell.
+
+2002-02-17 22:13  sven
+
+	* dbi/dbwrapper.class: query(): Don't print SQL qzery twice in
+	debug mode.
+
+2002-02-17 22:12  sven
+
+	* dbi/dbi.class: create_row(): Check names in preset values array.
+
+2002-02-17 22:11  sven
+
+	* admin_panel/tk/autoform/autoform.php: tk_autoform_list_results:
+	Check the names in field array if specified.
+
+2002-02-17 22:11  sven
+
+	* admin_panel/records.php: _create_multisource(): Create records in
+	multiple sources and substitute reference aliases in preset values
+	by key of inserted records.
+	
+	_simple_create(): Create multiple sources if specified by argument
+	'sources'.
+	
+	record_delete(): Take where statement which overrides the specified
+	key (if there's one).
+
+2002-02-17 22:08  sven
+
+	* admin_panel/formviews.php: Comments removed.
+
+2002-02-17 22:07  sven
+
+	* admin_panel/admin_panel.class: delete(): Take where statement
+	which overrides the key if specified.
+	
+	table_headers(): Die if field array is empty.
+
+2002-02-14 17:51  sven
+
+	* admin_panel/: admin_panel.class, formviews.php, mime.php,
+	records.php, tk/dbconf.php, tk/record_edit.php, tk/tree_edit.php:
+	Arguments named 'table' renamed 'source' if supposed to be
+	independent from SQL databases.
+
+2002-02-13 14:26  sven
+
+	* proc/profile.php: Initial import.
+
+2002-02-13 14:24  sven
+
+	* dbi/dbobj.class: Don't show primary key of class in autoforms.
+
+2002-02-11 18:57  bp
+
+	* admin_panel/admin_panel.class: OOps, wrong checkin.
+
+2002-02-11 18:52  bp
+
+	* admin_panel/admin_panel.class: fixed missing argument for
+	widgets->hidden () in fileform ().
+
+2002-02-10 14:02  sven
+
+	* admin_panel/tk/tree_edit.php: Fixed missing reference to
+	admin_panel.
+
+2002-02-10 14:01  sven
+
+	* admin_panel/admin_panel.class: image(): Fix call to widget set.
+
+2002-02-10 14:00  sven
+
+	* admin_panel/widgets.php: header(): Fixed missing references.
+
+2002-02-09 10:22  sven
+
+	* admin_panel/formviews.php: _read_form(): Create simple form field
+	array application::named_fields to make access to field values by
+	name easy.
+
+2002-02-09 10:21  sven
+
+	* admin_panel/tk/dbisearch.php: Don't do boolean mode.
+
+2002-02-09 01:49  sven
+
+	* admin_panel/tk/dbisearch.php: Handle fulltext index in all_fields
+	mode.
+
+2002-02-08 23:45  sven
+
+	* doc/manual/en/manual.xml: [no log message]
+
+2002-02-08 22:02  sven
+
+	* admin_panel/widgets.php: header(), footer (): New functions.
+
+2002-02-08 22:01  sven
+
+	* admin_panel/admin_panel.class: admin_panel(), close(): Moved
+	header and footer output to widget class.
+
+2002-02-08 20:46  sven
+
+	* test.php, admin_panel/admin_panel.class,
+	admin_panel/formviews.php, admin_panel/records.php,
+	admin_panel/tk/dbconf.php, admin_panel/tk/dbisearch.php,
+	admin_panel/tk/dbobj_ls.php, admin_panel/tk/fsb.php,
+	admin_panel/tk/list_move.php, admin_panel/tk/quick_record.php,
+	admin_panel/tk/range_edit.php, admin_panel/tk/record_edit.php,
+	admin_panel/tk/tree_edit.php, admin_panel/tk/xml_template.php,
+	admin_panel/tk/autoform/autoform.php,
+	admin_panel/tk/autoform/ext/dbisearch.php: admin_panel::instance():
+	New function gets/sets the one and olny instance of the class.
+
+2002-02-08 17:01  sven
+
+	* admin_panel/tk/autoform/autoform.php,
+	admin_panel/tk/autoform/ext/dbisearch.php,
+	doc/manual/en/manual.xml: tk_autoform_list_results(): Take
+	arguements in config array.
+
+2002-02-08 16:20  sven
+
+	* admin_panel/tk/dbisearch.php, doc/manual/en/manual.xml:
+	form_dbisearch(): Don't list all records when searching for an
+	empty string in all_fields mode unless argument 'list_all' is set.
+
+2002-02-06 23:27  sven
+
+	* admin_panel/tk/range_edit.php: tk_range_edit_select(),
+	tk_range_edit_select_all(), tk_range_edit_unselect_all(): New view
+	argument 'marker_field' specifies the name of all markers in a
+	form.
+	
+	tk_range_edit_all_selected(): New arguments takes name of markers.
+
+2002-02-06 16:56  sven
+
+	* dbi/dbsession.class: get(): Return nothing of item doesn't exist.
+
+2002-02-06 16:21  sven
+
+	* dbi/dbsession.class, dbi/dbwrapper.class, proc/application.class:
+	Code cleanup.
+
+2002-02-06 15:26  sven
+
+	* dbi/: dbconf.class, dbdepend.class, dbi.class: Code cleanup.
+
+2002-02-06 13:43  sven
+
+	* doc/manual/en/manual.xml: sect-application: Argument getters
+	changed.
+
+2002-02-06 13:30  sven
+
+	* admin_panel/: admin_panel.class, records.php, tk/dbconf.php,
+	tk/list_move.php, tk/autoform/autoform.php,
+	tk/autoform/ext/dbisearch.php: Code cleanup.
+
+2002-02-06 13:03  sven
+
+	* admin_panel/: formviews.php, records.php, tk/dbisearch.php,
+	tk/fsb.php, tk/list_move.php, tk/range_edit.php, tk/tree_edit.php:
+	application.class' argument getters changed.
+
+2002-02-06 13:02  sven
+
+	* proc/application.class: subarg(), optarg(): Functions removed.
+	
+	arg(): Take new argument that specifies the argument type.
+
+2002-02-05 02:05  sven
+
+	* dbi/dbi.class: Code cleanup.
+
+2002-02-05 01:58  sven
+
+	* admin_panel/: admin_panel.class, formviews.php: Code cleanup.
+
+2002-02-04 15:09  bp
+
+	* dbi/dbi.class: fixed typo: $this->def->xref_table () instead of
+	$this->xref_table ()
+
+2002-01-31 03:36  sven
+
+	* dbi/dbsession.class: read_key(): Remove old sessions.
+	
+	set_timeout(): New function sets session timeout.
+
+2002-01-29 05:23  sven
+
+	* admin_panel/tk/autoform/ext/dbisearch.php:
+	tk_autoform_list_search_results(): Return status of last search.
+
+2002-01-29 04:51  sven
+
+	* admin_panel/tk/autoform/autoform.php: Use unformatted text to
+	display total number of search results.
+
+2002-01-29 04:40  sven
+
+	* admin_panel/admin_panel.class: print_text(): New function
+	displays text unformatted.
+
+2002-01-29 03:39  sven
+
+	* proc/application.class: Corrected typo.
+
+2002-01-29 01:28  sven
+
+	* admin_panel/admin_panel.class, admin_panel/formviews.php,
+	proc/application.class: Updated to work with new dbsession.class
+	layout.
+
+2002-01-29 00:26  sven
+
+	* dbi/dbsession.class: data(), set_data(): Functions removed.
+	
+	get()> New function gets a session variable.
+	
+	set()> New function sets a session variable.
+	
+	clear(): New function removes a session variable.
+
+2002-01-28 04:02  sven
+
+	* admin_panel/records.php: Correct jump to user defined function
+	after kill.
+
+2002-01-28 02:59  sven
+
+	* admin_panel/records.php: _delete(), _delete4real(): Allow call of
+	views depending on the user's choice to delete anything at all.
+
+2002-01-28 02:58  sven
+
+	* net/http/auth.php: Prohibit empty passwords.
+
+2002-01-28 02:57  sven
+
+	* dbi/dbi.class: multi_delete(): Allow strings as priary keys.
+
+2002-01-28 02:56  sven
+
+	* admin_panel/tk/autoform/ext/dbisearch.php: Code cleanup.
+
+2002-01-28 02:54  sven
+
+	* admin_panel/: admin_panel.class, widgets.php: image(): New
+	function creates an image.
+
+2002-01-27 05:09  sven
+
+	* doc/manual/en/manual.xml: sect-ui: Update iterator functions.
+
+2002-01-27 02:27  sven
+
+	* doc/manual/en/manual.xml: Added cvs id tag to title.
+	
+	sect-application, sect-application-token-types, sect-wishlist:
+	Updated.
+	
+	sect-ui: Function syntax uddated. New section aboout getting data,
+
+2002-01-27 00:47  sven
+
+	* admin_panel/: admin_panel.class, tk/dbconf.php, tk/list_move.php,
+	tk/quick_record.php, tk/autoform/autoform.php,
+	tk/autoform/ext/dbisearch.php: get(): Replaced by query(). Can do
+	first get id selection is passed by argument.
+	
+	get_next(): Replaced by get() which fetches the first or next
+	record of a result set.
+
+2002-01-26 23:08  sven
+
+	* admin_panel/admin_panel.class: Support for labels inside widgets
+	removed. Use label on your own instead.
+	
+	show_mime_image(), inputline(), password (), radiobox (), checkbox
+	(), textarea (), fileform (): Label argument removed.
+
+2002-01-26 22:49  sven
+
+	* admin_panel/admin_panel.class: set_value(): New functions set the
+	value of a field.
+	
+	select_string(): Label argument replaced by flag that determines if
+	the option arrey is to be keyed by numeric index.
+
+2002-01-17 18:32  sven
+
+	* proc/application.class: close(): Don't return from function.
+	
+	call_view(): Choke when view isn't registered.
+
+2002-01-17 18:31  sven
+
+	* admin_panel/tk/autoform/ext/dbisearch.php, dbi/dbctrl.class:
+	Cleanup.
+
+2002-01-17 18:31  sven
+
+	* admin_panel/tk/autoform/autoform.php: Shortened inputline to 40
+	chars.
+
+2002-01-17 18:30  sven
+
+	* admin_panel/tk/dbisearch.php: search_has_result(): New function
+	returns status of last search.
+
+2002-01-17 18:29  sven
+
+	* admin_panel/formviews.php: form_create(): Close application after
+	calling the next view.
+
+2002-01-17 18:28  sven
+
+	* admin_panel/admin_panel.class: close_table(): Don't close
+	multiple tables (open_table() opens only one at a time).
+	
+	show_ref(): Print unformatted text instead of label.
+
+2002-01-13 10:21  sven
+
+	* text/xml/tag_handlers.php: Return values by reference.
+
+2002-01-13 10:20  sven
+
+	* text/xml/scanner.class: Code cleanup.
+
+2002-01-13 10:18  sven
+
+	* admin_panel/admin_panel.class: submit_image(): New function
+	displays an image as a submit button.
+	
+	image_link(): New function creates an image as a link.
+
+2002-01-13 10:17  sven
+
+	* admin_panel/widgets.php: image_link(): New function creates a
+	link with an image label.
+	
+	submit_image(): New function creates a image submit button.
+
+2002-01-12 14:22  sven
+
+	* proc/application.class: Minor comment and layout updates.
+
+2002-01-12 14:21  sven
+
+	* admin_panel/tk/dbisearch.php: tk_dbisearch_get_resultview: The
+	result status of a search is now represented using newly defined
+	constants and returned by this function.
+
+2002-01-12 14:16  sven
+
+	* admin_panel/admin_panel.class: Use new widget set functions for
+	printing text.
+
+2002-01-12 14:15  sven
+
+	* admin_panel/widgets.php: print_text(): New function to use
+	instead of echoing text elsewhere.
+	
+	print_label(): New function prints a label.
+
+2002-01-12 12:22  sven
+
+	* admin_panel/tk/dbisearch.php: form_dbisearch: Cleanup.
+
+2002-01-12 09:46  sven
+
+	* admin_panel/admin_panel.class: Calls to new_formfield()
+	corrected.
+
+2002-01-12 03:41  sven
+
+	* doc/manual/en/manual.xml: sect-tk-clipboard: Removed.
+	
+	sect-tk-template: Corrected.
+	
+	sect-misc: Sections split up into separate chapters.
+
+2002-01-12 03:38  sven
+
+	* admin_panel/tk/xml_template.php: tk_template_forms_init(): Add
+	reference 'tk_template' to xml_template object to
+	application.class.
+	
+	tk_template_get_field(), dirtag_cms_form_action(): Corrected
+	function calls.
+
+2002-01-12 03:35  sven
+
+	* admin_panel/admin_panel.class: _link(): Function renamed to
+	url().
+	
+	_new_formfield(): Function renamed to new_formfield() for public
+	use.
+	
+	submit_link(): Function renamed to submit_name().
+	
+	filelink(): Function renamed to fileurl().
+
+2002-01-11 13:49  sven
+
+	* admin_panel/README: Remove file.
+
+2002-01-10 11:49  sven
+
+	* doc/manual/en/manual.xml: Add sect-tk-template.
+
+2002-01-10 11:49  sven
+
+	* admin_panel/tk/xml_template.php: Initial import.
+
+2002-01-10 11:45  sven
+
+	* admin_panel/tk/autoform/: autoform.php, ext/dbisearch.php:
+	Reimport from parent directory.
+
+2002-01-10 11:42  sven
+
+	* admin_panel/tk/auto_form.php: File moved.
+
+2002-01-10 11:40  sven
+
+	* admin_panel/tk/dbisearch.php: tk_dbisearch_get_resultview(): Add
+	new function that opens a source with search results and returns
+	with true if some exist.
+
+2002-01-10 11:38  sven
+
+	* admin_panel/admin_panel.class: Correct inclusion paths.
+	
+	close, open_source(), close_source(): Don't output HTML in raw
+	views.
+	
+	submit_link(): Add new public method that creates links for submit
+	buttons.
+
+2002-01-10 11:35  sven
+
+	* time/date.php: Reimport from lib/.
+
+2002-01-10 11:33  sven
+
+	* text/xml/: tag_handlers.php, template.class,
+	template_cached.class: Initial import.
+
+2002-01-10 11:30  sven
+
+	* text/: xml/scanner.class, quick_template.php: Reimport from lib/.
+
+2002-01-10 11:25  sven
+
+	* proc/application.class, proc/debug_dump.php, proc/panic.class,
+	string/germanlig2ascii.php, string/htmllig2latin.php,
+	string/strhead.php: Reimport from lib/.
+
+2002-01-10 11:18  sven
+
+	* file/htpasswd.php, file/magic2mime.php,
+	net/email/check_email_addr.php, net/email/rfc2110.inc.php,
+	net/http/auth.php: Reimport from lib/.
+
+2001-12-20 22:04  sven
+
+	* dbi/dbi.class: Add support for n:n references (xrefs).
+
+2001-12-20 22:04  sven
+
+	* admin_panel/tk/treeview.class: Support for n:n references
+	(xrefs).
+
+2001-12-20 22:02  sven
+
+	* admin_panel/tk/tree_edit.php: Don't pass reference names to
+	dbtree constructors.
+
+2001-12-20 21:59  sven
+
+	* admin_panel/tk/dbisearch.php: form_dbisearch(): Take new optional
+	argument for a where clause which is ANDed with the generated
+	query.
+
+2001-12-20 21:58  sven
+
+	* admin_panel/tk/auto_form.php: tk_autoform_list_results(): Ignore
+	hidden records.
+
+2001-12-20 21:56  sven
+
+	* admin_panel/formviews.php: form_create(): Remove unused code.
+
+2001-12-20 21:55  sven
+
+	* doc/manual/en/manual.xml: Update section func-ui-form-create.
+
+2001-12-20 21:53  sven
+
+	* admin_panel/admin_panel.class: admin_panel(): Don't skip
+	initialisations if document header is not printed.
+	
+	select_id(): Remove label support. Take new argument for WHERE
+	clause (this way records in the referenced table can be skipped).
+
+2001-12-11 16:50  sven
+
+	* dbi/dbtree.php: dbitree_get_parent(), dbitree_get_childs():
+	Support n:n references.
+
+2001-12-11 16:49  sven
+
+	* dbi/dbobj.class: dbobj(): Only reload the list of class names if
+	its empty. Support n:n references. Also cache misses.
+
+2001-12-11 16:47  sven
+
+	* dbi/dbdepend.class: $this->_xref_tables; Add new member variable
+	containing the names of reference tables for n:n references.
+	
+	set_xref(): New function defines a references table for n:n
+	references between records in another table.
+	
+	xref_table(): New function returns reference table name for a
+	table.
+
+2001-12-11 16:45  sven
+
+	* admin_panel/widgets.php: $this->color: Add new member variable
+	that contains all colors used.
+	
+	widget_set(): Add constructor to initialise the default colors.
+	
+	msgbox(), headline(): Use colors in $this->color.
+
+2001-12-11 16:42  sven
+
+	* admin_panel/admin_panel.class: admin_panel(): Take widget set as
+	argument. Create defaults if not specified.
+
+2001-12-05 15:24  sven
+
+	* doc/manual/en/manual.xml: func-application-arg-set-next: Update
+	synopsis.
+
+2001-12-01 17:42  sven
+
+	* dbi/dbdepend.class: Comment out checks.
+
+2001-11-26 23:32  sven
+
+	* doc/manual/en/manual.xml: Add section var-application-raw-views.
+
+2001-11-23 17:47  sven
+
+	* admin_panel/formviews.php: form_create: Check if argument retarg
+	is an array, die if not.
+
+2001-11-23 17:46  sven
+
+	* admin_panel/admin_panel.class: link(), _looselink(): Take fake
+	file name for download links.
+	
+	$raw_views: New member array contains names of views as keys which
+	output HTML on their own.
+
+2001-11-19 03:15  sven
+
+	* admin_panel/tk/auto_form.php: Remove debug code.
+
+2001-11-19 03:13  sven
+
+	* admin_panel/tk/dbisearch.php: [no log message]
+
+2001-11-19 03:13  sven
+
+	* admin_panel/tk/auto_form.php: tk_autoform_list_results(): Return
+	success code.
+
+2001-11-19 03:04  sven
+
+	* admin_panel/formviews.php: [no log message]
+
+2001-11-16 16:25  sven
+
+	* doc/manual/en/manual.xml: Update sections tk-autoform and
+	tk-dbisearch.
+
+2001-11-16 16:23  sven
+
+	* dbi/dbobj.class: define_tables(): Use indices.
+
+2001-11-16 16:23  sven
+
+	* dbi/dbdepend.class: define_table(): Die if table is already
+	defined.
+	
+	set_ref(), set_listref(), set_primary(), _chktbl(): Die if table
+	isn't defined.
+
+2001-11-16 16:21  sven
+
+	* admin_panel/tk/dbisearch.php: Use argument functions instead of
+	accessing the argument array directly.
+
+2001-11-16 16:20  sven
+
+	* admin_panel/tk/auto_form.php: Keep 80 column faschism.
+
+2001-11-16 16:20  sven
+
+	* admin_panel/records.php: Correct spelling in comments.
+
+2001-11-16 16:19  sven
+
+	* admin_panel/admin_panel.class: ssi_cursor: New class will unify
+	position info of form fields and ssi functions.
+
+2001-11-10 15:16  sven
+
+	* doc/manual/en/manual.xml: [no log message]
+
+2001-11-08 20:46  sven
+
+	* doc/manual/en/manual.xml: Add sect-dbobj.
+
+2001-11-08 20:45  sven
+
+	* admin_panel/formviews.php: form_safe(): Don't cache data in
+	stacked views.
+
+2001-11-08 20:41  sven
+
+	* admin_panel/admin_panel.class: value(): Don't cache data in
+	stacked views (can't handle lower view).
+	
+	view_in(): Include lower view in id.
+
+2001-10-26 14:25  sven
+
+	* admin_panel/records.php: create(), _delete4real(): Use lower SSI
+	info.
+	
+	delete(): Make arguement 'next_view' optional.
+
+2001-10-26 14:24  sven
+
+	* admin_panel/formviews.php: form_update(): Use lower SSI info to
+	set a single field. (Files not supported,)
+
+2001-10-26 14:23  sven
+
+	* admin_panel/admin_panel.class: _default_args(): Save info of
+	lower SSI in link. Add name of currently used field.
+	
+	use_field(): Add function to specify the currently used key
+	manually.
+	
+	set(), create(), delete(): Add new optional argument that points to
+	the lower SSI.
+	
+	show(), show_ref (), show_mime_image(), _inputline(), checkbox(),
+	cmd_create(): Code cleanup.
+	
+	delete(): Use record key specified in $this->v instead of database
+	definition in $this->def.
+
+2001-10-24 14:40  sven
+
+	* dbi/dbobj.class: dbobj(): Remember object id if argument
+	$only_local is false. Code cleanup.
+
+2001-10-24 12:21  sven
+
+	* dbi/dbobj.class: Code cleanup.
+
+2001-10-21 20:26  sven
+
+	* dbi/dbi.class: Add check if record has no siblings and can't be
+	moved.
+
+2001-10-21 20:08  sven
+
+	* admin_panel/admin_panel.class: show_mime_type(): Fix typo.
+
+2001-10-20 07:55  sven
+
+	* dbi/dbobj.class: Work around php bug.
+
+2001-10-18 17:41  sk
+
+	* doc/manual/en/manual.xml: email-addresse gefixed !
+
+2001-10-16 04:42  sven
+
+	* admin_panel/tk/dbconf.php: Use subsessioning.
+
+2001-10-16 04:42  sven
+
+	* admin_panel/tk/fsb.php: Use fixed path starting at document root
+	if nothing else specified.
+
+2001-10-16 04:04  sven
+
+	* admin_panel/admin_panel.class: link(): Allow breaks when queued.
+
+2001-10-16 03:35  sven
+
+	* admin_panel/: admin_panel.class, widgets.php: Layout update.
+
+2001-10-16 03:35  sven
+
+	* admin_panel/formviews.php: [no log message]
+
+2001-10-16 03:28  sven
+
+	* dbi/dbi.class: move(): Only select references, not the whole
+	tree.
+
+2001-10-16 03:28  sven
+
+	* admin_panel/formviews.php: form_safe(): Don't cache uploaded
+	files.
+
+2001-10-15 00:02  sven
+
+	* admin_panel/admin_panel.class: filelink(): Optionally take data
+	to create md5 checksum.
+
+2001-10-15 00:00  sven
+
+	* dbi/dbctrl.class: get_working_copy(): Argument is optional.
+
+2001-10-14 02:11  sven
+
+	* doc/manual/en/manual.xml: Update sect-wishlist.
+
+2001-10-14 02:06  sven
+
+	* admin_panel/admin_panel.class: filelink(): Append md5 checksum of
+	first kilobyte to link. Also append the right file suffix,
+	depending on the file's mime type.
+
+2001-10-11 20:44  sven
+
+	* dbi/dbdepend.class: prev_of(), next_of(): Don't choke in strict
+	mode if entry isn't set.
+
+2001-10-05 23:53  sven
+
+	* doc/manual/en/manual.xml: [no log message]
+
+2001-10-05 23:52  sven
+
+	* dbi/dbi.class: _delete_update_siblings(): Typo fixed.
+	
+	move(): Remind changed references after removal.
+
+2001-10-05 23:42  sven
+
+	* admin_panel/admin_panel.class: filelink(): Don't add form info to
+	token so we'll find it in other forms and the image can be cached.
+
+2001-10-04 04:49  sven
+
+	* dbi/dbi.class: create_row(): Add slashes to preset values.
+
+2001-10-03 02:53  sven
+
+	* dbi/dbi.class: create_row(): Make argument of destinations'
+	parent optional.
+
+2001-10-03 02:17  sven
+
+	* admin_panel/tk/dbisearch.php: form_dbisearch(): Checks reordered
+	to fix type checking bug.
+
+2001-10-03 02:01  sven
+
+	* admin_panel/tk/auto_form.php: tk_autoform_list_search_results():
+	tk_dbisearch stores result set in application.class.
+
+2001-10-03 02:00  sven
+
+	* admin_panel/tk/dbisearch.php: form_dbisearch: Do more element
+	checking. Store result set in member variable.
+
+2001-10-02 16:17  sven
+
+	* doc/manual/en/manual.xml: class-application, sect-tk: Sections
+	updated.
+
+2001-10-02 16:14  sven
+
+	* admin_panel/formviews.php: _read_form(): Added debug dump of form
+	elements.
+
+2001-10-02 16:14  sven
+
+	* admin_panel/admin_panel.class: get(), get_next(): Leave setting
+	record key up to the ssi.
+
+2001-10-02 04:36  sven
+
+	* dbi/dbdepend.class: ref_table(): Strict mode update.
+	
+	Upgrade code removed.
+
+2001-10-02 04:35  sven
+
+	* admin_panel/tk/range_edit.php: Strict mode update.
+
+2001-10-02 04:25  sven
+
+	* doc/manual/en/manual.xml: Update sect-list-move.
+
+2001-10-02 04:24  sven
+
+	* dbi/dbi.class: create_row(): Don't include primary key in set.
+	
+	append_new(): Deprecated check removed.
+	
+	move(): Check if keys collide if tree is stored in single table.
+
+2001-10-02 03:24  sven
+
+	* doc/manual/en/manual.xml: func-ui-get, sect-bugs: Update.
+	
+	sect-tk-list-move: New section.
+
+2001-10-02 02:57  sven
+
+	* admin_panel/tk/list_move.php: Use parent id as destination
+	iformation because the next node is 0 when moving to end of list.
+	You can only have multiple lists in tables where records have
+	parents.
+
+2001-10-02 02:55  sven
+
+	* dbi/dbi.class: move(): Die if destination is not specified.
+
+2001-10-02 02:54  sven
+
+	* admin_panel/admin_panel.class: Remove doubly-list flag from get()
+	functions.
+
+2001-10-02 02:03  sven
+
+	* dbi/dbsession.class: set_data(): Add slashes to query.
+
+2001-10-02 02:03  sven
+
+	* dbi/dbi.class: move(): Fix typo - records disappeared when moved
+	to end of list.
+
+2001-10-02 02:02  sven
+
+	* dbi/dbdepend.class: Strict mode update.
+
+2001-10-02 02:01  sven
+
+	* admin_panel/tk/list_move.php: Fixed table name bug. Highlighting
+	corrected.
+
+2001-10-02 01:16  sven
+
+	* dbi/dbi.class: append_new(), move(): Get parent id of destination
+	node.
+
+2001-10-02 00:41  sven
+
+	* admin_panel/tk/list_move.php: Import editor for record order in
+	doubly-linked lists.
+
+2001-10-02 00:40  sven
+
+	* admin_panel/tk/tree_edit.php: Parameter order to cbi::move()
+	changed.
+
+2001-10-02 00:38  sven
+
+	* doc/manual/en/manual.xml: Update sect-contrib: New contributor
+	Sascha Krause.
+
+2001-10-02 00:37  sven
+
+	* dbi/dbwrapper.class: query(): Print SQL query if it failed.
+
+2001-10-02 00:36  sven
+
+	* dbi/dbi.class: append_new(): Fix query bug.
+	
+	move(): Argument order changed. No need to specify the
+	destination's parent node anymore which makes this function work
+	outside of trees.
+
+2001-10-02 00:33  sven
+
+	* admin_panel/admin_panel.class: use_key(): New function sets key
+	of currently viewed record.
+	
+	close(): Show name of source if still open.
+
+2001-09-30 22:26  sven
+
+	* doc/manual/en/manual.xml: Update sect-dbi and  set-application.
+
+2001-09-30 18:50  sven
+
+	* doc/manual/en/manual.xml: Update sect-wishlist.
+
+2001-09-30 18:47  sven
+
+	* dbi/dbi.class: append_new(): Make function work on douby-linked
+	lists outside trees (no parent record required anymore).
+
+2001-09-29 22:31  sven
+
+	* dbi/dbi.class: create_row(): Take optional array of preset values
+	to fill them in when a record is created.
+	
+	append_new(): Take optional array of preset values which'll be
+	passed to create_row(). If list references are overridden by preset
+	values a simple insert is done.
+
+2001-09-29 22:28  sven
+
+	* admin_panel/records.php: _simple_create(): Pass array of preset
+	fields to admin_panel::create().
+
+2001-09-29 22:26  sven
+
+	* admin_panel/admin_panel.class: create(): Take optional argument
+	of preset fields and their values.
+
+2001-09-28 20:39  sven
+
+	* doc/manual/en/manual.xml: Update sect-ui.
+
+2001-09-28 05:25  sven
+
+	* admin_panel/formviews.php: _read_form(): Don't trash
+	$this->elements with mix of all element data.
+
+2001-09-28 04:22  sven
+
+	* doc/manual/en/manual.xml: Update dbwrapper section.
+
+2001-09-28 04:19  sven
+
+	* dbi/dbwrapper.class: query(): Only show query time if query is
+	printed.
+
+2001-09-28 04:17  sven
+
+	* dbi/dbsession.class: define_table(): Make field skey of type
+	varchar(255) int not null.
+	
+	read_id(): Simplified function.
+
+2001-09-28 04:16  sven
+
+	* dbi/dbi.class: append_new(): Use dbdepend.class getters.
+
+2001-09-28 04:14  sven
+
+	* dbi/dbdepend.class: is_list(): Simplify function.
+
+2001-09-28 04:13  sven
+
+	* dbi/dbconf.class: define_tables(): Field date renamed to data.
+	Config tables need to be altered.
+
+2001-09-28 04:11  sven
+
+	* admin_panel/formviews.php: form_check(): Warns in debug mode if
+	element is not defined in dbi source.
+
+2001-09-27 20:57  sven
+
+	* dbi/dbsession.class: data(): Return empty array if there's no
+	data.
+
+2001-09-27 20:56  sven
+
+	* dbi/dbi.class: create_table(), create_tables(): Use
+	dbwrapper::create_table().
+
+2001-09-27 20:53  sven
+
+	* dbi/dbdepend.class: define_table(): CREATE clause generation move
+	into wrappers.
+
+2001-09-27 20:52  sven
+
+	* dbi/dbwrapper.class: create_table(): New function creates a table
+	with help of dbdepend.class.
+	
+	All database wrapper must now create tables on their own, so keys
+	can be handled on a machine-dependent level.
+
+2001-09-27 03:44  sven
+
+	* dbi/dbobj.class: define_table(): New function defines a fixed set
+	of tables.
+
+2001-09-27 01:55  sven
+
+	* doc/manual/en/manual.xml: Intro and buglist updated.
+
+2001-09-27 01:53  sven
+
+	* doc/mk.FreeBSD.docproj.sh: Imported make script for FreeBSD's
+	docproj package.
+
+2001-09-27 00:15  sven
+
+	* admin_panel/admin_panel.class: Code cleanup.
+
+2001-09-26 22:41  sven
+
+	* test.php: Put source under Lesser GNU Public License.
+
+2001-09-26 21:31  sven
+
+	* INSTALL: File deprecated. Take a look into the manual.
+
+2001-09-26 21:09  sven
+
+	* admin_panel/admin_panel.class, admin_panel/formviews.php,
+	admin_panel/mime.php, admin_panel/records.php,
+	admin_panel/tk/auto_form.php, admin_panel/tk/dbconf.php,
+	admin_panel/tk/dbisearch.php, admin_panel/tk/dbobj_ls.php,
+	admin_panel/tk/fsb.php, admin_panel/tk/quick_record.php,
+	admin_panel/tk/range_edit.php, admin_panel/tk/record_edit.php,
+	admin_panel/tk/tree_edit.php, admin_panel/tk/treeview.class,
+	dbi/dbchk.php, dbi/dbconf.class, dbi/dbctrl.class,
+	dbi/dbdepend.class, dbi/dbi.class, dbi/dbobj.class,
+	dbi/dbsession.class, dbi/dbsort.php, dbi/dbtree.php,
+	dbi/dbundo.class, dbi/dbwrapper.class, dbi/types.php,
+	doc/manual/en/manual.xml: Put sources under Lesser GNU Public
+	License.
+
+2001-09-26 20:01  sven
+
+	* admin_panel/admin_panel.class: checkbox(): Didn't print label -
+	fixed.
+
+2001-09-25 12:55  sven
+
+	* admin_panel/tk/tree_edit.php: Rewrote to module with argument
+	checking.
+
+2001-09-25 11:44  sven
+
+	* dbi/dbwrapper.class: query(): Debug code fixed.
+
+2001-09-25 11:42  sven
+
+	* admin_panel/admin_panel.class: Strict-mode correction.
+
+2001-09-24 11:09  sven
+
+	* doc/manual/en/manual.xml: [no log message]
+
+2001-09-24 10:52  sven
+
+	* dbi/dbwrapper.class: If  has bin 1 set all queries will be
+	printed.
+
+2001-09-20 02:38  sven
+
+	* admin_panel/admin_panel.class: [no log message]
+
+2001-09-20 02:32  sven
+
+	* admin_panel/admin_panel.class, dbi/dbi.class, dbi/dbtree.php,
+	dbi/dbwrapper.class: Code cleanup.
+
+2001-09-20 01:33  sven
+
+	* admin_panel/: admin_panel.class, widgets.php: Mozilla: Layout
+	update
+
+2001-09-19 15:04  sven
+
+	* doc/manual/en/manual.xml: Updates to dbdepend and tk_range_edit
+
+2001-09-19 15:03  sven
+
+	* dbi/dbwrapper.class: query(): Removed useless error check.
+
+2001-09-13 21:03  sven
+
+	* doc/manual/en/manual.xml: Installation example fixed.
+
+2001-09-13 20:59  sven
+
+	* doc/manual/en/manual.xml: Now using synopsis element.
+
+2001-09-13 18:37  sven
+
+	* doc/manual/en/manual.xml: Installation explained.
+
+2001-09-13 18:36  sven
+
+	* test.php: Test script added.
+
+2001-09-13 18:36  sven
+
+	* admin_panel/tk/record_edit.php, dbi/dbundo.class: Syntax errors
+	fixed.
+
+2001-09-13 15:15  sven
+
+	* doc/manual/en/manual.xml: Update in sect-class-dbdepend. Syntax
+	corrections.
+
+2001-09-13 14:44  sven
+
+	* dbi/: dbconf.class, dbdepend.class, dbsession.class:
+	dbi/dbdepend.class::define_ext_table() renamed to define_table().
+
+2001-09-12 22:46  sven
+
+	* dbi/dbdepend.class: exttypes() was renamed to types().
+
+2001-09-12 22:45  sven
+
+	* dbi/dbi.class: create_row(): Used old dbdepend:types() format -
+	fixed.
+
+2001-09-11 23:42  sven
+
+	* admin_panel/formviews.php, admin_panel/tk/auto_form.php,
+	admin_panel/tk/dbisearch.php, doc/manual/en/manual.xml:
+	dbdepend.class: define_ext_table() renamed to define_table().
+	exttypes() renamed to types().
+
+2001-09-10 22:00  sven
+
+	* admin_panel/tk/dbisearch.php: form_dbisearch(): Use
+	dbdepend::exttyoes() instead of dbdepend::types().
+
+2001-09-10 21:51  sven
+
+	* dbi/: dbconf.class, dbdepend.class, dbobj.class, dbsession.class,
+	dbtree.php: dbi/dbdepend.class: def_tables() removed.
+	
+	get_parent(), get_childs(): Moved to new file dbi/dbtree.php ->
+	dbitree_get_parent(), dbitree_get_childs().
+
+2001-09-10 21:49  sven
+
+	* dbi/dbwrapper.class: [no log message]
+
+2001-09-10 21:48  sven
+
+	* doc/manual/en/manual.xml: Filled up syntax examples.
+
+2001-09-10 21:47  sven
+
+	* dbi/dbi.class: Code cleanup.
+
+2001-09-09 12:54  sven
+
+	* dbi/types.php: File can be included multiple times.
+
+2001-09-06 16:43  sven
+
+	* dbi/dbchk.php: dbdepend based database integrity check. Initial
+	import - not operational.
+
+2001-09-06 16:42  sven
+
+	* admin_panel/tk/quick_record.php: Editor for plain tables (without
+	references) imported - not operative though.
+
+2001-09-06 16:41  sven
+
+	* doc/manual/en/manual.xml: [no log message]
+
+2001-09-06 16:40  sven
+
+	* admin_panel/tk/range_edit.php: tk_range_edit_call(): Calls a view
+	with array of selected keys.
+
+2001-09-06 16:40  sven
+
+	* admin_panel/tk/auto_form.php: List functions take configuration
+	array to override output with own functions. This is not very
+	systematic.
+
+2001-09-06 16:37  sven
+
+	* admin_panel/records.php: _delete(): Error message is printed if
+	there's nothing to delete. This is for range selections.
+
+2001-09-04 20:08  sven
+
+	* dbi/dbdepend.class: define_ext_table(): New field info 'i' adds
+	an indexes for a column.
+
+2001-09-04 20:05  sven
+
+	* admin_panel/tk/record_edit.php: Code cleanup.
+
+2001-09-04 20:04  sven
+
+	* admin_panel/: mime.php, records.php: Added argument checks.
+
+2001-09-04 20:03  sven
+
+	* admin_panel/formviews.php: form_create(): New argument 'retarg'
+	is passed to view 'retview'.
+
+2001-09-04 20:02  sven
+
+	* admin_panel/admin_panel.class: set(): Ignores fields from unnamed
+	sources.
+
+2001-09-04 15:23  sven
+
+	* dbi/dbobj.class: Typed global variables correctly as arrays. APC
+	choked on this.
+
+2001-09-02 21:14  sven
+
+	* doc/manual/en/manual.xml: [no log message]
+
+2001-09-02 16:20  sven
+
+	* admin_panel/records.php: _create(): Jumps to next view aagain.
+	
+	Argument cheching added.
+
+2001-09-02 16:19  sven
+
+	* admin_panel/formviews.php: _form_read(): Adds 'filename' to file
+	elements.
+	
+	form_create(): Returns the key of the created record.
+
+2001-08-31 00:37  sven
+
+	* doc/manual/en/manual.xml: Manual for php libraries added.
+
+2001-08-30 16:03  sven
+
+	* admin_panel/tk/dbisearch.php: form_dbisearch(): Trimmed form
+	elements and commented out record caching until someone complains.
+
+2001-08-28 22:15  sven
+
+	* admin_panel/tk/auto_form.php: tk_autoform_list_results(),
+	tk_autoform_list_search_results(): New argument tells if links
+	should call a module.
+
+2001-08-28 21:14  sven
+
+	* admin_panel/: records.php, tk/dbconf.php: Returning next page
+	function not supported anymore.
+
+2001-08-28 21:06  sven
+
+	* admin_panel/formviews.php: Strict mode correction.
+
+2001-08-27 13:17  sven
+
+	* admin_panel/tk/range_edit.php: Strict mode update.
+
+2001-08-27 13:17  sven
+
+	* admin_panel/records.php: _simple_create(), _create(): Take array
+	with preset values.
+
+2001-08-27 13:16  sven
+
+	* admin_panel/admin_panel.class: value(): Record distinguished
+	record with or without key.
+	
+	cmd_update(): New argument $pre takes preset values of a record.
+
+2001-08-23 02:01  sven
+
+	* admin_panel/tk/range_edit.php: Argh.
+
+2001-08-23 01:59  sven
+
+	* admin_panel/tk/range_edit.php: tk_range_edit_select(): Works the
+	first time.
+	
+	tk_range_edit_do_select(), tk_range_edit_select(),
+	tk_range_edit_unselect(), tk_range_edit_all_selected(): New
+	functions that work also.
+
+2001-08-23 01:56  sven
+
+	* admin_panel/admin_panel.class: close(): Saves record cache to
+	session data. Very funny, that bug. %^(
+
+2001-08-23 01:56  sven
+
+	* admin_panel/formviews.php: form_safe(): Fixed element loop. I
+	can't believe this worked before.
+	
+	record_cache_safe(): Saves record cache to session. Belongs to
+	application dump.
+
+2001-08-22 20:44  sven
+
+	* admin_panel/tk/range_edit.php: tk_range_edit_select(): Form
+	elements are now in $this->elements.
+
+2001-08-21 15:33  sven
+
+	* admin_panel/tk/record_edit.php: Initial import: Editor for
+	records without references.
+
+2001-08-21 13:55  sven
+
+	* admin_panel/admin_panel.class: Turned short link mode off.
+
+2001-08-21 12:20  sven
+
+	* admin_panel/formviews.php: form_safe(): Also works without record
+	keys.
+	
+	form_check(): Works.
+
+2001-08-21 12:19  sven
+
+	* admin_panel/admin_panel.class: show_mime_image(): Minor bug
+	fixed.
+
+2001-08-21 11:26  sven
+
+	* admin_panel/tk/dbisearch.php: Element array now in
+	$this->elements.
+
+2001-08-21 11:25  sven
+
+	* dbi/types.php: type_check(): New function checks format of a
+	value.
+
+2001-08-21 11:25  sven
+
+	* dbi/dbdepend.class: Strict mode correction.
+
+2001-08-21 11:25  sven
+
+	* admin_panel/formviews.php: form_check(): New function checks
+	field formats.
+
+2001-08-21 11:24  sven
+
+	* admin_panel/admin_panel.class: Highlighting now with field
+	granularity.
+
+2001-08-20 06:15  sven
+
+	* admin_panel/: admin_panel.class, records.php, tk/range_edit.php,
+	tk/tree_edit.php, tk/treeview.class: Introduced highlighting of
+	multiple records.
+
+2001-08-20 05:53  sven
+
+	* admin_panel/tk/range_edit.php: Initial import: Range selector for
+	lists.
+
+2001-08-20 05:51  sven
+
+	* admin_panel/formviews.php: form_safe(): Compressed code.
+
+2001-08-20 05:51  sven
+
+	* admin_panel/admin_panel.class: $record_cache: Defined variable in
+	class header for convenience.
+	
+	value(): Compressed code.
+
+2001-08-19 19:05  sven
+
+	* admin_panel/tk/dbisearch.php: [no log message]
+
+2001-08-19 18:36  sven
+
+	* admin_panel/: admin_panel.class, tk/dbconf.php: admin_panel/fh/:
+	directory moved to admin_panel/ssi/.
+
+2001-08-19 18:33  sven
+
+	* admin_panel/: admin_panel.class, formviews.php, records.php,
+	tk/dbconf.php: add_fh_set(): Renamed to add_ssi().
+	
+	set_form_handler(): Renamed to use_ssi().
+	
+	fh_* classes renamed to ssi_*.
+	
+	$_fh_* variables renamed to $_ssi_*.
+
+2001-08-19 17:59  sven
+
+	* dbi/dbsort.php: Code cleanup.
+
+2001-08-19 17:59  sven
+
+	* admin_panel/tk/dbobj_ls.php: tk_dbobj_ls_init(): New function.
+
+2001-08-19 17:58  sven
+
+	* admin_panel/widgets.php: open_cell(): Changed bgcolor.
+
+2001-08-19 17:58  sven
+
+	* admin_panel/admin_panel.class: show(): Now other layout than
+	label().
+
+2001-08-18 02:50  sven
+
+	* admin_panel/tk/dbconf.php: Moved headlines into tables.
+
+2001-08-18 02:09  sven
+
+	* admin_panel/widgets.php: open_table(), tableheaders(): Don't
+	override $attrs argument any more.
+
+2001-08-18 02:09  sven
+
+	* INSTALL: Now shows .htaccess example.
+
+2001-08-18 01:52  sven
+
+	* admin_panel/widgets.php: _get_attrs(): Renamed to _attrs().
+
+2001-08-18 00:26  sven
+
+	* admin_panel/admin_panel.class: headline(): Now works inside
+	tables (like a paragraph).
+
+2001-08-17 21:45  sven
+
+	* admin_panel/: admin_panel.class, records.php, widgets.php: Widget
+	generation moved into widgets.php
+
+2001-08-15 17:02  sven
+
+	* admin_panel/: admin_panel.class, formviews.php, records.php,
+	tk/dbisearch.php: Moved initialisation code into modules.
+
+2001-08-15 16:54  sven
+
+	* admin_panel/: admin_panel.class, formviews.php, records.php,
+	tk/dbisearch.php: _form_create(): Renamed to form_create(). 
+	_form_update(): Renamed to form_update().  _form_search(): Renamed
+	to form_dbisearch().
+
+2001-08-14 17:40  sven
+
+	* admin_panel/formviews.php: _form_create(): Call of view
+	$args['retview'] now optional.
+
+2001-08-14 04:22  sven
+
+	* dbi/dbi.class: fetch_table(): Function removed. Too easy.
+	
+	lock__tables(): Code cleanup.
+
+2001-08-14 04:21  sven
+
+	* admin_panel/tk/dbobj_ls.php: tk_dbobj_ls(): Now adds spaces
+	between items to allow line breaks.
+
+2001-08-07 17:16  sven
+
+	* admin_panel/tk/tree_edit.php: New argument 'no_create' inhibits
+	links for creation of new subnodes.
+
+2001-08-07 17:15  sven
+
+	* admin_panel/admin_panel.class: password(): New function. An
+	inputline for passwords.
+	
+	HTML header is not generated when view 'logout' is called.
+
+2001-08-03 13:08  sven
+
+	* admin_panel/tk/: dbconf.php, fsb.php: Now
+	application::return2caller() is used.
+
+2001-08-03 13:07  sven
+
+	* admin_panel/tk/auto_form.php: tk_autoform_list_results(): Empty
+	cells are filled with a minus sign so links won't disappear if a
+	record is empty.
+
+2001-08-03 13:05  sven
+
+	* admin_panel/formviews.php: _form_create(): New argument 'retview'
+	contains name of view to call after creating a record.
+
+2001-07-18 16:26  sven
+
+	* admin_panel/admin_panel.class: lib/strhead.php3 moved to
+	lib/strhead.php
+
+2001-07-17 18:22  sven
+
+	* admin_panel/tk/tree_edit.php, dbi/dbi.class:
+	s/ref_parent/ref_id/g
+
+2001-07-17 18:21  sven
+
+	* dbi/dbdepend.class: XML style comments converted to classic
+	style.
+	
+	ref_parent(): Function removed. ref_id() does the same.
+
+2001-07-17 18:20  sven
+
+	* dbi/dbwrapper.class: XML style comments made readable.
+
+2001-07-11 22:53  sven
+
+	* admin_panel/tk/: auto_form.php, dbconf.php, dbobj_ls.php,
+	fsb.php, tree_edit.php, treeview.class: Calls to admin_panel
+	function corrected.
+
+2001-07-11 22:51  sven
+
+	* admin_panel/formviews.php: flagbox() code removed.
+
+2001-07-11 22:51  sven
+
+	* admin_panel/admin_panel.class: looselink(): Renamed to
+	_looselink(). Use link() instead.  flagbox(): Removed. Use
+	checkbox() instead.  truefalse(): Renamed to radiobox().
+
+2001-07-11 10:51  sven
+
+	* admin_panel/formviews.php: _read_form(): multicmd-code removed.
+	Rewrote the loop that calls the form functions which now iterates
+	overthe array of form functions and not form elements.
+
+2001-07-11 10:48  sven
+
+	* admin_panel/admin_panel.class: multi_cmd(): Function removed.
+	
+	flagbox(): Function rewritten; works with record cache/form safer.
+
+2001-07-10 03:46  sven
+
+	* admin_panel/tk/auto_form.php: tk_autoform_list_results(): Empty
+	table cells filled with &nbsp;.
+
+2001-07-10 02:36  sven
+
+	* admin_panel/formviews.php: Strict mode correction.
+
+2001-07-10 02:10  sven
+
+	* dbi/dbctrl.class: fetch_array(): Function unused for ages -
+	removed.
+
+2001-07-10 02:10  sven
+
+	* admin_panel/tk/dbisearch.php: Added keyword search through all
+	fields of a table. Just set argument 'mode' to 'all_fields'.
+
+2001-07-10 02:08  sven
+
+	* admin_panel/tk/auto_form.php: /tk_dbdepend/tk_autoform/:
+	Functions renamed.
+	
+	tk_autoform_search_form(): Function removed. Use
+	tk_autoform_create_form() instead.
+
+2001-07-10 02:06  sven
+
+	* admin_panel/: admin_panel.class, formviews.php: Added default
+	form function feature.
+	
+	open_source(): Take form function name and argument array.
+
+2001-07-09 15:58  sven
+
+	* admin_panel/formviews.php: _form_safe(): Uses session data to
+	store cached records.
+
+2001-07-09 15:56  sven
+
+	* dbi/dbsession.class: set_data(): New function to store session
+	data.  data(): New function returns session data.
+
+2001-07-08 17:42  sven
+
+	* admin_panel/formviews.php: _form_safe(): Also keeps empty fields.
+
+2001-07-08 15:27  sven
+
+	* admin_panel/records.php: _delete(): Uses next view instead of
+	last to get back to the right page if the user quits.
+
+2001-07-08 15:06  sven
+
+	* admin_panel/: admin_panel.class, formviews.php: Added form
+	filters which can process all posted elements before the form
+	function is called.
+	
+	admin_panel::use_filter(): New function to specify the filter name
+	for all following form elements.  formviews::_form_safe(): Writes
+	all posted elements to the record cache.
+
+2001-07-07 20:01  sven
+
+	* admin_panel/: admin_panel.class, formviews.php, tk/dbconf.php:
+	Code cleanup.
+
+2001-07-07 00:13  sven
+
+	* admin_panel/admin_panel.class: use_anchor(): Sets anchor for
+	links that point to the same document.
+	
+	no_anchor(): Stops use of anchors.
+
+2001-07-07 00:12  sven
+
+	* admin_panel/tk/: dbconf.php, fsb.php:
+	adminpanel(tk/fsc.php/tk_fsb_init(): New function.
+
+2001-07-06 23:21  sven
+
+	* admin_panel/tk/auto_form.php: Now fields in lists can be selected
+	by argument.
+
+2001-07-06 19:58  sven
+
+	* dbi/dbi.class: append_new(): Variable name corrected.
+
+2001-07-06 19:57  sven
+
+	* admin_panel/tk/auto_form.php: Form generator imported.
+
+2001-07-06 19:22  sven
+
+	* dbi/dbdepend.class: Strict mode update. Default is string type.
+
+2001-07-04 17:09  sven
+
+	* dbi/dbdepend.class: define_ext_table(): New function to define
+	tables together with extra information. Will replace
+	define_table().
+
+2001-07-03 17:56  sven
+
+	* dbi/dbi.class: Now uses new dbi/dbdepend.class functions to get
+	field types.
+
+2001-07-03 17:56  sven
+
+	* dbi/dbdepend.class: type(), exttype(): New functions provide
+	field type information of all or a particular table. Don't touch
+	the internal variables anymore; they're renamed anyway.
+
+2001-06-25 12:57  sven
+
+	* admin_panel/tk/dbconf.php: Empty groups not shown anymore.
+
+2001-06-25 12:27  sven
+
+	* admin_panel/admin_panel.class: checkbox(): Missed angle bracket
+	in hidden field - fixed.
+
+2001-06-25 12:12  sven
+
+	* admin_panel/tk/dbconf.php: tk_dbconf(): New link to file selector
+	page for each item.
+
+2001-06-25 12:10  sven
+
+	* admin_panel/tk/fsb.php: File selector page imported.
+
+2001-06-24 23:32  sven
+
+	* admin_panel/admin_panel.class: Paths corrected.
+
+2001-06-24 23:32  sven
+
+	* admin_panel/: formviews.php, records.php: _form_create():
+	Function moved to formviews.php.
+
+2001-06-24 23:31  sven
+
+	* admin_panel/tk/dbconf.php: Form handler fh_dbconf moved to fh/
+	directory.
+
+2001-06-24 23:29  sven
+
+	* admin_panel/tk/treeview.class: id2path(): Function removed.
+
+2001-06-24 23:00  sven
+
+	* admin_panel/tk/dbobj_ls.php: Typo fixed.
+
+2001-06-24 22:46  sven
+
+	* admin_panel/admin_panel.class: Registered __return_mime too late
+	- fixed. Images now work again.
+
+2001-06-24 22:32  sven
+
+	* admin_panel/tk/dbobj_ls.php: Prepended tk_/_tk to function names.
+
+2001-06-22 12:06  sven
+
+	* dbi/dbconf.class, admin_panel/tk/dbconf.php: set(): Couldn't set
+	is_file and added slashes in data - fixed.
+
+2001-06-21 20:11  sven
+
+	* dbi/types.php: Standard array of data types.
+
+2001-06-21 20:07  sven
+
+	* dbi/dbconf.class: get(): Warning now printed if a file doesn't
+	exist.
+
+2001-06-21 01:47  sven
+
+	* admin_panel/tk/dbconf.php: Layout update. Typo fixed.
+
+2001-06-21 01:45  sven
+
+	* admin_panel/admin_panel.class: checkbox(): New function to switch
+	a form field to 1 or 0.
+	
+	flagbox(): Label now optional and the last argument.
+
+2001-06-21 01:44  sven
+
+	* dbi/dbconf.class: set(): Update code didn't set is_file to 0 -
+	fixed.
+
+2001-06-19 16:44  sven
+
+	* dbi/dbsession.class: dbi/dbsession::define_tables(): Minor bug
+	fixed.
+
+2001-06-19 15:03  sven
+
+	* admin_panel/tk/dbconf.php: Strict-mode correction.
+
+2001-06-19 13:46  sven
+
+	* admin_panel/tk/dbconf.php: dbconf editor added.
+
+2001-06-19 13:44  sven
+
+	* dbi/dbconf.class: Uses new dbdepend.class.
+
+2001-06-19 13:43  sven
+
+	* admin_panel/: admin_panel.class, formviews.php: Strict-mode
+	corrections.
+
+2001-06-19 09:32  sven
+
+	* dbi/dbsession.class: Updated to new dbdepend.class reference
+	management.
+
+2001-06-17 17:33  sven
+
+	* dbi/: dbi.class, dbobj.class: TODOs removed.
+
+2001-06-17 16:59  sven
+
+	* admin_panel/tk/tree_edit.php, admin_panel/tk/treeview.class,
+	dbi/dbi.class: dbi/dbtree::move(): Moved to dbi/dbi::move().
+
+2001-06-17 01:17  sven
+
+	* admin_panel/tk/tree_edit.php, dbi/dbsort.php: Now uses new
+	dbdepend.class.
+
+2001-06-17 01:16  sven
+
+	* admin_panel/admin_panel.class: clear_record_cache(): New
+	function.
+
+2001-06-17 01:15  sven
+
+	* admin_panel/tk/treeview.class: childs_of(): Renamed to
+	_childs_of().
+	
+	id2path(): Function commented off.
+
+2001-06-16 00:26  sven
+
+	* admin_panel/admin_panel.class: tk/dbitools.php renamed to
+	tk/dbisearch.php
+
+2001-06-16 00:02  sven
+
+	* dbi/dbi.class: multi_delete(): Access to internal dbdepend
+	variables fixed.
+
+2001-06-15 23:50  sven
+
+	* dbi/dbi.class: list_column_names(): Function removed.
+
+2001-06-15 23:43  sven
+
+	* dbi/: dbdepend.class, dbi.class, dbobj.class: Internal variables
+	of dbdepend class marked as such by prefixed underlines.
+
+2001-06-15 17:35  sven
+
+	* admin_panel/: admin_panel.class, tk/tree_edit.php: New
+	dbdepend.class reference and primary key API used.
+
+2001-06-15 17:33  sven
+
+	* admin_panel/widgets.php: [no log message]
+
+2001-06-15 17:32  sven
+
+	* dbi/: dbctrl.class, dbdepend.class, dbi.class, dbobj.class: All
+	reference and primary key definitions and functions merged into
+	dbddepend.class.
+
+2001-06-04 02:42  sven
+
+	* admin_panel/admin_panel.class: Required files moved.
+
+2001-06-04 02:31  sven
+
+	* admin_panel/tk/treeview.class: Highlighting fixed.
+
+2001-06-04 02:31  sven
+
+	* dbi/dbdepend.class: Iterators from dbi.class copied into this
+	file (will move!).
+
+2001-06-04 02:30  sven
+
+	* admin_panel/records.php: _form_create(): Now checks if form
+	contains any data and removed empty fields.
+
+2001-06-04 02:28  sven
+
+	* admin_panel/: admin_panel.class, tk/dbisearch.php: Form search
+	fixed.
+
+2001-06-04 02:28  sven
+
+	* admin_panel/README: [no log message]
+
+2001-05-30 16:50  sven
+
+	* admin_panel/formviews.php: _read_form(), _form_update(): Move
+	functions from admin_panel.class to this new file.
+
+2001-05-30 16:47  sven
+
+	* admin_panel/records.php: _simple_create(): New functions creates
+	a record.
+	
+	_form_create(): New form view to create a new record using a form.
+	
+	_create(): Now uses _simple_create() like _form_create() does.
+	
+	_update(): _form_update() moved outside admin_panel.class - fixed.
+
+2001-05-30 16:43  sven
+
+	* admin_panel/tk/dbisearch.php: earch(): Function moved from
+	admin_panel.class to this file.
+	
+	_create_table(), _submit_changes(), make_copy(): Functions removed.
+
+2001-05-30 16:40  sven
+
+	* admin_panel/admin_panel.class: _read_form(), _form_update():
+	Moved to formviews.php.
+	
+	_form_search(): Move to dbitools.php.
+	
+	admin_panel(): Updated reigstration of functions above.
+	
+	open_view(): Nested views get the same index number, so they're
+	sent to a single  form view.
+	
+	fileform(): Compatibility code removed.
+	
+	cmd_update(): Function removed; use submit_button() instead.
+
+2001-05-29 15:23  sven
+
+	* dbi/dbi.class: XML comments added.
+
+2001-05-29 15:11  sven
+
+	* dbi/dbctrl.class: primary(): Returns nothing if table wasn't
+	defined.
+
+2001-05-29 15:10  sven
+
+	* admin_panel/: records.php, tk/tree_edit.php: Highlightning fixed.
+	admin_panel.class::view_id() used.
+
+2001-05-29 15:09  sven
+
+	* admin_panel/admin_panel.class: cmd_defaultview(),
+	cmd_create_table(): Functions removed.
+	
+	open_view(): Only takes a source argument.
+	
+	submit_button(): New function to create a submit button. The form
+	function and destination view is specified using this function.
+
+2001-05-26 20:22  sven
+
+	* admin_panel/admin_panel.class: Search for record from a single
+	source implemented. Forms can have flags.
+	
+	flagbox(): New function creates a checkbox to set a named flag in
+	array $this->formflags, keyed by name containing the flag data.
+	
+	_form_search(): New function triggered by form flag 'do_search'.
+	Seeks for records and writes the first one to the record cache
+	covering the real values for the next view.
+
+2001-05-23 17:20  sven
+
+	* admin_panel/: README, admin_panel.class, records.php: Form
+	handling generalized for coming search function. See new README
+	section for details.
+
+2001-05-22 16:59  sven
+
+	* admin_panel/admin_panel.class: open_view(), open_form(): Code
+	cleanup.
+	
+	open_form(): Takes view and arguments for form name.
+	
+	value(): Now used by all function which formerly access $records
+	array directly.
+	
+	$this->record_cache[source][key][field] overrides database
+	contents, e.g. search results.
+
+2001-05-21 15:29  sven
+
+	* dbi/dbifilemapper.class: File unused and removed.
+
+2001-05-19 23:33  sven
+
+	* dbi/dbwrapper.class: XML documentation added.
+
+2001-05-19 23:24  sven
+
+	* admin_panel/admin_panel.class: get(): Doesn't do list mode by
+	default.
+
+2001-05-18 17:44  sven
+
+	* admin_panel/tk/tree_edit.php: tree_edit(): New field 'nodefunc'
+	in config array specifies the name of the user function to print a
+	node (with args $this_application, $array_of_nodecontents).
+
+2001-05-18 17:42  sven
+
+	* admin_panel/admin_panel.class: _link(): Now any argument that is
+	not an array is cleared without warning.
+
+2001-05-18 17:39  sven
+
+	* dbi/dbi.class: append_new(): Now also works on lists held
+	together by a parent node and no list references.
+
+2001-05-18 17:37  sven
+
+	* dbi/dbctrl.class: is_connected(): Function moved to
+	dbwrapper.class.
+
+2001-05-18 17:33  sven
+
+	* admin_panel/tk/treeview.class: move(): Code cleanup (smaller).
+
+2001-05-17 17:36  sven
+
+	* admin_panel/admin_panel.class: inputline(): Content length not
+	restricted anymore.
+
+2001-05-16 16:16  sven
+
+	* admin_panel/admin_panel.class: _get_attrs(), _get_arg_array():
+	Unused functions - removed.
+
+2001-05-15 18:06  sven
+
+	* dbi/dbctrl.class: primary(): Returns empty string instead of -1
+	if no primary was defined.
+
+2001-05-15 18:04  sven
+
+	* admin_panel/admin_panel.class: textarea(): Variable name
+	collision resolved.
+
+2001-05-15 16:57  sven
+
+	* admin_panel/admin_panel.class: [no log message]
+
+2001-05-14 17:44  sven
+
+	* dbi/dbi.class: column(): Now checks if the primary key of the
+	table is defined and dies if not.
+
+2001-05-14 17:43  sven
+
+	* admin_panel/admin_panel.class: Unused class variable _ownviews
+	removed.
+	
+	close(): Now checks if there still open views which shouldn't
+	happen.
+
+2001-05-11 18:08  sven
+
+	* admin_panel/: admin_panel.class, list_append.php, records.php:
+	Merged tk_list_append() into default record manipulating widgets.
+	
+	tk_register(): Removed.
+	
+	cmd_create(): Arguments changed to $description, $destination_view,
+	$new_key_argname, $parent_record_for_list, $success_message.
+
+2001-05-11 16:07  sven
+
+	* admin_panel/records.php: _create(): Makes use of insert id for
+	higlightning so one can see what record the newly created one is.
+
+2001-05-11 16:06  sven
+
+	* admin_panel/admin_panel.class: create(): Now returns insert id.
+	
+	delete(): Returns error message.
+	
+	open_form(), close_form(): Forms are not nested anymore.
+
+2001-05-11 16:04  sven
+
+	* dbi/dbi.class: create_row(): Error checking added.
+
+2001-05-10 05:32  sven
+
+	* admin_panel/admin_panel.class: Forgot to include new file
+	records.php - fixed.
+
+2001-05-10 05:18  sven
+
+	* dbi/dbobj.class: dbobj(): Checked if row had object reference
+	instead of checking if a reference was defined using set() - fixed.
+
+2001-05-10 04:30  sven
+
+	* admin_panel/: admin_panel.class, list_append.php, records.php,
+	tk/dbisearch.php: Update/delete widgets now use the simplistic form
+	handler interface.
+
+2001-05-10 03:55  sven
+
+	* admin_panel/: README, admin_panel.class, tk/dbisearch.php: Form
+	handler interface simplified. Handlers must be packed into an own
+	class which must be registered using admin_panel::add_fh_set().
+
+2001-05-10 02:22  sven
+
+	* admin_panel/admin_panel.class: show_mime_image(): Function was
+	broken - fixed.
+
+2001-05-10 02:21  sven
+
+	* dbi/dbobj.class: dbobj(): Data cache didn't take care of fields.
+	If something else than '*' is specified for $fields, ',is_local' is
+	appended to the string (or we won't find the object.)
+
+2001-05-10 01:04  sven
+
+	* admin_panel/tk/dbobj_ls.php: Navigator for tree structures added.
+
+2001-05-10 01:04  sven
+
+	* admin_panel/mime.php: __return_mime(): Global function moved into
+	this file.
+
+2001-05-10 01:00  sven
+
+	* admin_panel/README: [no log message]
+
+2001-05-10 00:48  sven
+
+	* admin_panel/admin_panel.class:  function cmd ($desc, $field,
+	$view, $argname = 'id'): Function changed.
+	
+		$argname	: Argument to use to pass the field
+	contents.
+	
+		This function creates a link that calls a application
+	function
+		and passes the content of a field by an argument.
+
+2001-05-10 00:32  sven
+
+	* admin_panel/admin_panel.class: hidden(): Function unused -
+	removed.
+
+2001-05-09 23:50  sven
+
+	* admin_panel/admin_panel.class: Nested view support added. View
+	information is stored in instances of class _admin_panel_view and
+	stacked in an array.
+
+2001-05-09 23:49  sven
+
+	* admin_panel/list_append.php: tk_list_append(): Added check for
+	argument 'id_dest_parent'.
+
+2001-05-08 14:50  sven
+
+	* dbi/dbi.class: dbi::traverse_refs(): Now also passes one
+	reference to the node function. Mostly this is used to pass a
+	reference to the application.class instance.
+
+2001-05-07 10:54  sven
+
+	* dbi/dbwrapper.class: [no log message]
+
+2001-05-07 10:13  sven
+
+	* dbi/dbwrapper.class: Someone know a good book about writing
+	parsers?
+
+2001-05-05 05:32  sven
+
+	* dbi/dbi.class: ref_parent($table): New function returns the field
+	name containing the reference to the parent table if defined by
+	set_ref().
+
+2001-05-05 05:31  sven
+
+	* admin_panel/tk/tree_edit.php: Functions now find references
+	('id_parent', 'id_last', 'id_next') on their own and must not be
+	added to the argument array.  The toolkit is now independent from
+	language definitions. txt_* arguments must now contain the real
+	message. Argument 'txt_unnamed' needs the name of unnamed nodes.
+
+2001-05-05 05:24  sven
+
+	* admin_panel/admin_panel.class: Code cleanup.
+
+2001-05-05 03:28  sven
+
+	* admin_panel/admin_panel.class: filelink($table, $column, $type,
+	$key): New function generates link to raw data.
+	
+		$table/$column/$key = Where to fetch the file from.
+		$type		    = File's MIME type.
+
+2001-05-05 03:05  sven
+
+	* admin_panel/admin_panel.class: Code cleanup.
+	
+	_mime(): Method removed. __return_mime() used instead.
+	
+	_item(): Renamed to _new_formfield().
+
+2001-05-05 01:24  sven
+
+	* admin_panel/admin_panel.class: Now form handlers outside objects
+	are supported.
+
+2001-05-04 18:22  sven
+
+	* dbi/dbi.class: append_new(): New function creates new record at
+	end of doubly linked list.
+
+2001-05-04 18:21  sven
+
+	* dbi/dbctrl.class: More comments.
+
+2001-05-04 18:21  sven
+
+	* admin_panel/list_append.php: Added toolkit to append records to
+	doubly linked lists.
+
+2001-05-04 18:19  sven
+
+	* admin_panel/tk/: treeview.class, tree_edit.php: Removed root node
+	name from function arguments. It's read from the node itself.
+
+2001-05-04 18:18  sven
+
+	* admin_panel/tk/dbisearch.php: dbi views separated from main file.
+
+2001-05-04 18:16  sven
+
+	* admin_panel/: admin_panel.class, widgets.php: Widgets separated
+	from main file.
+
+2001-05-03 21:16  sven
+
+	* admin_panel/tk/treeview.class: Application reference now passed
+	to node views.
+	
+	view(): New argument takes reference to application.
+
+2001-05-03 21:12  sven
+
+	* admin_panel/tk/tree_edit.php: Added tree editor.
+
+2001-05-02 17:50  sven
+
+	* dbi/: dbconf.class, dbctrl.class, dbi.class, dbwrapper.class:
+	Holiday code cleanup.
+
+2001-04-06 23:29  sven
+
+	* dbi/dbobj.class: DBOBJ(): More references used to avoid copying
+	of object data. New argument $fields allows to specify the fields
+	to read from an object. This way you don't need to fetch a whole
+	image of you just need to know the mime type.
+
+2001-04-06 20:51  sven
+
+	* dbi/dbdepend.class: Added directory caches reducing database
+	queries to a third, doubling the program speed.
+
+2001-04-06 20:50  sven
+
+	* dbi/dbwrapper.class: Added query counter for debug mode.
+
+2001-04-04 12:37  sven
+
+	* admin_panel/admin_panel.class, dbi/dbctrl.class, dbi/dbi.class:
+	Code cleanup
+
+2001-04-03 22:08  sven
+
+	* admin_panel/admin_panel.class: Remove current working copy status
+	from header.
+
+2001-04-03 22:02  sven
+
+	* admin_panel/admin_panel.class: open_form(): Strict mode
+	correction. English is spoken.
+
+2001-04-03 19:43  sven
+
+	* admin_panel/tk/treeview.class: view(): Checks if there node at
+	all and returns quietly if not.
+
+2001-04-03 16:59  sven
+
+	* dbi/dbdepend.class: get_childs(): Now works with subdirectory
+	type.
+
+2001-03-28 18:58  sven
+
+	* dbi/dbdepend.class: get_parent_of (): Now changes table/id
+	arguments to new position.  is_parent (): Unused (removed).
+
+2001-03-28 18:33  sven
+
+	* dbi/dbobj.class: Uses new dbdepend.class functions.
+
+2001-03-28 18:30  sven
+
+	* dbi/dbi.class: [no log message]
+
+2001-03-28 18:29  sven
+
+	* dbi/dbdepend.class: New functions get_parent (), get_parent_of
+	(), get_childs (), ref_table () & ref_id (). Local members ref_id &
+	ref_table removed.
+
+2001-03-26 19:34  sven
+
+	* admin_panel/admin_panel.class: Code cleanup.
+
+2001-03-24 18:07  sven
+
+	* admin_panel/admin_panel.class, admin_panel/tk/treeview.class,
+	dbi/dbconf.class, dbi/dbctrl.class, dbi/dbdepend.class,
+	dbi/dbi.class, dbi/dbifilemapper.class, dbi/dbobj.class,
+	dbi/dbsession.class, dbi/dbsort.php, dbi/dbundo.class,
+	dbi/dbwrapper.class: Put source under GNU Public License.
+
+2001-03-19 10:16  sven
+
+	* admin_panel/admin_panel.class: delete(): Confirmation is now
+	reloadable.
+
+2001-03-19 10:10  sven
+
+	* admin_panel/admin_panel.class: confirm(): Converts HTML entities
+	back to standard charset for dialog box.
+
+2001-03-19 08:21  sven
+
+	* admin_panel/admin_panel.class: confirm(): JavaScript confirmation
+	dialog now available.
+
+2001-03-16 15:56  sven
+
+	* admin_panel/admin_panel.class, dbi/dbobj.class: Code cleanup.
+
+2001-03-16 15:56  sven
+
+	* dbi/dbobj.class: assoc(): Doesn't work if is_local or is_public
+	is NULL. Could be that the fields don't get through fetch_array ().
+	To be fixed in time.
+
+2001-03-15 11:10  sven
+
+	* dbi/dbobj.class: Constructor: Didn't flush cache after creation
+	so new objects weren't found.
+
+2001-03-11 13:25  sven
+
+	* dbi/dbsession.class: Column 'time' in db table is now not null.
+
+2001-03-10 14:09  sven
+
+	* dbi/dbobj.class: Added data caching. This is good, because
+	templates are fetches repeatedly in lists.
+
+2001-03-09 18:51  sven
+
+	* dbi/dbsession.class: Upgrade code removed.
+
+2001-03-09 16:44  sven
+
+	* dbi/dbobj.class: Strict mode correction.
+
+2001-03-08 16:23  sven
+
+	* dbi/dbsort.php: Now skips tables which don't contain lists.
+
+2001-03-08 16:23  sven
+
+	* dbi/dbobj.class: Corrections for strict mode.
+
+2001-03-08 16:22  sven
+
+	* dbi/dbi.class: New functions for linked list support added:
+	
+	is_list ($table): Tells if table contains linked lists(!).  prev_of
+	($table): Tells name of column that contains the previous entry's
+	id.  next_of ($table): Tells name of column that contains the next
+	entry's id.
+
+2001-03-08 16:20  sven
+
+	* admin_panel/admin_panel.class: get(): Added new optional boolean
+	argument to traverse lists defined in dbi.class.
+
+2001-03-07 14:45  sven
+
+	* dbi/dbobj.class: Code cleanup.
+
+2001-03-06 15:36  sven
+
+	* dbi/dbobj.class: remove(): Didn't remove properly. Update clause
+	was broken - fixed.
+
+2001-03-05 17:48  sven
+
+	* admin_panel/admin_panel.class: [no log message]
+
+2001-03-05 17:45  sven
+
+	* admin_panel/admin_panel.class: Added attribute arguments to
+	widgets.
+
+2001-03-02 14:52  sven
+
+	* dbi/dbi.class: Remove legal_strpos.php. Now uses === operator
+	instead *sigh*.  I don't like this php stuff too much.
+
+2001-03-02 14:51  sven
+
+	* admin_panel/admin_panel.class: fileform(): Can now store filename
+	to database.
+
+2001-02-21 14:28  sven
+
+	* admin_panel/README: [no log message]
+
+2001-02-12 04:41  sven
+
+	* dbi/dbsession.class: Row time was a wrong datatype - fixed
+	(change from timestamp to int).
+
+2001-02-09 03:26  sven
+
+	* dbi/dbsession.class: Now sessions idle out.
+
+2001-02-08 22:19  sven
+
+	* admin_panel/admin_panel.class: paragraph(): New arguments takes
+	html code to fill in.
+
+2001-02-07 14:05  sven
+
+	* admin_panel/admin_panel.class: Uploaded files always need
+	slashes...
+
+2001-02-06 22:38  sven
+
+	* admin_panel/admin_panel.class: _item(): Record is always added to
+	arguments for form setter.
+
+2001-02-06 22:34  sven
+
+	* dbi/dbctrl.class: update(): Where-clause not optional anymore.
+
+2001-02-06 22:32  sven
+
+	* dbi/dbwrapper.class: In debug mode, queries are converted to html
+	entities before echoing them.
+
+2001-02-03 09:19  sven
+
+	* admin_panel/README: [no log message]
+
+2001-02-03 03:41  sven
+
+	* dbi/dbconf.class: New function exists() checks if a config item
+	exists in the database.
+
+2001-02-03 01:41  sven
+
+	* dbi/: dbctrl.class, dbi.class, dbwrapper.class: Function
+	fetch_array() moved to dbctrl.class. fetch_array() must be a method
+	of DBResult.  Function drop_table() was moved to dbi.class.
+
+2001-02-03 01:36  sven
+
+	* admin_panel/tk/treeview.class, dbi/dbifilemapper.class: Now
+	DBCtrl.class is used instead of DBWrapper.class.
+
+2001-02-02 22:46  sven
+
+	* dbi/dbconf.class: Configuration can now niclude external files.
+	This done with HTML templates.
+
+2001-02-02 22:05  sven
+
+	* dbi/dbconf.class: Simple interface to configuration data.
+
+2001-02-02 21:13  sven
+
+	* dbi/dbundo.class: Still working on it.
+
+2001-02-02 21:03  sven
+
+	* admin_panel/admin_panel.class: Goddamn addslashes() removed from
+	form_update().
+
+2001-02-02 19:20  sven
+
+	* dbi/: dbctrl.class, dbi.class, dbwrapper.class: dbwrapper.class
+	contains only database specific functions. dbctrl.class adds
+	working copy support and a facade for tracking to dbwrapper.class. 
+	dbi.class suppots refereces based on dbctrl.class.
+
+2001-02-02 19:07  sven
+
+	* admin_panel/admin_panel.class: _item (): Record is added to
+	setter's argument.
+
+2001-02-01 00:25  sven
+
+	* dbi/dbobj.class: Debug code removed.
+
+2001-02-01 00:13  sven
+
+	* dbi/dbobj.class: References added.
+
+2001-01-31 21:18  sven
+
+	* dbi/dbi.class: create_row(): Query bug fixed.
+
+2001-01-31 19:01  sven
+
+	* admin_panel/admin_panel.class: show_mime_image(): Appends data
+	size to url to work around the browser cache.
+
+2001-01-30 18:37  sven
+
+	* admin_panel/admin_panel.class: set (): Form setter also take
+	result set.
+
+2001-01-27 21:27  sven
+
+	* dbi/: dbi.class, dbwrapper.class: set_primary(), primary():
+	Functions moved from dbi.class to dbwrapper.class because this
+	functions are needed by dbundo.class which we'll put in between
+	those two.
+
+2001-01-27 20:12  sven
+
+	* dbi/dbsession.class: It is a bad habit that tables are created
+	without a proper definition for dbi class. Thus, create_tables() is
+	replaced by define_tables().
+
+2001-01-27 20:10  sven
+
+	* admin_panel/admin_panel.class: Form setter now must be registered
+	during init so set() can get the object reference by name.
+	
+	add_fh_set(): New function to register an object and to give it a
+	name.
+
+2001-01-27 18:37  sven
+
+	* admin_panel/admin_panel.class: open_table(), close_table(): Now
+	table nesting is checked.
+	
+	link(): Now can be used outside table, so one can avoid the more
+	verbose looselink() function (don't care about the layout).
+
+2001-01-26 14:53  sven
+
+	* dbi/dbwrapper.class: Copyright update.
+	
+	DBWrapper(): Now tries mysql_connect _and_ mysql_pconnect. Errors
+	are not printed anymore.
+	
+	is_connected (): Checks if contructor successfully connected to the
+	database.
+
+2001-01-25 18:39  sven
+
+	* dbi/dbsession.class: create_table(): Error message removed.
+
+2001-01-25 18:38  sven
+
+	* admin_panel/admin_panel.class: get(): Argument now optional.
+
+2001-01-25 16:48  sven
+
+	* admin_panel/admin_panel.class: Form handler support looks ok.
+
+2001-01-25 15:49  sven
+
+	* dbi/dbwrapper.class: Switched back to persisten database
+	connection.
+
+2001-01-25 15:46  sven
+
+	* admin_panel/admin_panel.class: Code cleanup. Going to make data
+	source transparent. ;^)
+
+2001-01-25 14:43  sven
+
+	* admin_panel/admin_panel.class: _path_from(): Unused function
+	removed. Was used to get URL tails before there was an
+	application.class.
+
+2001-01-25 12:37  sven
+
+	* admin_panel/tk/treeview.class, dbi/dbi.class,
+	dbi/dbifilemapper.class, dbi/dbobj.class, dbi/dbsession.class,
+	dbi/dbwrapper.class: New database interface in dbwrapper.class used
+	to support undo and multiple table sets in a single database. At
+	least the functions select(), insert(), update() and delete() in
+	dbwrapper.class are now used instead of query().
+
+2001-01-24 18:38  sven
+
+	* dbi/dbundo.class: Class layout update.
+
+2001-01-24 18:10  sven
+
+	* admin_panel/admin_panel.class, admin_panel/tk/treeview.class,
+	dbi/dbi.class, dbi/dbobj.class: Update to new dbwrapper.class
+	interface for database tracking.
+
+2001-01-24 18:09  sven
+
+	* dbi/dbwrapper.class: select(), insert(), update(), delete(): Use
+	this new functions instead of query() to enable database tracking.
+
+2001-01-24 16:41  sven
+
+	* dbi/dbundo.class: Class layout changed.
+
+2001-01-23 16:03  sven
+
+	* admin_panel/README: First bit of documentation.
+
+2001-01-23 11:31  sven
+
+	* admin_panel/tk/treeview.class, dbi/dbobj.class,
+	dbi/dbsession.class, dbi/dbwrapper.class: Migration to php4.
+
+2001-01-23 08:14  sven
+
+	* admin_panel/admin_panel.class, dbi/dbi.class,
+	dbi/dbwrapper.class: Update to php4 with references.
+
+2001-01-20 21:03  sven
+
+	* admin_panel/admin_panel.class, admin_panel/tk/treeview.class,
+	dbi/dbi.class, dbi/dbobj.class, dbi/dbsession.class: Syntactical
+	cleanup.
+
+2001-01-20 17:33  sven
+
+	* admin_panel/tk/treeview.class: [no log message]
+
+2001-01-20 17:30  sven
+
+	* admin_panel/admin_panel.class: _form_update(): Also checks
+	maqic_quotes_runtime for php3 compatibility.
+
+2001-01-19 13:48  sven
+
+	* dbi/dbsession.class: destroy(): Clears key and id.
+
+2001-01-19 13:42  sven
+
+	* dbi/dbwrapper.class: function_exists (): Says that mysql_pconnect
+	would exist while it doesn't.  Now mysql_connect() is used instead
+	until this problem is fixed on the test server.
+
+2001-01-19 13:39  sven
+
+	* dbi/dbwrapper.class: Only works with eval...
+
+2001-01-19 13:34  sven
+
+	* dbi/dbwrapper.class: DBWrapper_init(): Now checks if
+	mysql_pconnect() exists. This proved useful.
+
+2001-01-17 22:31  sven
+
+	* dbi/dbsession.class: read_id(): Now immediately returns when no
+	key is specified.
+
+2001-01-16 20:43  sven
+
+	* admin_panel/admin_panel.class: _form_update (): Now it's checked
+	if data needs to be slashed using get_magic_quotes_gpc() and the
+	documentation on php.net is updated.
+
+2001-01-15 07:17  sven
+
+	* dbi/dbsession.class: Now using rand () instead of time () for
+	uniqid () seed.
+
+2001-01-12 18:36  sven
+
+	* admin_panel/admin_panel.class: _form_update (): addslashes now
+	done within the sql update statement and nowhere else.
+
+2001-01-12 08:44  sven
+
+	* dbi/dbsession.class: Move member variable initialization into
+	contructor because php4 doesn't support it anymore the old way.
+	
+	destroy (): New function that removes a session from the database.
+
+2000-12-24 14:20  sven
+
+	* dbi/dbwrapper.class: Removed assignment to $debug wariable which
+	turned debugging mode off.
+
+2000-12-24 00:07  sven
+
+	* INSTALL: Aded php4 example.
+
+2000-12-24 00:06  sven
+
+	* admin_panel/admin_panel.class: _mime (): Mime type bug
+	workaround.
+
+2000-12-22 22:21  sven
+
+	* admin_panel/admin_panel.class: Row and cell generation revised -
+	now checks nesting.
+
+2000-12-22 09:15  sven
+
+	* dbi/dbobj.class: Contructor didn't save real table/id in member
+	variables - fixed.  assoc(): Didn't update because the first key of
+	$this->active was '0' - fixed.
+
+2000-12-20 15:55  sven
+
+	* admin_panel/admin_panel.class: _delete(): Erased argument '_next'
+	- fixed.
+
+2000-12-19 13:53  sven
+
+	* dbi/dbwrapper.class: Now uses mysql_query() instead of
+	mysql_db_query().
+
+2000-12-13 20:28  sven
+
+	* admin_panel/admin_panel.class: multi_cmd (): Automatic arguments
+	corrected.
+
+2000-12-13 19:50  sven
+
+	* admin_panel/admin_panel.class: multi_cmd(): New function the
+	triggers a function via a checkbox.
+
+2000-12-10 19:11  sven
+
+	* admin_panel/admin_panel.class: Global variables revised. Unused
+	code removed.
+
+2000-12-08 01:27  sven
+
+	* admin_panel/admin_panel.class: __html_open_table(): Renamed to
+	open_table().
+	
+	_open_form()/_close__form(): Renamed to open_form()/close_form().
+	
+	admin_panel(): Onetime and permanent views introduced.
+
+2000-12-07 18:47  sven
+
+	* dbi/dbsort.php: Comments added.
+
+2000-12-07 15:32  sven
+
+	* dbi/dbobj.class: remove(): Check if object is legal fixed.
+
+2000-12-06 23:11  sven
+
+	* dbi/dbi.class: traverse_path(): Now accumulates the strings
+	returned by the user function and returns them.
+
+2000-12-06 19:39  sven
+
+	* dbi/dbrequire.php: Will write the right perl script for this.
+
+2000-12-05 17:22  sven
+
+	* dbi/dbobj.class: remove(): Now checks if object exists. Formerly
+	all objects of a directory were removed when there was no class
+	specified.
+
+2000-12-05 13:01  sven
+
+	* admin_panel/admin_panel.class: _form_update: Automatic mime type
+	recognition reimplemented.
+
+2000-11-29 13:05  sven
+
+	* admin_panel/admin_panel.class: headline(): Added optional second
+	parameter for size. New layout.
+
+2000-11-10 00:49  sven
+
+	* dbi/dbwrapper.class: No more error messages in
+	DB_result->fetch_array ()
+
+2000-11-09 19:37  sven
+
+	* admin_panel/admin_panel.class: _form_update (): Paniced on empty 
+	- fixed.
+
+2000-11-09 19:36  sven
+
+	* admin_panel/admin_panel.class: Moved assignment to constructor to
+	be php4 compatible.
+
+2000-11-08 15:12  sven
+
+	* dbi/dbwrapper.class: Now uses mysql_pconnect.
+
+2000-11-08 15:11  sven
+
+	* dbi/dbwrapper.class: Removed printing of error messages.
+
+2000-11-07 21:12  sven
+
+	* admin_panel/admin_panel.class: truefalse (): Now using only one
+	form name.
+
+2000-11-07 20:02  sven
+
+	* admin_panel/admin_panel.class: trivial addslashes removed. Magic
+	quotes active?
+
+2000-11-07 18:19  sven
+
+	* admin_panel/admin_panel.class: File upload bug fixed.
+
+2000-11-07 18:05  sven
+
+	* dbi/dbi.class: Optimization is the source of all evil. (Don E.
+	Knuth)
+
+2000-11-03 19:06  sven
+
+	* admin_panel/admin_panel.class: Replaced _form_update () by
+	something easier using tokens, so there's no database information
+	in any page anymore.
+
+2000-11-01 14:53  sven
+
+	* dbi/dbdepend.class: Added array for each table that holds a list
+	of child tables referencing it. Actually used by mod_shop/url.php3
+	to traverse the path passed via http request.
+
+2000-10-28 17:41  sven
+
+	* admin_panel/admin_panel.class, admin_panel/tk/treeview.class,
+	dbi/dbi.class, dbi/dbwrapper.class: Code cleanup.
+
+2000-10-28 02:50  sven
+
+	* dbi/dbobj.class: Fixed key cache bug.
+
+2000-10-28 02:09  sven
+
+	* dbi/dbwrapper.class: Profiler corrected.
+
+2000-10-28 01:46  sven
+
+	* dbi/dbobj.class: Update code removed. Things now much faster.
+
+2000-10-27 15:59  sven
+
+	* dbi/dbsession.class: Oops. Some people will never learn.
+
+2000-10-27 14:57  sven
+
+	* dbi/dbsession.class: SQL tables sped up by use of NOT NULL types
+	and indexes.
+
+2000-10-26 22:53  sven
+
+	* admin_panel/admin_panel.class: _form_update (), fileform (): Now
+	user-defined type-columns are supported.  The name of the typefield
+	is passed using a hidden form field. Works only for single file
+	uploads.  Typecolumns now contain a mime type.
+
+2000-10-26 20:01  sven
+
+	* dbi/dbobj.class: Added cache for object and class keys.
+
+2000-10-26 18:07  sven
+
+	* admin_panel/admin_panel.class: __return_mime (): Removed
+	$typecolumn argument.
+
+2000-10-26 15:24  sven
+
+	* admin_panel/admin_panel.class: Conversion base64 -> binary not
+	needed anymore. Removed.
+
+2000-10-23 02:09  sven
+
+	* dbi/dbsort.php: Initial import. Function for sorting linked lists
+	and trees.
+
+2000-10-20 15:50  sven
+
+	* dbi/dbi.class: define_table (): Skips separate INDEX and KEY
+	definitions which were formerly interpreted like regular column
+	definitions which bogged everything down.
+
+2000-10-17 21:53  sven
+
+	* admin_panel/admin_panel.class: _form_update (): Replaced
+	addslashes by ereg_replace.
+
+2000-10-17 15:29  sven
+
+	* admin_panel/admin_panel.class: _form_update(): Now uses
+	addslashes() to generate queries.
+
+2000-10-16 22:41  sven
+
+	* dbi/dbobj.class: DBOBJ (): new argument $only_active forces
+	skipping inactive objects.
+
+2000-10-16 21:51  sven
+
+	* dbi/dbwrapper.class: Added query profiler for debug mode.
+
+2000-10-16 21:23  sven
+
+	* dbi/dbobj.class: Uses global $no_update.
+
+2000-10-16 20:07  sven
+
+	* dbi/dbobj.class: assoc () bug fixed. Query was empty.
+
+2000-10-13 14:16  sven
+
+	* dbi/dbundo.class: Class layout for undo functionality.
+
+2000-10-12 17:38  sven
+
+	* dbi/dbobj.class: Removed return.
+
+2000-10-12 16:51  sven
+
+	* dbi/dbobj.class: Now returns *every* found object. See
+	$this->active and $this->inactive.
+
+2000-10-11 19:50  sven
+
+	* admin_panel/tk/treeview.class: move(): More verbose error message
+	if id_next is illegal.
+
+2000-10-11 15:57  sven
+
+	* dbi/dbi.class: Added double-linked list support. Define back- and
+	forward references with the new function set_listrefs ($table,
+	$id_last, $id_next).
+
+2000-10-10 23:02  sven
+
+	* admin_panel/tk/treeview.class: Bug in bug fix fixed.
+
+2000-10-10 22:46  sven
+
+	* admin_panel/tk/treeview.class: Evil move() bug fixed. Appended
+	node to itself when re-appending to the list.
+
+2000-10-10 21:36  sven
+
+	* admin_panel/tk/treeview.class: Root node (id == 1) now also
+	viewable.
+
+2000-10-10 21:16  sven
+
+	* admin_panel/tk/treeview.class: Added support for different
+	highlightning colors.
+
+2000-10-09 22:36  sven
+
+	* dbi/dbobj.class: Accidently used DBOBJ->is_local to mark the
+	object 'local'. DBOJB->found_local is now used to determine if the
+	object was *found* local.
+
+2000-10-09 13:42  sven
+
+	* dbi/dbifilemapper.class: Automatic conversion from base64 to
+	binary format.
+
+2000-10-09 13:30  sven
+
+	* admin_panel/admin_panel.class: base64 encoding => binary: format
+	check now perfect.
+
+2000-10-08 17:33  sven
+
+	* admin_panel/admin_panel.class: BLOBs are now converted from
+	base64 to binary format. Remove this later on.
+
+2000-10-08 16:00  sven
+
+	* dbi/dbobj.class: Database queries corrected. Local and public
+	objects up and running.
+
+2000-10-08 15:41  sven
+
+	* dbi/dbobj.class: Exportable objects implemented.
+
+2000-10-07 16:11  sven
+
+	* admin_panel/admin_panel.class: Function hidden() reimplemented to
+	make updates easier.
+
+2000-10-06 14:11  sven
+
+	* admin_panel/admin_panel.class: Queued views reviewed but not
+	really debugged.
+
+2000-10-05 17:28  sven
+
+	* dbi/dbobj.class: Support for local, non-virtual objects added.
+	Upgrading table 'obj_data' is performed automatically but this
+	feature should be removed someday because it's slow.
+
+2000-10-04 23:32  sven
+
+	* admin_panel/admin_panel.class: Set $this->color_highlight to
+	change the highlightning color.  _delete() now links the view
+	specified in $app->args['__last'] on cancel.
+
+2000-10-04 22:02  sven
+
+	* admin_panel/tk/treeview.class: Highlightning enabled.
+
+2000-10-04 21:57  sven
+
+	* admin_panel/admin_panel.class: Record highlightning enabled. See
+	function _delete4real ().
+
+2000-10-04 20:28  sven
+
+	* admin_panel/admin_panel.class: Function _create used $this->app
+	instead of $GLOBALS['app'] - fixed.
+
+2000-10-04 20:11  sven
+
+	* admin_panel/admin_panel.class: WHERE-clause in function get() now
+	optional.
+
+2000-10-04 19:51  sven
+
+	* admin_panel/admin_panel.class: looslink () doesn't needs
+	arguments for a link anymore.
+
+2000-10-04 18:40  sven
+
+	* admin_panel/admin_panel.class: Functions hidden () and datestamp
+	() removed.
+
+2000-10-02 19:04  sven
+
+	* dbi/dbi.class: Added function define_tables ($working_copy) which
+	creates all defined tables.
+
+2000-09-19 16:46  sven
+
+	* dbi/dbrequire.php: Will load php code from the database.
+
+2000-09-18 16:49  sven
+
+	* admin_panel/admin_panel.class: Now uses application.class' global
+	variable $app->link () to create links so this works with php3.
+
+2000-09-15 19:52  sven
+
+	* admin_panel/admin_panel.class: Removed addslashes from database
+	update query in function _form_update.	Somewhere slashes are
+	already added.
+
+2000-09-13 12:34  sven
+
+	* dbi/dbsession.class: Tested with mod_shop and fixed.
+
+2000-09-12 16:08  sven
+
+	* INSTALL: Added current directory to php3_include_path.
+
+2000-09-11 19:17  sven
+
+	* dbi/dbi.class: Now checks if included already.
+
+2000-09-11 19:11  sven
+
+	* dbi/dbsession.class: Functions moved into new class 'DBSESSION'.
+
+2000-09-11 16:04  sven
+
+	* dbi/dbsession.class: As a result of in-depth security discussions
+	the ip check was removed since its quite useless.
+
+2000-09-11 16:03  sven
+
+	* dbi/dbwrapper.class: It's checked again if the file is already
+	included. This time the nice way using 'return'.
+
+2000-09-11 13:02  sven
+
+	* admin_panel/tk/treeview.class, dbi/dbi.class,
+	dbi/dbifilemapper.class, dbi/dbobj.class, dbi/dbwrapper.class,
+	admin_panel/admin_panel.class: New directory structure. local/ is
+	sorted by languags.All pathes changed.
+
+2000-09-11 12:59  sven
+
+	* INSTALL: HOWTO install the php scripts outside the webservers.
+
+2000-09-11 12:12  sven
+
+	* dbi/README: Out of date and removed.
+
+2000-09-10 14:54  sven
+
+	* admin_panel/README: Out of date documentation removed.
+
+2000-09-09 13:18  sven
+
+	* admin_panel/admin_panel.class: Security fix. Uploaded files must
+	now reside in '/tmp' or '/usr/tmp'.
+
+2000-09-01 02:58  sven
+
+	* admin_panel/tk/treeview.class: Display of double linked siblings'
+	order now fully supported if the according references' names to the
+	next and last sibling are given at object construction.  New
+	function move() supports moving branches.
+
+2000-09-01 02:57  sven
+
+	* dbi/dbi.class: New function traverse_refs_from ($table, $id,
+	function) reads out the specified row and calls $function ($table,
+	$row_array). Then it jumps to the row in the row it references and
+	does the same again. Primary keys and references must be specified
+	using set_primary() and set_ref() before.
+
+2000-09-01 02:53  sven
+
+	* admin_panel/admin_panel.class: Background color of html tables'
+	cells now set in each cell to get borders between them when using
+	MS Internet Exploder.  Code which was generating <TD> tags has been
+	replaced by function calls to open_cell() and close_cell().
+
+2000-08-16 03:19  sven
+
+	* admin_panel/admin_panel.class: Database results now referenced by
+	result handle, not the database wrapper.  Public variable 'mark_id'
+	added for higlightning single records in views.  CELLSPACING and
+	CELLPADDING of 2 added to HTML tables.	_path_from() added to
+	correct the local $path array when calling views from views. 
+	Confirm() box added.  Deletion of referencing tables now default. 
+	Font color can be specified for msgbox().  show_ref() displays
+	column contents of referencing rows in any (other) table.  Boolean
+	radio widget truefalse() added.  Lots of comments added.
+
+2000-08-16 03:00  sven
+
+	* dbi/dbwrapper.class: Debug mode off.
+
+2000-08-16 03:00  sven
+
+	* admin_panel/tk/treeview.class: Double linked list support added
+	to enable free ordering with view().
+
+2000-08-16 02:57  sven
+
+	* dbi/dbi.class: Useless inclusion test removed.  Reference support
+	added. New functions set_ref() and set_primary().  multi_delete()
+	deletes a table and referencing tables.  column() fetches a column.
+	 Comments added.
+
+2000-08-16 02:52  sven
+
+	* dbi/dbdepend.class: Test on string fixed.
+
+2000-07-29 16:26  sven
+
+	* dbi/dbsession.class: Fixed session table creation.
+
+2000-07-26 07:42  sven
+
+	* dbi/dbsession.class: Debugged ip watchdog.
+
+2000-07-26 07:41  sven
+
+	* admin_panel/admin_panel.class: Now authentication is forced.
+
+2000-07-26 05:58  sven
+
+	* dbi/dbsession.class: Added session locking to avoid reuse and
+	peeking. See session_lock ().  Remote ip addresses must match using
+	mask 255.255.255.0.
+
+2000-07-26 05:56  sven
+
+	* dbi/dbobj.class: Replaced double quotes by single qutoes.
+
+2000-07-24 17:28  sven
+
+	* admin_panel/admin_panel.class: Replaced double quotes by single
+	ones for little speed-up.
+
+2000-07-24 17:15  sven
+
+	* admin_panel/admin_panel.class: HTML entities now find their way
+	into forms.
+
+2000-07-24 17:14  sven
+
+	* admin_panel/tk/treeview.class, dbi/dbi.class,
+	dbi/dbifilemapper.class, dbi/dbobj.class, dbi/dbsession.class,
+	dbi/dbwrapper.class: Replaced double quotes by single one for
+	little speed-up.
+
+2000-07-05 06:17  sven
+
+	* dbi/dbdepend.class: Whitespaces at file end removed.
+
+2000-07-04 04:36  sven
+
+	* dbi/dbsession.class: uniqid() now fed with time() for numerical
+	keys.
+
+2000-07-02 20:07  sven
+
+	* admin_panel/admin_panel.class, admin_panel/tk/treeview.class,
+	dbi/dbobj.class, dbi/dbsession.class: Checked code line by line.
+	Much new stuff for mod_shop, much unused code removed.
+
+2000-06-21 19:58  sven
+
+	* dbi/dbobj.class: Object creation, association and removal works
+	as expected. The api was completely rewritten and supports three
+	methods. Class DBOBJECT's member variables are accessed directly
+	and the contents are synced to the database from time to time.
+	
+	Objects must be associated to a table column (using the tables'
+	name and the primary key's value). Entries within a column can
+	reference 'parent' table columns - even in other tables, but
+	whenever a table hierarchy comes into play using class DBDEPEND
+	enables objects to be inherited to child tables.
+
+2000-06-21 19:43  sven
+
+	* dbi/dbdepend.class: dbdepend.class describes a hierarchy of
+	tables and is used by dblayout.class and dbobj.class.
+
+2000-06-21 19:41  sven
+
+	* dbi/dbi.class: Found another bug while adding comments.
+	define_table () now creates no more numerical indices. The exploded
+	array was also used as target. Argh! Code that jumped over those
+	entries is removed from all code in dbi-2.0.0 and
+	admin_panel-2.0.0.
+
+2000-06-21 19:39  sven
+
+	* admin_panel/admin_panel.class: Doesn't use eval() anymore but the
+	$function_operator ().
+
+2000-06-01 21:41  sven
+
+	* admin_panel/admin_panel.class: New ctrl chars in source. ;)
+
+2000-06-01 21:33  sven
+
+	* admin_panel/tk/treeview.class, dbi/dbobj.class,
+	dbi/dbwrapper.class: New crtl chars in source. ;)
+
+2000-05-26 04:38  sven
+
+	* dbi/dbobj.class: Associate blobs, tables and files with entries
+	in inter-dependent tables.
+
+2000-05-26 04:35  sven
+
+	* admin_panel/tk/treeview.class: Viewing self-referencing database
+	tables. More to follow.
+
+2000-05-26 04:34  sven
+
+	* dbi/dbsession.class: Simple session key manager.
+
+2000-05-26 04:31  sven
+
+	* dbi/: dbconf.class, dbi.class, dbifilemapper.class,
+	dbwrapper.class: Minor bug fixes.
+
+2000-05-26 04:30  sven
+
+	* admin_panel/admin_panel.class: select_strin () and select_id ()
+	now sets defaults.  cmd_* () functions now display user-defined
+	pages, not only the index.  Minor bug fixes.
+
+2000-05-03 19:00  sven
+
+	* admin_panel/admin_panel.class: _form_update () now uses
+	htmlentities ().
+
+2000-05-03 01:33  sven
+
+	* admin_panel/admin_panel.class: _create_table now creates all
+	defined tebles for the current working copy (see $TABLE_PREFIX)
+
+2000-04-14 04:38  sven
+
+	* admin_panel/admin_panel.class, dbi/dbi.class,
+	dbi/dbifilemapper.class: Debugging.
+
+2000-04-14 03:59  sven
+
+	* dbi/dbifilemapper.class: Now regards $TABLE_PREFIX.
+
+2000-04-14 03:58  sven
+
+	* admin_panel/admin_panel.class, dbi/dbi.class: Debugging as usual.
+
+2000-04-14 03:02  sven
+
+	* dbi/: dbi.class, dbifilemapper.class: Now takes care of
+	TABLE_PREFIX.
+
+2000-04-14 03:02  sven
+
+	* admin_panel/admin_panel.class: show_mime_image () now takes care
+	of TABLE_PREFIX.
+
+2000-04-14 00:38  sven
+
+	* admin_panel/admin_panel.class, dbi/dbi.class: _form_update ()
+	adds file name and type to table if there're collumns with the
+	right names ($itemname ."name" + $itemname ."type") which are
+	ignored otherwise.
+
+2000-04-13 02:38  sven
+
+	* dbi/dbi.class: create_all_tables () handles CREATE TABLE query on
+	its own.
+
+2000-04-13 01:36  sven
+
+	* admin_panel/admin_panel.class: Debug of _form_update and other
+	stuff.
+
+2000-04-12 23:05  sven
+
+	* dbi/dbi.class: Moved form_update () moved to
+	adminpanel-2.0.0/admin_panel.class.
+
+2000-04-12 23:05  sven
+
+	* admin_panel/admin_panel.class: Moved form_update () from
+	dbi-2.0.0/dbi.class into this file.
+
+2000-04-12 19:36  sven
+
+	* admin_panel/admin_panel.class: hidden () didn't use $this->_item
+	().
+
+2000-04-12 19:35  sven
+
+	* dbi/dbi.class: form_update () checks wether an item was submitted
+	or not. If not, the according column is ignored while you still got
+	a chance to clear an entry.
+
+2000-04-12 19:18  sven
+
+	* admin_panel/admin_panel.class: Stupid HTML syntax error fixed.
+
+2000-04-12 17:44  sven
+
+	* admin_panel/admin_panel.class: hidden () and datestamp ()
+	implemented.  select_strings () now uses parameter $desc.
+
+2000-04-09 23:45  sven
+
+	* admin_panel/admin_panel.class: Preview functionality added. See
+	set_preview () and cmd_preview ().
+
+2000-04-09 21:20  sven
+
+	* dbi/: dbi.class, dbifilemapper.class, dbwrapper.class: Cleanup.
+
+2000-04-09 21:08  sven
+
+	* admin_panel/admin_panel.class: select_string () widget added &
+	cleanup.
+
+2000-04-08 13:45  sven
+
+	* dbi/: dbi.class, dbifilemapper.class, dbwrapper.class: Now
+	everything should fetch its configuration from .dbi.conf.
+
+2000-04-07 08:17  sven
+
+	* admin_panel/admin_panel.class: Unified link handling through
+	function _link ().  Working copy's table prefix ready for state
+	retention.  MIME type reader/function show_mime () implemented. 
+	get () didn't set $this->_firstget - fixed.  Default configuration
+	file changed from '$DOCUMENT_ROOT/conf/dbi.conf' to  
+	'./.dbi.conf'.
+
+2000-04-07 08:11  sven
+
+	* dbi/: dbi.class, dbwrapper.class: Working copy's table prefix
+	ready for state retention.
+
+2000-04-07 08:07  sven
+
+	* dbi/dbwrapper.class: Formatting.
+
+2000-04-04 09:00  sven
+
+	* dbi/dbifilemapper.class: Removed debug code.
+
+2000-04-04 08:42  sven
+
+	* dbi/dbifilemapper.class: This script maps its URL path tail to a
+	SQL database table. Just a single function.
+
+2000-04-04 07:22  sven
+
+	* dbi/dbi.class: File uploads are now performed automatically.
+
+2000-04-04 05:38  sven
+
+	* dbi/dbi.class: form_update escapes form items with slashes to
+	avoid sql errors.
+
+2000-04-04 05:07  sven
+
+	* admin_panel/README, admin_panel/admin_panel.class, dbi/README,
+	dbi/dbconf.class, dbi/dbi.class, dbi/dbwrapper.class: Initial
+	revision
+
+2000-04-04 05:07  sven
+
+	* admin_panel/README, admin_panel/admin_panel.class, dbi/README,
+	dbi/dbconf.class, dbi/dbi.class, dbi/dbwrapper.class: First import
+

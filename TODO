@@ -1,0 +1,11 @@
+$Id: TODO,v 1.12 2002/06/14 14:34:17 sven Exp $
+
+Things planned:
+
+    - Containers and iterators.
+    - xml_scanner.class: Validate structure.
+    - Correct XSLT syntax in text/xml.
+    - admin_panel: record cache & highlighting API.
+    - Don't save form elements and user messages in application class.
+    - dbctrl: Check set references.
+    - tk: quick_record, record_edit: Fix.

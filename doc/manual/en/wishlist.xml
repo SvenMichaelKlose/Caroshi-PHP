@@ -1,0 +1,43 @@
+  <!--
+    WISHLIST
+  -->
+
+  <chapter id="sect-wishlist">
+    <title>Wishlist</title>
+    <para>
+      This is a list of things to do and/or nice to have ordered by
+      importance:
+      <itemizedlist>
+
+        <listitem>
+          <para>
+	    Can't check if argument exists.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+	    Undo for forms; multiple layers in record_cache.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+	    Form check.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+	    Locking branches in treeview.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+	    Global undo; tracking queries.
+          </para>
+        </listitem>
+      </itemizedlist>
+    </para>
+  </chapter>

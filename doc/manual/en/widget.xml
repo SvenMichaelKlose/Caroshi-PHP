@@ -1,0 +1,170 @@
+  <!--
+    WIDGET SETS
+  -->
+
+  <chapter id="sect-widget-sets">
+    <title>Widget sets</title>
+    <para>
+      Widget sets are collections of functions that create HTML elements.
+      They're useful to set up pages with a common layout.
+    </para>
+    <para>
+      At the time there's only a native HTML widget set for most block elements
+      which you'll find very useful to print form elements.
+    </para>
+
+    <sect1>
+      <title>Using a widget set</title>
+      <para>
+        Widget set are packed into classes.
+      </para>
+      <sect2 id="func-widget-set">
+        <title>widet_set() constructor</title>
+	<synopsis>
+  object new widget_set ();
+	</synopsis>
+	<programlisting>
+	</programlisting>
+      </sect2>
+      <sect2 id="func-widget-close">
+        <title>close ()</title>
+        <para>
+          Some widget functions might delay output until
+          this function is called. Instead of php's internal function
+	  <ulink url="http://www.php.net/echo">echo ()</ulink> function
+	  <link linkend="func-widget-print">widget_set::print ()</link>
+	  to preserve the right code order.
+        </para>
+      </sect2>
+    </sect1>
+
+    <sect1>
+      <title>Text &amp; paragraphs</title>
+      <sect2 id="func-widget-print">
+        <title>print ()</title>
+        <synopsis>
+  void admin_panel::print ($string);
+        </synopsis>
+        <para>
+	  This function is the replacement for php's internal
+	  <ulink url="http://www.php.net/echo">echo ()</ulink> function
+	  if the class should control the page layout.
+        </para>
+      </sect2>
+      <sect2 id="func-widget-paragraph">
+        <title>paragraph ()</title>
+        <synopsis>
+  void admin_panel::paragraph ($label);
+        </synopsis>
+        <para>
+          paragraph() creates a paragraph with an optional label.
+	  This function doesn't work inside tables.
+        </para>
+
+        <programlisting>
+  $p->paragraph ('&lt;hr&gt;');	# Create paragrph with horizontal ruler.
+        </programlisting>
+      </sect2>
+
+      <sect2 id="func-widget-image">
+        <title>image ()</title>
+        <synopsis>
+void admin_panel::image ($src);
+        </synopsis>
+        <para>
+          Displays an image of MIME type $mime_type. You could store
+          the mime type in another field or use magic2mime().
+        </para>
+      </sect2>
+    </sect1>
+
+    <sect1>
+      <title>Form widgets</title>
+      <para>
+        inputline(), textarea(), checkbox() and radiobox() create
+        their HTML equivalents.
+        fileform() creates a file upload widget, a field for the
+        mime type and original file name can also be specified.
+        select() creates a pop-up-menue.
+      </para>
+
+      <sect2 id="func-widget-inputline">
+        <title>inputline ()</title>
+        <synopsis>
+void widget_set::inputline ($name, $val, $size);
+        </synopsis>
+        <para>
+	  Generates an inputline for field $fieldname, max. $length
+	  characters wide. A $label is optional.
+        </para>
+      </sect2>
+
+      <sect2 id="func-widget-password">
+        <title>password ()</title>
+        <synopsis>
+void widget_set::password ($name, $val, $size);
+        </synopsis>
+        <para>
+	  Like <link linkend="func-ui-inputline">inputline ()</link> but the
+	  user input is not shown on screen.
+        </para>
+      </sect2>
+
+      <sect2 id="func-widget-textarea">
+        <title>textarea ()</title>
+        <synopsis>
+void widget_set::textarea ($name, $cols, $rows, $val);
+        </synopsis>
+        <para>
+        </para>
+      </sect2>
+
+      <sect2 id="func-widget-checkbox">
+        <title>checkbox ()</title>
+        <synopsis>
+void widget_set::checkbox ($name, $val, $current_val);
+        </synopsis>
+        <para>
+        </para>
+      </sect2>
+
+      <sect2 id="func-widget-radiobox">
+        <title>radiobox ()</title>
+        <synopsis>
+void widget_set::radiobox ($name, $label_true, $label_false, $label = '');
+        </synopsis>
+        <para>
+        </para>
+      </sect2>
+
+      <sect2 id="func-widget-select">
+        <title>select ()</title>
+        <synopsis>
+void widget_set::select ($name, $current_val, $options);
+        </synopsis>
+        <para>
+        </para>
+      </sect2>
+
+      <sect2 id="func-widget-fileform">
+        <title>fileform ()</title>
+        <synopsis>
+void widget_set::fileform ($name)
+        </synopsis>
+        <para>
+          The file upload widget allows you to store the file in
+          field $fieldname, the mime type in field $typefield and the
+          file name in field $namefield.
+        </para>
+      </sect2>
+
+      <sect2 id="func-widget-hidden">
+        <title>hidden ()</title>
+        <synopsis>
+void widget_set::hidden ($name, $val);
+        </synopsis>
+        <para>
+        </para>
+      </sect2>
+    </sect1>
+  </chapter>

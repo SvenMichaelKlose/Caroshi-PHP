@@ -1,0 +1,73 @@
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<title>Chapter 14. Template functions</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.29">
+<link rel="home" href="index.html" title="Caroshi">
+<link rel="up" href="index.html" title="Caroshi">
+<link rel="previous" href="ch13s03.html" title="strhead ()">
+<link rel="next" href="ch15.html" title="Chapter 15. Widget sets">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">Chapter 14. Template functions</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="ch13s03.html">Prev</a> </td>
+<th width="60%" align="center"> </th>
+<td width="20%" align="right"> <a href="ch15.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div id="sect-template" class="chapter">
+<div class="titlepage"><div><h2 class="title">
+<a name="sect-template"></a>Chapter 14. Template functions</h2></div></div>
+<div class="toc">
+<p><b>Table of Contents</b></p>
+<dl><dt> <a href="ch14.html#func-quick-template">quick_template ()</a>
+</dt></dl>
+</div>
+<p>
+    </p>
+<div class="sect1">
+<a name="func-quick-template"></a><div class="titlepage"><div><h2 class="title" style="clear: all">
+<a name="func-quick-template"></a><span class="title">quick_template ()</span>
+</h2></div></div>
+<pre class="synopsis">
+string quick_template ($tag_array, $template);
+      </pre>
+<p>
+        This function replaces all tags named like $tag_array's key
+        by the according values in $template and returns it.
+      </p>
+<pre class="programlisting">
+# This example will replace the tag &lt;fubar&gt; by the real meaning of
+# the word.
+$tags = array ('fubar' =&gt; 'fouled up beyond all reason');
+$template = 'Proprietary and closed-source software is mostly &lt;fubar&gt;.';
+echo quick_template ($tags, $template);
+      </pre>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="ch13s03.html">Prev</a> </td>
+<td width="20%" align="center"><a href="index.html">Home</a></td>
+<td width="40%" align="right"> <a href="ch15.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">strhead () </td>
+<td width="20%" align="center"><a href="index.html">Up</a></td>
+<td width="40%" align="right"> Chapter 15. Widget sets</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

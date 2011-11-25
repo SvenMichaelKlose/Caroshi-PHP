@@ -1,0 +1,73 @@
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<title>Installation</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.29">
+<link rel="home" href="index.html" title="Caroshi">
+<link rel="up" href="ch02.html" title="Chapter 2. Getting started">
+<link rel="previous" href="ch02.html" title="Chapter 2. Getting started">
+<link rel="next" href="ch03.html" title="Chapter 3. Database interfaces">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">Installation</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="ch02.html">Prev</a> </td>
+<th width="60%" align="center">Chapter 2. Getting started</th>
+<td width="20%" align="right"> <a href="ch03.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect1">
+<a name="sect-installation"></a><div class="titlepage"><div><h2 class="title" style="clear: all">
+<a name="sect-installation"></a><span class="title">Installation</span>
+</h2></div></div>
+<p>
+        Extract the library to a safe place outside your web-directory
+	(your provider should allow this).
+      </p>
+<p>
+	Create a .htaccess file to
+	place it in the root directory of your webserver which contains the
+	following line:
+      </p>
+<pre class="synopsis">
+  php_value include_path &quot;.:/path_to/caroshi&quot;
+      </pre>
+<p>
+        This allows all php scripts in your webserver to include library
+	files without need to know the particular path where you extracted
+	them.
+      </p>
+<p>
+        On a UNIX box the installation process could look like this:
+      </p>
+<pre class="programlisting">
+cd /web/www.mydomain.com/
+tar xvzf ~/caroshi.tar.gz # Will create directory caroshi/
+echo php_value include_path \&quot;.:`pwd`/caroshi\&quot; &gt;&gt;htdocs/.htaccess
+      </pre>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="ch02.html">Prev</a> </td>
+<td width="20%" align="center"><a href="index.html">Home</a></td>
+<td width="40%" align="right"> <a href="ch03.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">Chapter 2. Getting started </td>
+<td width="20%" align="center"><a href="ch02.html">Up</a></td>
+<td width="40%" align="right"> Chapter 3. Database interfaces</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

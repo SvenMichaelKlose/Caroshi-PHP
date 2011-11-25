@@ -1,0 +1,174 @@
+  <!--
+    ### DATABASE UTILITIES ###
+  -->
+
+  <chapter id="class-dbsession">
+    <title>Session management</title>
+    <para>
+      A lot of applications need state retention. This means they
+      need store some data identified by a key which can be passed
+      by URL, so the script can recover the data.
+      dbi/dbsession.class provides this features.
+    </para>
+    <para>
+      dbsession manages multiple <emphasis>entries</emphasis> identified by
+      a unique name. Any kind of data can be stored in an entry using
+      <link linkend="func-dbsession-set">set()</link> and read using
+      <link linkend="func-dbsession-get">get()</link>.
+      It can also be cleared using
+      <link linkend="func-dbsession-clear">clear()</link>.
+      Different parts of an application should use their oen entry so it
+      couldn't collide with other applications.
+    </para>
+    <para>
+      For the global session, an empty entry name is used.
+    </para>
+
+    <sect1 id="func-dbsession-dbsession">
+      <title>dbsession constructor</title>
+
+      <synopsis>
+object dbsession (&amp;$dbctrl_object, $time_to_live = 1200);
+      </synopsis>
+
+      <para>
+        Constructs a dbsession object.
+      </para>
+    </sect1>
+
+    <sect1 id="func-dbsession-define-tables">
+      <title>define_tables  ()</title>
+
+      <synopsis>
+void define_tables ();
+      </synopsis>
+
+      <para>
+        Defines the session table using the depend.class object
+        referenced by a dbi.class object passed at construction
+        time (reference is found in variable dbi::def).
+      </para>
+    </sect1>
+
+    <sect1 id="func-dbsession-read-id">
+      <title>read_id  ()</title>
+
+      <synopsis>
+int read_id ($session_key);
+      </synopsis>
+
+      <para>
+        Returns the ID of the session identified by $session_key or 0.
+        This function *MUST* be called to initialize an existing
+        session.
+      </para>
+    </sect1>
+
+    <sect1 id="func-dbsession-force-key">
+      <title>force_key ()</title>
+
+      <synopsis>
+string force_key ();
+      </synopsis>
+
+      <para>
+        Creates a new session of none exists.
+      </para>
+    </sect1>
+
+    <sect1 id="func-dbsession-lock">
+      <title>lock ()</title>
+
+      <synopsis>
+void lock ();
+      </synopsis>
+
+      <para>
+        Locks the current session forever.
+      </para>
+    </sect1>
+
+    <sect1 id="func-dbsession-destroy">
+      <title>destroy ()</title>
+
+      <synopsis>
+void destroy ();
+      </synopsis>
+
+      <para>
+        Removes the current session from the session table.
+      </para>
+    </sect1>
+
+    <sect1 id="func-dbsession-key">
+      <title>key ()</title>
+
+      <synopsis>
+string key ();
+      </synopsis>
+
+      <para>
+        Returns the current session key.
+      </para>
+    </sect1>
+
+    <sect1 id="func-dbsession-id">
+      <title>id ()</title>
+      <synopsis>
+string id ();
+      </synopsis>
+      <para>
+        Returns the current session ID.
+      </para>
+    </sect1>
+
+    <sect1 id="func-dbsession-get">
+      <title>get ()</title>
+
+      <synopsis>
+mixed get ($entry);
+      </synopsis>
+
+      <para>
+        Returns the current session data which in a user defined format.
+      </para>
+    </sect1>
+
+    <sect1 id="func-dbsession-set">
+      <title>set ()</title>
+
+      <synopsis>
+void set ($entry, $data);
+      </synopsis>
+
+      <para>
+        Sets the user defined session data which is immediately
+        written to the database and which can be read using
+        data().
+      </para>
+    </sect1>
+ 
+    <sect1 id="func-dbsession-clear">
+      <title>set ()</title>
+
+      <synopsis>
+void clear ($entry);
+      </synopsis>
+
+      <para>
+        Removes entry $entry from the session.
+      </para>
+    </sect1>
+ 
+    <sect1 id="func-dbsession-set-timeout">
+      <title>set_timeout ()</title>
+
+      <synopsis>
+void set_timeout ($seconds);
+      </synopsis>
+
+      <para>
+        Sets idle time allowed to a session before it is killed.
+      </para>
+    </sect1>
+  </chapter>

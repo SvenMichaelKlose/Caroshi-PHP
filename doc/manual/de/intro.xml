@@ -1,0 +1,14 @@
+  <chapter id="intro">
+    <title>Einleitung</title>
+
+    <para>
+      Caroshi <footnote>caroshi: jp. &quot;Tod durch
+      &Uuml;berarbeitung&quot;</footnote>
+      (vormals <emphasis>dev/con php base</emphasis>) ist eine
+      objektorientierte Bibliothek zum entwickeln von PHP Web-Applikationen im
+      traditionellen Programmierstil.
+      Sie enth&auml;lt neben allgemein verwendbaren Funktionen und
+      Datenbankschnittstellen einen event-orientierten Application-Server und
+      ein darauf aufbauendes (HTML-User-Interface).
+    </para>
+  </chapter>

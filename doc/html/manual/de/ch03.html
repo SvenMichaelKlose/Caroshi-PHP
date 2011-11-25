@@ -1,0 +1,135 @@
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<title>Chapter 3. Cursor-Schnittstellen</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.29">
+<link rel="home" href="index.html" title="Caroshi">
+<link rel="up" href="index.html" title="Caroshi">
+<link rel="previous" href="ch02s03.html" title="Weitere Schnittstellen">
+<link rel="next" href="ch03s02.html" title="Cursors serialisieren">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">Chapter 3. Cursor-Schnittstellen</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="ch02s03.html">Prev</a> </td>
+<th width="60%" align="center"> </th>
+<td width="20%" align="right"> <a href="ch03s02.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div id="cursors" class="chapter">
+<div class="titlepage"><div><h2 class="title">
+<a name="cursors"></a>Chapter 3. Cursor-Schnittstellen</h2></div></div>
+<div class="toc">
+<p><b>Table of Contents</b></p>
+<dl>
+<dt> <a href="ch03.html#cursor-sql">SQL-Cursors</a>
+</dt>
+<dt> <a href="ch03s02.html">Cursors serialisieren</a>
+</dt>
+<dt> <a href="ch03s03.html">Mischen von Cursors verschiedener Typen</a>
+</dt>
+</dl>
+</div>
+<p>
+      Die häufigste Art des Zugriffs auf externe Datenquellen wie
+      SQL-DAtenbanken und Dateien ist, neben der Auswahl der abzurufenden
+      Daten, das <i>sequentielle</i> lesen von Datensätzen.
+      Da sich die standardmässig verfügbaren Schnittstellen zum
+      Zugriff auf verschiedene Datenquellen teils völlig unterscheiden
+      wäre eine einheitliche Schnittstelle, zumindest für die
+      nötigsten Operationen wünschenswert. An eine eiheitliche
+      Schnittstelle halten sich die <i>Cursor-Klassen</i> von
+      Caroshi. Cursors sind zudem persistent, also serialisierbar. Ein Cursor
+      mit ausgewählten Datensätzen kann mit Algorithmen bearbeitet
+      werden, welche die Natur der Daten nicht kennen müssen.
+      Weiterhin kann ein ausgelesener Datensatz ebenso transparent modifiziert
+      und zurückgeschrieben werden.
+    </p>
+<div class="sect1">
+<a name="cursor-sql"></a><div class="titlepage"><div><h2 class="title" style="clear: all">
+<a name="cursor-sql"></a><span class="title">SQL-Cursors</span>
+</h2></div></div>
+<p>
+        Als Beispiel verwenden wir den SQL-Cursor der Klasse
+        'cursor_sql'. Um diesen zu konstruieren muss zunächst eine globale
+        Datenverbindung für alle SQL-Cursors festgelegt werden.
+      </p>
+<pre class="programlisting">
+
+$db =&amp; new dbctrl ('localhost', 'mydb', 'sven', 'secret');
+cursor_sql::set_db ($db);
+
+      </pre>
+<p>
+        Ein Cursor kann nun ohne Parameter erzeugt werden:
+      </p>
+<pre class="programlisting">
+
+$c =&amp; new cursor_sql ();
+
+      </pre>
+<p>
+        Nun muss die Datenquelle ('source') festgelegt werden. Bei SQL-Cursors
+        ist dies der Name einer Tabelle aus der gelesen werden soll:
+      </p>
+<pre class="programlisting">
+
+$c-&gt;set_source ('my_table');
+
+      </pre>
+<p>
+        Nun können Datensätze angefordert werden. Die Methode
+        query() erwartet dazu eine WHERE-Klausel (ohne
+        WHERE-Schlüsselwort) und optional eine Teilklausel, z.B.
+        zum sortieren der Records:
+      </p>
+<pre class="programlisting">
+
+$c-&gt;query ('age&lt;23', 'ORDER BY age ASC');
+$c-&gt;query ('age&lt;23');
+
+      </pre>
+<p>
+        Sollen alle Records ausgelesen werden, sind keine Parameter notwendig:
+      </p>
+<pre class="programlisting">
+
+$c-&gt;query ();
+
+      </pre>
+<p>
+        Nun können die angeforderten Elemente einzeln ausgelesen werden:
+      </p>
+<pre class="programlisting">
+
+while ($record =&amp; $c-&gt;get ())
+   debug_dump ($record);
+
+      </pre>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="ch02s03.html">Prev</a> </td>
+<td width="20%" align="center"><a href="index.html">Home</a></td>
+<td width="40%" align="right"> <a href="ch03s02.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">Weitere Schnittstellen </td>
+<td width="20%" align="center"><a href="index.html">Up</a></td>
+<td width="40%" align="right"> Cursors serialisieren</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

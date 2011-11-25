@@ -1,0 +1,37 @@
+  <chapter id="sect-string">
+    <title>String functions</title>
+    <sect1 id="func-germanlig2ascii">
+      <title>germanlig2ascii ()</title>
+      <synopsis>
+string germanlig2ascii ($string);
+      </synopsis>
+      <para>
+        This function translates German special characters 
+        (&auml;, &ouml; and &uuml;) to their ASCII equivalents
+        (ae, oe and ue).
+      </para>
+    </sect1>
+
+    <sect1 id="func-htmllig2latin">
+      <title>htmllig2latin ()</title>
+      <synopsis>
+string htmllig2latin ($string);
+      </synopsis>
+      <para>
+        Does the same like
+        <link linkend="func-germanlig2ascii">germanlig2ascii ()</link>
+        but translates HTML ligatures.
+      </para>
+    </sect1>
+
+    <sect1 id="func-strhead">
+      <title>strhead ()</title>
+      <synopsis>
+boolean strhead ($haystack, $needle);
+      </synopsis>
+      <para>
+        Checks if $haystack starts with $needle and returns 'true'
+        if so.
+      </para>
+    </sect1>
+  </chapter>

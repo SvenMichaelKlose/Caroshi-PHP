@@ -1,0 +1,108 @@
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<title>Chapter 4. SQL-Zugriffe</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.29">
+<link rel="home" href="index.html" title="Caroshi-Tutorial">
+<link rel="up" href="index.html" title="Caroshi-Tutorial">
+<link rel="previous" href="ch03s02.html" title="Ausgabe von Tabellen und Widgets">
+<link rel="next" href="ch04s02.html" title="Definieren der SQL-Tabelle">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">Chapter 4. SQL-Zugriffe</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="ch03s02.html">Prev</a> </td>
+<th width="60%" align="center"> </th>
+<td width="20%" align="right"> <a href="ch04s02.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div id="id2716924" class="chapter">
+<div class="titlepage"><div><h2 class="title">
+<a name="id2716924"></a>Chapter 4. SQL-Zugriffe</h2></div></div>
+<div class="toc">
+<p><b>Table of Contents</b></p>
+<dl>
+<dt> <a href="ch04.html#id2716910">Generische Iterator-Funktionen</a>
+</dt>
+<dt> <a href="ch04s02.html">Definieren der SQL-Tabelle</a>
+</dt>
+<dt> <a href="ch04s03.html">Auflisten von Result-Sets: Die Indexseite</a>
+</dt>
+<dt> <a href="ch04s04.html">Neue SQL-Records per Formular erstellen</a>
+</dt>
+<dt> <a href="ch04s05.html">Loeschen von Datensaetzen</a>
+</dt>
+</dl>
+</div>
+<div class="sect1">
+<a name="id2716910"></a><div class="titlepage"><div><h2 class="title" style="clear: all">
+<a name="id2716910"></a><span class="title">Generische Iterator-Funktionen</span>
+</h2></div></div>
+<p>
+Um Inhalt in ein Formular zu bringen, muessen die Iterator-Funktionen von
+admin_panel bemueht werden. Standardmaessig kommunizieren diese mit
+MySQL-Datenbanken, weshalb wir uns darum nicht gesondert kuemmern muessen.
+Vielmehr kann direkt der Kontext zu einer bestimmten Tabelle hergestellt
+werden. Dazu dient die Funktion open_source(). Mit Hilfe der Funktion
+get() kann dann ein Eintrag ausgewaehlt und ausgelesen werden. Die Felder
+des Datensatzes werden automatisch in Formularelemente gleichen Feldnamens
+eingesetzt, wenn der Kontext nicht durch close_source() geschlossen wird.
+get() kann bieliebig oft in einem Kontext verwendet werden.
+      </p>
+<pre class="programlisting">
+
+  function person_editieren ()
+  {
+    $ui =&amp; admin_panel::instance ();
+    $id = $this-&gt;arg ('id');
+
+    # Ueberschrift ausgeben.
+    $ui-&gt;headline ('Person bearbeiten');
+
+    # SQL-Tabelle 'personen' auswaehlen.
+    $ui-&gt;open_source ('personen');
+
+    # Datensatz mit angegebenem Primaerschluessel auswaehlen.
+    $ui-&gt;query (&quot;WHERE id=$id&quot;);
+
+    # Formular mit Datensatz als Inhalt ausgeben.
+    $this-&gt;personen_formular ();
+
+    # Submitbutton zum aendern des Datensatzes in der Datenbank beim posten
+    # des Formulars erzeugen.
+    $ui-&gt;open_table ();
+    $ui-&gt;submit_button ('Ok', 'form_update', $this-&gt;arg_set_next ());
+    $ui-&gt;close_table ();
+
+    # Kontext schliessen.
+    $ui-&gt;close_source ();
+  }
+
+      </pre>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="ch03s02.html">Prev</a> </td>
+<td width="20%" align="center"><a href="index.html">Home</a></td>
+<td width="40%" align="right"> <a href="ch04s02.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">Ausgabe von Tabellen und Widgets </td>
+<td width="20%" align="center"><a href="index.html">Up</a></td>
+<td width="40%" align="right"> Definieren der SQL-Tabelle</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

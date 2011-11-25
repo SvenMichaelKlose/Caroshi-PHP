@@ -1,0 +1,69 @@
+<?xml version='1.0'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+                  "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+<!ENTITY intro SYSTEM "intro.xml">
+<!ENTITY start SYSTEM "getting_started.xml">
+<!ENTITY dbi SYSTEM "dbi.xml">
+<!ENTITY cursor SYSTEM "cursor.xml">
+<!ENTITY application SYSTEM "application.xml">
+<!ENTITY admin_panel SYSTEM "admin_panel.xml">
+<!ENTITY toolkits SYSTEM "toolkits.xml">
+<!ENTITY date SYSTEM "date.xml">
+<!ENTITY file SYSTEM "file.xml">
+<!ENTITY http SYSTEM "http.xml">
+<!ENTITY mail SYSTEM "mail.xml">
+<!ENTITY session SYSTEM "session.xml">
+<!ENTITY string SYSTEM "string.xml">
+<!ENTITY template SYSTEM "template.xml">
+<!ENTITY widget SYSTEM "widget.xml">
+<!ENTITY bugs SYSTEM "bugs.xml">
+<!ENTITY wishlist SYSTEM "wishlist.xml">
+]>
+
+<book>
+  <bookinfo>
+    <title>Caroshi</title>
+    <author>
+      <firstname>Sven</firstname>
+      <surname>Klose</surname>
+      <affiliation>
+        <address><email>sven@devcon.net</email></address>
+      </affiliation>
+    </author>
+
+    <copyright>
+      <year>2001, 2002</year>
+      <holder>dev/consulting GmbH, Sven Klose</holder>
+    </copyright>
+
+    <abstract>
+      <para>
+        Programming web-applications with the Caroshi library.
+      </para>
+      <para>
+<![CDATA[
+$Id: manual.xml,v 1.44 2002/06/23 16:09:46 sven Exp $
+]]>
+      </para>
+    </abstract>
+  </bookinfo>
+
+  &intro;
+  &start;
+  &dbi;
+  &cursor;
+  &application;
+  &admin_panel;
+  &toolkits;
+  &date;
+  &file;
+  &http;
+  &mail;
+  &session;
+  &string;
+  &template;
+  &widget;
+  &bugs;
+  &wishlist;
+
+</book>

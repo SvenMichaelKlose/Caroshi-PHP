@@ -1,0 +1,504 @@
+$Id: CHANGES,v 1.59.2.1 2002/08/24 23:14:16 sven Exp $
+
+For more details see file ChangeLog or generate it with cvs2cl if missing.
+
+0.2.0:
+
+   Created new stable branch.
+
+0.1.14:
+
+   admin_panel/admin_panel.class:
+     - open_form(): Don't set default form-event if there is none passed
+       by argument.
+
+   admin_panel/formviews.php:
+     - form_parser(): Save filtered elements to element array
+       (see also admin_panel::use_element_filters ()).
+     - form_check(): This function now uses Perl-compatible regular
+       expressions for its checks. The dbdepend object is not used any
+       longer.
+
+   admin_panel/records.php:
+     - record_create_set(): Fixed creation of new cursor.
+
+   proc/application.class:
+     - Force a new session if not already exists.
+
+   proc/debug_dump.php:
+     - debug_dump(): Do not modify the displayed array (did a ksort and the
+       data to dump was passed by reference).
+
+proc/libinfo.php moved to the root directory.
+
+0.1.13:
+
+   admin_panel/admin_panel.class:
+     - use_element_filters(): New function allows to define separate
+       form filters for element reads and writes (so called 'element filters').
+
+   container/:
+     - New experimental section brings you a container and iterator superclass
+       and real containers for PHP arrays.
+
+   cursor/cursor.class.php:
+     - Result sets are restored after unserialisation.
+
+   doc/manual/de:
+     - Updated.
+
+   proc/application.class:
+     - close() doesn't stop program execution anymore.
+
+   Added parameter type checks to a lot of functions and methods.
+
+0.1.12:
+
+  admin_panel/records.php:
+    - record_update(): Highlight event context.
+
+  admin_panel/util.php:
+    - Added some useful function to register event handlers list-wise.
+
+  admin_panel/tk/autoform/autoform.php:
+    - tk_autoform_list_cursor(): Try to get field list from application's
+      dbdepend object.
+
+  admin_panel/tk/dbisearch.php:
+    - Created new directory admin_panel/tk/dbisearch.
+
+  admin_panel/tk/dbisearch/dbisearch.php:
+    - tk_dbisearch(): No limit if there's no initial offset and no initial
+      limit.
+    - tk_dbisearch_has_result(): Fixed check if there was a query.
+
+  admin_panel/tk/dbisearch.php:
+    - tk_dbisearch_browse(): New widget to browse search results page-wise.
+    - tk_dbisearch_has_result(): Fixed check if there was a query.
+
+  admin_panel/tk/dbisearch/browse.php:
+    - Instroduced new widget to browse search results page-wise.
+
+  object/error.class.php:
+    - Introduced error object.
+
+  object/is_error.php:
+    - is_error(): New function checks if a variable contains an error object.
+
+  proc/application.class:
+    - call_single(): Output document header for null event handler by default.
+    - set_null_handler(): New function sets the default null event handler
+      (use if not 'defaultview').
+
+  require_once() is now used instead of require().
+
+0.1.11:
+
+  admin_panel/admin_panel.class:
+    - set_default_formevent(): New function sets the default event for the
+      current form context. This is very practical when using
+      admin_panel/tk_template.php.
+    - API reference info added.
+    - admin_panel.class: open_context(): Die if Argument is not a cursor.
+    - url(): Doesn't overwrite existing context in event.
+
+  admin_panel/records.php:
+    - record_delete(): Event argument 'key' is not used any longer.
+
+  admin_panel/widgets.php:
+    - textarea(): Virtually wrap text.
+
+  admin_panel/tk/dbisearch.php:
+    - tk_dbisearch(): Search over multiple tables. Now always returns a
+      cursor_merged object.
+    - tk_dbisearch_get_resultview(): Renamed to tk_dbisearch_get_result().
+      Returns a cursor_merged object that contains the last search result.
+    - tk_dbisearch_has_results(): Tests on cursor, not admin_panel context.
+    - Take ORDER clause for sorted results.
+    - Class tk_dbisearch_query: Variable 'sources' removed.
+
+  admin_panel/tk/autoform/autoform.php:
+    - tk_autoform_create_widget(): Die if there's no dbdepend definition
+      for a field.
+    - tk_autoform_list_results(): Renamed to tk_autoform_list_cursor().
+      Added new argument '$cursor'. The context cursor is not used any
+      longer. Multiple sources can be configured separately, so this also
+      works with cursor_merged object with different sources.
+
+  admin_panel/tk/autoform/ext/dbisearch.php:
+    - tk_autoform_list_search_results(): Use new tk_dbisearch result functions.
+
+  cursor/cursor.class.php:
+    - current(): Bugfix: Now works more than once on a record.
+    - get(): Now saves the fetched record for all cursor types.
+
+  cursor/merged.class.php:
+    - New cursor virtually merges an array of cursors.
+
+  dbi/dbtoken.class.php:
+    - dbtoken(): Use is_a() instead of is_object for argument checks.
+    - set_timeout(): New function sets the timeout for all tokens in seconds.
+    - write(): Bugfix: Add slashes to data before write to database.
+
+  doc/:
+    - Updated directory layout.
+    - Removed outdated manual sections.
+    - Added manual in German lingo.
+    - API reference now include procedural modules.
+
+  object/singleton.class:
+    - Inteface changed. Every derived class must now call the constructor and
+      overload method instance().
+
+  proc/application.class:
+    - set_timeout(): New function sets the timeout for all session and event
+      data.
+    - Member variable $path removed.
+
+  proc/debug_dump.php:
+    - Don't get stuck in infinite loop when NULL value is dumped.
+
+  proc/event.class.php:
+    - event() not dies if handler name is not a string.
+
+  Files now start with '<?php' instead of '<?'.
+
+0.1.10:
+
+  View objects in application class are now called 'event'. View functions
+  are called event handlers.
+
+  proc/view.class.php:
+    - Renamed to event.class.php
+    - arg(): New function gets an argument.
+    - set_arg(): New function sets an argument.
+
+  proc/application.class:
+    - view(): Renamed to event().
+    - call_view(): Renamed to call().
+    - call_single_view(): Renamed to call_single().
+
+  admin_panel/admin_panel.class:
+    - open_source(), close_source():
+      Replaced by open_context() and close_context(). Now
+      open_form()/close_form() must be used explicitly.
+    - open_context(): New function opens a new context using cursor
+      passed as the argument.  close_source(): New function returns to
+      the former context if any.
+    - set_field(), query(), get(): Functions removed. Use get_cursor()
+      instead.
+    - open_form(): Now takes a default event to call if form is posted
+      without a submuit button carrying an own event.
+
+  admin_panel/tk/autoform:tk_autoform_create_widget():
+    - Order of lookup in foureign table can be defined using an SQL ORDER
+      clause.
+    - Use of form widgets can be inhibited using constant TK_AUTOFORM_NO_INPUT.
+      TK_AUTOFORM_LABELS makes function print descriptive labels.
+
+  Since code tells more than a 1000 words, here's an example of an event
+  handler that lists names in a table that can be updated and deleted:
+
+  # version 0.1.9
+  function view_function (&$this)
+  {
+     $p =& admin_panel::instance ();
+
+     $v =& new view ('record_update');
+     $v->set_next ($this->view ());
+
+     $p->open_source ('my_table', $v);
+
+     $p->query (); # Query all records.
+
+     while ($p->get ()) {
+        $p->open_row ();
+
+        $p->inputline ('name'); # Print inputline for field 'name'.
+
+        # Create link to delete the current entry.
+        $e =& new event ('record_delete');
+        $e->set_next ($this->event ());
+        $p->link ('Diesen Eintrag loeschen', $e);
+
+        $p->close_row ();
+     }
+     $p->paragraph ();
+     $p->submit_button ('Save', $v);
+     $p->close_source ();
+  }
+
+  # version 0.1.10
+  function event_handler (&$this)
+  {  
+     $p =& admin_panel::instance ();
+
+     # Create cursor and query all entries in table 'my_table'.
+     $c =& new cursor_sql ();
+     $c->set_source ('meine_tabelle');
+     $c->query (); # Alle Eintraege abfragen.
+
+     # Create form context.
+     $p->open_context ($c);
+
+     # Create event to save the form.
+     $ue =& new event ('record_update');
+     $ue->set_next ($this->view ());
+
+     $p->open_form ($ue);
+ 
+     $p->open_table ();
+     while ($c->get ()) { # !!! We use the cursor here. !!!
+        $p->open_row ();
+
+        $p->inputline ('name');
+
+        # Create link to delete the current entry.
+        $e =& new event ('record_delete');
+        $e->set_next ($this->event ());
+        $p->link ('Diesen Eintrag loeschen', $e);
+
+        $p->close_row ();
+     }
+     $p->paragraph ();
+     $p->submit_button ('Save', $ue);
+     $p->close_table ();
+
+     $p->close_form ();
+     $p->close_context ();
+  }
+
+0.1.9:
+
+  cursor/cursor.php.class:
+    - All cursors must provide a method named 'size' which returns the number
+      of records in a set.
+
+  admin_panel/tk/dbisearch.php:
+    - tk_dbisearch(): Now uses sql cursor for search.
+      Takes single tk_dbisearch_query object as an argument.
+    - tk_dbisearch_get_query_object(): Returns query object used in last
+      search.
+    - Search result can be windowed (limit and offset) for browsing.
+    - tk_dbisearch_has_result(): Didn't return TK_DBISEARCH_NOT_FOUND - fixed.
+
+  admin_panel/widgets.php:
+    - Messagebox textcolor can be set in widgets::color['msgbox_text'].
+
+  admin_panel/tk/autoform/:
+    - Fixed lookup widget for reference to foureign table.
+
+  dbi/dbresult.class.php:
+    - fetch_array(): Function renamed to get().
+
+0.1.8:
+
+  dbi/dbsession.class:
+    - unset(): Updates database after unset.
+    - force_key(): Inserts session key again.
+
+  proc/application.class:
+    - add_viewfunc(): Method renamed to add_function().
+    - add_view(): Method renamed to add_method().
+
+  doc/*:
+    Updated to new application class layout.
+
+0.1.7:
+
+  proc/application.class:
+    - Initialize token table name if not specified in configuration file.
+
+0.1.6:
+
+  cursor/sql.class.php:
+    - _query(): Add WHERE keyword to query so the user doesn't have to.
+    - set(): Dies if field doesn't exist.
+
+  admin_panel/tk/autoform/autoform.php:
+    - Fixed bug in label print.
+
+  admin_panel/tk/dbisearch.php:
+    - Form data is trimmed before search.
+
+  dbi/dbitoken.class.php:
+    - set_table (): Sets name of the sql table that contains the tokens.
+
+  proc/application.class:
+    - 'application_token_table': New optional variable in configuration file
+       takes the name of the token table.
+    - 'application_session_table': New optional variable in configuration file
+       takes the name of the sql table where sessions are stored..
+
+0.1.5:
+
+  proc/application.class:
+    - args(): New function returns array of current view's arguments.
+
+  admin_panel/formviews.php:
+    - form_update(): Take list of fields that must be ignored via optional
+      argument 'ignored_elements'.
+
+  admin_panel/tk/autoform/
+    - Widget generation fixed. (dbdepend descriptions work again.)
+
+  admin_panel/tk/
+    - Minor bug fixes.
+
+0.1.4:
+
+  New view objects replace function name/argument pairs. Setup of batched
+  calls and calls of subsessions are now much easier to define and read.
+  Arguments of all functions that need link information have changed.
+
+  proc/application.class:
+  proc/view.class.php (new file):
+    - arg_set_next(), arg_set_caller(): Functions removed.
+    - Tokenizer now public (dbi/dbtoken.class.php).
+    - Session management cleaned up.
+    - call_view() detects infinite loops.
+
+  proc/application.class:
+    - view(): New function returns view object of current function.
+    - call_single_view(): New function calls a view without batching.
+
+  doc/
+    - Creadits updated. :)
+    - Moved some API reference into source.
+
+  dbi/
+    - Unused classes dbundo and dbchk removed.
+    - dbitoken: New tokenizer class.
+    - dbresult: Own file SQL result set class.
+
+  dbi/dbctrl.class:
+    - get_working_copy(): Rename to table_prefix().
+    - set_working_copy(): Rename to set_table_prefix().
+
+  admin_panel/admin_panel.class:
+    - cmd(), cmd_delete(): Methods removed.
+
+  admin_panel/records.php:
+    - record_delete(): Check for next view object and there if there's none.
+    - record_delete_force(): New function kills records without user
+      confirmation.
+
+  object/singleton.class.php:
+    - Added new base class for singletons.
+
+  string/htmllig2latin.php:
+    - Use PHP's internal (and complete) translation table.
+
+  Added PHPDoc comments to sources and removed API reference from the
+  user manual.
+
+0.1.3:
+
+  admin_panel/record.php:
+    - record_create(): Didn't work without source set - fixed.
+
+  admin_panel/tk/autoform/autoform.php
+    - tk_autoform_create_widget(): New function creates a single widget with
+      optional label.
+
+0.1.2:
+
+  text/xml/scanner.class:
+    - Prints debug dumps of erroraneous templates.
+
+  cursor/cursor.class.php:
+    - Added getter and setter functions.
+
+  admin_panel/admin_panel.class:
+    - header(): New function prints document header instead of constructor.
+
+  doc/tutorial/de:
+    - Added working examples.
+
+  Various bugs fixed.
+
+0.1.1:
+
+  admin_panel/admin_panel.class:
+    - paragraph() works in nested tables.
+    - headline(), msgbox() open and close cells automatically.
+    - get_ssi(): Renamed to get_cursor().
+    - set_ssi(): Renamed to set_cursor().
+    - open_widget(), close_widget(): New methods for dynamic table cells.
+
+  admin_panel/records.php, admin_panel/formviews.php:
+    - Only print user messages defined in array application::record_messages
+      (experimental).
+    - record_init(): Set English messages by default.
+    - record_delete(): Take list of cursors (experimental).
+    - record_create()/form_create(): Unified arguments.
+
+  admin_panel/records.php:
+    - record_create(), record_delete(), record_update(): Documented functions
+      in manual.
+
+  admin_panel/formviews.php:
+    - form_has_content(): New function checks if a form contains any data.
+
+  admin_panel/tk/autoform/ext/dbisearch.php:
+    - tk_autoform_list_search_results(): Return status of last search.
+
+  admin_panel/tk/dbisearch.php:
+    - tk_dbisearch(): Take new argument 'not_all' so the complete record
+      set is not listed if it comes to an empty query.
+
+  admin_panel/tk/range_edit.php:
+    Moved to admin_panel/tk/range_edit/range_edit.php.
+
+  admin_panel/tk/*:
+    - Toolkits now work with user-defined start_view()/end_view() function
+      which print user defined HTML headers and footers.
+
+  proc/application.class:
+    - call_view(): Call start_view() before and end_view() after calling a
+      view, if it is not an internal view of class application or marked as
+      raw. Return return value of called function.
+    - new_token(): Takes one of three constants - TOKEN_DEFAULT; TOKEN_ONEIMTE
+      or TOKEN_REUSE - as token type.
+    - arg(): If argument is not set, nothing is returned.
+
+  proc/debug_dump.php:
+    - debug_dump(): Also print objects.
+
+  cursor/cursor.class.php:
+    - factory(): New static method creates an instance of a cursor type.
+
+  cursor/sql.class.php:
+    - Use specified order in query.
+
+  dbi/dbsession.class:
+    - sid(): Method removed.
+
+  doc/*:
+    Many updates.
+
+  SSIs are now called cursors.
+
+0.1.0 (backward-incompatible):
+
+  Changes since release 0.0.6:
+
+  General:
+    - Layout of application.class, admin_panel.class and toolkits and
+      SSIs changed.
+    - Changed directory layout.
+    - Fixed major bugs in dbi/*.
+    - Major code cleanups.
+
+  Generic secondary storage interfaces:
+    - SSI (generic data interface) now independent from admin_panel.
+    - Simplified SSI methods - no do-while loops required anymore.
+
+  User interface:
+    - admin_panel is now a singleton class (see admin_panel::instance()).
+    - Moved all HTML printing from admin_panel to default widget set.
+    - admin_panel: Form element lookup by name.
+    - Fixed table nesting.
+
+  User interface toolkits:
+    - tk_dbisearch rewritten - can search in multiple tables at once.

@@ -1,0 +1,72 @@
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<title>Cursors serialisieren</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.29">
+<link rel="home" href="index.html" title="Caroshi">
+<link rel="up" href="ch03.html" title="Chapter 3. Cursor-Schnittstellen">
+<link rel="previous" href="ch03.html" title="Chapter 3. Cursor-Schnittstellen">
+<link rel="next" href="ch03s03.html" title="Mischen von Cursors verschiedener Typen">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">Cursors serialisieren</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="ch03.html">Prev</a> </td>
+<th width="60%" align="center">Chapter 3. Cursor-Schnittstellen</th>
+<td width="20%" align="right"> <a href="ch03s03.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect1">
+<a name="cursor-serialisieren"></a><div class="titlepage"><div><h2 class="title" style="clear: all">
+<a name="cursor-serialisieren"></a><span class="title">Cursors serialisieren</span>
+</h2></div></div>
+<p>
+        Cursors können serialisiert werden, um einen Satz von Records
+        ohne Rücksicht auf die Art der Datenquelle zu transportieren und
+        generische Algorithmen auf sie anwenden zu können.
+      </p>
+<pre class="programlisting">
+
+$c-&gt;query ('age&lt;23');
+$s = serialize ($c);
+
+      </pre>
+<p>
+        Ein serialisierter Cursor kann z.B. in einer SQL-Datenbank abgelegt
+        werden, wovon das User-Interface regen Gebrauch macht.
+        Zu beachten ist bei SQL-Cursors, das vor den unserialisieren die
+        globale Datenverbindung gesetzt sein muss.
+      </p>
+<pre class="programlisting">
+
+$c = unserialize ($sc);
+while ($record =&amp; $c-&gt;get ())
+   debug_dump ($record);
+
+      </pre>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="ch03.html">Prev</a> </td>
+<td width="20%" align="center"><a href="index.html">Home</a></td>
+<td width="40%" align="right"> <a href="ch03s03.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">Chapter 3. Cursor-Schnittstellen </td>
+<td width="20%" align="center"><a href="ch03.html">Up</a></td>
+<td width="40%" align="right"> Mischen von Cursors verschiedener Typen</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

@@ -1,0 +1,600 @@
+<?xml version='1.0'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+                  "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+
+<book>
+  <bookinfo>
+    <title>Caroshi-Tutorial</title>
+    <author>
+      <firstname>Sven</firstname>
+      <surname>Klose</surname>
+      <affiliation>
+        <address><email>sven@devcon.net</email></address>
+      </affiliation>
+    </author>
+
+    <copyright>
+      <year>2001</year>
+      <holder>dev/consulting GmbH, Sven Klose</holder>
+    </copyright>
+
+    <abstract>
+      <para>
+        Schritt-f&uuml;r-Schritt-Einf&uuml;hrung ind die Programmierung von
+	Webanwendungen mit Hilfe von Caroshi.
+      </para>
+      <para>
+<![CDATA[
+$Id: manual.xml,v 1.4 2002/06/23 16:09:46 sven Exp $
+]]>
+      </para>
+    </abstract>
+  </bookinfo>
+
+  <chapter id="intro">
+    <title>Allgemeines</title>
+    <para>
+      Dieses Tutorial erkl&auml;rt Schritt f&uuml;r Schritt die Programmierung
+      einer Webanwendung mit Hilfe von Caroshi. Erfahrungen in der
+      Programmierung von php-Skripten und einfacher SQL-Statements wird
+      vorausgesetzt. S&auml;mtliche ben&ouml;tigten Informationen &uuml;ber
+      diese Bereiche sind im
+      <ulink linkend="http://www.php.net/manual/de/">deutschsprachigen
+      php-Handbuch</ulink> nachzulesen.
+    </para>
+  </chapter>
+
+  <chapter id="class-application">
+    <title>Die Applikationsklasse</title>
+    <para>
+- URL-Behandlung
+- Session-Verwaltung
+- Messaging per Zufallsschluessel
+- Funktionsaufrufe via URL und Namen von Submit-Buttons, auch verkettet.
+- 
+
+http://www.copei.de/index.php/7675298663c612a213f48c900/
+
+      Anwendungen muessen von der Klasse application abgeleitet werden und
+      diese um mindestens drei Funktionen erweitern.
+    </para>
+    <sect1>
+      <title>init ()</title>
+      <para>
+   Die Funktion init() dient der
+Initialisierung des Programms; z.B. muss application mitgeteilt werden, welche
+Klassenmethoden oder Funktionen per URL aufgerufen werden koennen und es
+koennen externe Module eingebunden und initialisiert werden.
+      </para>
+    </sect1>
+    <sect1>
+      <title>defaultview ()</title>
+      <para>
+Wurde keine aufzurufende Funktion oder Methode in der URL angegeben, wird stets
+die Funktion defaultview () in der abgeleiteten Klasse aufgerufen. Eine per
+URL aufrufbare Funktion kommt die Aufgabe der Seitengenerierung zu und wird
+'view' bezeichnet.
+      </para>
+    </sect1>
+    <sect1>
+      <title>close ()</title>
+      <para>
+Diese Funktion wird nach beenden der 'view'-Funktion(en) oder Methode(n)
+aufgerufen. Wichtige Informationen koennen innerhalb dieser Funktion gerettet,
+oder zum beispiel ein Standard-Seitenende ausgegeben werden.
+      </para>
+    </sect1>
+    <sect1>
+      <title>application Beispiel</title>
+        <para>
+Hier das Beispiel helloworld.class
+        </para>
+      <para>
+<ulink url="01_hello_world.php">Beispielanwendung</ulink>
+<ulink url="01_hello_world.php.txt">(Quelltext)</ulink>
+      </para>
+
+      <para>
+defaultview() gibt hier einfach die Zeichenkette "Hello world!" aus und das
+Programm wird beendet. Beim ersten start einer application werden jedoch
+zunaechst neue SQL-Tabellen angelegt. Erscheint eine entsprechende Meldung
+reicht ein Reload, oder es trat ein Problem auf.
+      </para>
+    </sect1>
+    <sect1>
+      <title>View-Funktionen</title>
+      <para>
+Eine andere Funktion als defaultview() kann nur ueber eine von Klasse
+application erzeugte URL aufgerufen werden. Dazu muss der Name der Funktion
+und evtl. eine Referenz auf dessen Klasse mit add_view() oder add_viewfunc()
+registriert werden.
+      </para>
+      <para>
+Jedem view kann ein Array von Argumenten uebergeben werden. Die Namen der
+Schluessel sollten jedoch nicht mit einem Unterstrich '_' beginnen, da sie
+sonst Gefahr laufen mit internen Daten der Bibliothek zu kollidieren.
+Views selbst lesen Argumente mit Hilfe der Getter-Funktion application::arg()
+aus:
+      </para>
+
+      <para>
+<ulink url="02_hello_world_linked.php">Beispielanwendung</ulink>
+<ulink url="02_hello_world_linked.php.txt">(Quelltext)</ulink>
+      </para>
+    </sect1>
+  </chapter>
+  <chapter>
+    <title>Die web-basierte Benutzeroberflaeche</title>
+    <para>
+HTML-Code innerhalb von Funktionen sind eine verwirrende Sache, die den Code
+schwer lesbar machen. Viel von diesem Code wiederholt sich, z.B. fuer
+Eingabezeilen und Knoepfe. Meist reicht, wie bei einer "richtigen"
+Fensteroberflaeche, ein Satz an Standard-Elementen, die sich durch
+Funktionsaufrufe in Tabellen platzieren lassen.
+Interagiert der Benutzer mit den Oberflaechenelementen, so
+muessen enstehende oder eingehende Daten in einem einheitlichen Format an das
+Programm gesendet werden. Genau dies leistet die Klasse admin_panel
+(panel (engl.) -> Schaltflaeche). Sie bietet eine "fette Schnittstelle" zu
+vielen kleineren Klassen, die sich um die HTML-Ausgabe, das einlesen von
+Formularen, und die Kommunikation mit externen Datenquellen wie
+SQL-Datenbanken, kuemmern. Mensch kann diese Klassen auch getrennt von
+admin_panel verwenden, sie erlaubt jedoch die Anwendung der Klassen im
+gegenseitigen Kontext, d.h. wenn beispielsweise ein Datensatz aus einer
+Datenbank gelesen wurde, so werden Formularfelder mit diesen Daten
+automatisch gefuellt, falls der entsprechende Feldname innerhalb des gelesenen
+Datensatzes angegeben wurde - der gelesene Datensatz kann ohne weiteres durch
+geaenderten Formularinhalt ersetzt werden, indem es an eine
+Standard-Formfunktion gesendet wird. Auch Befehlsknoepfe koennen
+kontextbezogen in Formularen platziert werden, z.B. zum loeschen, doch
+dazu spaeter mehr.
+     </para>
+     <sect1>
+       <title>Initialisieren von admin_panel</title>
+       <para>
+Um admin_panel zu verwenden, muss zun&auml;chst eine Instanz der Klasse 
+erzeugt werden.  Das geschieht am besten
+innerhalb der init()-Funktion. admin_panel muss im Gegenzug eine Referenz
+zur Anwendung uebergeben werden - auch wenn es in objektorientierten
+Ueberzeugungstaetern mordphantasien ausloest, sieht das dann so aus:
+       </para>
+       <programlisting>
+<![CDATA[
+  function init ()
+  {
+    # admin_panel ist eine Singleton-Klasse und darf nur 1x an
+    # admin_panel::instance uebergeben werden.
+    admin_panel::instance (new admin_panel ($this, 'Personeneditor'));
+  }
+]]>
+       </programlisting>
+       <para>
+Innerhalb der close()-Funktion muss auch admin_panel beendet werden, damit die
+HTML-Seite vervollstaendigt werden kann.
+       </para>
+       <programlisting>
+<![CDATA[
+  function close ()
+  {
+    $ui =& admin_panel::instance ();
+    $ui->close ();
+  }
+]]>
+       </programlisting>
+       <para>
+Der Anfang der HTML-Seite wird automatisch, mit dem ueber den Konstruktor
+angegebenen Titel, ausgegeben, wenn man admin_panel nicht davon abhaelt.
+Da wir keine externen HTML-Templates einbinden wollen, laesst sich damit
+durchaus leben.
+Innerhalb des views koennen die Widget-Funktionen von admin_panel verwendet
+werden. Sie umfassen einfachen Text, Erklaerungen, Ueberschriften, Warnungen,
+Formularelemente, Check- und Radioboxen und natuerlich Tabellen.
+       </para>
+
+        <para>
+<ulink url="03_ui.php">Beispielanwendung</ulink>
+<ulink url="03_ui.php.txt">(Quelltext)</ulink>
+       </para>
+     </sect1>
+     <sect1>
+       <title>Ausgabe von Tabellen und Widgets</title>
+       <para>
+Hier ein Beispiel zum erstellen eines Formulars mit Daten zu einer einzelnen
+Person:
+       </para>
+       <programlisting>
+<![CDATA[
+  function person_formular ()
+  [
+    $ui =& admin_panel::instance ();
+
+    $felder = array ('Name' => 'name', 'Vorname' => 'vorname',
+                     'Email' => 'email', 'Fon' => 'fon', 'Fax' => 'fax');
+    $p->open_table ();
+    foreach ($felder as $beschreibung => $feldname) {
+      $ui->open_row ();
+      $ui->label ($beschreibung);
+      $ui->inputline ($feldname);
+      $ui->close_row ();
+    }
+    $p->close_table ();
+  }
+]]>
+       </programlisting>
+       <para>
+Diese Funktion gibt fuenf Eingabezeilen mit Beschriftung zeilenweise in einer
+eigenen Tabelle aus. Sie wird mehrfach wiederverwendet - obwohl ihr keine
+Argumente uebergeben werden. Ruft man sie von defaultview() aus auf,
+funktioniert die Ausgabe anstandslos. Tabellenzellen werden automatisch
+geoeffnet und geschlossen. Tabellenzeilen wurden hier mit open_row() und
+close_row() manuell gesteuert, da diese sonst ebenfalls automatisch fuer
+jedes Widget erzeugt, und diese dann eine ganze Zeile beanspruchen, wuerden.
+       </para>
+       <para>
+Nachdem init() und close() angepasst wurden, kann die Funktion mit einer neuen
+defaultview()-Funktion getestet werden:
+       </para>
+
+       <programlisting>
+<![CDATA[
+  function defaultview ()
+  {
+    $ui =& admin_panel::instance ();
+
+    $ui->open_form ();
+    $this->person_formular ();
+    $ui->close_form ();
+  }
+]]>
+        </programlisting>
+
+      <para>
+<ulink url="04_form_in_table.php">Beispielanwendung</ulink>
+<ulink url="04_form_in_table.php.txt">(Quelltext)</ulink>
+      </para>
+    </sect1>
+  </chapter>
+  <chapter>
+    <title>SQL-Zugriffe</title>
+    <sect1>
+      <title>Generische Iterator-Funktionen</title>
+      <para>
+Um Inhalt in ein Formular zu bringen, muessen die Iterator-Funktionen von
+admin_panel bemueht werden. Standardmaessig kommunizieren diese mit
+MySQL-Datenbanken, weshalb wir uns darum nicht gesondert kuemmern muessen.
+Vielmehr kann direkt der Kontext zu einer bestimmten Tabelle hergestellt
+werden. Dazu dient die Funktion open_source(). Mit Hilfe der Funktion
+get() kann dann ein Eintrag ausgewaehlt und ausgelesen werden. Die Felder
+des Datensatzes werden automatisch in Formularelemente gleichen Feldnamens
+eingesetzt, wenn der Kontext nicht durch close_source() geschlossen wird.
+get() kann bieliebig oft in einem Kontext verwendet werden.
+      </para>
+      <programlisting>
+<![CDATA[
+  function person_editieren ()
+  {
+    $ui =& admin_panel::instance ();
+    $id = $this->arg ('id');
+
+    # Ueberschrift ausgeben.
+    $ui->headline ('Person bearbeiten');
+
+    # SQL-Tabelle 'personen' auswaehlen.
+    $ui->open_source ('personen');
+
+    # Datensatz mit angegebenem Primaerschluessel auswaehlen.
+    $ui->query ("WHERE id=$id");
+
+    # Formular mit Datensatz als Inhalt ausgeben.
+    $this->personen_formular ();
+
+    # Submitbutton zum aendern des Datensatzes in der Datenbank beim posten
+    # des Formulars erzeugen.
+    $ui->open_table ();
+    $ui->submit_button ('Ok', 'form_update', $this->arg_set_next ());
+    $ui->close_table ();
+
+    # Kontext schliessen.
+    $ui->close_source ();
+  }
+]]>
+      </programlisting>
+    </sect1>
+    <sect1>
+      <title>Definieren der SQL-Tabelle</title>
+      <para>
+Damit ein Datensatz einer bestimmten Position in der Quelle zugeordnet werden
+kann, muss dieser einen einmaligen Schluessel enthalten. Im Falle unserer
+SQL-Datenbank benoetigt die Tabelle einen Primaerschluessel und
+admin_panel muss herausfinden koennen wie dieser heisst. Saemtliche Programme
+verwenden dazu die automatisch von Klasse application erzeugte Instanz von
+Klasse dbdepend, welche als Mitgliedsvariable 'def' der gemeinsam
+verwendeten Datenbankschnittstelle zur verf&uuml;gung steht ($this->db->def).
+      </para>
+      <para>
+dbdepend fasst auch ganze Beschreibungen von Tabellen und deren Felder,
+und bietet darauf basiernde und hilfreiche Funktionen,
+z.B. zur Tabellenerstellung oder zum manipulieren von Baumstrukturen.
+Diese wollen wir uns zunutze machen und definieren die Tabelle 'personen'
+zusaetzlich zum Primaerschluessel mit Feldnamen und Typen.
+      </para>
+      <para>
+Wieder ist die init()-Funktion der beste Ort, um unsere Tabelle zu definieren.
+In der folgenden Version wird die Tabelle auch, zusammen mit einem ersten
+Eintrag, erstellt.
+      </para>
+
+      <programlisting>
+<![CDATA[
+  function init ()
+  {
+    $db =& $this->db;
+    $def =& $db->def;
+
+    # Definiere Tabelle 'personen' mit Feldnamen und SQL-Typ.
+    $def->define_table (
+      'personen',
+      array (array ('n' => 'id',
+                    't' => 'INT NOT NULL AUTO_INCREMENT PRIMARY KEY'),
+             array ('n' => 'name',
+	            't' => 'VARCHAR(255) NOT NULL'),
+             array ('n' => 'vorname',
+	            't' => 'VARCHAR(255) NOT NULL'),
+             array ('n' => 'email',
+	            't' => 'VARCHAR(255) NOT NULL'),
+             array ('n' => 'fon',
+	            't' => 'VARCHAR(255) NOT NULL'),
+             array ('n' => 'fax',
+	            't' => 'VARCHAR(255) NOT NULL'))
+    );
+    # Name des Primaerschluessels angeben.
+    $def->set_primary ('personen', 'id');
+
+    # Leeren Personeneintrag mit ID 1 erstellen, falls dieser nicht existiert.
+    $res = $db->select ('*', 'personen', 'id=1');
+    if ($res->num_rows () < 1) {
+      $db->create_tables (); # Vorsichtshalber Tabelle erstellen.
+      $db->create_row ('personen');
+    }
+
+    # Funktion 'person_editieren' als View definieren.
+    $this->add_view ($this, 'person_editieren');
+
+    admin_panel::instnace (new admin_panel ($this, 'Personendatenbank'));
+  }
+
+  function defaultview ()
+  {
+    $ui =& admin-panel::instance ();
+
+    $ui->link ('Link zum Formular des ersten Datensatzes',
+               'person_editieren', array ('id' => 1));
+  }
+]]>
+      </programlisting>
+
+      <para>
+<ulink url="05_form_edit.php">Beispielanwendung</ulink>
+<ulink url="05_form_edit.php.txt">(Quelltext)</ulink>
+      </para>
+    </sect1>
+    <sect1>
+      <title>Auflisten von Result-Sets: Die Indexseite</title>
+      <para>
+Hier ein Beispiel fuer die Ausgabe aller Personendaten in unserer Datenbank:
+      </para>
+
+      <programlisting>
+<![CDATA[
+  function defaultview ()
+  {
+    $ui =& admin_panel::instance ();
+
+    $ui->headline ('&Uuml;bersicht der Personen');
+    $ui->open_table ();
+    $ui->open_source ('personen');
+    if ($ui->query ('')) }
+      while ($row =& $i->get ()) [
+        $arg = array ('id' => $row['id']);
+        $ui->open_row ();
+        foreach (array ('name', 'vorname', 'email', 'fon', 'fax') as $feldname)
+          $ui->link ($row[$feldname], 'person_editieren', $arg);
+        $ui->close_row ();
+      }
+    } else
+      $ui->print_text ('Keine Eintr&auml;ge vorhanden.');
+    $ui->close_table ();
+    $ui->close_source ();
+  }
+]]>
+      </programlisting>
+
+      <para>
+<ulink url="06_list.php">Beispielanwendung</ulink>
+<ulink url="06_list.php.txt">(Quelltext)</ulink>
+      </para>
+    </sect1>
+    <sect1>
+      <title>Neue SQL-Records per Formular erstellen</title>
+      <para>
+Sendet man ein Datensatzformular an das Standardview 'form_create', wird
+ein neuer Datensatz mit entsprechendem Inhalt erstellt.
+      </para>
+
+      <programlisting>
+<![CDATA[
+  function person_erstellen ()
+  {
+    $ui =& admin_panel::instance ();
+    $id = $this->arg ('id');
+
+    $ui->headline ('Person erstellen');
+    $ui->open_source ('personen');
+    $this->personen_formular ();
+    $ui->open_table ();
+    $arg = array ('retview' => 'person_editieren',
+                  'retarg' => 'id');
+    $ui->submit_button ('Eintrag erstellen', 'form_create', $arg);
+    $ui->close_table ();
+    $ui->close_source ();
+  }
+]]>
+      </programlisting>
+
+      <para>
+Die neuen Felder werden im Formular automatisch hervorgehoben.
+      </para>
+
+      <para>
+<ulink url="07_form_create.php">Beispielanwendung</ulink>
+<ulink url="07_form_create.php.txt">(Quelltext)</ulink>
+      </para>
+    </sect1>
+    <sect1>
+      <title>Loeschen von Datensaetzen</title>
+      <para>
+Das hervorheben ausgewaehlter Felder einer bestimmten Herkunft ist ein Feature
+von admin_panel. Wir fuegen einen Link zum loeschen eines Eintrags zu
+personen_editieren() hinzu. Dieser verweist auf die Datensatzfunktion
+'record_delete' welche eine Auswahlbox ausgibt, und danach zur Uebersicht
+der Personen springt: der zu loeschende Eintrag wird auch hier optisch
+hervorgehoben. Wir hoffen die meisten koennen mit schweinchenrosa leben.
+      </para>
+
+      <para>
+<ulink url="08_delete.php">Beispielanwendung</ulink>
+<ulink url="08_delete.php.txt">(Quelltext)</ulink>
+      </para>
+    </sect1>
+  </chapter>
+  <chapter>
+    <title>Erweiterungen der Benutzeroeberfl&auml;che</title>
+    <sect1>
+      <title>Mehrere Datensaetze loeschen</title>
+
+      <para>
+Das loeschen einzelner Eintrage kann langweilig werden. Unter zuhilfenahme
+des Toolkits tk_range_edit lassen sich jedoch einzelne Eintrage mit Markern
+versehen. Die Schluessel ausgewaehlter Eintraege koennen an bestimmte Views
+uebergeben werden. Der Standard-View 'record_delete' versteht gluecklicherweise
+auch Arrays von Schluesseln zum loeschen mehrerer Datensaetze.
+      </para>
+
+      <para>
+Im Grunde genommen beschraenkt sich das einbinden der Bereichsauswahl auf
+das initialisieren des Toolkits in init(), dem erzeugen eines Markers fuer
+jeden Record mit frei gewaehltem aber gleichem Namen und dem erstellen von
+Links, um Kommandos aufzurufen. Dies tun wir in der &Uuml;bersicht der
+Records in 'defaultview':
+      </para>
+
+      <para>
+<ulink url="09_delete_group.php">Beispielanwendung</ulink>
+<ulink url="09_delete_group.php.txt">(Quelltext)</ulink>
+      </para>
+    </sect1>
+    <sect1>
+      <title>Volltextsuche</title>
+      <para>
+bla
+      </para>
+    </sect1>
+    <sect1>
+      <title>Automatisches generien von Formularen</title>
+      <para>
+Der Aufruf von
+      </para>
+
+      <programlisting>
+<![CDATA[
+  $this->personen_formular ();
+]]>
+      </programlisting>
+
+      <para>
+laesst sich ersetzen durch
+      </para>
+
+      <programlisting>
+<![CDATA[
+  tk_autoform_create_form ($this, 'source');
+]]>
+      </programlisting>
+
+      <para>
+und fuehrt zum gleichen Resultat, wenn die Beschreibungen der Feldnamen in
+die Datenbankbeschreibung eingetragen und die automatische Ausgabe des
+Primarschluessels unterdrueckt wird.
+      </para>
+
+      <programlisting>
+<![CDATA[
+    # Definiere Tabelle 'personen' mit Feldnamen und SQL-Typ.
+    $def->define_table (
+      'personen',
+      array (array ('n' => 'id',
+                    'autoform' => 'hide', # Keine automatisches Widget erzeugen.
+                    't' => 'INT NOT NULL AUTO_INCREMENT PRIMARY KEY'),
+             array ('n' => 'name',
+	            'd' => 'Name',
+	            't' => 'VARCHAR(255) NOT NULL'),
+             array ('n' => 'vorname',
+	            'd' => 'Vorname',
+	            't' => 'VARCHAR(255) NOT NULL'),
+             array ('n' => 'email',
+	            'd' => 'E-Mail',
+	            't' => 'VARCHAR(255) NOT NULL'),
+             array ('n' => 'fon',
+	            'd' => 'Fon',
+	            't' => 'VARCHAR(255) NOT NULL'),
+             array ('n' => 'fax',
+	            'd' => 'Fax',
+	            't' => 'VARCHAR(255) NOT NULL'))
+    );
+]]>
+      </programlisting>
+ 
+      <para>
+Nun kann personen_formular() entfernt werden.
+      </para>
+    </sect1>
+    <sect1>
+      <title>Leere SQL-Record via Link erstellen</title>
+      <para>
+Wie bereits behauptet koennen Kommandos im Kontext zu Datensaetzen generiert
+werden. In unserem Fall bestehen wir auf entsprechende Links, welche fuer
+das erstellen und entfernen von Eintraegen sorgen koennen.
+admin_panel bietet zum erstellen von Eintraegen das Widget cmd_create,
+welches einen Link zum View 'record_create' erzeugt. Nach erstellen des
+Datensatzes kehrt dieser View zur aufrufenden Seite zurueck.
+      </para>
+
+      <programlisting>
+<![CDATA[
+  function defaultview ()
+  {
+    $ui =& admin_panel::instance ();
+
+    $ui->open_table ();
+    $ui->cmd_create ('Eintrag erstellen');
+    $ui->close_table ();
+    ...
+]]>
+      </programlisting>
+
+      <para>
+Dieses Widget ist nur in wenig anspruchsvollen Situationen nuetzlich. Schoener
+ist es, wenn gleich zur Bearbeitungsseite des Views 'person_editieren'
+verzweigt wird. Dafuer lohnt es sich 'record_create' direkt aufzurufen, um
+spezielle Argumente zu uebergeben.
+      </para>
+
+      <programlisting>
+<![CDATA[
+    $arg = array ('retview' => 'person_editieren',
+                  'retarg' => 'id');
+    $ui->link ('Eintrag erstellen', 'record_create', $arg);
+]]>
+       </programlisting>
+     </sect1>
+   </chapter>
+</book>

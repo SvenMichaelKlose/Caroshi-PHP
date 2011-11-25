@@ -1,0 +1,67 @@
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<title>Calling functions in a subsession</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.29">
+<link rel="home" href="index.html" title="Caroshi">
+<link rel="up" href="ch05.html" title="Chapter 5. Application base class">
+<link rel="previous" href="ch05s03.html" title="Registering and invoking page functions">
+<link rel="next" href="ch05s05.html" title="Subsession arguments">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">Calling functions in a subsession</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="ch05s03.html">Prev</a> </td>
+<th width="60%" align="center">Chapter 5. Application base class</th>
+<td width="20%" align="right"> <a href="ch05s05.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect1">
+<a name="id2715107"></a><div class="titlepage"><div><h2 class="title" style="clear: all">
+<a name="id2715107"></a><span class="title">Calling functions in a subsession</span>
+</h2></div></div>
+<p>
+        At the time you've implemented a generic set of functions
+        for regular reuse you'd like to pack them into a module
+        which can be called like a single page function.
+        It would also be nice if the called function could return to
+        the caller without actually knowing its name or arguments.
+      </p>
+<p>
+        application.class provides such mechanisms: A function
+        can be &quot;called&quot; (in matters of returning to the
+        caller later on) by marking the arguments to the called
+        function using view::set_caller().
+      </p>
+<p>
+        In case you need sessions that live on outside modules, access
+        the application's
+        <a href="ch12.html">dbsession instance</a> in
+        member variable application::session.
+      </p>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="ch05s03.html">Prev</a> </td>
+<td width="20%" align="center"><a href="index.html">Home</a></td>
+<td width="40%" align="right"> <a href="ch05s05.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">Registering and invoking page functions </td>
+<td width="20%" align="center"><a href="ch05.html">Up</a></td>
+<td width="40%" align="right"> Subsession arguments</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

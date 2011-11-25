@@ -1,0 +1,142 @@
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<title>Form widgets</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.29">
+<link rel="home" href="index.html" title="Caroshi">
+<link rel="up" href="ch15.html" title="Chapter 15. Widget sets">
+<link rel="previous" href="ch15s02.html" title="Text &amp; paragraphs">
+<link rel="next" href="ch16.html" title="Chapter 16. Known bugs">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">Form widgets</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="ch15s02.html">Prev</a> </td>
+<th width="60%" align="center">Chapter 15. Widget sets</th>
+<td width="20%" align="right"> <a href="ch16.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect1">
+<a name="id2779251"></a><div class="titlepage"><div><h2 class="title" style="clear: all">
+<a name="id2779251"></a><span class="title">Form widgets</span>
+</h2></div></div>
+<p>
+        inputline(), textarea(), checkbox() and radiobox() create
+        their HTML equivalents.
+        fileform() creates a file upload widget, a field for the
+        mime type and original file name can also be specified.
+        select() creates a pop-up-menue.
+      </p>
+<div class="sect2">
+<a name="func-widget-inputline"></a><div class="titlepage"><div><h3 class="title">
+<a name="func-widget-inputline"></a><span class="title">inputline ()</span>
+</h3></div></div>
+<pre class="synopsis">
+void widget_set::inputline ($name, $val, $size);
+        </pre>
+<p>
+	  Generates an inputline for field $fieldname, max. $length
+	  characters wide. A $label is optional.
+        </p>
+</div>
+<div class="sect2">
+<a name="func-widget-password"></a><div class="titlepage"><div><h3 class="title">
+<a name="func-widget-password"></a><span class="title">password ()</span>
+</h3></div></div>
+<pre class="synopsis">
+void widget_set::password ($name, $val, $size);
+        </pre>
+<p>
+	  Like <a href="#">inputline ()</a> but the
+	  user input is not shown on screen.
+        </p>
+</div>
+<div class="sect2">
+<a name="func-widget-textarea"></a><div class="titlepage"><div><h3 class="title">
+<a name="func-widget-textarea"></a><span class="title">textarea ()</span>
+</h3></div></div>
+<pre class="synopsis">
+void widget_set::textarea ($name, $cols, $rows, $val);
+        </pre>
+<p>
+        </p>
+</div>
+<div class="sect2">
+<a name="func-widget-checkbox"></a><div class="titlepage"><div><h3 class="title">
+<a name="func-widget-checkbox"></a><span class="title">checkbox ()</span>
+</h3></div></div>
+<pre class="synopsis">
+void widget_set::checkbox ($name, $val, $current_val);
+        </pre>
+<p>
+        </p>
+</div>
+<div class="sect2">
+<a name="func-widget-radiobox"></a><div class="titlepage"><div><h3 class="title">
+<a name="func-widget-radiobox"></a><span class="title">radiobox ()</span>
+</h3></div></div>
+<pre class="synopsis">
+void widget_set::radiobox ($name, $label_true, $label_false, $label = '');
+        </pre>
+<p>
+        </p>
+</div>
+<div class="sect2">
+<a name="func-widget-select"></a><div class="titlepage"><div><h3 class="title">
+<a name="func-widget-select"></a><span class="title">select ()</span>
+</h3></div></div>
+<pre class="synopsis">
+void widget_set::select ($name, $current_val, $options);
+        </pre>
+<p>
+        </p>
+</div>
+<div class="sect2">
+<a name="func-widget-fileform"></a><div class="titlepage"><div><h3 class="title">
+<a name="func-widget-fileform"></a><span class="title">fileform ()</span>
+</h3></div></div>
+<pre class="synopsis">
+void widget_set::fileform ($name)
+        </pre>
+<p>
+          The file upload widget allows you to store the file in
+          field $fieldname, the mime type in field $typefield and the
+          file name in field $namefield.
+        </p>
+</div>
+<div class="sect2">
+<a name="func-widget-hidden"></a><div class="titlepage"><div><h3 class="title">
+<a name="func-widget-hidden"></a><span class="title">hidden ()</span>
+</h3></div></div>
+<pre class="synopsis">
+void widget_set::hidden ($name, $val);
+        </pre>
+<p>
+        </p>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="ch15s02.html">Prev</a> </td>
+<td width="20%" align="center"><a href="index.html">Home</a></td>
+<td width="40%" align="right"> <a href="ch16.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">Text &amp; paragraphs </td>
+<td width="20%" align="center"><a href="ch15.html">Up</a></td>
+<td width="40%" align="right"> Chapter 16. Known bugs</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

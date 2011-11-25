@@ -1,0 +1,67 @@
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<title>Formular-Funktionen</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.29">
+<link rel="home" href="index.html" title="Caroshi">
+<link rel="up" href="ch05.html" title="Chapter 5. Das User-Interface">
+<link rel="previous" href="ch05s05.html" title="Neue Records erstellen">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">Formular-Funktionen</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="ch05s05.html">Prev</a> </td>
+<th width="60%" align="center">Chapter 5. Das User-Interface</th>
+<td width="20%" align="right"> </td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect1">
+<a name="formular-funktionen"></a><div class="titlepage"><div><h2 class="title" style="clear: all">
+<a name="formular-funktionen"></a><span class="title">Formular-Funktionen</span>
+</h2></div></div>
+<p>
+        Alle Elemente eines Formulars werden stets gesammelt an Event-Handler
+        versendet, welche in Submit-Button-Namen abgelegt wurden.
+        Dss einlesen von Formularen erledigt die Funktion form_parser() welche
+        über ein Event in der Ziel-URL des Formulars aufgerufen wird.
+        form_parser() sammelt Elemente (inkl. File-Uploads) und legt diese in
+        Klassenvariablen von application ab.
+      </p>
+<p>
+        Die gesammelten Form-Elemente werden als verschachteltes Array
+        in der Klassenvariable application::elements_sorted abgelegt, welche
+        Form-Elemente als 'form_element'-Objekte enthalten. Diese Objekte
+        enthalten unter anderem den Context-Cursor.
+        Die erste Ebene enthält Arrays von Elementen sortiert nach
+        Cursor-Typ, gefolgt von weiteren Ebenen für den Source-,
+        Key- und Feldnamen.
+        Die Klassenvariable application::elements enthält ein
+        eindimensionales Array mit Form-Elementen aufgeschlüsselt nach
+        Token-Namen. application::named_elements schließlich enthält
+        ein eindimensionales Array von Form-Elementen aufeschlüsselt nach
+        Feldnamen.
+      </p>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="ch05s05.html">Prev</a> </td>
+<td width="20%" align="center"><a href="index.html">Home</a></td>
+<td width="40%" align="right"> </td>
+</tr>
+<tr>
+<td width="40%" align="left">Neue Records erstellen </td>
+<td width="20%" align="center"><a href="ch05.html">Up</a></td>
+<td width="40%" align="right"> </td>
+</tr>
+</table>
+</div>
+</body>
+</html>

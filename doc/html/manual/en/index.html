@@ -1,0 +1,365 @@
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<title>Caroshi</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.29">
+<link rel="home" href="index.html" title="Caroshi">
+<link rel="next" href="ch01.html" title="Chapter 1. Introdution">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">Caroshi</th></tr>
+<tr>
+<td width="20%" align="left"> </td>
+<th width="60%" align="center"> </th>
+<td width="20%" align="right"> <a href="ch01.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="book" id="id2708253">
+<div class="titlepage">
+<div><h1 class="title">
+<a name="id2708253"></a>Caroshi</h1></div>
+<div>
+<h3 class="author">Sven Klose</h3>
+<div class="affiliation"><pre class="address"><tt>&lt;<a href="mailto:sven@devcon.net">sven@devcon.net</a>&gt;</tt></pre></div>
+</div>
+<div><p class="copyright">Copyright © 2001, 2002 by dev/consulting GmbH, Sven Klose</p></div>
+<div><div class="abstract">
+<p>
+<a name="id2764255"></a><b>Abstract</b>
+</p>
+<p>
+        Programming web-applications with the Caroshi library.
+      </p>
+<p>
+
+$Id: manual.xml,v 1.44 2002/06/23 16:09:46 sven Exp $
+
+      </p>
+</div></div>
+<hr>
+</div>
+<div class="toc">
+<p><b>Table of Contents</b></p>
+<dl>
+<dt>1. <a href="ch01.html">Introdution</a>
+</dt>
+<dd><dl>
+<dt> <a href="ch01.html#id2714589">Release notes</a>
+</dt>
+<dd><dl><dt> <a href="ch01.html#id2714597">0.1.0</a>
+</dt></dl></dd>
+<dt> <a href="ch01s02.html">Contributors</a>
+</dt>
+</dl></dd>
+<dt>2. <a href="ch02.html">Getting started</a>
+</dt>
+<dd><dl>
+<dt> <a href="ch02.html#sect-requirements">Requirements</a>
+</dt>
+<dt> <a href="ch02s02.html">Installation</a>
+</dt>
+</dl></dd>
+<dt>3. <a href="ch03.html">Database interfaces</a>
+</dt>
+<dd><dl>
+<dt> <a href="ch03.html#id2714771"></a>
+</dt>
+<dt> <a href="ch03s02.html">Using the dbctrl interface</a>
+</dt>
+<dt> <a href="ch03s03.html">More about the database interfaces</a>
+</dt>
+</dl></dd>
+<dt>4. <a href="ch04.html">Generic cursor interfaces to secondary storage</a>
+</dt>
+<dd><dl><dt> <a href="ch04.html#id2715583">Constructing and querying a cursor</a>
+</dt></dl></dd>
+<dt>5. <a href="ch05.html">Application base class</a>
+</dt>
+<dd><dl>
+<dt> <a href="ch05.html#id2714031">An example application</a>
+</dt>
+<dt> <a href="ch05s02.html">Initialisation</a>
+</dt>
+<dd><dl>
+<dt> <a href="ch05s02.html#func-application-application">application () constructor</a>
+</dt>
+<dt> <a href="ch05s02.html#func-application-run">run ()</a>
+</dt>
+<dt> <a href="ch05s02.html#sect-dbi-conf-php">.dbi.conf.php file</a>
+</dt>
+<dt> <a href="ch05s02.html#func-application-init">init() in derived class</a>
+</dt>
+<dt> <a href="ch05s02.html#var-application-debug">Member variable debug - debug mode</a>
+</dt>
+<dt> <a href="ch05s02.html#var-application-raw-views">Member array raw_views - Mark views as raw.</a>
+</dt>
+</dl></dd>
+<dt> <a href="ch05s03.html">Registering and invoking page functions</a>
+</dt>
+<dd><dl><dt> <a href="ch05s03.html#func-application-defaultview">defaultview ()</a>
+</dt></dl></dd>
+<dt> <a href="ch05s04.html">Calling functions in a subsession</a>
+</dt>
+<dt> <a href="ch05s05.html">Subsession arguments</a>
+</dt>
+<dt> <a href="ch05s06.html">Batched function calls</a>
+</dt>
+<dt> <a href="ch05s07.html">Destruction</a>
+</dt>
+<dt> <a href="ch05s08.html">Token management</a>
+</dt>
+</dl></dd>
+<dt>6. <a href="ch06.html">User interface</a>
+</dt>
+<dd><dl>
+<dt> <a href="ch06.html#func-admin-panel">admin_panel () constructor</a>
+</dt>
+<dt> <a href="ch06s02.html">Static function instance ()</a>
+</dt>
+<dt> <a href="ch06s03.html">Opening and closing documents.</a>
+</dt>
+</dl></dd>
+<dt>7. <a href="ch07.html">Toolkits for the user interface</a>
+</dt>
+<dd><dl>
+<dt> <a href="ch07.html#sect-tk-autoform">Auto forms</a>
+</dt>
+<dd><dl>
+<dt> <a href="ch07.html#func-tk-autoform-init">tk_autoform_init ()</a>
+</dt>
+<dt> <a href="ch07.html#func-tk-autoform-create-widget">tk_autoform_create_widget ()</a>
+</dt>
+<dt> <a href="ch07.html#func-tk-autoform-create-form">tk_autoform_create_form ()</a>
+</dt>
+<dt> <a href="ch07.html#func-tk-autoform-list-results">tk_autoform_list_results ()</a>
+</dt>
+<dt> <a href="ch07.html#func-tk-autoform-list-search-results">tk_autoform_list_search_results ()</a>
+</dt>
+</dl></dd>
+<dt> <a href="ch07s02.html">List move</a>
+</dt>
+<dt> <a href="ch07s03.html">Range editor</a>
+</dt>
+<dd><dl>
+<dt> <a href="ch07s03.html#func-tk-range-select">tk_range_edit_select ()</a>
+</dt>
+<dt> <a href="ch07s03.html#func-tk-range-call">tk_range_edit_call ()</a>
+</dt>
+<dt> <a href="ch07s03.html#func-tk-range-all-selected">tk_range_edit_all_selected ()</a>
+</dt>
+<dt> <a href="ch07s03.html#ex-tk-range">An example widget</a>
+</dt>
+</dl></dd>
+<dt> <a href="ch07s04.html">Editor for records without references</a>
+</dt>
+<dd><dl>
+<dt> <a href="ch07s04.html#func-tk-record-edit-init">tk_record_edit_init ()</a>
+</dt>
+<dt> <a href="ch07s04.html#func-tk-record-edit">tk_record_edit ()</a>
+</dt>
+</dl></dd>
+<dt> <a href="ch07s05.html">dbi search</a>
+</dt>
+<dd><dl>
+<dt> <a href="ch07s05.html#func-tk-dbisearch-init">tk_dbisearch_init ()</a>
+</dt>
+<dt> <a href="ch07s05.html#func-form-dbisearch">form_dbisearch ()</a>
+</dt>
+</dl></dd>
+<dt> <a href="ch07s06.html">File selector box</a>
+</dt>
+<dd><dl>
+<dt> <a href="ch07s06.html#func-tk-fsb-init">tk_fsb_init ()</a>
+</dt>
+<dt> <a href="ch07s06.html#func-tk-fsb">tk_fsb ()</a>
+</dt>
+</dl></dd>
+<dt> <a href="ch07s07.html">dbconf editor</a>
+</dt>
+<dd><dl>
+<dt> <a href="ch07s07.html#func-tk-dbconf-init">tk_dbconf_init ()</a>
+</dt>
+<dt> <a href="ch07s07.html#func-tk-dbconf">tk_dbconf ()</a>
+</dt>
+</dl></dd>
+<dt> <a href="ch07s08.html">Tree editor</a>
+</dt>
+<dt> <a href="ch07s09.html">Tree lister</a>
+</dt>
+<dd><dl>
+<dt> <a href="ch07s09.html#func-tk-dbobj-ls-init">tk_dbobj_ls_init ()</a>
+</dt>
+<dt> <a href="ch07s09.html#func-tk-dbobj-ls">tk_dbobj_ls ()</a>
+</dt>
+</dl></dd>
+<dt> <a href="ch07s10.html">HTML template toolkit</a>
+</dt>
+<dd><dl>
+<dt> <a href="ch07s10.html#tk-template-tags">Tags</a>
+</dt>
+<dt> <a href="ch07s10.html#tk-template-extenstions">Extensions</a>
+</dt>
+</dl></dd>
+</dl></dd>
+<dt>8. <a href="ch08.html">Date functions</a>
+</dt>
+<dd><dl>
+<dt> <a href="ch08.html#func-doomday">doomday ()</a>
+</dt>
+<dt> <a href="ch08s02.html">is_leap_year ()</a>
+</dt>
+<dt> <a href="ch08s03.html">day_of_year ()</a>
+</dt>
+<dt> <a href="ch08s04.html">day_of_week ()</a>
+</dt>
+</dl></dd>
+<dt>9. <a href="ch09.html">File functions</a>
+</dt>
+<dd><dl>
+<dt> <a href="ch09.html#func-magic2mime">magic2mime ()</a>
+</dt>
+<dt> <a href="ch09s02.html">htpasswd_read ()</a>
+</dt>
+</dl></dd>
+<dt>10. <a href="ch10.html">HTTP functions</a>
+</dt>
+<dd><dl>
+<dt> <a href="ch10.html#sect-http-auth">HTTP authentication</a>
+</dt>
+<dd><dl><dt> <a href="ch10.html#func-http-auth">http_auth ()</a>
+</dt></dl></dd>
+</dl></dd>
+<dt>11. <a href="ch11.html">Mail functions</a>
+</dt>
+<dd><dl>
+<dt> <a href="ch11.html#func-check-email-addr">check_email_addr ()</a>
+</dt>
+<dt> <a href="ch11s02.html">Sending emails with attachments</a>
+</dt>
+<dd><dl>
+<dt> <a href="ch11s02.html#id2777605">rfc2110_attachment ()</a>
+</dt>
+<dt> <a href="ch11s02.html#id2777622">rfc2110_header ()</a>
+</dt>
+<dt> <a href="ch11s02.html#id2777639">rfc2110_file ()</a>
+</dt>
+<dt> <a href="ch11s02.html#id2777655">rfc2110_tail ()</a>
+</dt>
+<dt> <a href="ch11s02.html#id2764504">rfc2110_boundary ()</a>
+</dt>
+</dl></dd>
+</dl></dd>
+<dt>12. <a href="ch12.html">Session management</a>
+</dt>
+<dd><dl>
+<dt> <a href="ch12.html#func-dbsession-dbsession">dbsession constructor</a>
+</dt>
+<dt> <a href="ch12s02.html">define_tables  ()</a>
+</dt>
+<dt> <a href="ch12s03.html">read_id  ()</a>
+</dt>
+<dt> <a href="ch12s04.html">force_key ()</a>
+</dt>
+<dt> <a href="ch12s05.html">lock ()</a>
+</dt>
+<dt> <a href="ch12s06.html">destroy ()</a>
+</dt>
+<dt> <a href="ch12s07.html">key ()</a>
+</dt>
+<dt> <a href="ch12s08.html">id ()</a>
+</dt>
+<dt> <a href="ch12s09.html">get ()</a>
+</dt>
+<dt> <a href="ch12s10.html">set ()</a>
+</dt>
+<dt> <a href="ch12s11.html">set ()</a>
+</dt>
+<dt> <a href="ch12s12.html">set_timeout ()</a>
+</dt>
+</dl></dd>
+<dt>13. <a href="ch13.html">String functions</a>
+</dt>
+<dd><dl>
+<dt> <a href="ch13.html#func-germanlig2ascii">germanlig2ascii ()</a>
+</dt>
+<dt> <a href="ch13s02.html">htmllig2latin ()</a>
+</dt>
+<dt> <a href="ch13s03.html">strhead ()</a>
+</dt>
+</dl></dd>
+<dt>14. <a href="ch14.html">Template functions</a>
+</dt>
+<dd><dl><dt> <a href="ch14.html#func-quick-template">quick_template ()</a>
+</dt></dl></dd>
+<dt>15. <a href="ch15.html">Widget sets</a>
+</dt>
+<dd><dl>
+<dt> <a href="ch15.html#id2777480">Using a widget set</a>
+</dt>
+<dd><dl>
+<dt> <a href="ch15.html#func-widget-set">widet_set() constructor</a>
+</dt>
+<dt> <a href="ch15.html#func-widget-close">close ()</a>
+</dt>
+</dl></dd>
+<dt> <a href="ch15s02.html">Text &amp; paragraphs</a>
+</dt>
+<dd><dl>
+<dt> <a href="ch15s02.html#func-widget-print">print ()</a>
+</dt>
+<dt> <a href="ch15s02.html#func-widget-paragraph">paragraph ()</a>
+</dt>
+<dt> <a href="ch15s02.html#func-widget-image">image ()</a>
+</dt>
+</dl></dd>
+<dt> <a href="ch15s03.html">Form widgets</a>
+</dt>
+<dd><dl>
+<dt> <a href="ch15s03.html#func-widget-inputline">inputline ()</a>
+</dt>
+<dt> <a href="ch15s03.html#func-widget-password">password ()</a>
+</dt>
+<dt> <a href="ch15s03.html#func-widget-textarea">textarea ()</a>
+</dt>
+<dt> <a href="ch15s03.html#func-widget-checkbox">checkbox ()</a>
+</dt>
+<dt> <a href="ch15s03.html#func-widget-radiobox">radiobox ()</a>
+</dt>
+<dt> <a href="ch15s03.html#func-widget-select">select ()</a>
+</dt>
+<dt> <a href="ch15s03.html#func-widget-fileform">fileform ()</a>
+</dt>
+<dt> <a href="ch15s03.html#func-widget-hidden">hidden ()</a>
+</dt>
+</dl></dd>
+</dl></dd>
+<dt>16. <a href="ch16.html">Known bugs</a>
+</dt>
+<dt>17. <a href="ch17.html">Wishlist</a>
+</dt>
+</dl>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left"> </td>
+<td width="20%" align="center"> </td>
+<td width="40%" align="right"> <a href="ch01.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left"> </td>
+<td width="20%" align="center"> </td>
+<td width="40%" align="right"> Chapter 1. Introdution</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

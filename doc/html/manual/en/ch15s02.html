@@ -1,0 +1,88 @@
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<title>Text &amp; paragraphs</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.29">
+<link rel="home" href="index.html" title="Caroshi">
+<link rel="up" href="ch15.html" title="Chapter 15. Widget sets">
+<link rel="previous" href="ch15.html" title="Chapter 15. Widget sets">
+<link rel="next" href="ch15s03.html" title="Form widgets">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">Text &amp; paragraphs</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="ch15.html">Prev</a> </td>
+<th width="60%" align="center">Chapter 15. Widget sets</th>
+<td width="20%" align="right"> <a href="ch15s03.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect1">
+<a name="id2778998"></a><div class="titlepage"><div><h2 class="title" style="clear: all">
+<a name="id2778998"></a><span class="title">Text &amp; paragraphs</span>
+</h2></div></div>
+<div class="sect2">
+<a name="func-widget-print"></a><div class="titlepage"><div><h3 class="title">
+<a name="func-widget-print"></a><span class="title">print ()</span>
+</h3></div></div>
+<pre class="synopsis">
+  void admin_panel::print ($string);
+        </pre>
+<p>
+	  This function is the replacement for php's internal
+	  <a href="http://www.php.net/echo" target="_top">echo ()</a> function
+	  if the class should control the page layout.
+        </p>
+</div>
+<div class="sect2">
+<a name="func-widget-paragraph"></a><div class="titlepage"><div><h3 class="title">
+<a name="func-widget-paragraph"></a><span class="title">paragraph ()</span>
+</h3></div></div>
+<pre class="synopsis">
+  void admin_panel::paragraph ($label);
+        </pre>
+<p>
+          paragraph() creates a paragraph with an optional label.
+	  This function doesn't work inside tables.
+        </p>
+<pre class="programlisting">
+  $p-&gt;paragraph ('&lt;hr&gt;');	# Create paragrph with horizontal ruler.
+        </pre>
+</div>
+<div class="sect2">
+<a name="func-widget-image"></a><div class="titlepage"><div><h3 class="title">
+<a name="func-widget-image"></a><span class="title">image ()</span>
+</h3></div></div>
+<pre class="synopsis">
+void admin_panel::image ($src);
+        </pre>
+<p>
+          Displays an image of MIME type $mime_type. You could store
+          the mime type in another field or use magic2mime().
+        </p>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="ch15.html">Prev</a> </td>
+<td width="20%" align="center"><a href="index.html">Home</a></td>
+<td width="40%" align="right"> <a href="ch15s03.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">Chapter 15. Widget sets </td>
+<td width="20%" align="center"><a href="ch15.html">Up</a></td>
+<td width="40%" align="right"> Form widgets</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

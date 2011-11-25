@@ -1,0 +1,79 @@
+<!--
+  ### DATABASE UTILITIES ###
+-->
+
+<chapter id="sect-db">
+   <title>SQL-Schnittstellen</title>
+   <sect1>
+      <para>
+        Die Klasse <emphasis>dbctrl</emphasis> repr&auml;sentiert
+        mit jeder Instanz eine Verbindung zu einer SQL-Datenbank.
+        Sie besitzt Methoden welche ihre Parameter zu SQL-Klauseln
+        zusammensetzen, was die Codegr&ouml;sse und die Menge an
+        Fl&uuml;chtigkeitsfehler reduziert.
+        Analog zu den verwendeten SQL-Befehlen heissen diese Methoden
+        select(), insert(), create() und delete(). Die Funktion
+        query() erlaubt es eigene SQL-Kommandos auszuf&uuml;hren.
+      </para>
+   </sect1>
+
+   <sect1>
+      <title>Verwenden der Klasse dbctrl</title>
+
+      <para>
+        Hier ein Beispiel zur Verwendung der dbctrl-Klasse:
+      </para>
+
+      <programlisting>
+<![CDATA[
+include 'dbi/dbctrl.class';
+include 'proc/debug_dump.php';
+
+# Datenbankverbindung herstellen.
+$db =& new dbctrl ('localhost', 'mydatabase', 'myuser', 'mypassword');
+if (!$db->is_connected ())
+   die ("Couldn't connect to database.");
+
+# Inhalt von Tabelle 'mytable' ausgeben.
+$res =& $db->query ('SELECT * FROM mytable');
+while ($row = $res->get ())
+   debug_dump ($row);
+]]>
+      </programlisting>
+
+      <para>
+         Alle Methoden liefern ein Objekt der Klasse
+         <emphasis>db_result</emphasis> zur&uuml;ck. Ausgew&auml;hlte
+         Datens&auml;tze k&ouml;nen mit dessen get()-Funktion ausgelesen
+         werden.
+      </para>
+
+      <para>
+         Hier ein paar weitere Beispiele zur Verwendung der SQL-Funktionen:
+      </para>
+
+      <programlisting>
+<![CDATA[
+$res =& $db->query ('SELECT * FROM persons WHERE age>23 ORDER BY name');
+$res =& $db->select ('*', 'persons', 'age>23', 'ORDER BY name');
+
+$res =& $db->query ('INSERT INTO persons SET name="Annegret",age=25');
+$res =& $db->insert ('persons', 'name="Annegret",age=25');
+
+$res =& $db->query ('UPDATE persons SET age=24 WHERE name="Annegret"');
+$res =& $db->update ('persons', 'age=24', 'name="Annegret"');
+
+$res =& $db->query ('DELETE FROM persons WHERE age<23');
+$res =& $db->delete ('persons', 'age<23');
+]]>
+      </programlisting>
+   </sect1>
+
+   <sect1>
+      <title>Weitere Schnittstellen</title>
+      <para>
+        Die Klassen dbi, dbconf, dbobj, dbsort und dbtree werden nicht mehr
+        weiterentwickelt.
+      </para>
+   </sect1>
+</chapter>

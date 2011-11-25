@@ -1,0 +1,85 @@
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<title>Subsession arguments</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.29">
+<link rel="home" href="index.html" title="Caroshi">
+<link rel="up" href="ch05.html" title="Chapter 5. Application base class">
+<link rel="previous" href="ch05s04.html" title="Calling functions in a subsession">
+<link rel="next" href="ch05s06.html" title="Batched function calls">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">Subsession arguments</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="ch05s04.html">Prev</a> </td>
+<th width="60%" align="center">Chapter 5. Application base class</th>
+<td width="20%" align="right"> <a href="ch05s06.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect1">
+<a name="sect-application-subsession-arguments"></a><div class="titlepage"><div><h2 class="title" style="clear: all">
+<a name="sect-application-subsession-arguments"></a><span class="title">Subsession arguments</span>
+</h2></div></div>
+<p>
+        Each called module might need module-wide arguments until
+        return.
+        This arguments are passed to the module like any other
+        argument (see
+        <a href="#">link()</a>).
+        New subsessions are opened automatically when the
+        function arguments were tagged using
+        <a href="#">view::set_caller()</a>.
+      </p>
+<p>
+        Module-wide arguments are stored in $this-&gt;subargs.
+        They're saved when calling a functions and restored
+        when returning from it.
+        Since all arguments are passed using link() the module-wide
+        arguments must be stored in the subargs array first.
+        This can be done doing a simple assignment at the start
+        of an entry function of a module:
+      </p>
+<pre class="programlisting">
+  function my_module_entry (&amp;$this)
+  {
+    # Save table name to subsession data.
+    $table_name = $this-&gt;arg ('table_name', ARG_SUB);
+
+    # Check other arguments.
+    $this-&gt;arg ('txt_ok', ARG_SUB);
+    $this-&gt;arg ('txt_error', ARG_SUB);
+
+    # ... more code here ...
+  }
+      </pre>
+<p>
+	Alls subsesession data is copied to the local database when the
+	application exits in
+        <a href="#">application::close ()</a>.
+      </p>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="ch05s04.html">Prev</a> </td>
+<td width="20%" align="center"><a href="index.html">Home</a></td>
+<td width="40%" align="right"> <a href="ch05s06.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">Calling functions in a subsession </td>
+<td width="20%" align="center"><a href="ch05.html">Up</a></td>
+<td width="40%" align="right"> Batched function calls</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

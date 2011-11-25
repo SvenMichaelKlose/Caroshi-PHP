@@ -1,0 +1,95 @@
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<title>dbi search</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.29">
+<link rel="home" href="index.html" title="Caroshi">
+<link rel="up" href="ch07.html" title="Chapter 7. Toolkits for the user interface">
+<link rel="previous" href="ch07s04.html" title="Editor for records without references">
+<link rel="next" href="ch07s06.html" title="File selector box">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">dbi search</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="ch07s04.html">Prev</a> </td>
+<th width="60%" align="center">Chapter 7. Toolkits for the user interface</th>
+<td width="20%" align="right"> <a href="ch07s06.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect1">
+<a name="sect-tk-dbisearch"></a><div class="titlepage"><div><h2 class="title" style="clear: all">
+<a name="sect-tk-dbisearch"></a><span class="title">dbi search</span>
+</h2></div></div>
+<p>
+      </p>
+<div class="sect2">
+<a name="func-tk-dbisearch-init"></a><div class="titlepage"><div><h3 class="title">
+<a name="func-tk-dbisearch-init"></a><span class="title">tk_dbisearch_init ()</span>
+</h3></div></div>
+<pre class="synopsis">
+  void tk_record_edit_init (&amp;$application_object);
+	</pre>
+<p>
+	  This function initialises the module.
+	</p>
+</div>
+<div class="sect2">
+<a name="func-form-dbisearch"></a><div class="titlepage"><div><h3 class="title">
+<a name="func-form-dbisearch"></a><span class="title">form_dbisearch ()</span>
+</h3></div></div>
+<p>
+	  This is a form function that takes arguments that define the
+	  search behaviour.
+	</p>
+<p>
+	  The opened source defines the table to search. There can only be
+	  one source. If fields of more than one source are sent to this
+	  function, it dies with an error message stating the problem.
+	</p>
+<p>
+	  There two modes of operation. If <i>argument 'mode'</i>
+	  is set to <i>'all_fields'</i>, the first element in the
+	  posted form is used to search for its occurence in all fields of the
+	  table. If it's unset or not equal to
+	  <i>'all_fields'</i>, a single form element contains
+	  a string that is only searched in the column specified by the field
+	  name. If there're multiple fields to search, they're ANDed, which
+	  means that a record must match all fields.
+	</p>
+<p>
+          By default, form_dbisearch() ignores an empty search field when in
+          all_fields mode. If argument 'list_all' is set all records are
+          listed.
+	</p>
+<p>
+	  To display a search result
+	  <a href="ch07.html#func-tk-autoform-list-search-results">tk_autoform_list_search_results()</a>
+	  must be used.
+	</p>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="ch07s04.html">Prev</a> </td>
+<td width="20%" align="center"><a href="index.html">Home</a></td>
+<td width="40%" align="right"> <a href="ch07s06.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">Editor for records without references </td>
+<td width="20%" align="center"><a href="ch07.html">Up</a></td>
+<td width="40%" align="right"> File selector box</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

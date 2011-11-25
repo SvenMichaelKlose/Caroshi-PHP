@@ -1,0 +1,106 @@
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<title>Chapter 12. Session management</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.29">
+<link rel="home" href="index.html" title="Caroshi">
+<link rel="up" href="index.html" title="Caroshi">
+<link rel="previous" href="ch11s02.html" title="Sending emails with attachments">
+<link rel="next" href="ch12s02.html" title="define_tables  ()">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">Chapter 12. Session management</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="ch11s02.html">Prev</a> </td>
+<th width="60%" align="center"> </th>
+<td width="20%" align="right"> <a href="ch12s02.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div id="class-dbsession" class="chapter">
+<div class="titlepage"><div><h2 class="title">
+<a name="class-dbsession"></a>Chapter 12. Session management</h2></div></div>
+<div class="toc">
+<p><b>Table of Contents</b></p>
+<dl>
+<dt> <a href="ch12.html#func-dbsession-dbsession">dbsession constructor</a>
+</dt>
+<dt> <a href="ch12s02.html">define_tables  ()</a>
+</dt>
+<dt> <a href="ch12s03.html">read_id  ()</a>
+</dt>
+<dt> <a href="ch12s04.html">force_key ()</a>
+</dt>
+<dt> <a href="ch12s05.html">lock ()</a>
+</dt>
+<dt> <a href="ch12s06.html">destroy ()</a>
+</dt>
+<dt> <a href="ch12s07.html">key ()</a>
+</dt>
+<dt> <a href="ch12s08.html">id ()</a>
+</dt>
+<dt> <a href="ch12s09.html">get ()</a>
+</dt>
+<dt> <a href="ch12s10.html">set ()</a>
+</dt>
+<dt> <a href="ch12s11.html">set ()</a>
+</dt>
+<dt> <a href="ch12s12.html">set_timeout ()</a>
+</dt>
+</dl>
+</div>
+<p>
+      A lot of applications need state retention. This means they
+      need store some data identified by a key which can be passed
+      by URL, so the script can recover the data.
+      dbi/dbsession.class provides this features.
+    </p>
+<p>
+      dbsession manages multiple <i>entries</i> identified by
+      a unique name. Any kind of data can be stored in an entry using
+      <a href="ch12s10.html">set()</a> and read using
+      <a href="ch12s09.html">get()</a>.
+      It can also be cleared using
+      <a href="ch12s11.html">clear()</a>.
+      Different parts of an application should use their oen entry so it
+      couldn't collide with other applications.
+    </p>
+<p>
+      For the global session, an empty entry name is used.
+    </p>
+<div class="sect1">
+<a name="func-dbsession-dbsession"></a><div class="titlepage"><div><h2 class="title" style="clear: all">
+<a name="func-dbsession-dbsession"></a><span class="title">dbsession constructor</span>
+</h2></div></div>
+<pre class="synopsis">
+object dbsession (&amp;$dbctrl_object, $time_to_live = 1200);
+      </pre>
+<p>
+        Constructs a dbsession object.
+      </p>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="ch11s02.html">Prev</a> </td>
+<td width="20%" align="center"><a href="index.html">Home</a></td>
+<td width="40%" align="right"> <a href="ch12s02.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">Sending emails with attachments </td>
+<td width="20%" align="center"><a href="index.html">Up</a></td>
+<td width="40%" align="right"> define_tables  ()</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

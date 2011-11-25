@@ -1,0 +1,226 @@
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<title>HTML template toolkit</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.29">
+<link rel="home" href="index.html" title="Caroshi">
+<link rel="up" href="ch07.html" title="Chapter 7. Toolkits for the user interface">
+<link rel="previous" href="ch07s09.html" title="Tree lister">
+<link rel="next" href="ch08.html" title="Chapter 8. Date functions">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">HTML template toolkit</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="ch07s09.html">Prev</a> </td>
+<th width="60%" align="center">Chapter 7. Toolkits for the user interface</th>
+<td width="20%" align="right"> <a href="ch08.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect1">
+<a name="class-tk-template"></a><div class="titlepage"><div><h2 class="title" style="clear: all">
+<a name="class-tk-template"></a><span class="title">HTML template toolkit</span>
+</h2></div></div>
+<p>
+        If you've been in web-frontend programming business for a while you
+	will undoubtly notice that a good look of your software is sometimes
+	as important as it's functionality: it should be a pleasure to the eyes
+	when one has to work with the software a few hours a day.
+	The standard widget set's layout is designed to be fast over very
+	slow connections but it doesn't look very nice *sigh*.
+      </p>
+<p>
+        One solution to this problem is to write an own
+	<a href="ch15.html">widget set</a> but
+        often you don't want to create HTML templates yourself. Especially if
+	you're a programmer you're happy if you can get HTML code done by an
+	artist which is ready to get plugged in to your program.
+	The artist should only have to know some extra tags he can place
+	in his HTML code to fill in dynamic content. And since you
+	can focus just on the data, your code will be more clean.
+      </p>
+<p>
+	Let's take a look at a view function that displays a tables contents
+	the traditional way:
+      </p>
+<pre class="programlisting">
+
+  function show_table ($this)
+  {
+    $p =&amp; $this-&gt;ui;
+
+    $p-&gt;headline ('Table listing');
+
+    $p-&gt;open_source ('table');
+    if ($p-&gt;query ()) {
+      while ($p-&gt;get ()) {
+        $p-&gt;inputline ('surname');
+        $p-&gt;inputline ('name');
+      }
+    } else
+      $p-&gt;msgbox ('No entries found.');
+    $p-&gt;close_source ();
+  }
+
+</pre>
+<p>
+        The code is quite straightforward. After printing the title we
+	open a source, select a result and print widgets for each field.
+	Surely an artist is not interested about how to fetch a result set.
+	He wants the result set to be already there and to repeat a part
+	of the template for each result. Some parts of the template should
+	be used conditionally (e.g. status messages).
+      </p>
+<p>
+        xml_template class method exec() takes the name of a template and an
+	array of data keyed by names that can be matched within the template.
+	After the tags were replaced, the template is echoed.
+	Before using exec(), the tk_template module must
+	be initialised so you can get form names und useful urls normally
+	used in wiget sets. In the following example we use the
+	chached version of xml_template:
+      </p>
+<pre class="programlisting">
+
+&lt;?
+  include 'admin_panel/tk/template.php';
+  include 'text/xml/template__cached.class';
+
+  finction init (&amp;$this)
+  {
+    # ... other initialisations...
+
+    tk_template_init ($this, new xml_template_cached ($this-&gt;db));
+  }
+
+  function show_table ($this)
+  {
+    $p =&amp; $this-&gt;ui;
+    $res = array ();
+
+    $p-&gt;no_update;	# Avoid form generation in open_source().
+    $p-&gt;open_source ('table');
+    if ($p-&gt;query ()) {
+      while ($p-&gt;get ()) {
+        tk_template_get_field ($this, $r, 'surname');
+        tk_template_get_field ($this, $r, 'name');
+	$res['table'][] = $r;
+      }
+    } else
+      $res['error'] = 'No entry found.';
+    $p-&gt;close_source ();
+
+    $this-&gt;tk_template-&gt;exec ('show_table.html', $res);
+  }
+?&gt;
+
+</pre>
+<p>
+        This is show_table.html (virtually done by an artist):
+      </p>
+<pre class="programlisting">
+
+&lt;html&gt;
+  &lt;head&gt;&lt;title&gt;Show table&lt;/title&gt;&lt;/head&gt;
+  &lt;body&gt;
+    &lt;h3&gt;Contents of table&lt;/h3&gt;
+    &lt;!-- Show error message if exists. --&gt;
+    &lt;cms:if match=&quot;error&quot;&gt;
+      &lt;font color=&quot;red&quot;&gt;&lt;h3&gt;&lt;cms:value match=&quot;error&quot;/&gt;&lt;/font&gt;
+    &lt;/cms:if&gt;
+    &lt;cms:if-not match=&quot;status&quot;&gt;
+      &lt;form action=&quot;&lt;cms:form-action/&gt;&quot; method=&quot;post&quot;&gt;
+      &lt;table&gt;
+        &lt;cms:list match=&quot;table&quot;&gt;
+          &lt;tr&gt;
+            &lt;td&gt;&lt;input type=&quot;text&quot; value=&quot;&lt;cms:value field=&quot;name&quot;/&gt;&quot;
+	               name=&quot;&lt;cms:name field=&quot;name&quot;/&gt;&lt;/td&gt;
+            &lt;td&gt;&lt;input type=&quot;text&quot; value=&quot;&lt;cms:value field=&quot;surname&quot;/&gt;&quot;
+	               name=&quot;&lt;cms:name field=&quot;surname&quot;/&gt;&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/cms:list&gt;
+      &lt;/table&gt;
+      &lt;input type=&quot;submit&quot; value=&quot;Ok&quot; name=&quot;&lt;cms:value match=&quot;submit&quot;/&gt;&quot;&gt;
+      &lt;/form&gt;
+    &lt;/cms:if&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+
+</pre>
+<p>
+
+	Since the template contains a form for field of the result set so
+	the user can edit and post them, we fetch a form field description
+	using tk_template_field() which also stores the current value.
+	tk_template() recognizes field descriptions automatically so you can
+	store them like scalars.
+      </p>
+<p>
+        tk_template() uses the XML scanner class shipped with the
+	Caroshi. To speed up the whole process of generating
+	HTML output each template is read from the file once, scanned and
+	stored to the database as a document tree which can be processed
+	quite fast. To update a template, its entry in the database must
+	be deleted. Alternatively the whole template table can be deleted
+	since they'll be restored on demand.
+      </p>
+<p>
+        In the following sections we'll explain the tk_template() functions
+	in detail, followed by the tags available.
+      </p>
+<div class="sect2">
+<a name="tk-template-tags"></a><div class="titlepage"><div><h3 class="title">
+<a name="tk-template-tags"></a><span class="title">Tags</span>
+</h3></div></div>
+<p>
+	  tk_template() uses a fixed set of tags that allow fetching scalar
+	  values and iterate over lists using the same block repeatedly as
+	  well as simple conditionally executed blocks that test if
+	  particular results were defined or not.
+	</p>
+<div class="sect3">
+<a name="tk-template-tag-if"></a><div class="titlepage"><div><h4 class="title">
+<a name="tk-template-tag-if"></a><span class="title">IF</span>
+</h4></div></div>
+<p>
+	  </p>
+</div>
+</div>
+<div class="sect2">
+<a name="tk-template-extenstions"></a><div class="titlepage"><div><h3 class="title">
+<a name="tk-template-extenstions"></a><span class="title">Extensions</span>
+</h3></div></div>
+<p>
+	  The template toolkit provides a very simple interface to the
+	  XML scanner. Widget and helper functions for it are also
+	  available but change a lot. If you can't afford to be interrupted
+	  by API changes, use an own copy of the files.
+	  You can find all (yet undocumented) extensions in directory
+	  admin_panel/tk/template/ext.
+        </p>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="ch07s09.html">Prev</a> </td>
+<td width="20%" align="center"><a href="index.html">Home</a></td>
+<td width="40%" align="right"> <a href="ch08.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">Tree lister </td>
+<td width="20%" align="center"><a href="ch07.html">Up</a></td>
+<td width="40%" align="right"> Chapter 8. Date functions</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

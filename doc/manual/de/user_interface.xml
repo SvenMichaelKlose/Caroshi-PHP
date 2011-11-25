@@ -1,0 +1,120 @@
+  <chapter id="application">
+    <title>Das User-Interface</title>
+
+    <para>
+      Funktionen zur Ausgabe von HTML-Elementen bietet die Klasse
+      <emphasis>admin_panel</emphasis>
+    </para>
+
+    <sect1 id="widget-set">
+      <title>Widget-Set-Funktionen</title>
+      <para>
+        admin_panel bietet Widget-Funktionen zum erstellen von Dokumenten
+        zusammen mit Tabellen-Funktionen zur Formatierung (gridbag layout).
+        Der Inhalt der Elemente und die wichtigsten Attribute k&ouml;nnen als
+        Funktionsparameter &uuml;bergeben werden. BSP.
+Damit dies funktioniert m&uuml;ssen
+      URLs mit der Function admin_panel::url() anstatt mit application::link()
+      erstellt werden.
+      </para>
+    </sect1>
+
+    <sect1 id="widget-layout">
+      <title>Formatieren mit Tabellen</title>
+      <para>
+        Tabellen bestehen aus Zeilen, welche wiederum Zellen beinhalten
+        m&uuml;ssen. Zum &ouml;ffnen und schliessen dieser Elemente existieren
+        jeweils zwei Funktionen: open_table()/close_table(),
+        open_row()/close_row() und open_cell()/close_cell().
+      </para>
+
+      <para>
+        Mehrfaches &ouml;ffnen eines Elements hat keine Wirkung auf das
+        Dokument; Elemente m&uuml;ssen jedoch in der umgekehrten Reihenfolge
+        genauso oft geschlossen werden. BSP.
+      </para>
+    </sect1>
+
+    <sect1 id="cursor-context">
+      <title>Links und Formularelemente im Cursor-Context</title>
+
+      <para>
+        admin_panel kann mit open_context() die Referenz auf einen Cursor
+        &uuml;bergeben werden der f&uuml;r jedes Event in URLs und Form-Namen
+        neu serialisiert wird. Form-Widgets wird der Name eines Feldes im
+        Record auf den der Cursor zeigt &uuml;bergeben (abrufbar mit
+        cursor::field()).
+      </para>
+
+      <para>
+        Der Context-Cursor wird von url() und new_formfield() im Event-Argument
+        '_cursor' sowie im der Klassenvariable 'cursor' von
+        _form_element-Objekten abgelegt.
+      </para>
+
+      <para>
+        Kontexte k&ouml;nnen verschachtelt werden.
+      </para>
+    </sect1>
+
+    <sect1 id="record-funktionen">
+      <title>Record-Funktionen</title>
+
+      <para>
+        Der in Links abgelegte Context-Cursor kann von Standardfunktionen
+        ohne weitere Angabe von Argumenten verwendet werden.
+        (record_*() in admin_panel/records.php)
+      </para>
+
+      <para>
+        Die Standard-Recordfunktionen erlauben das manipulieren von
+        Records auf die der Context-Cursor bei der Erstellung eines Links
+        verwiesen hat. BSP loeschen.
+      </para>
+
+      <para>
+        Standard-Formfunktionen erlauben dasselbe mit Formular-Elementen.
+        BSP Form sichern
+      </para>
+    </sect1>
+
+    <sect1 id="record-create">
+      <title>Neue Records erstellen</title>
+
+      <para>
+        record_create() erzeugt einen neuen Record im Source des
+        Context-Cursors oder anhand eines als Argument &uuml;bergebenen
+        <emphasis>source sets</emphasis>, welches das erstellen von
+        Records in verschiedenen Sources inklusive Referenzen zwischen den
+        Records erlaubt.
+      </para>
+    </sect1>
+
+    <sect1 id="formular-funktionen">
+      <title>Formular-Funktionen</title>
+
+      <para>
+        Alle Elemente eines Formulars werden stets gesammelt an Event-Handler
+        versendet, welche in Submit-Button-Namen abgelegt wurden.
+        Dss einlesen von Formularen erledigt die Funktion form_parser() welche
+        &uuml;ber ein Event in der Ziel-URL des Formulars aufgerufen wird.
+        form_parser() sammelt Elemente (inkl. File-Uploads) und legt diese in
+        Klassenvariablen von application ab.
+      </para>
+
+      <para>
+        Die gesammelten Form-Elemente werden als verschachteltes Array
+        in der Klassenvariable application::elements_sorted abgelegt, welche
+        Form-Elemente als 'form_element'-Objekte enthalten. Diese Objekte
+        enthalten unter anderem den Context-Cursor.
+        Die erste Ebene enth&auml;lt Arrays von Elementen sortiert nach
+        Cursor-Typ, gefolgt von weiteren Ebenen f&uuml;r den Source-,
+        Key- und Feldnamen.
+        Die Klassenvariable application::elements enth&auml;lt ein
+        eindimensionales Array mit Form-Elementen aufgeschl&uuml;sselt nach
+        Token-Namen. application::named_elements schlie&szlig;lich enth&auml;lt
+        ein eindimensionales Array von Form-Elementen aufeschl&uuml;sselt nach
+        Feldnamen.
+      </para>
+    </sect1>
+  </chapter>

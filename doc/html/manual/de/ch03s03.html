@@ -1,0 +1,58 @@
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<title>Mischen von Cursors verschiedener Typen</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.29">
+<link rel="home" href="index.html" title="Caroshi">
+<link rel="up" href="ch03.html" title="Chapter 3. Cursor-Schnittstellen">
+<link rel="previous" href="ch03s02.html" title="Cursors serialisieren">
+<link rel="next" href="ch04.html" title="Chapter 4. Der Applikation-Server">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">Mischen von Cursors verschiedener Typen</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="ch03s02.html">Prev</a> </td>
+<th width="60%" align="center">Chapter 3. Cursor-Schnittstellen</th>
+<td width="20%" align="right"> <a href="ch04.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect1">
+<a name="cursor-merged"></a><div class="titlepage"><div><h2 class="title" style="clear: all">
+<a name="cursor-merged"></a><span class="title">Mischen von Cursors verschiedener Typen</span>
+</h2></div></div>
+<p>
+        cursor_merged-Objekte bieten die Möglichkeit meherere
+        Cursor-Objekte zu einem einzigen zusammenzufassen. Die Cursors
+        werden der Methode query() als Array übergeben.
+        Beim auslesen wechselt get() zum nächsten Cursor, wenn der
+        aktuelle vollständig ausgelesen wurde.
+        Aufrufe von key(), field(), source() und set_field() werden an den
+        zuletzt ausgelesenen Cursor weitergeleitet. set_source(), set_key(),
+        create() und delete() können nicht verwendet werden.
+      </p>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="ch03s02.html">Prev</a> </td>
+<td width="20%" align="center"><a href="index.html">Home</a></td>
+<td width="40%" align="right"> <a href="ch04.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">Cursors serialisieren </td>
+<td width="20%" align="center"><a href="ch03.html">Up</a></td>
+<td width="40%" align="right"> Chapter 4. Der Applikation-Server</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

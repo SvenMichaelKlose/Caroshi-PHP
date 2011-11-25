@@ -1,0 +1,156 @@
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<title>Initialisation</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.29">
+<link rel="home" href="index.html" title="Caroshi">
+<link rel="up" href="ch05.html" title="Chapter 5. Application base class">
+<link rel="previous" href="ch05.html" title="Chapter 5. Application base class">
+<link rel="next" href="ch05s03.html" title="Registering and invoking page functions">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">Initialisation</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="ch05.html">Prev</a> </td>
+<th width="60%" align="center">Chapter 5. Application base class</th>
+<td width="20%" align="right"> <a href="ch05s03.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect1">
+<a name="id2715626"></a><div class="titlepage"><div><h2 class="title" style="clear: all">
+<a name="id2715626"></a><span class="title">Initialisation</span>
+</h2></div></div>
+<p>
+        application.class automatically connects to the database using
+	login data from a configuration file in its working directory and
+        calls the init() function which should
+        occur in the derived class where user-defined stuff can be initialised,
+
+        The member variables 'dbi' and 'session' point to the
+        database and a session class used by application.class.
+      </p>
+<div class="sect2">
+<a name="func-application-application"></a><div class="titlepage"><div><h3 class="title">
+<a name="func-application-application"></a><span class="title">application () constructor</span>
+</h3></div></div>
+<p>
+	  There is no constructor for application objects. All initialisation
+	  is done in <a href="ch05s02.html#func-application-run">run ()</a>.
+        </p>
+<pre class="programlisting">
+&lt;?
+  require 'proc/application.class';
+  class MyApp extends application {
+    # ... more code ...
+  }
+
+  $app = new MyApp;
+  $app-&gt;run ();
+?&gt;
+        </pre>
+</div>
+<div class="sect2">
+<a name="func-application-run"></a><div class="titlepage"><div><h3 class="title">
+<a name="func-application-run"></a><span class="title">run ()</span>
+</h3></div></div>
+<p>
+	  Run an application object.
+        </p>
+<pre class="synopsis">
+&lt;?
+  $app = new MyApp;
+  $app-&gt;run();
+?&gt;
+        </pre>
+</div>
+<div class="sect2">
+<a name="sect-dbi-conf-php"></a><div class="titlepage"><div><h3 class="title">
+<a name="sect-dbi-conf-php"></a><span class="title">.dbi.conf.php file</span>
+</h3></div></div>
+<p>
+          application.class expects a configuration file named
+          '.dbi.conf.php' in its working directory.
+        </p>
+<pre class="programlisting">
+
+&lt;?
+  # Example config file.
+  $dbidatabase = 'mydatabase';
+  $dbiserver = 'localhost';
+  $dbiuser = 'myuser';
+  $dbipwd = 'secret_password'; # Mix numbers, letters and special chars!
+?&gt;
+
+        </pre>
+<p>
+          Some library parts need additional information in the
+          .dbi.conf.php file, e.g. the language type or table names.
+        </p>
+</div>
+<div class="sect2">
+<a name="func-application-init"></a><div class="titlepage"><div><h3 class="title">
+<a name="func-application-init"></a><span class="title">init() in derived class</span>
+</h3></div></div>
+<p>
+	  If application class initialised itself in the
+	  <a href="ch05s02.html#func-application-run">run ()</a> function
+	  and connected to a database, it calls the init function
+	  of the derived class where 
+	  <a href="#">tables must be defined</a>
+	  and the page functions must be
+	  <a href="ch05s03.html">registered</a>.
+        </p>
+</div>
+<div class="sect2">
+<a name="var-application-debug"></a><div class="titlepage"><div><h3 class="title">
+<a name="var-application-debug"></a><span class="title">Member variable debug - debug mode</span>
+</h3></div></div>
+<p>
+	  If the member variable 'debug' is true, the functions calls are
+	  traces and dumped as preformatted
+	  <a href="http://www.php.net/print_r" target="_top">print_r ()</a> dump.
+        </p>
+<pre class="programlisting">
+&lt;?
+  $app = new MyApp;
+  $app-&gt;debug = true;
+  $app-&gt;run();
+?&gt;
+        </pre>
+</div>
+<div class="sect2">
+<a name="var-application-raw-views"></a><div class="titlepage"><div><h3 class="title">
+<a name="var-application-raw-views"></a><span class="title">Member array raw_views - Mark views as raw.</span>
+</h3></div></div>
+<p>
+	  This array contains the views as keys which output HTML on their
+	  own. The <a href="ch06.html">the user interface</a> takes
+	  care of it and doesn't output HTML headers for views marked raw.
+        </p>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="ch05.html">Prev</a> </td>
+<td width="20%" align="center"><a href="index.html">Home</a></td>
+<td width="40%" align="right"> <a href="ch05s03.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">Chapter 5. Application base class </td>
+<td width="20%" align="center"><a href="ch05.html">Up</a></td>
+<td width="40%" align="right"> Registering and invoking page functions</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

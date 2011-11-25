@@ -1,0 +1,121 @@
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<title>Definieren der SQL-Tabelle</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.29">
+<link rel="home" href="index.html" title="Caroshi-Tutorial">
+<link rel="up" href="ch04.html" title="Chapter 4. SQL-Zugriffe">
+<link rel="previous" href="ch04.html" title="Chapter 4. SQL-Zugriffe">
+<link rel="next" href="ch04s03.html" title="Auflisten von Result-Sets: Die Indexseite">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">Definieren der SQL-Tabelle</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="ch04.html">Prev</a> </td>
+<th width="60%" align="center">Chapter 4. SQL-Zugriffe</th>
+<td width="20%" align="right"> <a href="ch04s03.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect1">
+<a name="id2715154"></a><div class="titlepage"><div><h2 class="title" style="clear: all">
+<a name="id2715154"></a><span class="title">Definieren der SQL-Tabelle</span>
+</h2></div></div>
+<p>
+Damit ein Datensatz einer bestimmten Position in der Quelle zugeordnet werden
+kann, muss dieser einen einmaligen Schluessel enthalten. Im Falle unserer
+SQL-Datenbank benoetigt die Tabelle einen Primaerschluessel und
+admin_panel muss herausfinden koennen wie dieser heisst. Saemtliche Programme
+verwenden dazu die automatisch von Klasse application erzeugte Instanz von
+Klasse dbdepend, welche als Mitgliedsvariable 'def' der gemeinsam
+verwendeten Datenbankschnittstelle zur verfügung steht ($this-&gt;db-&gt;def).
+      </p>
+<p>
+dbdepend fasst auch ganze Beschreibungen von Tabellen und deren Felder,
+und bietet darauf basiernde und hilfreiche Funktionen,
+z.B. zur Tabellenerstellung oder zum manipulieren von Baumstrukturen.
+Diese wollen wir uns zunutze machen und definieren die Tabelle 'personen'
+zusaetzlich zum Primaerschluessel mit Feldnamen und Typen.
+      </p>
+<p>
+Wieder ist die init()-Funktion der beste Ort, um unsere Tabelle zu definieren.
+In der folgenden Version wird die Tabelle auch, zusammen mit einem ersten
+Eintrag, erstellt.
+      </p>
+<pre class="programlisting">
+
+  function init ()
+  {
+    $db =&amp; $this-&gt;db;
+    $def =&amp; $db-&gt;def;
+
+    # Definiere Tabelle 'personen' mit Feldnamen und SQL-Typ.
+    $def-&gt;define_table (
+      'personen',
+      array (array ('n' =&gt; 'id',
+                    't' =&gt; 'INT NOT NULL AUTO_INCREMENT PRIMARY KEY'),
+             array ('n' =&gt; 'name',
+	            't' =&gt; 'VARCHAR(255) NOT NULL'),
+             array ('n' =&gt; 'vorname',
+	            't' =&gt; 'VARCHAR(255) NOT NULL'),
+             array ('n' =&gt; 'email',
+	            't' =&gt; 'VARCHAR(255) NOT NULL'),
+             array ('n' =&gt; 'fon',
+	            't' =&gt; 'VARCHAR(255) NOT NULL'),
+             array ('n' =&gt; 'fax',
+	            't' =&gt; 'VARCHAR(255) NOT NULL'))
+    );
+    # Name des Primaerschluessels angeben.
+    $def-&gt;set_primary ('personen', 'id');
+
+    # Leeren Personeneintrag mit ID 1 erstellen, falls dieser nicht existiert.
+    $res = $db-&gt;select ('*', 'personen', 'id=1');
+    if ($res-&gt;num_rows () &lt; 1) {
+      $db-&gt;create_tables (); # Vorsichtshalber Tabelle erstellen.
+      $db-&gt;create_row ('personen');
+    }
+
+    # Funktion 'person_editieren' als View definieren.
+    $this-&gt;add_view ($this, 'person_editieren');
+
+    admin_panel::instnace (new admin_panel ($this, 'Personendatenbank'));
+  }
+
+  function defaultview ()
+  {
+    $ui =&amp; admin-panel::instance ();
+
+    $ui-&gt;link ('Link zum Formular des ersten Datensatzes',
+               'person_editieren', array ('id' =&gt; 1));
+  }
+
+      </pre>
+<p>
+<a href="05_form_edit.php" target="_top">Beispielanwendung</a>
+<a href="05_form_edit.php.txt" target="_top">(Quelltext)</a>
+      </p>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="ch04.html">Prev</a> </td>
+<td width="20%" align="center"><a href="index.html">Home</a></td>
+<td width="40%" align="right"> <a href="ch04s03.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">Chapter 4. SQL-Zugriffe </td>
+<td width="20%" align="center"><a href="ch04.html">Up</a></td>
+<td width="40%" align="right"> Auflisten von Result-Sets: Die Indexseite</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

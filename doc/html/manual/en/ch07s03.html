@@ -1,0 +1,135 @@
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<title>Range editor</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.29">
+<link rel="home" href="index.html" title="Caroshi">
+<link rel="up" href="ch07.html" title="Chapter 7. Toolkits for the user interface">
+<link rel="previous" href="ch07s02.html" title="List move">
+<link rel="next" href="ch07s04.html" title="Editor for records without references">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">Range editor</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="ch07s02.html">Prev</a> </td>
+<th width="60%" align="center">Chapter 7. Toolkits for the user interface</th>
+<td width="20%" align="right"> <a href="ch07s04.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect1">
+<a name="sect-tk-range-edit"></a><div class="titlepage"><div><h2 class="title" style="clear: all">
+<a name="sect-tk-range-edit"></a><span class="title">Range editor</span>
+</h2></div></div>
+<p>
+        The tk_edit_range function allows a user to select multiple records
+        using markers in a single source and to pass the record's keys to a
+        function.
+      </p>
+<p>
+        To include a record into the selection, place a
+	<a href="#">checkbox ()</a> named 'marker'
+	in it.
+      </p>
+<div class="sect2">
+<a name="func-tk-range-select"></a><div class="titlepage"><div><h3 class="title">
+<a name="func-tk-range-select"></a><span class="title">tk_range_edit_select ()</span>
+</h3></div></div>
+<pre class="synopsis">
+  void tk_range_edit_select (&amp;$this);
+        </pre>
+<p>
+          Reads in all selected markers from a form and highligts them.
+          If markers of different sources were posted the function dies.
+	</p>
+</div>
+<div class="sect2">
+<a name="func-tk-range-call"></a><div class="titlepage"><div><h3 class="title">
+<a name="func-tk-range-call"></a><span class="title">tk_range_edit_call ()</span>
+</h3></div></div>
+<pre class="synopsis">
+  void tk_range_edit_call (&amp;$this);
+        </pre>
+<p>
+          Passed all keys of selected record's keys posted to
+          tk_range_edit_select last time to a function.
+	</p>
+<p>
+          The built-in record function delete() recognizes arrays of keys.
+	</p>
+</div>
+<div class="sect2">
+<a name="func-tk-range-all-selected"></a><div class="titlepage"><div><h3 class="title">
+<a name="func-tk-range-all-selected"></a><span class="title">tk_range_edit_all_selected ()</span>
+</h3></div></div>
+<pre class="synopsis">
+  int tk_range_edit_all_selected (&amp;$this);
+        </pre>
+<p>
+	  Returns 0 if all markers are unset, 1 if they're set or 2 if there're
+	  set and unset markers.
+	</p>
+</div>
+<div class="sect2">
+<a name="ex-tk-range"></a><div class="titlepage"><div><h3 class="title">
+<a name="ex-tk-range"></a><span class="title">An example widget</span>
+</h3></div></div>
+<pre class="programlisting">
+
+  # Widget to select and delete groups of records in a list,
+  function widget_range_delete (&amp;$this)
+  {
+    $p =&amp; $this-&gt;ui;
+    $table = $this-&gt;v-&gt;source;
+
+    $p-&gt;open_row ();
+    $v =&amp; new view ('tk_range_edit_select');
+    $v-&gt;set_next ($this-&gt;view ());
+    $p-&gt;submit_button ('select range', $v);
+
+    $sel = tk_range_edit_all_selected ($this);
+    if ($sel == 0 || $sel == 2) {
+      $v =&amp; new view ('tk_range_edit_select_all');
+      $v-&gt;set_next ($this-&gt;view ());
+      $p-&gt;submit_button ('select all', 'tk_range_edit_select_all', $next);
+    }
+    if ($sel == 1 || $sel == 2) {
+      $v =&amp; new view ('tk_range_edit_unselect_all');
+      $v-&gt;set_next ($this-&gt;view ());
+      $p-&gt;submit_button ('unselect all', 'tk_range_edit_unselect_all', $next);
+    }
+
+    $v =&amp; new view ('record_delete', array ('argname' =&gt; 'id'));
+    $v =&amp; new view ('tk_range_edit_call', array ('view' =&gt; $v));
+    $v-&gt;set_next ($this-&gt;view ());
+    $p-&gt;submit_button ('delete', $v);
+    $p-&gt;close_row ();
+  }
+
+	</pre>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="ch07s02.html">Prev</a> </td>
+<td width="20%" align="center"><a href="index.html">Home</a></td>
+<td width="40%" align="right"> <a href="ch07s04.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">List move </td>
+<td width="20%" align="center"><a href="ch07.html">Up</a></td>
+<td width="40%" align="right"> Editor for records without references</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

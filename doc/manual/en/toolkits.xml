@@ -1,0 +1,593 @@
+  <!--
+    ### TOOLKITS ###
+  -->
+
+  <chapter id="sect-tk">
+    <title>Toolkits for the user interface</title>
+    <para>
+      Toolkits are modules for the user interface. They contain an
+      initialisation function that must be called from your applications'
+      <link linkend="func-application-init">init() function</link>.
+      Each toolkit function or page function starts with 'tk_', to distinguish
+      them from the user's modules, followed
+      by the module name and the function name. Initialisation functions
+      always end with '_init'. So the name of the init function of the
+      autoform toolkit is <emphasis>tk_autoform_init</emphasis>.
+      All init functions take a reference to the application class as the
+      first and only parameter and need a reference to the user interface
+      in $this->ui.
+    </para>
+    <programlisting>
+  function init ()
+  {
+    $this->define_my_tables ();
+    $this->ui = admin_panel ($this, 'My admin title');
+    tk_autoform_init ($this);
+    $this->add_my_views ();
+  }
+    </programlisting>
+
+    <sect1 id="sect-tk-autoform">
+      <title>Auto forms</title>
+      <para>
+        The autoform toolkit creates form based on SQL table
+        definitions stored in dbdepend.class objects. autoform
+        cannot be used with other interfaces than dbi.
+      </para>
+      <para>
+        The
+	<link linkend="func-dbdepend-define-table">table definitions</link>
+	might contain an entry with key 'auto_form'. If it contains the
+	keyword 'hide', the field is never listed or used in forms.
+      </para>
+      <programlisting>
+  $def-&gt;define_table (
+    'locations',
+    array (array ('n' =&gt; 'id',
+                  # Do not show id in autoform widgets.
+                  'auto_form' =&gt; array ('hide' =&gt; true),
+                  'd' =&gt; 'ID',
+                  't' =&gt; 'INT NOT NULL AUTO_INCREMENT PRIMARY KEY'),
+           array ('n' =&gt; 'id_parent',
+                  'i' =&gt; true,
+                  't' =&gt; 'INT NOT NULL'),
+           array ('n' =&gt; 'name',
+                  'i' =&gt; true,
+                  't' =&gt; 'VARCHAR(255) NOT NULL'),
+    )
+  );
+  $def-&gt;set_primary ('locations', 'id');
+      </programlisting>
+
+      <sect2 id="func-tk-autoform-init">
+        <title>tk_autoform_init ()</title>
+
+	<synopsis>
+void tk_autoform_init (&amp;$this);
+	</synopsis>
+      </sect2>
+
+      <sect2 id="func-tk-autoform-create-widget">
+        <title>tk_autoform_create_widget ()</title>
+	<synopsis>
+void tk_autoform_create_widget (&amp;$this, $table, $field);
+	</synopsis>
+        <para>
+          Print a row with a label and input widget for a field in a
+          table.
+        </para>
+      </sect2>
+
+      <sect2 id="func-tk-autoform-create-form">
+        <title>tk_autoform_create_form ()</title>
+	<synopsis>
+void tk_autoform_create_form (&amp;$this, $source = '');
+	</synopsis>
+
+        <para>
+          Calls <link linkend="func-tk-autoform-create_widget()">tk_autoform_create-widget()</link>
+          for all fields in a table.
+        </para>
+      </sect2>
+
+      <sect2 id="func-tk-autoform-list-results">
+        <title>tk_autoform_list_results ()</title>
+	<synopsis>
+void tk_autoform_list_results (&amp;$this, $config);
+	</synopsis>
+	<para>
+	  This function display a table of all results specified by a
+	  former call to
+	  <link linkend="func-ui-query">admin_panel::query()</link>.
+	  Array $config contains the following entries:
+	</para>
+	<itemizedlist>
+	  <listitem>
+	    <para>
+	      $fields is an array of field names that should be displayed.
+	      If its not set, all fields are listed.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      $call is the name of the view to call when selecting a record
+	      with argument named $id containing the records primary key.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      If an entry called <emphasis>head_fields</emphasis> exists, it
+              must contain one or more table header strings keyed by field
+              name. If a header string is not specified for a particular
+              field, itis taken from the
+              <link linkend="class-dbdepend">database description</link>.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      If an array called 'cell_functions' exists, it must contain an
+	      array of one or more functions keyed by field name, which
+	      display the according fields. If no function is specified for a
+	      field, it is just printed with
+	      <link linkend="func-ui-label">label()</link>.
+	    </para>
+	  </listitem>
+        </itemizedlist>
+      </sect2>
+
+      <sect2 id="func-tk-autoform-list-search-results">
+        <title>tk_autoform_list_search_results ()</title>
+	<synopsis>
+void tk_autoform_list_search_results (&amp;$this, $config);
+	</synopsis>
+	<para>
+	  This function calls
+	  <link linkend="func-tk-autoform-list-results">tk_autoform_list_results()</link>
+	  to display the last search results from form function
+	  <link linkend="func-form-dbisearch">form_dbisearch()</link>.
+	</para>
+      </sect2>
+    </sect1>
+
+    <sect1 id="sect-tk-list-move">
+      <title>List move</title>
+      <para>
+        The list_move toolkit is an editor that allows the user to change the
+	position of a record in a
+	<link linkend="func-dbdepend-is-list">doubly-linked list</link>.
+      </para>
+      <para>
+        To edit a list just create a link to tk_list_move. Don't forget to
+	initialise the module.
+	A function that prints the records as well as the source name and
+	a selection for <link linkend="func-ui-query">query()</link> must be
+	specified, which returns a complete list with a common or no parent.
+      </para>
+    </sect1>
+
+    <sect1 id="sect-tk-range-edit">
+      <title>Range editor</title>
+      <para>
+        The tk_edit_range function allows a user to select multiple records
+        using markers in a single source and to pass the record's keys to a
+        function.
+      </para>
+      <para>
+        To include a record into the selection, place a
+	<link linkend="func-ui-checkbox">checkbox ()</link> named 'marker'
+	in it.
+      </para>
+
+      <sect2 id="func-tk-range-select">
+        <title>tk_range_edit_select ()</title>
+        <synopsis>
+  void tk_range_edit_select (&amp;$this);
+        </synopsis>
+	<para>
+          Reads in all selected markers from a form and highligts them.
+          If markers of different sources were posted the function dies.
+	</para>
+      </sect2>
+
+      <sect2 id="func-tk-range-call">
+        <title>tk_range_edit_call ()</title>
+        <synopsis>
+  void tk_range_edit_call (&amp;$this);
+        </synopsis>
+	<para>
+          Passed all keys of selected record's keys posted to
+          tk_range_edit_select last time to a function.
+	</para>
+	<para>
+          The built-in record function delete() recognizes arrays of keys.
+	</para>
+      </sect2>
+
+      <sect2 id="func-tk-range-all-selected">
+        <title>tk_range_edit_all_selected ()</title>
+        <synopsis>
+  int tk_range_edit_all_selected (&amp;$this);
+        </synopsis>
+	<para>
+	  Returns 0 if all markers are unset, 1 if they're set or 2 if there're
+	  set and unset markers.
+	</para>
+      </sect2>
+
+      <sect2 id="ex-tk-range">
+        <title>An example widget</title>
+	<programlisting>
+<![CDATA[
+  # Widget to select and delete groups of records in a list,
+  function widget_range_delete (&$this)
+  {
+    $p =& $this->ui;
+    $table = $this->v->source;
+
+    $p->open_row ();
+    $v =& new view ('tk_range_edit_select');
+    $v->set_next ($this->view ());
+    $p->submit_button ('select range', $v);
+
+    $sel = tk_range_edit_all_selected ($this);
+    if ($sel == 0 || $sel == 2) {
+      $v =& new view ('tk_range_edit_select_all');
+      $v->set_next ($this->view ());
+      $p->submit_button ('select all', 'tk_range_edit_select_all', $next);
+    }
+    if ($sel == 1 || $sel == 2) {
+      $v =& new view ('tk_range_edit_unselect_all');
+      $v->set_next ($this->view ());
+      $p->submit_button ('unselect all', 'tk_range_edit_unselect_all', $next);
+    }
+
+    $v =& new view ('record_delete', array ('argname' => 'id'));
+    $v =& new view ('tk_range_edit_call', array ('view' => $v));
+    $v->set_next ($this->view ());
+    $p->submit_button ('delete', $v);
+    $p->close_row ();
+  }
+]]>
+	</programlisting>
+      </sect2>
+    </sect1>
+
+    <sect1 id="sect-tk-record-edit">
+      <title>Editor for records without references</title>
+      <para>
+        This module lets the user edit and search records in a single
+	source. This module is based on the
+	<link linkend="sect-tk-autoform">autoform</link> and
+	<link linkend="sect-tk-dbisearch">dbisearch</link> toolkit.
+      </para>
+
+      <sect2 id="func-tk-record-edit-init">
+        <title>tk_record_edit_init ()</title>
+	<synopsis>
+  void tk_record_edit_init (&amp;$application_object);
+	</synopsis>
+	<para>
+	  This function initialises the module.
+	</para>
+      </sect2>
+
+      <sect2 id="func-tk-record-edit">
+        <title>tk_record_edit ()</title>
+	<synopsis>
+  void tk_record_edit (&amp;$application_object);
+	</synopsis>
+	<para>
+	  Module's entry page function. The following arguments can be
+	  passed:
+	</para>
+	<itemizedlist>
+	  <listitem>
+	    <para>
+	      source - Specifies the source of records to edit.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      list_fields - Array of fields that should be displayed in lists.
+	      If not specified all fields are shown if not configured otherwise
+	      in the according <link linkend="sect-tk-autoform">autoform</link>
+	      configuration.
+	    </para>
+	  </listitem>
+	</itemizedlist>
+      </sect2>
+    </sect1>
+
+    <sect1 id="sect-tk-dbisearch">
+      <title>dbi search</title>
+      <para>
+      </para>
+
+      <sect2 id="func-tk-dbisearch-init">
+        <title>tk_dbisearch_init ()</title>
+	<synopsis>
+  void tk_record_edit_init (&amp;$application_object);
+	</synopsis>
+	<para>
+	  This function initialises the module.
+	</para>
+      </sect2>
+
+      <sect2 id="func-form-dbisearch">
+        <title>form_dbisearch ()</title>
+        <para>
+	  This is a form function that takes arguments that define the
+	  search behaviour.
+	</para>
+	<para>
+	  The opened source defines the table to search. There can only be
+	  one source. If fields of more than one source are sent to this
+	  function, it dies with an error message stating the problem.
+	</para>
+	<para>
+	  There two modes of operation. If <emphasis>argument 'mode'</emphasis>
+	  is set to <emphasis>'all_fields'</emphasis>, the first element in the
+	  posted form is used to search for its occurence in all fields of the
+	  table. If it's unset or not equal to
+	  <emphasis>'all_fields'</emphasis>, a single form element contains
+	  a string that is only searched in the column specified by the field
+	  name. If there're multiple fields to search, they're ANDed, which
+	  means that a record must match all fields.
+	</para>
+	<para>
+          By default, form_dbisearch() ignores an empty search field when in
+          all_fields mode. If argument 'list_all' is set all records are
+          listed.
+	</para>
+	<para>
+	  To display a search result
+	  <link linkend="func-tk-autoform-list-search-results">tk_autoform_list_search_results()</link>
+	  must be used.
+	</para>
+      </sect2>
+    </sect1>
+
+    <sect1 id="sect-tk-fsb">
+      <title>File selector box</title>
+      <para>
+      </para>
+
+      <sect2 id="func-tk-fsb-init">
+        <title>tk_fsb_init ()</title>
+	<synopsis>
+void tk_fsb_init (&amp;$this);
+	</synopsis>
+      </sect2>
+
+      <sect2 id="func-tk-fsb">
+        <title>tk_fsb ()</title>
+	<synopsis>
+void tk_fsb (&amp;$this);
+	</synopsis>
+      </sect2>
+    </sect1>
+
+    <sect1 id="sect-tk-dbconf">
+      <title>dbconf editor</title>
+      <para>
+      </para>
+
+      <sect2 id="func-tk-dbconf-init">
+        <title>tk_dbconf_init ()</title>
+	<synopsis>
+ void tk_dbconf_init (&amp;$this, &amp;$dbconf);
+	</synopsis>
+      </sect2>
+
+      <sect2 id="func-tk-dbconf">
+        <title>tk_dbconf ()</title>
+	<synopsis>
+void tk_dbconf (&amp;$this);
+	</synopsis>
+      </sect2>
+    </sect1>
+
+    <sect1>
+      <title>Tree editor</title>
+      <para>
+      </para>
+    </sect1>
+
+    <sect1>
+      <title>Tree lister</title>
+      <para>
+        Lists a path through records in a self-referencing table.
+      </para>
+
+      <sect2 id="func-tk-dbobj-ls-init">
+        <title>tk_dbobj_ls_init ()</title>
+	<synopsis>
+tk_dbobj_ls_init (&amp;$this);
+	</synopsis>
+      </sect2>
+
+      <sect2 id="func-tk-dbobj-ls">
+        <title>tk_dbobj_ls ()</title>
+	<synopsis>
+tk_dbobj_ls (&amp;$this, $table, $id, $link_current = false);
+	</synopsis>
+      </sect2>
+    </sect1>
+    <sect1 id="class-tk-template">
+      <title>HTML template toolkit</title>
+      <para>
+        If you've been in web-frontend programming business for a while you
+	will undoubtly notice that a good look of your software is sometimes
+	as important as it's functionality: it should be a pleasure to the eyes
+	when one has to work with the software a few hours a day.
+	The standard widget set's layout is designed to be fast over very
+	slow connections but it doesn't look very nice *sigh*.
+      </para>
+      <para>
+        One solution to this problem is to write an own
+	<link linkend="sect-widget-sets">widget set</link> but
+        often you don't want to create HTML templates yourself. Especially if
+	you're a programmer you're happy if you can get HTML code done by an
+	artist which is ready to get plugged in to your program.
+	The artist should only have to know some extra tags he can place
+	in his HTML code to fill in dynamic content. And since you
+	can focus just on the data, your code will be more clean.
+      </para>
+      <para>
+	Let's take a look at a view function that displays a tables contents
+	the traditional way:
+      </para>
+<programlisting>
+<![CDATA[
+  function show_table ($this)
+  {
+    $p =& $this->ui;
+
+    $p->headline ('Table listing');
+
+    $p->open_source ('table');
+    if ($p->query ()) {
+      while ($p->get ()) {
+        $p->inputline ('surname');
+        $p->inputline ('name');
+      }
+    } else
+      $p->msgbox ('No entries found.');
+    $p->close_source ();
+  }
+]]>
+</programlisting>
+      <para>
+        The code is quite straightforward. After printing the title we
+	open a source, select a result and print widgets for each field.
+	Surely an artist is not interested about how to fetch a result set.
+	He wants the result set to be already there and to repeat a part
+	of the template for each result. Some parts of the template should
+	be used conditionally (e.g. status messages).
+      </para>
+      <para>
+        xml_template class method exec() takes the name of a template and an
+	array of data keyed by names that can be matched within the template.
+	After the tags were replaced, the template is echoed.
+	Before using exec(), the tk_template module must
+	be initialised so you can get form names und useful urls normally
+	used in wiget sets. In the following example we use the
+	chached version of xml_template:
+      </para>
+<programlisting>
+<![CDATA[
+<?
+  include 'admin_panel/tk/template.php';
+  include 'text/xml/template__cached.class';
+
+  finction init (&$this)
+  {
+    # ... other initialisations...
+
+    tk_template_init ($this, new xml_template_cached ($this->db));
+  }
+
+  function show_table ($this)
+  {
+    $p =& $this->ui;
+    $res = array ();
+
+    $p->no_update;	# Avoid form generation in open_source().
+    $p->open_source ('table');
+    if ($p->query ()) {
+      while ($p->get ()) {
+        tk_template_get_field ($this, $r, 'surname');
+        tk_template_get_field ($this, $r, 'name');
+	$res['table'][] = $r;
+      }
+    } else
+      $res['error'] = 'No entry found.';
+    $p->close_source ();
+
+    $this->tk_template->exec ('show_table.html', $res);
+  }
+?>
+]]>
+</programlisting>
+      <para>
+        This is show_table.html (virtually done by an artist):
+      </para>
+<programlisting>
+<![CDATA[
+<html>
+  <head><title>Show table</title></head>
+  <body>
+    <h3>Contents of table</h3>
+    <!-- Show error message if exists. -->
+    <cms:if match="error">
+      <font color="red"><h3><cms:value match="error"/></font>
+    </cms:if>
+    <cms:if-not match="status">
+      <form action="<cms:form-action/>" method="post">
+      <table>
+        <cms:list match="table">
+          <tr>
+            <td><input type="text" value="<cms:value field="name"/>"
+	               name="<cms:name field="name"/></td>
+            <td><input type="text" value="<cms:value field="surname"/>"
+	               name="<cms:name field="surname"/></td>
+          </tr>
+        </cms:list>
+      </table>
+      <input type="submit" value="Ok" name="<cms:value match="submit"/>">
+      </form>
+    </cms:if>
+  </body>
+</html>
+]]>
+</programlisting>
+      <para>
+
+	Since the template contains a form for field of the result set so
+	the user can edit and post them, we fetch a form field description
+	using tk_template_field() which also stores the current value.
+	tk_template() recognizes field descriptions automatically so you can
+	store them like scalars.
+      </para>
+      <para>
+        tk_template() uses the XML scanner class shipped with the
+	Caroshi. To speed up the whole process of generating
+	HTML output each template is read from the file once, scanned and
+	stored to the database as a document tree which can be processed
+	quite fast. To update a template, its entry in the database must
+	be deleted. Alternatively the whole template table can be deleted
+	since they'll be restored on demand.
+      </para>
+      <para>
+        In the following sections we'll explain the tk_template() functions
+	in detail, followed by the tags available.
+      </para>
+
+      <sect2 id="tk-template-tags">
+        <title>Tags</title>
+	<para>
+	  tk_template() uses a fixed set of tags that allow fetching scalar
+	  values and iterate over lists using the same block repeatedly as
+	  well as simple conditionally executed blocks that test if
+	  particular results were defined or not.
+	</para>
+        <sect3 id="tk-template-tag-if">
+          <title>IF</title>
+	  <para>
+	  </para>
+        </sect3>
+      </sect2>
+
+      <sect2 id="tk-template-extenstions">
+	<title>Extensions</title>
+        <para>
+	  The template toolkit provides a very simple interface to the
+	  XML scanner. Widget and helper functions for it are also
+	  available but change a lot. If you can't afford to be interrupted
+	  by API changes, use an own copy of the files.
+	  You can find all (yet undocumented) extensions in directory
+	  admin_panel/tk/template/ext.
+        </para>
+      </sect2>
+    </sect1>
+  </chapter>

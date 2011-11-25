@@ -1,0 +1,328 @@
+  <!--
+    ### APPLICATION FRAMEWORK ###
+  -->
+
+  <chapter id="class-application">
+    <title>Application base class</title>
+
+    <para>
+      Application class calls functions described by event objects.
+    </para>
+
+    <sect1>
+      <title>An example application</title>
+
+      <para>
+        applications must be derived from application.class and
+        contain an
+	<link linkend="func-application-init">init ()</link>,
+	<link linkend="func-application-close">close ()</link> and
+	<link linkend="func-application-defaultview">defaultview ()</link>
+	function.
+      </para>
+
+      <programlisting>
+<![CDATA[
+<?
+  error_reporting (-1);
+  $debug = 0;
+
+  require 'proc/application.class';
+
+  # We must derive a new class from application.
+  class MyApp extends application {
+
+    # This is invoked once after the database connection in $this->db is
+    # established and the token is validated if there is any.
+    # You *MUST* register your views in here.
+    function init ()
+    {
+      $this->add_method ('my_view', $this);
+
+      # This is a good place for dbi.class definitions or to allocate
+      # other objects like a <link linkend="sect-ui">user interface</link>..
+    }
+
+    function defaultview ()
+    {
+      $v =& new view ('my_view', array ('text' =&gt; 'Hello World!'));
+      echo '<A HREF="' . $this->link ($v) . '">Click here.</A>';
+    }
+
+    function my_view ()
+    {
+      echo '<h3>' . $this->arg ('text') . '</h3>';
+    }
+
+    function close ()
+    {
+    }
+  }
+
+  $app = new MyApp;
+  $app->debug = $debug;
+  $app->run ();
+?>
+]]>
+      </programlisting>
+    </sect1>
+
+    <sect1>
+      <title>Initialisation</title>
+
+      <para>
+        application.class automatically connects to the database using
+	login data from a configuration file in its working directory and
+        calls the init() function which should
+        occur in the derived class where user-defined stuff can be initialised,
+
+        The member variables 'dbi' and 'session' point to the
+        database and a session class used by application.class.
+      </para>
+
+      <sect2 id="func-application-application">
+        <title>application () constructor</title>
+
+        <para>
+	  There is no constructor for application objects. All initialisation
+	  is done in <link linkend="func-application-run">run ()</link>.
+        </para>
+
+        <programlisting>
+&lt;?
+  require 'proc/application.class';
+  class MyApp extends application {
+    # ... more code ...
+  }
+
+  $app = new MyApp;
+  $app->run ();
+?&gt;
+        </programlisting>
+      </sect2>
+
+      <sect2 id="func-application-run">
+        <title>run ()</title>
+
+        <para>
+	  Run an application object.
+        </para>
+
+        <synopsis>
+&lt;?
+  $app = new MyApp;
+  $app->run();
+?&gt;
+        </synopsis>
+      </sect2>
+
+      <sect2 id="sect-dbi-conf-php">
+        <title>.dbi.conf.php file</title>
+
+        <para>
+          application.class expects a configuration file named
+          '.dbi.conf.php' in its working directory.
+        </para>
+
+        <programlisting>
+<![CDATA[
+<?
+  # Example config file.
+  $dbidatabase = 'mydatabase';
+  $dbiserver = 'localhost';
+  $dbiuser = 'myuser';
+  $dbipwd = 'secret_password'; # Mix numbers, letters and special chars!
+?>
+]]>
+        </programlisting>
+
+        <para>
+          Some library parts need additional information in the
+          .dbi.conf.php file, e.g. the language type or table names.
+        </para>
+      </sect2>
+
+      <sect2 id="func-application-init">
+        <title>init() in derived class</title>
+
+        <para>
+	  If application class initialised itself in the
+	  <link linkend="func-application-run">run ()</link> function
+	  and connected to a database, it calls the init function
+	  of the derived class where 
+	  <link linkend="class-dbdepend">tables must be defined</link>
+	  and the page functions must be
+	  <link linkend="sect-application-page-functions">registered</link>.
+        </para>
+      </sect2>
+
+      <sect2 id="var-application-debug">
+        <title>Member variable debug - debug mode</title>
+
+        <para>
+	  If the member variable 'debug' is true, the functions calls are
+	  traces and dumped as preformatted
+	  <ulink url="http://www.php.net/print_r">print_r ()</ulink> dump.
+        </para>
+
+        <programlisting>
+&lt;?
+  $app = new MyApp;
+  $app->debug = true;
+  $app->run();
+?&gt;
+        </programlisting>
+      </sect2>
+
+      <sect2 id="var-application-raw-views">
+        <title>Member array raw_views - Mark views as raw.</title>
+
+        <para>
+	  This array contains the views as keys which output HTML on their
+	  own. The <link linkend="sect-ui">the user interface</link> takes
+	  care of it and doesn't output HTML headers for views marked raw.
+        </para>
+      </sect2>
+
+    </sect1>
+
+    <sect1 id="sect-application-page-functions">
+      <title>Registering and invoking page functions</title>
+
+      <para>
+        Calls to functions are encapsulated in an URL by the
+	<link linkend="func-application-link">link ()</link> function.
+        Parameters are passed as a single array which is more flexible and
+        makes argument changes a lot easier.
+        When the link is called, the arguments' array elements must be
+	fetched with help of the argument getter functions.
+        Argument elements should never start with two underscores
+        because application.class does so for internal data.
+        For more flexibility links can be batched, e.g. you can
+        call a function that creates a record followed by a function
+        which displays the according page.
+      </para>
+
+      <sect2 id="func-application-defaultview">
+        <title>defaultview ()</title>
+
+        <synopsis>
+void defaultview ();
+        </synopsis>
+
+        <para>
+          The default page function defaultview() is called if no function
+          was specified (e.g. the application started the first time).
+          User functions must be registered. Any function, also in
+          other classes and outside classes can be specified. Every
+          function (except in derived classes) take a reference to
+          the application.class instance and the argument array.
+        </para>
+      </sect2>
+    </sect1>
+
+    <sect1>
+      <title>Calling functions in a subsession</title>
+
+      <para>
+        At the time you've implemented a generic set of functions
+        for regular reuse you'd like to pack them into a module
+        which can be called like a single page function.
+        It would also be nice if the called function could return to
+        the caller without actually knowing its name or arguments.
+      </para>
+
+      <para>
+        application.class provides such mechanisms: A function
+        can be &quot;called&quot; (in matters of returning to the
+        caller later on) by marking the arguments to the called
+        function using view::set_caller().
+      </para>
+
+      <para>
+        In case you need sessions that live on outside modules, access
+        the application's
+        <link linkend="class-dbsession">dbsession instance</link> in
+        member variable application::session.
+      </para>
+
+    </sect1>
+
+    <sect1 id="sect-application-subsession-arguments">
+      <title>Subsession arguments</title>
+
+      <para>
+        Each called module might need module-wide arguments until
+        return.
+        This arguments are passed to the module like any other
+        argument (see
+        <link linkend="func-application-link">link()</link>).
+        New subsessions are opened automatically when the
+        function arguments were tagged using
+        <link linkend="func-view-set-caller">view::set_caller()</link>.
+      </para>
+
+      <para>
+        Module-wide arguments are stored in $this->subargs.
+        They're saved when calling a functions and restored
+        when returning from it.
+        Since all arguments are passed using link() the module-wide
+        arguments must be stored in the subargs array first.
+        This can be done doing a simple assignment at the start
+        of an entry function of a module:
+      </para>
+
+      <programlisting>
+  function my_module_entry (&amp;$this)
+  {
+    # Save table name to subsession data.
+    $table_name = $this->arg ('table_name', ARG_SUB);
+
+    # Check other arguments.
+    $this->arg ('txt_ok', ARG_SUB);
+    $this->arg ('txt_error', ARG_SUB);
+
+    # ... more code here ...
+  }
+      </programlisting>
+
+      <para>
+	Alls subsesession data is copied to the local database when the
+	application exits in
+        <link linkend="func-application-close">application::close ()</link>.
+      </para>
+    </sect1>
+
+    <sect1>
+      <title>Batched function calls</title>
+
+      <para>
+        Batching function calls means to pass a set of functions to link()
+        which are called in a fixed order. This allows one to call something
+        else after a form function or functions which to rather simple
+        operations like inserting a record and then call the page function
+        again. To batch functions one on another add the name and arguemnt
+        to the link() function using view::set_next().
+      </para>
+    </sect1>
+
+    <sect1>
+      <title>Destruction</title>
+
+      <para>
+        When the last page function returns, application::close()
+        is called automatically.
+      </para>
+    </sect1>
+
+    <sect1 id="sect-application-tokens">
+      <title>Token management</title>
+
+      <para>
+        Functions for creating, reading and deleting tokens, which are
+        keys associated with data, are public to derived
+        applications. application.class uses them to create form
+        URL parts.
+      </para>
+    </sect1>
+  </chapter>

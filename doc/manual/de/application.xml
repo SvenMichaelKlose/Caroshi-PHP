@@ -1,0 +1,176 @@
+  <chapter id="intro">
+    <title>Der Applikation-Server</title>
+
+    <sect1 id="events">
+      <title>Das Event-Modell</title>
+      <para>
+        Der Application-Server arbeitet ereignisorientiert. Er vermittelt
+        Nachrichten, sog. <emphasis>Ereignisse</emphasis> zwischen dem
+        Webserver und der Anwendung sowie Teilen der Anwendung untereinander.
+      </para>
+
+      <para>
+        Ereignisse bestehen aus Objekten der Klasse <emphasis>event</emphasis>
+        und enthalten den Namen des Empf&auml;ngers sowie beliebig viele
+        Argumente, die durch ihre Namen identifiziert werden.
+      </para>
+
+      <para>
+        Events k&ouml;nnen serialisiert und zu einem beliebigen sp&auml;teren
+        Zeitpunkt ausgel&ouml;st werden. Der Empf&auml;nger besteht aus einer
+        gew&ouml;hnlichen benutzerdefinierten PHP-Funktion, der als einziger
+        Parameter eine Referenz auf die Applikationsklasse &uuml;bergeben wird.
+        &Uuml;ber sie k&ouml;nnen die Event-Argumente abgerufen und neue
+        Events erzeugt werden.
+      </para>
+
+      <para>
+        Das erste Event wird beim Aufruf der Anwendung aus der URL generiert,
+        oder mit Hilfe eines darin enthaltenen, einmaligen Schl&uuml;sselns,
+        einem <emphasis>Token</emphasis>, aus der Datenbank abgerufen und
+        ausgel&ouml;st. Danach k&ouml;nnen neue URLs aus Events erzeugt werden.
+      </para>
+
+      <para>
+        
+      </para>
+    </sect1>
+
+    <sect1 id="application-run">
+      <title>Aufbau und Ablauf einer Anwendung</title>
+      <para>
+        Anwendungen, die den Application-Server verwenden m&ouml;chten,
+        m&uuml;ssen eine neue Klasse von Klasse application ableiten und
+        diese um eine Initialisierungsfunktion (init()) und eine
+        Shutdownfunktion (close()) erweitern.
+      </para>
+
+      <para>
+        Der Aufruf der Methode application::run() f&uuml;hrt zum Aufruf
+        von init() nachdem eine Datenbankverbindung aufgenommen wurde.
+        Dann wird das in der URL spezifizierte Event ausgel&ouml;st um
+        anschliessend die Shutdownfunktion aufzurufen.
+      </para>
+
+      <para>
+        Liegt kein Event vor, z.B. weil die Anwendung das erste Mal aufgerufen
+        wird, wird der Null-Event-Handler verwendet. Der Name des Handlers
+        wird vor Aufruf von run() mit set_null_handler() &uuml;bergeben.
+      </para>
+
+      <para>
+        Innerhalb der init()-Funktion muss die Anwendung alle weiteren
+        Event-Handler registrieren. Es kann sich dabei um benutzerdefinierte
+        Funktionen oder Methoden in existierenden Objekten handler. Dazu dienen
+        die Methoden application::add_function() bzw. add_method().
+      </para>
+
+      <para>
+        Die folgende Beispielanwendung zeigt die Verwendung von Event-Handlern
+        zur Ausgabe von HTML-Dokumenten und das verlinken mit Events.
+        Das erzeugen von HTML-Code ist mit dem User-Interface, welches im
+        n&auml;chsten Kapitel beschrieben wird, deutlich einfacher.
+      </para>
+<programlisting>
+<![CDATA[
+<?php
+
+# Beispielanwendung
+
+require_once 'proc/application.class';
+
+class my_app extends application {
+
+   function init ()
+   {
+      $this->add_function ('handler1');
+   }
+
+   function close ()
+   {
+   }
+}
+
+function handler1 (&$this)
+{
+   echo "<b>Handler1:</b><p>";
+   $e =& new event ('null_handler');
+   $link = $this->link ($e);
+   echo "<a href='$link'>Click to trigger event for null_handler.</a>";
+}
+
+function null_handler (&$this)
+{
+   echo "<b>Handler1:</b><p>";
+   $e =& new event ('handler1');
+   $link = $this->link ($e);
+   echo "<a href='$link'>Click to trigger event for handler1.</a>";
+}
+
+$this =& new my_app ();
+$this->set_null_handler ('null_handler');
+$this->run ();
+]]>
+</programlisting>
+    </sect1>
+
+    <sect1 id="event-handler">
+      <title>Event-Argumente</title>
+      <para>
+        Generell k&ouml;nnen Events beliebig viele Argumente f&uuml;r den
+        Empf&auml;nger enthalten. Diese werden bevorzugt zu beginn eines
+        Handlers mit der Methode application::arg() abgerufen. Sie erwartet
+        als ersten Parameter den Namen des Arguments gefolgt von optionalen
+        Flags die das Verhalten der Methode beeinflussen.
+        So bricht die Funktion den Programmablauf ab, wenn ein Argument nicht
+        im Event vorkommt, es sei denn das Flag ARG_OPTIONAL wurde gesetzt.
+      </para>
+    </sect1>
+
+    <sect1 id="subsessions">
+      <title>Subsessions</title>
+
+      <para>
+        application bietet ausser einer globalen Session, in der Daten
+        event&uuml;bergreifend abgelegt werden k&ouml;nnen auch sog.
+        <emphasis>Subsessions</emphasis>, die mit dem Event-Mechanismus
+        gesteuert werden. Beim ersten Aufruf einer Anwendung wird automatisch
+        eine leere Subsession ge&ouml;ffnet.
+      </para>
+
+      <para>
+        Ein Event &ouml;ffnet vor dem versenden der Argumente eine neue
+        Subsession, wenn dem Event ein Absender mitgeteil wurde, zu dem
+        zur&uuml;ckgekehrt werden kann.
+      </para>
+
+      <para>
+        Um Daten in der Subsession abzulegen muss die Methode
+        application::arg() verwendet werden.
+      </para>
+
+      <para>
+        Das Flag ARG_SUB sorgt daf&uuml;r, da&szlig; ein erfolgreich gelesenes
+        Argument in der aktuellen Subsession abgelegt wird.
+        Wurde das Argument nicht per Event &uuml;bergeben, so wird der zuletzt
+        in der Subsession abgelegte Wert verwendet. Liegt auch dort das
+        Argument nicht vor, wird der Programmablauf mit einer Fehlermeldung
+        beendet, es sei denn, auch das Flag ARG_OPTIONAL wurde gesetzt.
+      </para>
+
+      <para>
+        Der Event-Handler 'return2caller' verwirft die aktuelle Subsession
+        und stellt die Argumente der vorherigen Subsession wieder her.
+      </para>
+    </sect1>
+
+    <sect1 id="event-batch">
+      <title>Stapelverarbeitung von Events</title>
+      <para>
+        Event k&ouml;nnen mit event::set_next() verkettet und nacheinander
+        versendet werden.
+      </para>
+
+    </sect1>
+
+  </chapter>

@@ -1,0 +1,63 @@
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<title>Links und Formularelemente im Cursor-Context</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.29">
+<link rel="home" href="index.html" title="Caroshi">
+<link rel="up" href="ch05.html" title="Chapter 5. Das User-Interface">
+<link rel="previous" href="ch05s02.html" title="Formatieren mit Tabellen">
+<link rel="next" href="ch05s04.html" title="Record-Funktionen">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">Links und Formularelemente im Cursor-Context</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="ch05s02.html">Prev</a> </td>
+<th width="60%" align="center">Chapter 5. Das User-Interface</th>
+<td width="20%" align="right"> <a href="ch05s04.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect1">
+<a name="cursor-context"></a><div class="titlepage"><div><h2 class="title" style="clear: all">
+<a name="cursor-context"></a><span class="title">Links und Formularelemente im Cursor-Context</span>
+</h2></div></div>
+<p>
+        admin_panel kann mit open_context() die Referenz auf einen Cursor
+        übergeben werden der für jedes Event in URLs und Form-Namen
+        neu serialisiert wird. Form-Widgets wird der Name eines Feldes im
+        Record auf den der Cursor zeigt übergeben (abrufbar mit
+        cursor::field()).
+      </p>
+<p>
+        Der Context-Cursor wird von url() und new_formfield() im Event-Argument
+        '_cursor' sowie im der Klassenvariable 'cursor' von
+        _form_element-Objekten abgelegt.
+      </p>
+<p>
+        Kontexte können verschachtelt werden.
+      </p>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="ch05s02.html">Prev</a> </td>
+<td width="20%" align="center"><a href="index.html">Home</a></td>
+<td width="40%" align="right"> <a href="ch05s04.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">Formatieren mit Tabellen </td>
+<td width="20%" align="center"><a href="ch05.html">Up</a></td>
+<td width="40%" align="right"> Record-Funktionen</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

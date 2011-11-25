@@ -1,0 +1,94 @@
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<title>Using the dbctrl interface</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.29">
+<link rel="home" href="index.html" title="Caroshi">
+<link rel="up" href="ch03.html" title="Chapter 3. Database interfaces">
+<link rel="previous" href="ch03.html" title="Chapter 3. Database interfaces">
+<link rel="next" href="ch03s03.html" title="More about the database interfaces">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">Using the dbctrl interface</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="ch03.html">Prev</a> </td>
+<th width="60%" align="center">Chapter 3. Database interfaces</th>
+<td width="20%" align="right"> <a href="ch03s03.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect1">
+<a name="id2714783"></a><div class="titlepage"><div><h2 class="title" style="clear: all">
+<a name="id2714783"></a><span class="title">Using the dbctrl interface</span>
+</h2></div></div>
+<p>
+         Class dbctrl is the common interface to SQL databases used
+         throughout the whole library. Here's an example that shows
+         how to connect to a database and perform queries:
+      </p>
+<pre class="programlisting">
+
+include 'dbi/dbctrl.class';
+include 'proc/debug_dump.php';
+
+# Try to connect to a local MySQL database.
+$db =&amp; new dbctrl ('localhost', 'mydatabase', 'myuser', 'mypassword');
+if (!$db-&gt;is_connected ())
+   die (&quot;Couldn't connect to database.&quot;);
+
+# Dump the whole content of table 'mytable'.
+$res =&amp; $db-&gt;query ('SELECT * FROM mytable');
+while ($row = $res-&gt;get ())
+   debug_dump ($row);
+
+      </pre>
+<p>
+         Every query returns a db_result object where each result can be
+         fetched using get(). It returns NULL if there's no result at all.
+      </p>
+<p>
+         To reduce the overhead typing complete SQL queries there're
+         four functions that assemble them for you: select(), insert(),
+         update() and delete(). The order of arguments is the same like
+         it is in the resulting SQL query. Here're some examples:
+      </p>
+<pre class="programlisting">
+
+$res =&amp; $db-&gt;query ('SELECT * FROM persons WHERE age&gt;23 ORDER BY name');
+$res =&amp; $db-&gt;select ('*', 'persons', 'age&gt;23', 'ORDER BY name');
+
+$res =&amp; $db-&gt;query ('INSERT INTO persons SET name=&quot;Annegret&quot;,age=25');
+$res =&amp; $db-&gt;insert ('persons', 'name=&quot;Annegret&quot;,age=25');
+
+$res =&amp; $db-&gt;query ('UPDATE persons SET age=24 WHERE name=&quot;Annegret&quot;');
+$res =&amp; $db-&gt;update ('persons', 'age=24', 'name=&quot;Annegret&quot;');
+
+$res =&amp; $db-&gt;query ('DELETE FROM persons WHERE age&lt;23');
+$res =&amp; $db-&gt;delete ('persons', 'age&lt;23');
+
+      </pre>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="ch03.html">Prev</a> </td>
+<td width="20%" align="center"><a href="index.html">Home</a></td>
+<td width="40%" align="right"> <a href="ch03s03.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">Chapter 3. Database interfaces </td>
+<td width="20%" align="center"><a href="ch03.html">Up</a></td>
+<td width="40%" align="right"> More about the database interfaces</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

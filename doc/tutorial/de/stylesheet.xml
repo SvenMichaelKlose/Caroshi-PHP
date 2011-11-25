@@ -1,0 +1,16 @@
+<?xml version='1.0'?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                version='1.0'
+                xmlns="http://www.w3.org/TR/xhtml1/transitional"
+                exclude-result-prefixes="#default">
+
+<!-- Load chunks.xsl stylesheet -->
+<xsl:import href="/usr/share/sgml/docbook/xsl-stylesheets-1.29/html/chunk.xsl"/>
+
+<!-- Make table of contents in each sect1  -->
+<xsl:variable name="toc.section.depth">3</xsl:variable>
+
+<!--  Use element id (if present) as file name  -->
+<xsl:variable name="use.id.as.filename">1</xsl:variable>
+
+</xsl:stylesheet>

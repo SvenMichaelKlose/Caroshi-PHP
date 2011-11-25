@@ -1,0 +1,78 @@
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<title>Leere SQL-Record via Link erstellen</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.29">
+<link rel="home" href="index.html" title="Caroshi-Tutorial">
+<link rel="up" href="ch05.html" title="Chapter 5. Erweiterungen der Benutzeroeberfläche">
+<link rel="previous" href="ch05s03.html" title="Automatisches generien von Formularen">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">Leere SQL-Record via Link erstellen</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="ch05s03.html">Prev</a> </td>
+<th width="60%" align="center">Chapter 5. Erweiterungen der Benutzeroeberfläche</th>
+<td width="20%" align="right"> </td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect1">
+<a name="id2764731"></a><div class="titlepage"><div><h2 class="title" style="clear: all">
+<a name="id2764731"></a><span class="title">Leere SQL-Record via Link erstellen</span>
+</h2></div></div>
+<p>
+Wie bereits behauptet koennen Kommandos im Kontext zu Datensaetzen generiert
+werden. In unserem Fall bestehen wir auf entsprechende Links, welche fuer
+das erstellen und entfernen von Eintraegen sorgen koennen.
+admin_panel bietet zum erstellen von Eintraegen das Widget cmd_create,
+welches einen Link zum View 'record_create' erzeugt. Nach erstellen des
+Datensatzes kehrt dieser View zur aufrufenden Seite zurueck.
+      </p>
+<pre class="programlisting">
+
+  function defaultview ()
+  {
+    $ui =&amp; admin_panel::instance ();
+
+    $ui-&gt;open_table ();
+    $ui-&gt;cmd_create ('Eintrag erstellen');
+    $ui-&gt;close_table ();
+    ...
+
+      </pre>
+<p>
+Dieses Widget ist nur in wenig anspruchsvollen Situationen nuetzlich. Schoener
+ist es, wenn gleich zur Bearbeitungsseite des Views 'person_editieren'
+verzweigt wird. Dafuer lohnt es sich 'record_create' direkt aufzurufen, um
+spezielle Argumente zu uebergeben.
+      </p>
+<pre class="programlisting">
+
+    $arg = array ('retview' =&gt; 'person_editieren',
+                  'retarg' =&gt; 'id');
+    $ui-&gt;link ('Eintrag erstellen', 'record_create', $arg);
+
+       </pre>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="ch05s03.html">Prev</a> </td>
+<td width="20%" align="center"><a href="index.html">Home</a></td>
+<td width="40%" align="right"> </td>
+</tr>
+<tr>
+<td width="40%" align="left">Automatisches generien von Formularen </td>
+<td width="20%" align="center"><a href="ch05.html">Up</a></td>
+<td width="40%" align="right"> </td>
+</tr>
+</table>
+</div>
+</body>
+</html>

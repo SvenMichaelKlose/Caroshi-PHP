@@ -1,0 +1,77 @@
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<title>Registering and invoking page functions</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.29">
+<link rel="home" href="index.html" title="Caroshi">
+<link rel="up" href="ch05.html" title="Chapter 5. Application base class">
+<link rel="previous" href="ch05s02.html" title="Initialisation">
+<link rel="next" href="ch05s04.html" title="Calling functions in a subsession">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">Registering and invoking page functions</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="ch05s02.html">Prev</a> </td>
+<th width="60%" align="center">Chapter 5. Application base class</th>
+<td width="20%" align="right"> <a href="ch05s04.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect1">
+<a name="sect-application-page-functions"></a><div class="titlepage"><div><h2 class="title" style="clear: all">
+<a name="sect-application-page-functions"></a><span class="title">Registering and invoking page functions</span>
+</h2></div></div>
+<p>
+        Calls to functions are encapsulated in an URL by the
+	<a href="#">link ()</a> function.
+        Parameters are passed as a single array which is more flexible and
+        makes argument changes a lot easier.
+        When the link is called, the arguments' array elements must be
+	fetched with help of the argument getter functions.
+        Argument elements should never start with two underscores
+        because application.class does so for internal data.
+        For more flexibility links can be batched, e.g. you can
+        call a function that creates a record followed by a function
+        which displays the according page.
+      </p>
+<div class="sect2">
+<a name="func-application-defaultview"></a><div class="titlepage"><div><h3 class="title">
+<a name="func-application-defaultview"></a><span class="title">defaultview ()</span>
+</h3></div></div>
+<pre class="synopsis">
+void defaultview ();
+        </pre>
+<p>
+          The default page function defaultview() is called if no function
+          was specified (e.g. the application started the first time).
+          User functions must be registered. Any function, also in
+          other classes and outside classes can be specified. Every
+          function (except in derived classes) take a reference to
+          the application.class instance and the argument array.
+        </p>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="ch05s02.html">Prev</a> </td>
+<td width="20%" align="center"><a href="index.html">Home</a></td>
+<td width="40%" align="right"> <a href="ch05s04.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">Initialisation </td>
+<td width="20%" align="center"><a href="ch05.html">Up</a></td>
+<td width="40%" align="right"> Calling functions in a subsession</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<title>Sending emails with attachments</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.29">
+<link rel="home" href="index.html" title="Caroshi">
+<link rel="up" href="ch11.html" title="Chapter 11. Mail functions">
+<link rel="previous" href="ch11.html" title="Chapter 11. Mail functions">
+<link rel="next" href="ch12.html" title="Chapter 12. Session management">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">Sending emails with attachments</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="ch11.html">Prev</a> </td>
+<th width="60%" align="center">Chapter 11. Mail functions</th>
+<td width="20%" align="right"> <a href="ch12.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect1">
+<a name="sect-rfc-2110"></a><div class="titlepage"><div><h2 class="title" style="clear: all">
+<a name="sect-rfc-2110"></a><span class="title">Sending emails with attachments</span>
+</h2></div></div>
+<p>
+      </p>
+<pre class="programlisting">
+  # sends some text and some.gif to sven@devcon.net
+  mail (&quot;sven@devcon.net&quot;,
+        &quot;ILOVEYOU&quot;,
+        rfc2110_attachment (&quot;Worx.\n&quot;, &quot;text/plain; charset=ISO-8859-1&quot;) .
+        rfc2110_file (&quot;some.gif&quot;, &quot;image/gif&quot;) .
+        rfc2110_tail (), 
+        rfc2110_header (&quot;centralservices@devcon.net&quot;));
+      </pre>
+<div class="sect2">
+<a name="id2777605"></a><div class="titlepage"><div><h3 class="title">
+<a name="id2777605"></a><span class="title">rfc2110_attachment ()</span>
+</h3></div></div>
+<pre class="synopsis">
+string rfc2110_attachment ($content, $type, $encoding = 0, $contentid = 0);
+        </pre>
+</div>
+<div class="sect2">
+<a name="id2777622"></a><div class="titlepage"><div><h3 class="title">
+<a name="id2777622"></a><span class="title">rfc2110_header ()</span>
+</h3></div></div>
+<pre class="synopsis">
+string rfc2110_header ($fromemail);
+        </pre>
+</div>
+<div class="sect2">
+<a name="id2777639"></a><div class="titlepage"><div><h3 class="title">
+<a name="id2777639"></a><span class="title">rfc2110_file ()</span>
+</h3></div></div>
+<pre class="synopsis">
+string rfc2110_file ($filename, $type);
+        </pre>
+</div>
+<div class="sect2">
+<a name="id2777655"></a><div class="titlepage"><div><h3 class="title">
+<a name="id2777655"></a><span class="title">rfc2110_tail ()</span>
+</h3></div></div>
+<pre class="synopsis">
+string rfc2110_tail ();
+        </pre>
+</div>
+<div class="sect2">
+<a name="id2764504"></a><div class="titlepage"><div><h3 class="title">
+<a name="id2764504"></a><span class="title">rfc2110_boundary ()</span>
+</h3></div></div>
+<pre class="synopsis">
+string rfc2110_boundary ();
+        </pre>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="ch11.html">Prev</a> </td>
+<td width="20%" align="center"><a href="index.html">Home</a></td>
+<td width="40%" align="right"> <a href="ch12.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">Chapter 11. Mail functions </td>
+<td width="20%" align="center"><a href="ch11.html">Up</a></td>
+<td width="40%" align="right"> Chapter 12. Session management</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

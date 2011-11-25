@@ -1,0 +1,69 @@
+  <!--
+  INTRODUCTION
+  -->
+
+  <chapter id="intro">
+    <title>Introdution</title>
+
+    <para>
+      The Caroshi is an application framework focused on development
+      of HTML frontends in php. It doesn't depend on other libraries and can
+      be used freely under the terms of the Lesser GNU Public License..
+    </para>
+      
+    <para>
+      Like most frameworks this one takes repetitive work off you and makes
+      you feel like you were in Hollywood
+      (&quot;Don't call us, we call you.&quot;), which is also know under
+      the term <emphasis>event driven</emphasis>: You configure the
+      behaviour of your application at startup and wait for events that
+      come in and result into function calls to your program.
+    </para>
+
+    <para>
+      Repetitively needed code like URL, SQL and HTML generation is hidden
+      under some layers of objects combined by a GUI facade, reducing the
+      number of classes that need to be known most of the time to 2.
+    </para>
+
+    <para>
+      This manual is completely rewritten into a tutorial. If you want
+      to find out about more features of the library, please refer to
+      the API reference available online and with the package.
+    </para>
+
+    <sect1>
+      <title>Release notes</title>
+      <sect2>
+        <title>0.1.0</title>
+	<para>
+          admin_panel is not backward-compatible. The directory structure
+	  was cleaned up as well as many classes.
+	</para>
+      </sect2>
+    </sect1>
+
+    <sect1>
+      <title>Contributors</title>
+
+      <para>
+        This software was influenced by the work and ideas of many people.
+        Some of them are listed here in alphabetical order:
+      </para>
+
+      <itemizedlist>
+        <listitem><para>Andreas Ferber</para></listitem>
+        <listitem><para>Garvin Gripp</para></listitem>
+        <listitem><para>Michael Hinz-Renault</para></listitem>
+        <listitem><para>Henry Jobst &lt;henry@jobst-berlin.de&gt;</para></listitem>
+        <listitem><para>Sascha Krause &lt;sk@devcon.net&gt;</para></listitem>
+        <listitem><para>Tim Mattison &lt;bdonor@cloud9.net&gt;</para></listitem>
+        <listitem><para>Winfried Motzkus</para></listitem>
+        <listitem><para>Bernhard Pietsch &lt;bp@devcon.net&gt;</para></listitem>
+        <listitem><para>Christian Rish&oslash;j &lt;chrris@mail.dk&gt;</para></listitem>
+        <listitem><para>Christine Sch&ouml;nfeld</para></listitem>
+        <listitem><para>Friedhelm Sch&ouml;nfeld</para></listitem>
+        <listitem><para>Carlheinz Sockel &lt;chs@devcon.net&gt;</para></listitem>
+      </itemizedlist>
+    </sect1>
+  </chapter>

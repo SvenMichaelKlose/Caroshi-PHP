@@ -1,0 +1,51 @@
+  <chapter id="sect-date">
+    <title>Date functions</title>
+    <para>
+    </para>
+
+    <sect1 id="func-doomday">
+      <title>doomday ()</title>
+      <synopsis>
+int doomday ($year);
+      </synopsis>
+      <para>
+        This function returns the number of the week's day of the
+        first day of $year.
+        The returned values range from 0 (Monday) to 6 (Sunday).
+      </para>
+    </sect1>
+
+    <sect1 id="func-is-leap-year">
+      <title>is_leap_year ()</title>
+      <synopsis>
+boolean is_leap_year ($year);
+      </synopsis>
+      <para>
+        This function determines if $year is a leap year and returns
+        'true' if this is the case. A leap year has 366 day instead
+        of 365.
+      </para>
+    </sect1>
+
+    <sect1 id="func-day-of-year">
+      <title>day_of_year ()</title>
+      <synopsis>
+int day_of_year ($year, $month, $day);
+      </synopsis>
+      <para>
+        Returns the day of the year of the specified date.
+      </para>
+    </sect1>
+
+    <sect1 id="func-day-of-week">
+      <title>day_of_week ()</title>
+      <synopsis>
+int day_of_week ($year, $month, $day);
+      </synopsis>
+      <para>
+        This function returns the day of the week of the specified
+        date.
+        The returned values range from 0 (Monday) to 6 (Sunday).
+      </para>
+    </sect1>
+  </chapter>

@@ -1,0 +1,25 @@
+  <chapter id="sect-http">
+    <title>HTTP functions</title>
+    <sect1 id="sect-http-auth">
+      <title>HTTP authentication</title>
+      <para>
+        The library supports basic HTTP authentication and
+        reading htpasswd files.
+      </para>
+
+      <sect2 id="func-http-auth">
+        <title>http_auth ()</title>
+        <synopsis>
+  void http_auth ($account_array, $realm = '');
+        </synopsis>
+
+        <para>
+          This function checks if the current username and password
+          matches an account in the $account_array. The keys contain
+          the user names, the values the crypted password.
+          If no valid login was found the program is exited; the
+          function then doesn't return.
+        </para>
+      </sect2>
+    </sect1>
+  </chapter>

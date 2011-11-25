@@ -1,0 +1,76 @@
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<title>Subsessions</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.29">
+<link rel="home" href="index.html" title="Caroshi">
+<link rel="up" href="ch04.html" title="Chapter 4. Der Applikation-Server">
+<link rel="previous" href="ch04s03.html" title="Event-Argumente">
+<link rel="next" href="ch04s05.html" title="Stapelverarbeitung von Events">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">Subsessions</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="ch04s03.html">Prev</a> </td>
+<th width="60%" align="center">Chapter 4. Der Applikation-Server</th>
+<td width="20%" align="right"> <a href="ch04s05.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect1">
+<a name="subsessions"></a><div class="titlepage"><div><h2 class="title" style="clear: all">
+<a name="subsessions"></a><span class="title">Subsessions</span>
+</h2></div></div>
+<p>
+        application bietet ausser einer globalen Session, in der Daten
+        eventübergreifend abgelegt werden können auch sog.
+        <i>Subsessions</i>, die mit dem Event-Mechanismus
+        gesteuert werden. Beim ersten Aufruf einer Anwendung wird automatisch
+        eine leere Subsession geöffnet.
+      </p>
+<p>
+        Ein Event öffnet vor dem versenden der Argumente eine neue
+        Subsession, wenn dem Event ein Absender mitgeteil wurde, zu dem
+        zurückgekehrt werden kann.
+      </p>
+<p>
+        Um Daten in der Subsession abzulegen muss die Methode
+        application::arg() verwendet werden.
+      </p>
+<p>
+        Das Flag ARG_SUB sorgt dafür, daß ein erfolgreich gelesenes
+        Argument in der aktuellen Subsession abgelegt wird.
+        Wurde das Argument nicht per Event übergeben, so wird der zuletzt
+        in der Subsession abgelegte Wert verwendet. Liegt auch dort das
+        Argument nicht vor, wird der Programmablauf mit einer Fehlermeldung
+        beendet, es sei denn, auch das Flag ARG_OPTIONAL wurde gesetzt.
+      </p>
+<p>
+        Der Event-Handler 'return2caller' verwirft die aktuelle Subsession
+        und stellt die Argumente der vorherigen Subsession wieder her.
+      </p>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="ch04s03.html">Prev</a> </td>
+<td width="20%" align="center"><a href="index.html">Home</a></td>
+<td width="40%" align="right"> <a href="ch04s05.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">Event-Argumente </td>
+<td width="20%" align="center"><a href="ch04.html">Up</a></td>
+<td width="40%" align="right"> Stapelverarbeitung von Events</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

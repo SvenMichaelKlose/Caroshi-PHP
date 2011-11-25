@@ -1,0 +1,16 @@
+  <!--
+    BUGS
+  -->
+
+  <chapter id="sect-bugs">
+    <title>Known bugs</title>
+    <para>
+      <itemizedlist>
+        <listitem>
+          <para>
+            Cursors can't handle subsets of doubly-linked lists.
+          </para>
+        </listitem>
+      </itemizedlist>
+    </para>
+  </chapter>

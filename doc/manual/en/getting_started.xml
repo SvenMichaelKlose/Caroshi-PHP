@@ -1,0 +1,57 @@
+  <!--
+    ### GETTING STARTED ###
+  -->
+
+  <chapter id="sect-getting-started">
+    <title>Getting started</title>
+
+    <para>
+    </para>
+
+    <sect1 id="sect-requirements">
+      <title>Requirements</title>
+      <para>
+        The library needs a standard
+	<ulink url="http://www.php.net">php4 interpreter</ulink>
+	without extra modules running on an
+	<ulink url="http://www.apache.org">Apache webserver</ulink>.
+	A <ulink url="http://www.mysql.com">MySQL database</ulink> is also
+	very useful.
+      </para>
+    </sect1>
+
+    <sect1 id="sect-installation">
+      <title>Installation</title>
+
+      <para>
+        Extract the library to a safe place outside your web-directory
+	(your provider should allow this).
+      </para>
+
+      <para>
+	Create a .htaccess file to
+	place it in the root directory of your webserver which contains the
+	following line:
+      </para>
+
+      <synopsis>
+  php_value include_path ".:/path_to/caroshi"
+      </synopsis>
+
+      <para>
+        This allows all php scripts in your webserver to include library
+	files without need to know the particular path where you extracted
+	them.
+      </para>
+
+      <para>
+        On a UNIX box the installation process could look like this:
+      </para>
+
+      <programlisting>
+cd /web/www.mydomain.com/
+tar xvzf ~/caroshi.tar.gz # Will create directory caroshi/
+echo php_value include_path \".:`pwd`/caroshi\" >>htdocs/.htaccess
+      </programlisting>
+    </sect1>
+  </chapter>

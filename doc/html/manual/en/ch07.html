@@ -1,0 +1,274 @@
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<title>Chapter 7. Toolkits for the user interface</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.29">
+<link rel="home" href="index.html" title="Caroshi">
+<link rel="up" href="index.html" title="Caroshi">
+<link rel="previous" href="ch06s03.html" title="Opening and closing documents.">
+<link rel="next" href="ch07s02.html" title="List move">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">Chapter 7. Toolkits for the user interface</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="ch06s03.html">Prev</a> </td>
+<th width="60%" align="center"> </th>
+<td width="20%" align="right"> <a href="ch07s02.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div id="sect-tk" class="chapter">
+<div class="titlepage"><div><h2 class="title">
+<a name="sect-tk"></a>Chapter 7. Toolkits for the user interface</h2></div></div>
+<div class="toc">
+<p><b>Table of Contents</b></p>
+<dl>
+<dt> <a href="ch07.html#sect-tk-autoform">Auto forms</a>
+</dt>
+<dd><dl>
+<dt> <a href="ch07.html#func-tk-autoform-init">tk_autoform_init ()</a>
+</dt>
+<dt> <a href="ch07.html#func-tk-autoform-create-widget">tk_autoform_create_widget ()</a>
+</dt>
+<dt> <a href="ch07.html#func-tk-autoform-create-form">tk_autoform_create_form ()</a>
+</dt>
+<dt> <a href="ch07.html#func-tk-autoform-list-results">tk_autoform_list_results ()</a>
+</dt>
+<dt> <a href="ch07.html#func-tk-autoform-list-search-results">tk_autoform_list_search_results ()</a>
+</dt>
+</dl></dd>
+<dt> <a href="ch07s02.html">List move</a>
+</dt>
+<dt> <a href="ch07s03.html">Range editor</a>
+</dt>
+<dd><dl>
+<dt> <a href="ch07s03.html#func-tk-range-select">tk_range_edit_select ()</a>
+</dt>
+<dt> <a href="ch07s03.html#func-tk-range-call">tk_range_edit_call ()</a>
+</dt>
+<dt> <a href="ch07s03.html#func-tk-range-all-selected">tk_range_edit_all_selected ()</a>
+</dt>
+<dt> <a href="ch07s03.html#ex-tk-range">An example widget</a>
+</dt>
+</dl></dd>
+<dt> <a href="ch07s04.html">Editor for records without references</a>
+</dt>
+<dd><dl>
+<dt> <a href="ch07s04.html#func-tk-record-edit-init">tk_record_edit_init ()</a>
+</dt>
+<dt> <a href="ch07s04.html#func-tk-record-edit">tk_record_edit ()</a>
+</dt>
+</dl></dd>
+<dt> <a href="ch07s05.html">dbi search</a>
+</dt>
+<dd><dl>
+<dt> <a href="ch07s05.html#func-tk-dbisearch-init">tk_dbisearch_init ()</a>
+</dt>
+<dt> <a href="ch07s05.html#func-form-dbisearch">form_dbisearch ()</a>
+</dt>
+</dl></dd>
+<dt> <a href="ch07s06.html">File selector box</a>
+</dt>
+<dd><dl>
+<dt> <a href="ch07s06.html#func-tk-fsb-init">tk_fsb_init ()</a>
+</dt>
+<dt> <a href="ch07s06.html#func-tk-fsb">tk_fsb ()</a>
+</dt>
+</dl></dd>
+<dt> <a href="ch07s07.html">dbconf editor</a>
+</dt>
+<dd><dl>
+<dt> <a href="ch07s07.html#func-tk-dbconf-init">tk_dbconf_init ()</a>
+</dt>
+<dt> <a href="ch07s07.html#func-tk-dbconf">tk_dbconf ()</a>
+</dt>
+</dl></dd>
+<dt> <a href="ch07s08.html">Tree editor</a>
+</dt>
+<dt> <a href="ch07s09.html">Tree lister</a>
+</dt>
+<dd><dl>
+<dt> <a href="ch07s09.html#func-tk-dbobj-ls-init">tk_dbobj_ls_init ()</a>
+</dt>
+<dt> <a href="ch07s09.html#func-tk-dbobj-ls">tk_dbobj_ls ()</a>
+</dt>
+</dl></dd>
+<dt> <a href="ch07s10.html">HTML template toolkit</a>
+</dt>
+<dd><dl>
+<dt> <a href="ch07s10.html#tk-template-tags">Tags</a>
+</dt>
+<dt> <a href="ch07s10.html#tk-template-extenstions">Extensions</a>
+</dt>
+</dl></dd>
+</dl>
+</div>
+<p>
+      Toolkits are modules for the user interface. They contain an
+      initialisation function that must be called from your applications'
+      <a href="ch05s02.html#func-application-init">init() function</a>.
+      Each toolkit function or page function starts with 'tk_', to distinguish
+      them from the user's modules, followed
+      by the module name and the function name. Initialisation functions
+      always end with '_init'. So the name of the init function of the
+      autoform toolkit is <i>tk_autoform_init</i>.
+      All init functions take a reference to the application class as the
+      first and only parameter and need a reference to the user interface
+      in $this-&gt;ui.
+    </p>
+<pre class="programlisting">
+  function init ()
+  {
+    $this-&gt;define_my_tables ();
+    $this-&gt;ui = admin_panel ($this, 'My admin title');
+    tk_autoform_init ($this);
+    $this-&gt;add_my_views ();
+  }
+    </pre>
+<div class="sect1">
+<a name="sect-tk-autoform"></a><div class="titlepage"><div><h2 class="title" style="clear: all">
+<a name="sect-tk-autoform"></a><span class="title">Auto forms</span>
+</h2></div></div>
+<p>
+        The autoform toolkit creates form based on SQL table
+        definitions stored in dbdepend.class objects. autoform
+        cannot be used with other interfaces than dbi.
+      </p>
+<p>
+        The
+	<a href="#">table definitions</a>
+	might contain an entry with key 'auto_form'. If it contains the
+	keyword 'hide', the field is never listed or used in forms.
+      </p>
+<pre class="programlisting">
+  $def-&gt;define_table (
+    'locations',
+    array (array ('n' =&gt; 'id',
+                  # Do not show id in autoform widgets.
+                  'auto_form' =&gt; array ('hide' =&gt; true),
+                  'd' =&gt; 'ID',
+                  't' =&gt; 'INT NOT NULL AUTO_INCREMENT PRIMARY KEY'),
+           array ('n' =&gt; 'id_parent',
+                  'i' =&gt; true,
+                  't' =&gt; 'INT NOT NULL'),
+           array ('n' =&gt; 'name',
+                  'i' =&gt; true,
+                  't' =&gt; 'VARCHAR(255) NOT NULL'),
+    )
+  );
+  $def-&gt;set_primary ('locations', 'id');
+      </pre>
+<div class="sect2">
+<a name="func-tk-autoform-init"></a><div class="titlepage"><div><h3 class="title">
+<a name="func-tk-autoform-init"></a><span class="title">tk_autoform_init ()</span>
+</h3></div></div>
+<pre class="synopsis">
+void tk_autoform_init (&amp;$this);
+	</pre>
+</div>
+<div class="sect2">
+<a name="func-tk-autoform-create-widget"></a><div class="titlepage"><div><h3 class="title">
+<a name="func-tk-autoform-create-widget"></a><span class="title">tk_autoform_create_widget ()</span>
+</h3></div></div>
+<pre class="synopsis">
+void tk_autoform_create_widget (&amp;$this, $table, $field);
+	</pre>
+<p>
+          Print a row with a label and input widget for a field in a
+          table.
+        </p>
+</div>
+<div class="sect2">
+<a name="func-tk-autoform-create-form"></a><div class="titlepage"><div><h3 class="title">
+<a name="func-tk-autoform-create-form"></a><span class="title">tk_autoform_create_form ()</span>
+</h3></div></div>
+<pre class="synopsis">
+void tk_autoform_create_form (&amp;$this, $source = '');
+	</pre>
+<p>
+          Calls <a href="#">tk_autoform_create-widget()</a>
+          for all fields in a table.
+        </p>
+</div>
+<div class="sect2">
+<a name="func-tk-autoform-list-results"></a><div class="titlepage"><div><h3 class="title">
+<a name="func-tk-autoform-list-results"></a><span class="title">tk_autoform_list_results ()</span>
+</h3></div></div>
+<pre class="synopsis">
+void tk_autoform_list_results (&amp;$this, $config);
+	</pre>
+<p>
+	  This function display a table of all results specified by a
+	  former call to
+	  <a href="#">admin_panel::query()</a>.
+	  Array $config contains the following entries:
+	</p>
+<div class="itemizedlist"><ul>
+<li><p>
+<a name="id2777040"></a>
+	      $fields is an array of field names that should be displayed.
+	      If its not set, all fields are listed.
+	    </p></li>
+<li><p>
+<a name="id2777051"></a>
+	      $call is the name of the view to call when selecting a record
+	      with argument named $id containing the records primary key.
+	    </p></li>
+<li><p>
+<a name="id2777062"></a>
+	      If an entry called <i>head_fields</i> exists, it
+              must contain one or more table header strings keyed by field
+              name. If a header string is not specified for a particular
+              field, itis taken from the
+              <a href="#">database description</a>.
+	    </p></li>
+<li><p>
+<a name="id2777087"></a>
+	      If an array called 'cell_functions' exists, it must contain an
+	      array of one or more functions keyed by field name, which
+	      display the according fields. If no function is specified for a
+	      field, it is just printed with
+	      <a href="#">label()</a>.
+	    </p></li>
+</ul></div>
+</div>
+<div class="sect2">
+<a name="func-tk-autoform-list-search-results"></a><div class="titlepage"><div><h3 class="title">
+<a name="func-tk-autoform-list-search-results"></a><span class="title">tk_autoform_list_search_results ()</span>
+</h3></div></div>
+<pre class="synopsis">
+void tk_autoform_list_search_results (&amp;$this, $config);
+	</pre>
+<p>
+	  This function calls
+	  <a href="ch07.html#func-tk-autoform-list-results">tk_autoform_list_results()</a>
+	  to display the last search results from form function
+	  <a href="ch07s05.html#func-form-dbisearch">form_dbisearch()</a>.
+	</p>
+</div>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="ch06s03.html">Prev</a> </td>
+<td width="20%" align="center"><a href="index.html">Home</a></td>
+<td width="40%" align="right"> <a href="ch07s02.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">Opening and closing documents. </td>
+<td width="20%" align="center"><a href="index.html">Up</a></td>
+<td width="40%" align="right"> List move</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

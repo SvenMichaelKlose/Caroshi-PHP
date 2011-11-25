@@ -1,0 +1,62 @@
+  <chapter id="sect-mail">
+    <title>Mail functions</title>
+    <para>
+    </para>
+
+    <sect1 id="func-check-email-addr">
+      <title>check_email_addr ()</title>
+      <synopsis>
+boolean check_email_addr ($email_addr);
+      </synopsis>
+    </sect1>
+
+    <sect1 id="sect-rfc-2110">
+      <title>Sending emails with attachments</title>
+      <para>
+      </para>
+      <programlisting>
+  # sends some text and some.gif to sven@devcon.net
+  mail ("sven@devcon.net",
+        "ILOVEYOU",
+        rfc2110_attachment ("Worx.\n", "text/plain; charset=ISO-8859-1") .
+        rfc2110_file ("some.gif", "image/gif") .
+        rfc2110_tail (), 
+        rfc2110_header ("centralservices@devcon.net"));
+      </programlisting>
+
+      <sect2>
+        <title>rfc2110_attachment ()</title>
+        <synopsis>
+string rfc2110_attachment ($content, $type, $encoding = 0, $contentid = 0);
+        </synopsis>
+      </sect2>
+
+      <sect2>
+        <title>rfc2110_header ()</title>
+        <synopsis>
+string rfc2110_header ($fromemail);
+        </synopsis>
+      </sect2>
+
+      <sect2>
+        <title>rfc2110_file ()</title>
+        <synopsis>
+string rfc2110_file ($filename, $type);
+        </synopsis>
+      </sect2>
+
+      <sect2>
+        <title>rfc2110_tail ()</title>
+        <synopsis>
+string rfc2110_tail ();
+        </synopsis>
+      </sect2>
+
+      <sect2>
+        <title>rfc2110_boundary ()</title>
+        <synopsis>
+string rfc2110_boundary ();
+        </synopsis>
+      </sect2>
+    </sect1>
+  </chapter>

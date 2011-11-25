@@ -1,0 +1,94 @@
+  <!--
+    ### WEB-BASED USER INTERFACE ###
+  -->
+
+  <chapter id="sect-ui">
+    <title>User interface</title>
+
+    <para>
+      admin_panel is a facade that combines the application base class,
+      widget set, form interpreter, cursor interface and record manipulation
+      tools into an easy-to-use interface while allowing full access to
+      the interfaces used.
+    </para>
+
+    <sect1 id="func-admin-panel">
+      <title>admin_panel () constructor</title>
+      <synopsis>
+object new admin_panel (&amp;$application_object, $title, $widget_set = 0);
+      </synopsis>
+      <para>
+        The constructor takes a reference to the application object and a name
+        of the application that is used as the title for all document headers.
+        Since admin_panel is a singleton class, a single instance must be
+        passed to
+        <link linkend="func-ui-instance">instance()</link>.
+      </para>
+      <para>
+        If $widget_set doesn't contain a
+        <link linkend="sect-widget-sets">widget_set class</link> a default
+        widget set is used and stored to member variable admin_panel::widgets.
+      </para>
+    </sect1>
+
+    <sect1 id="func-ui-instance">
+      <title>Static function instance ()</title>
+      <synopsis>
+object &amp;admin_panel::instance (&amp;$admin_panel_object = 0);
+      </synopsis>
+      <para>
+        When called without arguments this function returns the reference to
+        the existing admin_panel instance or null.
+        If there's no instance, it can be set using the optional argument.
+        This function dies if an instance is set twice.
+      </para>
+      <para>
+        You should create an admin_panel instance in your application's
+        <link linkend="func-application-init">init() function</link>.
+      </para>
+
+      <programlisting>
+<![CDATA[
+function init ()
+{
+  $ui =& new admin_panel (
+    $this,
+    $GLOBALS['SERVER_NAME'] . ' archive administration'
+  );
+  admin_panel::instance ($ui);
+}
+]]>
+      </programlisting>
+    </sect1>
+
+    <sect1>
+      <title>Opening and closing documents.</title>
+      <para>
+        HTML headers and footers are generated automatically.
+        If a page function is called it can start printing
+        widgets immediately.
+      </para>
+      <para>
+        If you don't want the user interface to output a header,
+	<link linkend="var-application-raw-views">mark the view as raw</link>.
+      </para>
+
+      <programlisting>
+<![CDATA[
+# Print page with label "Hello world!".
+function myfunc ()
+{
+  $p =& admin_panel::instance ();
+
+  $p->label ("Hello world!");
+}
+]]>
+      </programlisting>
+
+      <para>
+        See also the user-defineable
+        <link linkend="func-application-call-view">start_view() and
+        end_view()</link> functions.
+      </para>
+    </sect1>
+  </chapter>

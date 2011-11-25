@@ -1,0 +1,84 @@
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<title>Chapter 6. User interface</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.29">
+<link rel="home" href="index.html" title="Caroshi">
+<link rel="up" href="index.html" title="Caroshi">
+<link rel="previous" href="ch05s08.html" title="Token management">
+<link rel="next" href="ch06s02.html" title="Static function instance ()">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%">
+<tr><th colspan="3" align="center">Chapter 6. User interface</th></tr>
+<tr>
+<td width="20%" align="left">
+<a href="ch05s08.html">Prev</a> </td>
+<th width="60%" align="center"> </th>
+<td width="20%" align="right"> <a href="ch06s02.html">Next</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div id="sect-ui" class="chapter">
+<div class="titlepage"><div><h2 class="title">
+<a name="sect-ui"></a>Chapter 6. User interface</h2></div></div>
+<div class="toc">
+<p><b>Table of Contents</b></p>
+<dl>
+<dt> <a href="ch06.html#func-admin-panel">admin_panel () constructor</a>
+</dt>
+<dt> <a href="ch06s02.html">Static function instance ()</a>
+</dt>
+<dt> <a href="ch06s03.html">Opening and closing documents.</a>
+</dt>
+</dl>
+</div>
+<p>
+      admin_panel is a facade that combines the application base class,
+      widget set, form interpreter, cursor interface and record manipulation
+      tools into an easy-to-use interface while allowing full access to
+      the interfaces used.
+    </p>
+<div class="sect1">
+<a name="func-admin-panel"></a><div class="titlepage"><div><h2 class="title" style="clear: all">
+<a name="func-admin-panel"></a><span class="title">admin_panel () constructor</span>
+</h2></div></div>
+<pre class="synopsis">
+object new admin_panel (&amp;$application_object, $title, $widget_set = 0);
+      </pre>
+<p>
+        The constructor takes a reference to the application object and a name
+        of the application that is used as the title for all document headers.
+        Since admin_panel is a singleton class, a single instance must be
+        passed to
+        <a href="ch06s02.html">instance()</a>.
+      </p>
+<p>
+        If $widget_set doesn't contain a
+        <a href="ch15.html">widget_set class</a> a default
+        widget set is used and stored to member variable admin_panel::widgets.
+      </p>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%">
+<tr>
+<td width="40%" align="left">
+<a href="ch05s08.html">Prev</a> </td>
+<td width="20%" align="center"><a href="index.html">Home</a></td>
+<td width="40%" align="right"> <a href="ch06s02.html">Next</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left">Token management </td>
+<td width="20%" align="center"><a href="index.html">Up</a></td>
+<td width="40%" align="right"> Static function instance ()</td>
+</tr>
+</table>
+</div>
+</body>
+</html>
