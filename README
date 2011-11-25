@@ -1,6 +1,1 @@
-$Id: README,v 1.3.2.1 2002/08/24 23:14:16 sven Exp $
-
 This is the Caroshi application framework for PHP4 (stable).
-
-For more information see http://lilly.devconsult.de/~sven/ or the doc/html
-directory in this package.

@@ -1,6 +1,12 @@
-$Id: TODO,v 1.12 2002/06/14 14:34:17 sven Exp $
+Current TODO
+============
 
-Things planned:
+    - move it from PHP4 to PHP5
+    - cleanup code and indentation
+
+
+Ancient TODO (2002)
+===================
 
     - Containers and iterators.
     - xml_scanner.class: Validate structure.
