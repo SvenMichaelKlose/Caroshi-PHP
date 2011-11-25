@@ -2,7 +2,7 @@
   # $Id: treeview.class,v 1.37 2002/06/01 04:53:47 sven Exp $
   #
   # Copyright (c) 2000-2001 dev/consulting GmbH
-  #                         Sven Michael Klose <sven@devcon.net>
+  # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
   #
   # This library is free software; you can redistribute it and/or
   # modify it under the terms of the GNU Lesser General Public

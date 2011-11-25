@@ -11,7 +11,7 @@
   # $Id: dbisearch.php,v 1.1 2002/06/08 21:10:48 sven Exp $
   #
   # Copyright (c) 2000-2002 dev/consulting GmbH
-  #                         Sven Klose <sven@devcon.net>
+  # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
   #
   # This library is free software; you can redistribute it and/or
   # modify it under the terms of the GNU Lesser General Public

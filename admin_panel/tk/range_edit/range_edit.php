@@ -12,7 +12,7 @@
   # Range selection toolkit for use in lists.
   #
   # Copyright (c) 2001-2002 dev/consulting GmbH
-  #                         Sven Klose <sven@devcon.net>
+  # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
   #
   # This library is free software; you can redistribute it and/or
   # modify it under the terms of the GNU Lesser General Public

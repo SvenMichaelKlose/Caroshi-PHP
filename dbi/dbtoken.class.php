@@ -1,23 +1,9 @@
 <?php
-  # $Id: dbtoken.class.php,v 1.12 2002/06/01 05:06:34 sven Exp $
+  # Copyright (c) 2000-2002 dev/consulting GmbH
+  # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
   #
-  # SQL tokens
-  #
-  # Copyright (c) 2000-2002 dev/consulting GmbH, Sven Klose <sven@devcon.net>
-  #
-  # This library is free software; you can redistribute it and/or
-  # modify it under the terms of the GNU Lesser General Public
-  # License as published by the Free Software Foundation; either
-  # version 2.1 of the License, or (at your option) any later version.
-  #
-  # This library is distributed in the hope that it will be useful,
-  # but WITHOUT ANY WARRANTY; without even the implied warranty of
-  # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  # Lesser General Public License for more details.
-  #
-  # You should have received a copy of the GNU Lesser General Public
-  # License along with this library; if not, write to the Free Software
-  # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# Licensed under the MIT, BSD and GPL licenses.
+
 
   require_once 'object/is_a.php';
   require_once 'object/singleton.class.php';

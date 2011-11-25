@@ -10,7 +10,7 @@
 
   # $Id: browse.php,v 1.1 2002/06/08 21:11:19 sven Exp $
   #
-  # (C) 2002 Sven Klose <sven@devcon.net>
+  # (C) 2002 Sven Michael Klose <pixel@copei.de>
   #
   # This library is free software; you can redistribute it and/or
   # modify it under the terms of the GNU Lesser General Public

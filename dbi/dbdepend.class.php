@@ -1,32 +1,16 @@
 <?php
-  # $Id: dbdepend.class,v 1.36 2002/05/31 19:21:53 sven Exp $
-  #
-  # Data structure for management of table hierarchies. Very useful with
-  # dbobj.class
-  #
   # Copyright (c) 2000-2002 dev/consulting GmbH
-  #                         Sven Michael Klose <sven@devcon.net>
+  # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
   #
-  # This library is free software; you can redistribute it and/or
-  # modify it under the terms of the GNU Lesser General Public
-  # License as published by the Free Software Foundation; either
-  # version 2.1 of the License, or (at your option) any later version.
-  #
-  # This library is distributed in the hope that it will be useful,
-  # but WITHOUT ANY WARRANTY; without even the implied warranty of
-  # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  # Lesser General Public License for more details.
-  #
-  # You should have received a copy of the GNU Lesser General Public
-  # License along with this library; if not, write to the Free Software
-  # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# Licensed under the MIT, BSD and GPL licenses.
+
 
   /**
    * SQL database description.
    *
    * @access public
    * @package Database interfaces
-   * @author Sven Klose <sven@devcon.net>
+   * @author Sven Michael Klose <pixel@copei.de>
    */
   class DBDEPEND {
 

@@ -6,7 +6,7 @@
   # Needs $this->db->dep; (dbi/dbdepend.class)
   #
   # Copyright (c) 2001-2202 dev/consulting GmbH
-  #                         Sven Klose <sven@devcon.net>
+  # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
   #
   # This library is free software; you can redistribute it and/or
   # modify it under the terms of the GNU Lesser General Public
