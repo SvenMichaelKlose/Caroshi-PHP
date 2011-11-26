@@ -37,7 +37,7 @@ class DBI extends DBCtrl {
     # column: Column name
     function column ($table, $column, $id)
     {
-        if (!($pri = $this->def->primary ($table)))
+        if (!$pri = $this->def->primary ($table))
 	    die ("dbi::column(): No primary key specified for table '$table'.");
 
         return $this->select ($column, $table, "$pri='$id'")->get ($columns);
@@ -206,7 +206,7 @@ class DBI extends DBCtrl {
 	    foreach ($ref_tables as $tab) {
 	        if ($tab['table'] != $table)
                     continue;
-                if (!($res = $this->select ('*', $table, $def->primary ($table) . "=$id")))
+                if (!$res = $this->select ('*', $table, $def->primary ($table) . "=$id"))
                     continue;
                 $row = $res->get ();
                 $new_id = $row[$tab['id']];
@@ -336,7 +336,7 @@ class DBI extends DBCtrl {
 
 	    # Update references in new siblings.
 	    if ($id_next) {
-	        if (!($next = $nodes[$id_next]))
+	        if (!$next = $nodes[$id_next])
 	            die ("No next of id $id_next.");
 	        if ($c_id_parent && $id_parent != $next[$c_id_parent])
 	            $id_parent = $next[$c_id_parent];

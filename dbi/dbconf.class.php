@@ -82,7 +82,7 @@ class dbconf {
             return;
         }
 
-        if (!($fd = @fopen ($data, 'r')))
+        if (!$fd = @fopen ($data, 'r'))
             return;
 
         $data = '';

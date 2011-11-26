@@ -64,7 +64,7 @@ class dbtoken {
     {
         $this->_write_tokens (); # Be in sync.
 
-        if (!($res = $this->_db->select ('id,data', $this->_token_table, "name='$token'")))
+        if (!$res = $this->_db->select ('id,data', $this->_token_table, "name='$token'"))
             return false;
         list ($this->_id_token, $data) = $res->get ();
         return unserialize ($data);
@@ -121,7 +121,7 @@ class dbtoken {
         $this->_types[$name] =& $type;
 
         # Write tokens from time to time.
-        if (!($this->_num_tokens % 1000))
+        if (!$this->_num_tokens % 1000)
             $this->_write_tokens ();
 
         return $name;

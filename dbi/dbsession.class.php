@@ -77,7 +77,7 @@ class DBSESSION {
         if (!$key)
             return;
         $this->_key = $key;
-        if (!($res = $db->select ('id,is_locked,time,data', $table, "skey='$key'")))
+        if (!$res = $db->select ('id,is_locked,time,data', $table, "skey='$key'"))
             return;
 
         $row = $res->get ();

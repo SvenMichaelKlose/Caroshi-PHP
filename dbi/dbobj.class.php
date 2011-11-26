@@ -62,7 +62,7 @@ class DBOBJ {
         # Get class id, update cache if class is not found.
         if (!sizeof ($__DBOBJ_CLASSCACHE)) {
             # Read all classes into the cache.
-            if (!($cres = $db->select ('id,name', 'obj_classes')))
+            if (!$cres = $db->select ('id,name', 'obj_classes'))
                 return;
 	    while ($tmp =& $cres->get ())
 	        $__DBOBJ_CLASSCACHE[$tmp['name']] = $tmp['id'];
@@ -82,7 +82,7 @@ class DBOBJ {
 	    # Fetch table entry.
 	    if (!isset ($__DBOBJ_KEYCACHE[$table][$id])) {
 	        # Read entry into cache.
-                if (!($pri = $dep->primary ($table)))
+                if (!$pri = $dep->primary ($table))
 	            return;
 	        $__DBOBJ_KEYCACHE[$table][$id] = $this->_row = $db->select ('*', $table, "$pri=$id")->get ();
 	    } else {

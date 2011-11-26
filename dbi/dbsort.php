@@ -51,10 +51,9 @@ function sort_linked_list ($db, $table, $id, $order_clause, $follows = false, $c
 	    return;
         $refid = $ref['id'];
 
-        # Get all records that reference this record in $reftab in the
-        # right order.
-        if (!($res = $db->select ('id,id_last,id_next', $reftab, "$refid=$id $order_clause")))
-            continue; # Continue if there's no sublist.
+        # Get children of this record in $reftab in the right order.
+        if (!$res = $db->select ('id,id_last,id_next', $reftab, "$refid=$id $order_clause"))
+            continue;
 
         # Fetch the first entry.
         $row = $res->get ();

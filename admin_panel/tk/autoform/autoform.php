@@ -204,7 +204,7 @@ function tk_autoform_list_cursor (&$this, &$c, $config)
                     $field = $l['field'];
                     $p->show_ref ($name, $table, $field, $pri);
                 } else {
- 	            if (!($data = $rec[$name]))
+ 	            if (!$data = $rec[$name])
 	                $data = '-';
 	            if ($data) {
                         $data = ereg_replace (' ', '&nbsp;', $data);
