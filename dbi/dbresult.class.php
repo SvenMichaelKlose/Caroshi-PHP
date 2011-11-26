@@ -28,12 +28,18 @@ class DB_result {
     function &DB_result (&$res) { $this->res =& $res; }
 
     /**
-     * Fetch first/next row from result set.
+     * Fetch first/next row or field from result set.
      *
-     * @return array Columns of the next row. The columns names are used
-     *               for the array's key names.
+     * @param string field Optional field name.
+     * @return mixed Result of the next row. If no field was specified,
+     *               all fields are returned in a hash, otherwise the field's value
+     *               is returned.
      */
-    function &get () { return mysql_fetch_array ($this->res); }
+    function &get ($field)
+    {
+        $row =  mysql_fetch_array ($this->res);
+        return $field ? $row[$field] : $row;
+    }
 
     /**
      * Get the number of rows affected by the insert operation. 
