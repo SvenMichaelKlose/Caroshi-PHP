@@ -47,11 +47,9 @@ function debug_dump ($a)
         }
         echo '</table>';
     } else if (is_null ($a)) {
-        echo '<table border="1" cellpadding="0" cellspacing="0">' .
-             '<tr><td bgcolor="silver"><i>NULL</i></td></tr></table>';
+        echo '<table border="1" cellpadding="0" cellspacing="0"><tr><td bgcolor="silver"><i>NULL</i></td></tr></table>';
     } else {
-        echo '<table border="1" cellpadding="0" cellspacing="0">' .
-             '<tr><td bgcolor="silver">';
+        echo '<table border="1" cellpadding="0" cellspacing="0"><tr><td bgcolor="silver">';
         $tmp = array ($a);
         debug_dump ($tmp);
         echo '&nbsp;</td></tr></table>';

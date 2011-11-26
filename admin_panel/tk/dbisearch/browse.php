@@ -50,8 +50,7 @@ function _tk_dbisearch_browse_button (&$this, $index, $label, $image)
  * @param string $g_end Path to image for link to last record.
  * @see tk_dbisearch()
  */
-function tk_dbisearch_browse (&$this, $g_begin = '', $g_prev = '',
-                              $g_next = '', $g_end = '')
+function tk_dbisearch_browse (&$this, $g_begin = '', $g_prev = '', $g_next = '', $g_end = '')
 {
     $p =& admin_panel::instance ();
 
@@ -84,7 +83,7 @@ function tk_dbisearch_browse (&$this, $g_begin = '', $g_prev = '',
     # Print position.
     $tmp = $i + $l > $s ? $s : $i + $l;
     $p->open_cell (array ('ALIGN' => 'CENTER'));
-    $p->label ('' . ($i + 1) . "-$tmp/$s");
+    $p->label (($i + 1) . "-$tmp/$s");
     $p->close_cell ();
 
     # Button to next page.

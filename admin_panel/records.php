@@ -53,8 +53,7 @@ function record_create_set (&$this, &$set)
 
         foreach ($sources as $source => $pre) {
             if (!is_array ($pre))
-                die ("Can't create record. Preset values are not in an array for " .
-                     "source $source.");
+                die ("Can't create record. Preset values are not in an array for source $source.");
 
             # Replace aliases by key to inserted record in specified source in
             # this function. An alias is placed in preset_values' field data in
@@ -64,8 +63,7 @@ function record_create_set (&$this, &$set)
                     if (substr ($data, 0, 1) == '@') {
                         $s = substr ($data, 1);
                         if (!isset ($aliases[$s]))
-                            die ("No record in source $source created source $s could " .
-                                 "point to.");
+                            die ("No record in source $source created source $s could point to.");
 
                         # Replace alias by id of inserted record.
                         $pre[$field] = $aliases[$s];
@@ -152,8 +150,7 @@ function record_create (&$this)
         $sources[$cursor->type ()][$src] = $pre ? $pre : array ();
     } else
         if ($this->arg ('preset_values', ARG_OPTIONAL))
-            die ("record_create(): Arguments 'preset_values' and 'sources' " .
-                 "can't be used together.");
+            die ("record_create(): Arguments 'preset_values' and 'sources' can't be used together.");
 
     $key =& record_create_set ($this, $sources);
     return _record_create_continue ($this, $key);
@@ -212,8 +209,7 @@ function record_delete (&$this)
         if (!$cursor)
             die ('record_delete(): No cursor.');
         if (!$cursor->key ())
-            die ('record_delete(): No key of any record in source ' .
-                 $cursor->source () . '.');
+            die ("record_delete(): No key of any record in source '{${$cursor->source ()}}'.");
 
         # Highlight record.
         $ui->highlight[$cursor->id ()] = '#FFAAAA';

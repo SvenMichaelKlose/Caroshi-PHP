@@ -52,8 +52,7 @@ function doomday ($year)
  */
 function is_leap_year ($year)
 {
-    if (($year % 4 == 0)
-        && (($year < 1582) || (!($year % 100 == 0)) || ($year % 400 == 0)))
+    if (($year % 4 == 0) && (($year < 1582) || (!($year % 100 == 0)) || ($year % 400 == 0)))
         return true;
     return false;
 } 
@@ -75,7 +74,7 @@ function day_of_year ($year, $month, $day)
     $monthdays[1]  = 28 + is_leap_year ($year);
     if ($day <= $monthdays[$month - 1]) {
         for ($i = 0; $i < $month - 1; $i++)
-           $days = $days + $monthdays[$i];
+            $days = $days + $monthdays[$i];
         $days = $days + $day;
     }
     return $days;

@@ -45,8 +45,7 @@ function tk_autoform_create_widget (&$this, $source, $field, $flags = 0)
 
     $type = $def->types ($source);
     if (!$type)
-        die ("tk_autoform_create_widget(): No dbdepend definition for table " .
-             "'$source.'");
+        die ("tk_autoform_create_widget(): No dbdepend definition for table '$source.'");
     $type = $type[$field];
 
     # Don't print hidden fields.
@@ -107,9 +106,9 @@ function _tk_autoform_create_widget (&$this, &$type, $field, $flags)
             if ($lines < 5)
                 $lines = 5;
             else {
-              $lines += 2;
-              if ($lines > 25)
-                  $lines = 25;
+                $lines += 2;
+                if ($lines > 25)
+                    $lines = 25;
             }
             $p->textarea ($field, 40, $lines);
             break;
@@ -161,7 +160,6 @@ function tk_autoform_list_cursor (&$this, &$c, $config)
 {
     $p =& admin_panel::instance ();
 
-debug_dump ($c);
     if (!is_a ($c, 'cursor'))
         die ('tk_autoform_list_cursor(): Argument 2 is not a cursor.');
     if (!is_array ($config))

@@ -38,9 +38,7 @@ class cursor_dbconf extends cursor {
     {
         global $config_table;
 
-        $this->_res =& $this->conf->db->select (
-            '*', $config_table, "name LIKE '$prefix%'", 'ORDER BY descr ASC'
-        );
+        $this->_res =& $this->conf->db->select ('*', $config_table, "name LIKE '$prefix%'", 'ORDER BY descr ASC');
         return ($this->_res->num_rows () < 1) ? false : true;
     }
 
@@ -71,15 +69,16 @@ class cursor_dbconf extends cursor {
 	        $is_file = $value;
 	        $value = $this->conf->get ($key);
 	        break;
+
 	    case 'data':
 	        $is_file = $this->conf->is_file ($key);
 	        break;
+
 	    default:
 	        return;
         }
 
         $this->conf->set ($key, stripslashes ($value), $is_file);
     }
-
 }
 ?>

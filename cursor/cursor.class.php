@@ -340,8 +340,7 @@ class cursor {
      */
     function __sleep ()
     {
-        return array ('_source', '_key', '_field', '_type', '_lower',
-                      '_selection', '_order', '_num_gets');
+        return array ('_source', '_key', '_field', '_type', '_lower', '_selection', '_order', '_num_gets');
     }
 
     /**

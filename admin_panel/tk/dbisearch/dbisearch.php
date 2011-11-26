@@ -219,8 +219,7 @@ function _tk_dbisearch_create_query (&$this, &$query, $field)
           $fieldnames = array_keys ($def->types ($source));
 
       if (!is_array ($fieldnames))
-          die ("tk_dbisearch(): Field list ist not an array for source " .
-               "'$source', field '$field'.");
+          die ("tk_dbisearch(): Field list ist not an array for source '$source', field '$field'.");
 
       # Assemble query for source.
       $qt = '';

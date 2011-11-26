@@ -35,9 +35,7 @@ function tk_dbconf_init (&$this, &$dbconf)
 
     $this->add_function ('tk_dbconf');
 
-    $h = array ('_tk_dbconf_update', '_tk_dbconf_reset',
-                '_tk_dbconf_reset_ask', '_tk_dbconf_set_file');
-    util_add_raw_functions ($this, $h);
+    util_add_raw_functions ($this, array ('_tk_dbconf_update', '_tk_dbconf_reset', '_tk_dbconf_reset_ask', '_tk_dbconf_set_file'));
 
     tk_fsb_init ($this);
 }
@@ -141,11 +139,9 @@ function _tk_dbconf_reset_ask (&$this)
 {
     $ui =& admin_panel::instance ();
 
-    $ui->confirm (
-        'Wirklich die Konfiguration auf Werkseinstellungen zur&uuml;cksetzen?',
-        'Ja, alte Einstellungen verwerfen.', '_tk_dbconf_reset',
-        'Nein, abbrechen.', 'return2caller'
-    );
+    $ui->confirm ('Wirklich die Konfiguration auf Werkseinstellungen zur&uuml;cksetzen?',
+                  'Ja, alte Einstellungen verwerfen.', '_tk_dbconf_reset',
+                  'Nein, abbrechen.', 'return2caller');
     $this->call ('return2caller');
 }
 
@@ -171,7 +167,7 @@ function _tk_dbconf_update (&$this)
         }
         $this->conf->set ($key, $value, $is_file);
     }
-    $ui->msgbox ('Konfiguration wurde erneuert. ' . $num . ' neue Eintraege.');
+    $ui->msgbox ("Konfiguration wurde erneuert. $num neue Eintraege.");
     $this->call ('return2caller');
 }
 

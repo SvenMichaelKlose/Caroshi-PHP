@@ -15,8 +15,7 @@
 
 function _formviews_init (&$this)
 {
-    $e = array ('form_parser', 'form_update', 'form_create', 'form_safe',
-                'form_check');
+    $e = array ('form_parser', 'form_update', 'form_create', 'form_safe', 'form_check');
     util_add_raw_functions ($this, $e);
 }
 
@@ -56,7 +55,8 @@ function _form_collect (&$this, &$forms, &$formevents, &$filteredelements)
         # See also $ui->filelink ().
         if ($field = $e->is_file) {
             # Skip entry if file info is incomplete.
-            if (!isset ($GLOBALS[$field]) || ($file = $GLOBALS[$field]) == 'none'
+            if (!isset ($GLOBALS[$field])
+                || ($file = $GLOBALS[$field]) == 'none'
                 || !($size = $GLOBALS[$field . '_size'])
                 || !($name = $GLOBALS[$field . '_name']))
                 continue;
@@ -126,19 +126,19 @@ function form_parser (&$this)
             if ($f->element_filter_write) {
                 $filter = $f->element_filter_write;
                 $v = $filter ($v);
-              $this->elements[$k]->val = $v;
-        }
+                $this->elements[$k]->val = $v;
+            }
 
-        # Save form value.
-        if ($source && $v && $cursor->type ())
-            $this->element_sources[$cursor->type ()][$source][$field] =& $v;
+            # Save form value.
+            if ($source && $v && $cursor->type ())
+                $this->element_sources[$cursor->type ()][$source][$field] =& $v;
 
             # Sort in value for lookup by field name.
             $this->named_elements[$field] =& $f->val;
         }
 
         if ($debug) {
-            echo '<b>Form elements: for ' . $view->name . ':</b><br>';
+            echo "<b>Form elements: for $view->name:</b><br>";
             debug_dump ($this->elements);
         }
 
@@ -204,14 +204,13 @@ function form_update (&$this)
 
         # Continue if field name is in the list of ignored fields.
         if ($ignored && is_int (array_search ($field, $ignored)))
-          continue;
+            continue;
 
         # If there's no key in the cursor, use the one in the keyset.
         if (!$cursor->key ()) {
             # Die if there's no key.
             if (!$keyset || !isset ($keyset[$type][$src]))
-              die ('form_update(): No key for field ' . $cursor->field () .
-                   " in source $src of type $type.");
+                die ("form_update(): No key for field '{${$cursor->field ()}}' in source '$src' of type '$type'.");
 
             $cursor->set_key ($keyset[$type][$src]);
         }
@@ -278,12 +277,12 @@ function form_create (&$this)
     $ui =& admin_panel::instance ();
 
     if (!form_has_content ($this)) {
-        $ui->msgbox ('Record not created - fill form with content before.',
-                     'red');
+        $ui->msgbox ('Record not created - fill form with content before.', 'red');
         return;
     }
 
-    $sources = !isset ($sources) ?  $this->element_sources :
+    $sources = !isset ($sources) ?
+               $this->element_sources :
                array_merge_recursive ($this->element_sources, $sources);
     $keys = record_create_set ($this, $sources);
 
@@ -334,8 +333,7 @@ function form_check (&$this)
         if (!isset ($patterns[$source][$field])) {
             # Warn in debug mode.
             if ($debug)
-	        echo '<b>form_check(): Element ' . $field . ' not defined in ' .
-	             'source ' .  $source . '.</b><br>';
+	        echo "<b>form_check(): Element '$field' not defined in source '$source'.</b><br>";
             continue;
         }
         $p = $pattern[$source][$field];

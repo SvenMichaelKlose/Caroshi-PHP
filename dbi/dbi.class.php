@@ -38,9 +38,9 @@ class DBI extends DBCtrl {
     function column ($table, $column, $id)
     {
         if (!($pri = $this->def->primary ($table)))
-	    die ("dbi::column(): No primary key specified for table \"$table\".");
+	    die ("dbi::column(): No primary key specified for table '$table'.");
 
-        $res = $this->select ($column, $table, $pri . "='$id'");
+        $res = $this->select ($column, $table, "$pri='$id'");
         list ($column) = $res->get ();
 
         return $column;
@@ -58,7 +58,7 @@ class DBI extends DBCtrl {
 
         $hash = $def->types ($table);
         if (!is_array ($hash))
-	    die ('dbi::create_row(): No table "' . $table . '" defined.');
+	    die ("dbi::create_row(): No table '$table' defined.");
 
         # Check names of preset values.
         if (is_array ($pre)) {
@@ -66,7 +66,7 @@ class DBI extends DBCtrl {
                 $names[$f['n']] = true;
             foreach ($pre as $n => $tmp)
                 if (!isset ($names[$n]))
-                  die ("No such field '$n' in table '$table'.");
+                    die ("No such field '$n' in table '$table'.");
         }
 
         $set = '';
@@ -92,8 +92,9 @@ class DBI extends DBCtrl {
     # Note: This function needs a table definition (see define_table ()).
     function create_table ($table)
     {
-        $t = substr ($table, 0, 4) == '_wrk' ?
-             substr ($table, 4, strlen ($table) - 4) : $table;
+        $t = (substr ($table, 0, 4) == '_wrk') ?
+             substr ($table, 4, strlen ($table) - 4) :
+             $table;
         dbwrapper::create_table ($this->def, $table, $this->table_prefix ());
     }
 
@@ -122,7 +123,7 @@ class DBI extends DBCtrl {
         $q = '';
         while ($tmp) {
             $tab = key ($types);
-	    $q .= "$tab WRITE,_wrk$tab WRITE";
+	    $q .= "$tab WRITE, _wrk$tab WRITE";
 	    $tmp = next ($types);
 	    if ($tmp)
 	        $q .= ', ';
@@ -184,10 +185,7 @@ class DBI extends DBCtrl {
         }
         $info = $def->_refs[$table];
         foreach ($info as $ref) {
-            $res = $this->select (
-                $def->primary ($ref['table']), $ref['table'],
-                $ref['id'] . "='" . $id . "'"
-            );
+            $res = $this->select ($def->primary ($ref['table']), $ref['table'], $ref['id'] . "='$id'");
             if ($res && $res->num_rows () > 0)
                 while (list ($id_ref) = $res->get ())
                     $this->multi_delete ($ref['table'], $id_ref);
@@ -202,8 +200,7 @@ class DBI extends DBCtrl {
     }
 
     # This function iterates from a row to the root of the table hierarchy.
-    function traverse_refs_from (&$app, $table, $id, $function, $arguments,
-				 $backwards = false)
+    function traverse_refs_from (&$app, $table, $id, $function, $arguments, $backwards = false)
     {
         $def =& $this->def;
 
@@ -212,7 +209,7 @@ class DBI extends DBCtrl {
 	    foreach ($ref_tables as $tab) {
 	        if ($tab['table'] != $table)
                     continue;
-                $res = $this->select ( '*', $table, $def->primary ($table) . "=$id");
+                $res = $this->select ('*', $table, $def->primary ($table) . "=$id");
                 if (!$res || $res->num_rows () < 1)
                     continue;
                 $row = $res->get ();
@@ -220,15 +217,13 @@ class DBI extends DBCtrl {
                 if ($backwards)
                     $out .= $function ($app, $table, $row, $arguments);
                 if ($new_id)
-                    $out .= $this->traverse_refs_from (
-                        $app, $parent_table, $new_id, $function, $arguments, $backwards
-                    );
+                    $out .= $this->traverse_refs_from ($app, $parent_table, $new_id, $function, $arguments, $backwards);
                 if (!$backwards)
                     $out .= $function ($app, $table, $row, $arguments);
                 return $out;
 	    }
         }
-        die ("Nothing referencing table \"$table\"/id \"$id\".");
+        die ("Nothing referencing table '$table'/id '$id'.");
     }
 
     # Append new record to end of doubly linked list identified by the
@@ -258,14 +253,13 @@ class DBI extends DBCtrl {
         }
 
         # Do simple append if no list or list references are overridden.
-        if (!$def->is_list ($table) || isset ($pre[$id_last]) ||
-            isset ($pre[$id_next])) {
+        if (!$def->is_list ($table) || isset ($pre[$id_last]) || isset ($pre[$id_next])) {
             $this->create_row ($table, $pre);
 	    return $this->insert_id ();
         }
 
         # Get id of last record in list.
-        $q = $id_next . '=0';
+        $q = "$id_next=0";
         if ($id_parent)
             $q .= " AND $id_parent=$id_dest_parent";
         $res = $this->select ($id, $table, $q);
@@ -285,7 +279,7 @@ class DBI extends DBCtrl {
             $this->update ($table, "$id_next=$nid", "$id=$last");
 
         if ($xref = $def->xref_table ($table))
-            $this->insert ($xref, "id_parent=$id_dest_parent,id_child=$nid");
+            $this->insert ($xref, "id_parent=$id_dest_parent, id_child=$nid");
 
         return $nid;
     }
@@ -294,9 +288,7 @@ class DBI extends DBCtrl {
     {
         $def =& $this->def;
 
-        if ($table == $def->ref_table ($table) &&
-            ($id == $id_parent || $id == $id_next ||
-	    ($id_parent && $id_parent == $id_next)))
+        if ($table == $def->ref_table ($table) && ($id == $id_parent || $id == $id_next || ($id_parent && $id_parent == $id_next)))
             return true; # Would cause record to disappear somewhere in the db.
 
         $c_last = $def->prev_of ($table);
@@ -307,9 +299,9 @@ class DBI extends DBCtrl {
         # Read in tree nodes.
         $fields = "$c_id";
         if ($c_last && $c_next)
-            $fields .= ",$c_last,$c_next";
+            $fields .= ", $c_last, $c_next";
         if ($c_id_parent)
-            $fields .= ",$c_id_parent";
+            $fields .= ", $c_id_parent";
  
         # XXX Aua!
         $res = $this->select ($fields, $table);
@@ -326,16 +318,13 @@ class DBI extends DBCtrl {
         }
 
         if ($xref = $this->def->xref_table ($table)) { 
-            $res =& $db->select ('id_parent', $xref,
-                                 'id_child=' . $row['id_child']);
+            $res =& $db->select ('id_parent', $xref, 'id_child=' . $row['id_child']);
             list ($id_srcparent) = $res->get ();
         }
 
         # Check if the record has no siblings and the destination has the
         # same parent. If so, don't move anything.
-        if ($id_parent == $nodes[$id][$c_id_parent]
-            && $c_last && $c_next && !$nodes[$id][$c_last]
-            && !$nodes[$id][$c_next])
+        if ($id_parent == $nodes[$id][$c_id_parent] && $c_last && $c_next && !$nodes[$id][$c_last] && !$nodes[$id][$c_next])
             return true;
 
         if ($c_next) {
@@ -344,13 +333,11 @@ class DBI extends DBCtrl {
 
 	    # Remove record from list.
 	    if ($row[$c_last]) {
-	        $this->update ($table, "$c_next=" . $row[$c_next],
-	                       "$c_id=" . $row[$c_last]);
+	        $this->update ($table, "$c_next=" . $row[$c_next], "$c_id=" . $row[$c_last]);
 	        $nodes[$row[$c_last]][$c_next] = $row[$c_next];
 	    }
 	    if ($row[$c_next]) {
-	        $this->update ($table, $c_last . '=' . $row[$c_last],
-	                       $c_id . '=' . $row[$c_next]);
+	        $this->update ($table, $c_last . '=' . $row[$c_last], $c_id . '=' . $row[$c_next]);
 	        $nodes[$row[$c_next]][$c_last] = $row[$c_last];
 	    }
 
@@ -383,8 +370,7 @@ class DBI extends DBCtrl {
 
         # Update reference to new parent.
         if ($xref)
-            $this->update ($xref, "id_parent=$id_parent",
-                           "id_parent=$id_srcparent AND id_child=$id");
+            $this->update ($xref, "id_parent=$id_parent", "id_parent=$id_srcparent AND id_child=$id");
         else if ($c_id_parent)
             $this->update ($table, "$c_id_parent=$id_parent", "$c_id=$id");
       }

@@ -158,7 +158,7 @@ class application {
         $this->_subargs =& $oldsub;
 
         if (isset ($ret))
-          return $ret;
+            return $ret;
     }
 
     /**
@@ -192,8 +192,7 @@ class application {
             static $called = array ();
             $sv = serialize ($e);
             if (isset ($called[$sv]))
-                die ("application::call (): Infinite loop detected before " .
-                     "call to event handler '$handler'.");
+                die ("application::call (): Infinite loop detected before call to event handler '$handler'.");
             $called[$sv] = true;
 
 	    $ret =& $this->call_single ($e);
@@ -280,8 +279,7 @@ class application {
             if ($te->subsession)
 	        $e->subsession = $te->subsession;
             else
-                die ('application::link(): Internal error - no subsession in ' .
-                     'current event.');
+                die ('application::link(): Internal error - no subsession in current event.');
         }
 
         # Store event object in token.
@@ -421,8 +419,7 @@ class application {
     function _set_type ($name, $t)
     {
         if ($t != TOKEN_DEFAULT && $t != TOKEN_ONETIME && $t != TOKEN_REUSE)
-            die ("application::add_function(), add_method(): Unknown token type " .
-                 "$t for event handler $name.");
+            die ("application::add_function(), add_method(): Unknown token type $t for event handler $name.");
         $this->_types[$name] = $t;
     }
 
@@ -490,12 +487,11 @@ class application {
         $this->application_define_database ();
         $db->create_tables ();
         if ($err = $db->error ())
-            die ('<b>application.class install failed: ' . $err . '</b><br>' .
-                 'Please check file .dbi.conf and try again.<br>' .
-                 'Bitte &Uuml;berpr&uuml;fen Sie die Eintr&auml;ge in der ' .
-                 'Datei .dbi.conf und versuchen Sie es erneut.');
-        die ('<font color="green"><b>application base installed - ' .
-             "<a href=\"$SCRIPT_NAME\">Please reload</a>.</b>");
+            die ("<b>application.class install failed: $err</b><br>" .
+                 "Please check file .dbi.conf and try again.<br>" .
+                 "Bitte &Uuml;berpr&uuml;fen Sie die Eintr&auml;ge in der " .
+                 "Datei .dbi.conf und versuchen Sie es erneut.");
+        die ("<font color="green"><b>application base installed - <a href=\"$SCRIPT_NAME\">Please reload</a>.</b>");
     }
 
     /**
@@ -512,8 +508,7 @@ class application {
 
         # Connect to database specified in .dbi.conf.php.
         if (!file_exists ('.dbi.conf.php'))
-	    die ('Can\'t find file .dbi.conf.php - stop.<br>' .
-	         'Kann Datei .dbi.conf.php nicht finden - stop.');
+	    die ('Can\'t find file .dbi.conf.php - stop.<br>Kann Datei .dbi.conf.php nicht finden - stop.');
         include '.dbi.conf.php';
         $this->db =& new DBI ($dbidatabase, $dbiserver, $dbiuser, $dbipwd);
         $db =& $this->db;

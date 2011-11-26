@@ -54,7 +54,7 @@ class widget_set {
             return '';
         $out = '';
         foreach ($array as $key => $val)
-            $out .= ' ' . $key . '="' . $val . '"';
+            $out .= " $key=\"$val\"";
         return $out;
     }
 
@@ -81,8 +81,7 @@ class widget_set {
               '" ALINK="' . $this->color['alink'] . '" ' .
               'VLINK="' . $this->color['vlink'] . '">';
         if ($this->short_links)
-            echo '<BASE HREF="http' . $tmp . '://' . $GLOBALS['SERVER_NAME'] .
-                 $GLOBALS['SCRIPT_NAME'] . '/">';
+            echo '<BASE HREF="http' . $tmp . '://' . $GLOBALS['SERVER_NAME'] . $GLOBALS['SCRIPT_NAME'] . '/">';
         echo "<TABLE BORDER=0 WIDTH=\"100%\">\n".
              "<TR><TD BGCOLOR=\"" . $this->color['title bgcolor'] .
              "\" WIDTH=\"100%\"><FONT COLOR=WHITE>" .
@@ -147,11 +146,10 @@ class widget_set {
      */
     function headline ($txt)
     {
-        echo
-	  '<TABLE BORDER=0 WIDTH="100%" CELLPADDING="2">' .
-          '<TR><TD BGCOLOR="' . $this->color['headline'] .
-          '" WIDTH="100%"><FONT COLOR="WHITE"><B>' .
-          $txt . '</B></FONT></TD></TR></TABLE>';
+        echo '<TABLE BORDER=0 WIDTH="100%" CELLPADDING="2">' .
+             '<TR><TD BGCOLOR="' . $this->color['headline'] .
+             '" WIDTH="100%"><FONT COLOR="WHITE"><B>' .
+             $txt . '</B></FONT></TD></TR></TABLE>';
     }
 
     /**
@@ -177,8 +175,7 @@ class widget_set {
      */
     function open_form ($action)
     {
-        echo '<FORM ENCTYPE="multipart/form-data" ACTION="' .
-             $action . '" METHOD=POST>' . "\n";
+        echo '<FORM ENCTYPE="multipart/form-data" ACTION="' . $action . '" METHOD=POST>' . "\n";
     }
 
     /**
@@ -200,8 +197,7 @@ class widget_set {
      */
     function image ($alt, $src)
     {
-        echo '<IMG SRC="' . $src .'" BORDER="0"' .
-             ($alt ? ' ALT="' . $alt . '"' : '') . '>';
+        echo '<IMG SRC="' . $src .'" BORDER="0"' . ($alt ? ' ALT="' . $alt . '"' : '') . '>';
     }
 
     /**
@@ -214,8 +210,7 @@ class widget_set {
      */
     function image_link ($alt, $src, $url)
     { 
-        echo '<A HREF="' . $url . '"><IMG SRC="' . $src .'" ALT="' .
-              htmlentities ($alt) . '" BORDER="0"></A>';
+        echo '<A HREF="' . $url . '"><IMG SRC="' . $src .'" ALT="' . htmlentities ($alt) . '" BORDER="0"></A>';
     }
 
     /**
@@ -295,8 +290,8 @@ class widget_set {
      */
     function textarea ($name, $cols, $rows, $val)
     {
-        echo '<TEXTAREA NAME="' . $name . '" ' .
-             'ROWS="' . $rows . '" COLS="' . $cols . '" WRAP="VIRTUAL">' . $val .
+        echo '<TEXTAREA NAME="' . $name . '" ' . 'ROWS="' . $rows . '" COLS="' . $cols . '" WRAP="VIRTUAL">' .
+                 $val .
              '</TEXTAREA>';
     }
 
@@ -377,8 +372,7 @@ class widget_set {
      */
     function submit_image ($label, $image_url, $name)
     {
-        echo "<INPUT TYPE=\"IMAGE\" SRC=\"$image_url\" VALUE=\"$label\" " .
-             "NAME=\"$name\" BORDER=\"0\">";
+        echo "<INPUT TYPE=\"IMAGE\" SRC=\"$image_url\" VALUE=\"$label\" " . "NAME=\"$name\" BORDER=\"0\">";
     }
 
     /**

@@ -92,12 +92,12 @@ class DBWrapper {
 	        panic ('dbwrapper::create_table(): field without a SQL type.');
 
 	    if ($query)
-	        $query .= ',';
+	        $query .= ', ';
 	    $query .= $field['n'] . ' ' . $field['t'];
 
             # Create index if wanted.
             if (isset ($field['i']))
-                $tail .= ",KEY($name)";
+                $tail .= ", KEY($name)";
         }
 
         dbwrapper::query ("CREATE TABLE $prefix$table ($query$tail)");
@@ -117,8 +117,7 @@ class DBWrapper {
         if ($debug) {
 	    $GLOBALS['DB_QUERIES']++;
             if ($debug & 2) {
-	        echo '<font size="-1" color="blue">' . htmlentities ($query) .
-	             "</font>\n";
+	        echo '<font size="-1" color="blue">' . htmlentities ($query) . "</font>\n";
 	        flush ();
 	        $t = gettimeofday ();
                 $start = $t['usec'] + $t['sec'] * 1000000;
@@ -129,15 +128,13 @@ class DBWrapper {
 
         if ($m = $this->error ()) {
             if (!$debug)
-                echo '<font size="-1" color="blue">' . htmlentities ($query) .
-                     "</font>\n";
+                echo '<font size="-1" color="blue">' . htmlentities ($query) . "</font>\n";
             echo '<font color="red" size="-1">' . $m . "</font><BR>\n";
         }
         if ($debug) {
             if ($debug & 2) {
 	        $t = gettimeofday ();
-                echo ($t['usec'] + $t['sec'] * 1000000 - $start) / 1000000 .
-	             "s<br>\n";
+                echo ($t['usec'] + $t['sec'] * 1000000 - $start) / 1000000 . "s<br>\n";
             }
         }
 

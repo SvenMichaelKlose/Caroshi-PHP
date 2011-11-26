@@ -17,9 +17,7 @@
 function tree_edit_register (&$this)
   {
     $this->add_function ('tree_edit_move');
-
     $this->add_function ('move_node_to');
-
     $this->add_function ('move_node4real');
     $this->raw_views['move_node4real'] = true;
 }
@@ -66,14 +64,12 @@ function tv_node (&$this, &$node)
     $id = $node[$nid];
     $str = '<TABLE CELLPADDING="0" CELLSPACING="0" BORDER="0"><TR>' .
            '<TD WIDTH="100%" ALIGN="LEFT">' .
-    	   $p->link ("<B>$name</B> ", new event($nodeview, array ('id' => $id))) .
+    	        $p->link ("<B>$name</B> ", new event($nodeview, array ('id' => $id))) .
 	   '</TD>';
     if (!$no_create)
         $str .= '<TD><font size="-1">' .
-	     $p->link (
-	         '+&gt;', new event ($this->arg ('nodecreator'),
-	         array ('id' => $id, '__next' => $this->args ()))
-	     ) . '</font></td>';
+	        $p->link ('+&gt;', new event ($this->arg ('nodecreator'), array ('id' => $id, '__next' => $this->args ()))) .
+                '</font></td>';
     $str .= '</TR></TABLE>';
 }
 
@@ -86,8 +82,7 @@ function tv_move_node (&$this, &$node)
 
     $name = $node[$this->arg ('name')];
     $id = $node[$this->arg ('id')];
-    $p->link ("<B>$name</B>", new event ('move_node_to',
-              array_merge ($this->event->args, array ('id_src' => $id))));
+    $p->link ("<B>$name</B>", new event ('move_node_to', array_merge ($this->event->args, array ('id_src' => $id))));
 }
 
 # $this->args:
@@ -106,27 +101,14 @@ function tv_move_to_node (&$this, &$node)
     $id_parent = $node[$this->db->def->ref_id ($table)];
 
     if ($id == $id_src)
-        return '<B>' . $name . '</B>';
-    return '<b>' . $name . '</b> ' . $p->link (
-        '^', new event ('move_node4real',
-        array_merge (
-	    $this->args,
-            array ('id_dest' => $id_parent, 'id_src' => $id_src,
-      	           'id_dest_next' => $id)
-        ))) . ' ' . $p->link (
-            '\/', new event ('move_node4real',
-            array_merge (
-	        $this->args,
-                array ('id_dest' => $id_parent, 'id_src' => $id_src,
-      	               'id_dest_next' => $node['id_next'])
-            ))
-        ) . ' ' . $p->link (
-            '>', new event ('move_node4real',
-                array_merge (
-	            $this->args,
-                    array ('id_dest' => $id, 'id_src' => $id_src)
-            ))
-        );
+        return "<B>$name</B>";
+    return "<b>$name</b> " . $p->link ('^', new event ('move_node4real', array_merge ($this->args, array ('id_dest' => $id_parent,
+                                                                                                          'id_src' => $id_src, 'id_dest_next' => $id)))) .
+           ' ' . $p->link ('\/', new event ('move_node4real', array_merge ($this->args, array ('id_dest' => $id_parent,
+                                                                                                'id_src' => $id_src,
+      	                                                                                        'id_dest_next' => $node['id_next'])))) .
+           ' ' . $p->link ('>', new event ('move_node4real', array_merge ($this->args, array ('id_dest' => $id,
+                                                                                              'id_src' => $id_src))));
 }
 
 # $this->args:
@@ -142,7 +124,7 @@ function move_node_to (&$this)
     $txt_back = $this->arg ('txt_back');
     $txt_select_dest = $this->arg ('txt_select_dest');
 
-    $p->msgbox ($txt_select_dest . ':', 'yellow');
+    $p->msgbox ("$txt_select_dest:", 'yellow');
     $p->link ($txt_back, 'return2caller');
     echo "<CENTER><TABLE BORDER=0 BGCOLOR=\"#EEEEEE\"><TR><TD>";
     $tree =& new DBTREE ($this->db, $table, $id);
@@ -177,8 +159,7 @@ function move_node4real (&$this)
     else
         $ui->msgbox ($txt_not_moved, 'red');
 
-    $ui->link ($txt_move_again, new event ('move_node_to',
-                     array_merge ($this->args, array ('id_src' => $id_src))));
+    $ui->link ($txt_move_again, new event ('move_node_to', array_merge ($this->args, array ('id_src' => $id_src))));
 
     $ui->highlight[$ui->view_id ($table, $id_src)] = '#00FF00';
 
@@ -199,7 +180,7 @@ function tree_edit_move (&$this)
     $txt_select_node = $this->arg ('txt_select_node');
     $def =& $this->db->def;
 
-    $p->msgbox ($txt_select_node . ':', 'yellow');
+    $p->msgbox ("$txt_select_node:", 'yellow');
     $p->link ($txt_back, 'return2caller');
     echo "<CENTER><TABLE BORDER=0 BGCOLOR=\"#EEEEEE\"><TR><TD>";
 

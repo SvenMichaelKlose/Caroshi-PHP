@@ -28,10 +28,10 @@ function dbitree_get_parent (&$db, &$table, &$id)
     }
 
     if ($xref = $def->xref_table ($table)) {
-        $res =& $db->select ('id_parent', $xref, 'id_child=' . $id);
+        $res =& $db->select ('id_parent', $xref, "id_child=$id");
         $ntable = $table;
     } else {
-        $res =& $db->select ($def->ref_id ($table), $table, 'id=' . $id);
+        $res =& $db->select ($def->ref_id ($table), $table, "id=$id");
         $ntable = $def->ref_table ($table);
     }
 
@@ -59,7 +59,7 @@ function &dbitree_get_childs (&$db, $table, $id, $subtype = '')
     if (!$xref = $db->def->xref_table ($table)) {
         if (!$subtype)
             $subtype = $table;
-        return $db->select ('*', $subtype, $def->ref_id ($subtype) . '=' . $id);
+        return $db->select ('*', $subtype, $def->ref_id ($subtype) . "=$id");
     }
 
     $res =& $db->select ('id_child', $xref, "id_parent=$id");

@@ -53,11 +53,11 @@ class DBCtrl extends DBWrapper {
      */
     function &select ($what, $table, $where = '', $tail = '')
     {
-        $q = 'SELECT ' . $what . ' FROM ' . $this->prefix . $table;
+        $q = "SELECT $what FROM $this->prefix$table";
         if ($where)
-            $q .= ' WHERE ' . $where;
+            $q .= " WHERE $where";
         if ($tail)
-            $q .= ' ' . $tail;
+            $q .= " $tail";
         return $this->query ($q);
     }
 
@@ -75,10 +75,10 @@ class DBCtrl extends DBWrapper {
      */
     function &update ($table, $set, $where)
     {
-        $q = 'UPDATE ' . $this->prefix . $table . ' SET ' . $set;
+        $q = "UPDATE $this->prefix$table SET $set";
         if (!$where)
-            die ('dbctrl::update(): Need where clause. ' . $q);
-        $q .= ' WHERE ' . $where;
+            die ("dbctrl::update(): Need where clause. $q");
+        $q .= " WHERE $where";
         return $this->query ($q);
     }
 
@@ -96,8 +96,7 @@ class DBCtrl extends DBWrapper {
      */
     function &insert ($table, $set)
     {
-        $set = " SET $set";
-        return $this->query ('INSERT INTO ' . $this->prefix . $table .$set);
+        return $this->query ("INSERT INTO $this->prefix$table SET $set");
     }
 
     /**
@@ -113,9 +112,9 @@ class DBCtrl extends DBWrapper {
      */
     function &delete ($table, $where = '')
     {
-        $q = 'DELETE FROM ' . $this->prefix . $table;
+        $q = "DELETE FROM $this->prefix$table";
         if ($where)
-            $q .= ' WHERE ' . $where;
+            $q .= " WHERE $where";
         return $this->query ($q);
     }
 

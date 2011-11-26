@@ -211,19 +211,12 @@ class XML_SCANNER {
         # Execute tag dependend function, global function otherwise
         # and echo the returned data.
         # XXX In XML this would be the default name space.
-        if (isset ($this->_dirtag[$type][$name])
-              && $this->_dirtag[$type][$name]) {
-            $func = 'dirtag_' . $type . '_' . $name;
-            if ($this->_ref)
-                $out .= $func ($this->_ref, $args);  
-            else
-                $out .= $func ($args);  
+        if (isset ($this->_dirtag[$type][$name]) && $this->_dirtag[$type][$name]) {
+            $func = "dirtag_$type_$name";
+            $out .= ($this->_ref) ? $func ($this->_ref, $args) : $func ($args);  
         } else if (isset ($this->_tag[$name])) {
-            $func = 'tag_' . $name;
-            if ($this->_ref)
-                $out .= $func ($this->_ref, $args);  
-            else
-                $out .= $func ($args);  
+            $func = "tag_$name";
+            $out .= ($this->_ref) ? $func ($this->_ref, $args) : $func ($args);  
         } else
             $out .= "<b>&lt;$ns:$name ... &gt;</b>";
 
@@ -259,8 +252,7 @@ class XML_SCANNER {
 
     function _err ($msg)
     {
-        echo "<b>Error in XML syntax:</b><hr><pre>" .
-             htmlentities ($this->_in) . "<font color='red'>$msg</font></pre>";
+        echo "<b>Error in XML syntax:</b><hr><pre>" . htmlentities ($this->_in) . "<font color='red'>$msg</font></pre>";
         die ();
     }
 
@@ -319,7 +311,7 @@ class XML_SCANNER {
 
 	    # Check if tag has a name space.
 	    if (($s = strpos ($tag, ':')) === false) {
-	        $tmp = '<' . $ending . $tag . $inline . '>'; # No known tag.
+	        $tmp = "<$ending$tag$inline>"; # No known tag.
                 $out .= $tmp;
 	        continue;
 	    }
@@ -341,10 +333,10 @@ class XML_SCANNER {
             $cmd = strtolower (ereg_replace ('-', '_', trim ($cmd)));
 	    $arg = trim ($arg);
 	    if (!$cmd) {
-	        $tmp = '<' . $ending . $tag . $inline . '>';
+	        $tmp = "<$ending$tag$inline>";
                 $out .= $tmp;
                 $this->_in = $tmp;
-	      continue;
+	        continue;
 	    }
 
             $ap = 0;

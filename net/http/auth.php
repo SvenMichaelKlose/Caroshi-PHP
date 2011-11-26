@@ -21,7 +21,7 @@
  */
 function http_auth_logout ($realm = 'Caroshi')
 {
-    header ('WWW-Authenticate: basic realm="' . $realm . '"');
+    header ("WWW-Authenticate: basic realm=\"$realm\"");
     header ('HTTP/1.0 401 Unauthorized');
     echo '<h1>Permission denied.</h1>';
 }
@@ -43,8 +43,7 @@ function http_auth ($accounts, $realm = 'Caroshi')
     if (!$PHP_AUTH_PW || !isset ($PHP_AUTH_USER)
         || !isset ($accounts[$PHP_AUTH_USER])
         || ($PHP_AUTH_PW != '' && $accounts[$PHP_AUTH_USER] != ''
-        && $accounts[$PHP_AUTH_USER] != crypt ($PHP_AUTH_PW, substr($accounts[$PHP_AUTH_USER], 0, CRYPT_SALT_LENGTH)))
-    ) {
+        && $accounts[$PHP_AUTH_USER] != crypt ($PHP_AUTH_PW, substr($accounts[$PHP_AUTH_USER], 0, CRYPT_SALT_LENGTH)))) {
         http_auth_logout ($realm);
         exit;
     }

@@ -61,7 +61,7 @@ class DBDEPEND {
     function define_table ($table, $fields)
     {
         if (isset ($this->_types[$table]))
-            die ('dbdepend::define_table(): Table ' . $table . ' already exists.');
+            die ("dbdepend::define_table(): Table $table already exists.");
 
         # Fill up hashes we can access fast.
         foreach ($fields as $field) {
@@ -249,8 +249,7 @@ class DBDEPEND {
     {
         $this->_chktbl ($table, 'set_primary');
         if (isset ($this->_primaries[$table]))
-            die ('dbdepend::set_primary(): Primary key for table ' . $table .
-	         ' already exists.');
+            die ("dbdepend::set_primary(): Primary key for table $table already exists.");
 
         $this->_primaries[$table] = $primary;
     }

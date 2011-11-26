@@ -43,8 +43,6 @@ function profile_end ($name)
 
     $t = gettimeofday ();
     $t_start = array_pop ($_prof[$name]);
-    $_prof_times[$name] +=
-        (($t['usec'] + $t['sec'] * 1000000) -
-        ($t_start['usec'] + $t_start['sec'] * 1000000)) / 1000000;
+    $_prof_times[$name] += (($t['usec'] + $t['sec'] * 1000000) - ($t_start['usec'] + $t_start['sec'] * 1000000)) / 1000000;
 }
 ?>

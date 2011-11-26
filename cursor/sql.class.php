@@ -134,8 +134,7 @@ class cursor_sql extends cursor {
         $types = $def->types ($source);
         if (!isset ($types[$field]))
 	    die ("cursor_sql::set(): No field '$field' in table '$source'<br>");
-        $db->update ($source, $field . '="' . $value . '"',
-                     $def->primary ($source) . '="' . $key . '"');
+        $db->update ($source, $field . '="' . $value . '"', $def->primary ($source) . '="' . $key . '"');
     }
 
     function create ($pre = 0, $parent = 0)

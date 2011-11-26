@@ -41,7 +41,7 @@ $__rfc2110boundary = uniqid (rand ());
 function rfc2110_boundary ()
 {
     global $__rfc2110boundary;
-    return "rfc2110_boundary_cs" . $__rfc2110boundary;
+    return "rfc2110_boundary_cs$__rfc2110boundary";
 }
 
 /**

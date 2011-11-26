@@ -166,8 +166,7 @@ class admin_panel extends singleton {
     function admin_panel (&$app, $widgets = 0)
     {
         if (!is_a ($app, 'application'))
-            die ('admin_panel constructor: First argument is not an application ' .
-                 'object.');
+            die ('admin_panel constructor: First argument is not an application object.');
         if ($widgets && !is_object ($widgets))
             die ('admin_panel constructor: Widget set is not an object.');
 
@@ -207,8 +206,7 @@ class admin_panel extends singleton {
 
         # Check if all data source contexts are closed.
         if ($openviews = sizeof ($this->_viewstack))
-	    die ("admin_panel::close(): $openviews view(s) still open for " .
-                 "source '$source' - stop.");
+	    die ("admin_panel::close(): $openviews view(s) still open for source '$source' - stop.");
 
         # Call user defined function or output standard footer or do nothing.
         if (!method_exists ($app, 'end_view')) {
@@ -380,11 +378,10 @@ class admin_panel extends singleton {
      */
     function set_value ($field, $val)
     {
-        $v =& $this->v->cursor;
-
-        if (!is_string ($field_name))
+        if (!is_string ($field))
             die ('admin_panel::set_value(): Field name is not a string');
 
+        $v =& $this->v->cursor;
         $this->record_cache[$v->source ()][$v->key ()][$field] = $val;
     }
 
@@ -462,8 +459,7 @@ class admin_panel extends singleton {
      * @param object event $event_no Event to trigger for non-confirming option.
      * @param string $color Color for question in HTML attribute format.
      */
-    function confirm ($msg, $option_yes, $event_yes, $option_no, $event_no,
-                      $color = 0)
+    function confirm ($msg, $option_yes, $event_yes, $option_no, $event_no, $color = 0)
     {
         if (!is_a ($event_yes, 'event'))
             die ('admin_panel::confirm(): event_yes is not an event object.');
@@ -564,11 +560,9 @@ class admin_panel extends singleton {
             return;
 
         if ($this->_openrow)
-            die ('admin_panel::close_table(): ' . $this->_openrow . ' rows ' .
-               'still open.');
+            die ("admin_panel::close_table(): $this->_openrow rows still open.");
         if ($this->_opencells)
-            die ('admin_panel::close_table(): ' . $this->_opencells . ' cells ' .
-               'still open.');
+            die ("admin_panel::close_table(): $this->_opencells cells still open.");
 
         $this->widgets->close_table ();
     }
@@ -596,7 +590,7 @@ class admin_panel extends singleton {
 
         # Else use default color.
         else if (!isset ($attrs['BGCOLOR']) && isset ($w->color['cell'])) 
-  	  $attrs['BGCOLOR'] = $w->color['cell'];
+  	    $attrs['BGCOLOR'] = $w->color['cell'];
     }
 
     /**
@@ -629,8 +623,7 @@ class admin_panel extends singleton {
         if ($this->_openrow)
             return;
         if ($this->_opencells)
-            die ('admin_panel::close_row(): ' . $this->_opencells . ' cells ' .
-               'still open.');
+            die ("admin_panel::close_row(): $this->_opencells cells still open.");
 
         $this->widgets->close_row ();
     }
@@ -751,7 +744,7 @@ class admin_panel extends singleton {
                 $this->close_table ();
             echo $html;
             while ($o--)
-              $this->open_table ();
+                $this->open_table ();
         }
     }
 
@@ -851,8 +844,7 @@ class admin_panel extends singleton {
 
         $v =& $this->v->cursor;
         $source = $v->source ();
-        $url = $this->fileurl ($source, $field, $v->key (), $type,
-                             $this->value ($field));
+        $url = $this->fileurl ($source, $field, $v->key (), $type, $this->value ($field));
 
         $this->open_widget ($field);
         $this->widgets->image ('', $url);
@@ -963,9 +955,7 @@ class admin_panel extends singleton {
             $options = $optionlist;
 
         $this->open_widget ($field);
-        $this->widgets->select ($this->new_formfield ($field),
-                                $this->value ($field),
-                                $options);
+        $this->widgets->select ($this->new_formfield ($field), $this->value ($field), $options);
         $this->close_widget ();
     }
 
@@ -996,8 +986,7 @@ class admin_panel extends singleton {
             $options[$row[$id]] = $row[$column];
 
         $this->open_widget ($field);
-        $this->widgets->select ($this->new_formfield ($field),
-                                $this->value ($field), $options);
+        $this->widgets->select ($this->new_formfield ($field), $this->value ($field), $options);
         $this->close_widget ();
     }
 
@@ -1021,8 +1010,7 @@ class admin_panel extends singleton {
         $val = htmlentities ($this->value ($field));
 
         $this->open_widget ($field);
-        $this->widgets->textarea ($this->new_formfield ($field),
-                                  $width, $height, $val);
+        $this->widgets->textarea ($this->new_formfield ($field), $width, $height, $val);
         $this->close_widget ();
     }
 
@@ -1077,13 +1065,11 @@ class admin_panel extends singleton {
 
         $this->open_widget ($field);
 
-        # This is a workaround which forces a value of 0 if the checkbox is
-        # not selected.
+        # Workaround which forces a value of 0 if the checkbox is not selected.
         $w->hidden ($this->new_formfield ($field, $event), 0);
 
         # Print checkbox.
-        $w->checkbox ($this->new_formfield ($field, $event), 1,
-                      $this->value ($field));
+        $w->checkbox ($this->new_formfield ($field, $event), 1, $this->value ($field));
 
         $this->close_widget ();
     }
@@ -1170,7 +1156,7 @@ class admin_panel extends singleton {
     {
         $this->_anchor = true;
         $this->_anchors++;
-        echo '<A NAME="a' . $this->_anchors . '">';
+        echo "<A NAME=\"a$this->_anchors\">";
     }
 
     /**
@@ -1304,7 +1290,7 @@ class admin_panel extends singleton {
 
         # Add anchor if activated and the link points to this event handler.
         if ($this->_anchor)
-	    $link .= '#a' . $this->_anchors;
+	    $link .= "#a$this->_anchors";
 
         return $link;
     }

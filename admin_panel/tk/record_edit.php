@@ -52,11 +52,10 @@ function tk_record_edit ()
     $p->link ('zur&uuml;ck', 'return2caller');
     $p->link ('&Uuml;bersicht', '_tk_record_edit_list_records');
 
-    tk_autoform_list_search_results (
-	$this, 'tk_record_edit', 'id', $source, $list_fields
-    );
+    tk_autoform_list_search_results ($this, 'tk_record_edit', 'id', $source, $list_fields);
 
     $arg = array ('source' => $source, 'mode' => 'all_fields');
+
     $v =& new event ('form_dbisearch', $arg);
     $v->set_next ($this->event);
     $p->open_source ($source, $v);
@@ -66,7 +65,6 @@ function tk_record_edit ()
     $p->open_row ();
     $p->inputline ('dummy', 60);
 
-    $arg = array ('source' => $source, 'mode' => 'all_fields'),
     $v =& new event ('form_dbisearch', $arg);
     $p->submit_button ('Ok', $v);
     $p->close_row ();
@@ -195,9 +193,9 @@ function _tk_record_edit_list_records (&$this)
 	$p->link ('Sortierung nach Firma', $v);
     }
     $selection = "ORDER BY $sortkey ASC";
-    $p->open_source ($source); # XXX
-    tk_autoform_list_results ($this, 'tk_record_edit', 'id', $source,
-                              $list_fields, $selection);
+
+    $p->open_source ($source);
+    tk_autoform_list_results ($this, 'tk_record_edit', 'id', $source, $list_fields, $selection);
     $p->close_source ();
 }
 ?>

@@ -27,7 +27,7 @@ function panic ($reason, $message = '')
 {
     global $SERVER_ADMIN, $HOSTNAME, $SERVER_NAME;
 
-    $msg = $message . "\nGlobal variables:\n\n";
+    $msg = "$message\nGlobal variables:\n\n";
 
     foreach ($GLOBALS as $k => $v)
         $msg .= "$k = $v\n";

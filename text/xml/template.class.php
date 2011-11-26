@@ -85,7 +85,7 @@ class xml_template {
         if (!file_exists ($template)) {
             # realpath() on non-existing files returns an empty string.
             if (substr ($template, 0, 1) != '/')
-               $template = getcwd() . '/' . $template;
+                $template = getcwd() . "/$template";
             $template = realpath (dirname ($template)) . $template;
             die ("xml_scanner::fetch_tree(): File '$template' doesn't exist.");
         }

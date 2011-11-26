@@ -13,18 +13,12 @@
 # Licensed under the MIT, BSD and GPL licenses.
 
 
-function _sort_update ($db, $reftab, $id_parent, $last, $next,
-                       $order_clause, $follows)
+function _sort_update ($db, $reftab, $id_parent, $last, $next, $order_clause, $follows)
 {
     # Update the last entry.
-    $db->update (
-        $reftab, 'id_last=' . $last . ', id_next=0', 'id=' . $id_parent
-    );
+    $db->update ($reftab, "id_last=$last, id_next=0", "id=$id_parent");
     if ($follows)
-        sort_linked_list (
-            $db, $reftab, $id_parent, $order_clause,
-            $follows ? $follows - 1 : $follows
-      );
+        sort_linked_list ($db, $reftab, $id_parent, $order_clause, $follows ? $follows - 1 : $follows);
 }
 
 # Sort a doubly-linked list in $table.
@@ -40,9 +34,7 @@ function _sort_update ($db, $reftab, $id_parent, $last, $next,
 # only $child_table to sort.
 #
 # TODO: php4 will puke on too much recursions, so better unroll this.
-function sort_linked_list (
-    $db, $table, $id, $order_clause, $follows = false, $child_table = 0
-)
+function sort_linked_list ($db, $table, $id, $order_clause, $follows = false, $child_table = 0)
 {
     $refs =& $db->def->_refs;
     if (!is_array ($refs[$table]))
@@ -61,9 +53,7 @@ function sort_linked_list (
 
         # Get all records that reference this record in $reftab in the
         # right order.
-        $res = $db->select (
-            'id,id_last,id_next',  $reftab, $refid . '=' . $id . ' ' . $order_clause
-        );
+        $res = $db->select ('id,id_last,id_next', $reftab, "$refid=$id $order_clause");
         # Continue if there's no sublist.
         if (!$res || $res->num_rows () < 1)
             continue;
@@ -77,18 +67,10 @@ function sort_linked_list (
         while ($row = $res->get ()) {
             # Update references in former entry because right now we know the
 	    # primary key of the follower
-            _sort_update (
-	        $db, $reftab, $former, $last, $row['id'], $order_clause, $follows
-	    );
-            $db->update (
-	        $reftab, 'id_last=' . $last . ', id_next=' . $row['id'],
-	        'id=' . $former
-            );
+            _sort_update ($db, $reftab, $former, $last, $row['id'], $order_clause, $follows);
+            $db->update ($reftab, "id_last=$last, id_next=" . $row['id'], "id=$former");
 	    if ($follows)
-                sort_linked_list (
-	            $db, $reftab, $former, $order_clause,
-	            $follows ? $follows - 1 : $follows
-	        );
+                sort_linked_list ($db, $reftab, $former, $order_clause, $follows ? $follows - 1 : $follows);
 	    $last = $former;
 	    $former = $row['id'];
         }

@@ -35,6 +35,6 @@ function magic2mime ($filename)
             $grp = 'image';
 	    break;
     }
-    return $grp . '/' . $pf;
+    return "$grp/$pf";
 }
 ?>

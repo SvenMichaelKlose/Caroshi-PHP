@@ -255,7 +255,7 @@ class DBSESSION {
     function _write ()
     {
         $set = "data='" . addslashes (serialize ($this->_data)) . "'";
-        $this->_db->update ($this->_table, $set, 'id=' . $this->_id);
+        $this->_db->update ($this->_table, $set, "id=$this->_id");
     }
 
     var $_db;

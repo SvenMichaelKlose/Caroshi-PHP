@@ -48,11 +48,7 @@ class dbconf {
 
         if (!isset ($application_id) || !$application_id)
             die ('DBConf::exists(): No $application_id.');
-        $res =& $this->db->select (
-            'COUNT(id)', $config_table,
-	    'id_application=' . $application_id .
-	    ' AND name=\'' . addslashes ($name) . '\''
-        );
+        $res =& $this->db->select ('COUNT(id)', $config_table, "id_application=$application_id AND name='" . addslashes ($name) . "'");
         if (!$res || $res->num_rows () < 1)
             return 0;
         list ($num) = $res->get ();
@@ -65,11 +61,7 @@ class dbconf {
         global $application_id, $config_table;
 
         # Fetch flags and data from config record.
-        $this->_res =& $this->db->select (
-            'is_file,data', $config_table,
-	    'id_application=' . $application_id .
-            ' AND name=\'' . addslashes ($name) . '\''
-        );
+        $this->_res =& $this->db->select ('is_file,data', $config_table, "id_application=$application_id AND name='" . addslashes ($name) . "'");
         return $this->_res->get ();
     }
 
@@ -90,8 +82,7 @@ class dbconf {
             return $data;
 
         if (!file_exists ($data)) {
-            echo 'dbi/dbconf::get(): File "' . $data .
-                 '" for config entry "' . $name . '" not found.<br>';
+            echo "dbi/dbconf::get(): File \"$data\" for config entry \"$name\" not found.<br>";
             return;
         }
 
@@ -132,9 +123,7 @@ class dbconf {
     {
         global $application_id, $config_table;
 
-        $res =& $this->db->select (
-            'COUNT(id)', $config_table, 'id_application=' . $application_id
-        );
+        $res =& $this->db->select ('COUNT(id)', $config_table, "id_application=$application_id");
         list ($tmp) = $res->get ();
         $q = "data='" . addslashes ($data) . "',is_file=$is_file";
         $q2 = "id_application=$application_id";
@@ -161,8 +150,7 @@ class dbconf {
 
         $data = addslashes ($data);
         $descr = addslashes ($descr);
-        $q = "data='$data',id_application=$application_id,name='$name'," .
-             "descr='$descr'";
+        $q = "data='$data', id_application=$application_id, name='$name', descr='$descr'";
         $this->db->insert ($config_table, $q);
         $this->_res->free ();
     }

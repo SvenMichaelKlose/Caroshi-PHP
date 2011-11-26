@@ -20,8 +20,7 @@
  */
 function tk_range_edit_init (&$this)
 {
-    $h = array ('tk_range_edit_select', 'tk_range_edit_select_all',
-                'tk_range_edit_unselect_all', 'tk_range_edit_call');
+    $h = array ('tk_range_edit_select', 'tk_range_edit_select_all', 'tk_range_edit_unselect_all', 'tk_range_edit_call');
     util_add_raw_functions ($this, $h);
 }
 
@@ -69,8 +68,7 @@ function tk_range_edit_select (&$this)
         }
     }
     if (!isset ($markers))
-        die ("tk_range_edit_select(): No element called '$marker_field' in " .
-             "form.");
+        die ("tk_range_edit_select(): No element called '$marker_field' in form.");
 
     # Collect changed marker indices and markers that occured the first time.
     if (isset ($this->subargs['tk_range_edit'][$source])) {
@@ -124,8 +122,7 @@ function tk_range_edit_select (&$this)
         $this->subargs['tk_range_edit'][$source][$key] =
             $record_cache[$source][$key][$marker_field];
 
-        if (isset ($record_cache[$source][$key][$marker_field])
-            && $record_cache[$source][$key][$marker_field])
+        if (isset ($record_cache[$source][$key][$marker_field]) && $record_cache[$source][$key][$marker_field])
             $ui->highlight[$cursor->id ()] = 'yellow';
     }
 
@@ -158,8 +155,7 @@ function tk_range_edit_all_selected (&$this, $marker_field)
         $field = $cursor->field ();
 
         if ($field == $marker_field) {
-            if (isset ($ui->record_cache[$source][$key][$marker_field]) &&
-                $ui->record_cache[$source][$key][$marker_field])
+            if (isset ($ui->record_cache[$source][$key][$marker_field]) && $ui->record_cache[$source][$key][$marker_field])
                 $s++;
             else
                 $u++;
@@ -248,9 +244,7 @@ function tk_range_edit_call (&$this)
         $key = $cursor->key ();
         $field = $cursor->field ();
 
-        if ($field == $marker_field
-            && isset ($ui->record_cache[$source][$key][$marker_field])
-            && $ui->record_cache[$source][$key][$marker_field])
+        if ($field == $marker_field && isset ($ui->record_cache[$source][$key][$marker_field]) && $ui->record_cache[$source][$key][$marker_field])
             $cursors[] = $cursor;
     }
 

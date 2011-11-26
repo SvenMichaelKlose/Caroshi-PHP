@@ -43,9 +43,9 @@ function _tk_dbobj_ls_node (&$this, $table, $row, $arg)
     if (!$this->arg ('dbobj_ls_link_current')
 	&& $this->arg ('dbobj_ls_table') == $table
         && $this->arg ('dbobj_ls_id') == $id)
-      $out .= '<B>' . $name . '</B>';
+        $out .= "<B>$name</B>";
     else
-      $out .= $p->_looselink ($name, new event ($this->event->name, $args));
+        $out .= $p->_looselink ($name, new event ($this->event->name, $args));
 
     return $out;
 }
@@ -70,23 +70,16 @@ function tk_dbobj_ls (&$this, $table, $id, $link_current = false)
     $this->event->args['dbobj_ls_table'] = $table;
     $this->event->args['dbobj_ls_id'] = $id;
     $this->event->args['dbobj_ls_link_current'] = $link_current;
-    echo $this->db->traverse_refs_from (
-      $this, $table, $id, '_tk_dbobj_ls_node', 0, false
-    );
+    echo $this->db->traverse_refs_from ($this, $table, $id, '_tk_dbobj_ls_node', 0, false);
 
     # List subcategories
-    $res = $this->db->select (
-      'name, id', $table, 'id_parent=' . $id, ' ORDER BY name ASC'
-    );
+    $res = $this->db->select ('name, id', $table, "id_parent=$id ORDER BY name ASC");
     if ($res && $res->num_rows () > 0) {
-      echo '<P>' . "\n" .
-	   '<FONT COLOR="#888888"><B>' .
-	   $lang['subdirectories'] .
-	   ':</B></FONT>';
-      while (list ($name, $id) = $res->get ()) {
-        $p->link ($name, $this->event->name, array ('id' => $id));
-        echo ' ';
-      }
+        echo '<P>' . "\n" .  '<FONT COLOR="#888888"><B>' . $lang['subdirectories'] . ':</B></FONT>';
+        while (list ($name, $id) = $res->get ()) {
+            $p->link ($name, $this->event->name, array ('id' => $id));
+            echo ' ';
+        }
     }
     echo '<BR>';
 }

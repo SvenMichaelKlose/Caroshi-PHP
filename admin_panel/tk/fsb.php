@@ -46,23 +46,25 @@ function tk_fsb (&$this)
 
     echo '[' . $ui->link ('zur&uuml;ck', 'return2caller') . ']';
 
-    echo '<b>Current path: ' . $dir . '</b><hr>';
+    echo "<b>Current path: $dir</b><hr>";
     $handle = opendir ($dir);
     $ui->open_table ();
     while (($file = readdir($handle)) !== false) {
-        $dirfile = $dir . '/' . $file;
+        $dirfile = "$dir/$file";
         $ft = filetype ($dirfile);
+        $a['dir'] = $dirfile;
+
         $ui->open_row ();
-        $a['dir'] = $dir . '/' . $file;
  
         switch ($ft) {
 	    case 'dir':
                 $ui->link ($file, new_view ('tk_fsb', $a));
 	        break;
+
 	    default:
-                $ui->link ($file, $filefunc,
-	                   array ($ret => $dir . '/' . $file, 'data' => $data));
+                $ui->link ($file, $filefunc, array ($ret => $dirfile, 'data' => $data));
         }
+
         $ui->label ($ft);
         $ui->close_row ();
     }
