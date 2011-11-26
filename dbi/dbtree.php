@@ -1,6 +1,6 @@
 <?php
 /**
- * Stepping through SQL trees (deprecated).
+ * Stepping through SQL trees
  *
  * @access public
  * @module dbtree
@@ -16,11 +16,11 @@
 $_DBITREE_CACHE_PARENT = array ();
 
 # Get table name and primary key of a parent record.
-function dbitree_get_parent (&$db, &$table, &$id)
+function dbitree_get_parent ($db, &$table, &$id)
 {
     global $_DBITREE_CACHE_PARENT;
 
-    $def =& $db->def;
+    $def = $db->def;
 
     if (isset ($_DBITREE_CACHE_PARENT[$table][$id])) {
         list ($table, $id) = $_DBITREE_CACHE_PARENT[$table][$id];
@@ -28,10 +28,10 @@ function dbitree_get_parent (&$db, &$table, &$id)
     }
 
     if ($xref = $def->xref_table ($table)) {
-        $res =& $db->select ('id_parent', $xref, "id_child=$id");
+        $res = $db->select ('id_parent', $xref, "id_child=$id");
         $ntable = $table;
     } else {
-        $res =& $db->select ($def->ref_id ($table), $table, "id=$id");
+        $res = $db->select ($def->ref_id ($table), $table, "id=$id");
         $ntable = $def->ref_table ($table);
     }
 
@@ -52,9 +52,9 @@ function dbitree_get_parent (&$db, &$table, &$id)
 # $table/$id:	The table that is referenced.
 # $subtype:		The table name of records.
 #			If emptry, it's set to $table.
-function &dbitree_get_childs (&$db, $table, $id, $subtype = '')
+function dbitree_get_childs ($db, $table, $id, $subtype = '')
 {
-    $def =& $db->def;
+    $def = $db->def;
 
     if (!$xref = $db->def->xref_table ($table)) {
         if (!$subtype)
@@ -62,7 +62,7 @@ function &dbitree_get_childs (&$db, $table, $id, $subtype = '')
         return $db->select ('*', $subtype, $def->ref_id ($subtype) . "=$id");
     }
 
-    $res =& $db->select ('id_child', $xref, "id_parent=$id");
+    $res = $db->select ('id_child', $xref, "id_parent=$id");
     $q = '';
     while (list ($id) = $res->get ()) {
         if ($q)
@@ -72,5 +72,48 @@ function &dbitree_get_childs (&$db, $table, $id, $subtype = '')
     if ($subtype)
         $q = "id_type=$subtype AND ($q)";
     return $db->select ('*', $table, $q);
+}
+
+function dbtree_get_object_id ($db, $table, $id)
+{
+    $res = $db->select ('*', $t, "id=$i");
+    return $res ? $res->get ('id_obj');
+}
+
+function dbtree_get_objects_by_id ($db, $id)
+{
+    if ($res = $db->select ('*', 'obj_data', "id_obj=$id")) {
+        while ($row = $res->get ())
+            $objects[] = $row;
+        return $objects;
+    }
+    return Array ();
+}
+
+function dbtree_get_objects_for_record ($db, $table, $id)
+{
+     if ($id_obj = dbtree_get_object_id ($db, $table, $id))
+         return dbtree_get_objects_by_id ($db, $id_obj));
+    return Array ();
+}
+
+# Read all objects along the path to the root.
+#
+# Returns a hash of object lists for each class.
+function dbtree_get_objects_in_path ($db, $table, $id)
+{
+    $t = $table;
+    $i = $id;
+
+    while ($t && $i) {
+        foreach (dbtree_get_objects_for_record ($db, $table, $id) as $row) {
+            $row['_table'] = $t;
+            $row['_id'] = $i;
+            $path_objects[$row['id_class']][] = $row;
+        }
+        dbitree_get_parent ($db, $t, $i);
+    }
+
+    return $path_objects;
 }
 ?>
