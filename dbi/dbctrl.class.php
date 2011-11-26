@@ -49,7 +49,7 @@ class DBCtrl extends DBWrapper {
      * @param string table Table name to select from.
      * @param string where WHERE clause without WHERE keyword.
      * @param string tail  Tail to SQL query.
-     * @return object db_result
+     * @return object db_result Returns false if result is empty.
      */
     function &select ($what, $table, $where = '', $tail = '')
     {
@@ -58,7 +58,8 @@ class DBCtrl extends DBWrapper {
             $q .= " WHERE $where";
         if ($tail)
             $q .= " $tail";
-        return $this->query ($q);
+        $res = $this->query ($q);
+        return $res->num_rows () ? $res;
     }
 
     /**
