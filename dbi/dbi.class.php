@@ -5,8 +5,8 @@
 # Licensed under the MIT, BSD and GPL licenses.
 
 
-require_once 'dbi/dbctrl.class';
-require_once 'dbi/dbdepend.class';
+require_once PATH_TO_CAROSHI . '/dbi/dbctrl.class';
+require_once PATH_TO_CAROSHI . '/dbi/dbdepend.class';
 
 /**
  * dbctrl extension (deprecated)

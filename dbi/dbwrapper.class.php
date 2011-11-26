@@ -5,7 +5,7 @@
 # Licensed under the MIT, BSD and GPL licenses.
 
 
-require_once 'dbi/dbresult.class.php';
+require_once PATH_TO_CAROSHI . '/dbi/dbresult.class.php';
 
 # Number of queries run by this class since contruction.
 $DB_QUERIES = 0;

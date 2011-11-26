@@ -15,7 +15,7 @@
 # Licensed under the MIT, BSD and GPL licenses.
 
 
-require_once 'object/error.class.php';
+require_once PATH_TO_CAROSHI . '/object/error.class.php';
 
 /**
  * Check if variable contains an error object.

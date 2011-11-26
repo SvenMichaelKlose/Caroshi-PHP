@@ -4,7 +4,7 @@
 # Licensed under the MIT, BSD and GPL licenses.
 
 
-require_once "object/abstract.class.php";
+require_once PATH_TO_CAROSHI . '/object/abstract.class.php';
 
 /**
  * Iterator superclass.

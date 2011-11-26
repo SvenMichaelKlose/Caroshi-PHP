@@ -5,13 +5,13 @@
 # Licensed under the MIT, BSD and GPL licenses.
 
 
-require_once 'dbi/dbi.class';
-require_once 'dbi/dbsession.class';
-require_once 'dbi/dbtoken.class.php';
-require_once 'object/is_a.php';
-require_once 'proc/debug_dump.php';
-require_once 'proc/event.class.php';
-require_once 'proc/_subsession.class.php';
+require_once PATH_TO_CAROSHI . '/dbi/dbi.class';
+require_once PATH_TO_CAROSHI . '/dbi/dbsession.class';
+require_once PATH_TO_CAROSHI . '/dbi/dbtoken.class.php';
+require_once PATH_TO_CAROSHI . '/object/is_a.php';
+require_once PATH_TO_CAROSHI . '/proc/debug_dump.php';
+require_once PATH_TO_CAROSHI . '/proc/event.class.php';
+require_once PATH_TO_CAROSHI . '/proc/_subsession.class.php';
 
 # Flags to application::arg().
 define ('ARG_OPTIONAL', 1);

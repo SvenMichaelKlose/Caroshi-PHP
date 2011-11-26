@@ -5,8 +5,8 @@
 # Licensed under the MIT, BSD and GPL licenses.
 
 
-require_once 'object/is_a.php';
-require_once 'object/singleton.class.php';
+require_once PATH_TO_CAROSHI . '/object/is_a.php';
+require_once PATH_TO_CAROSHI . '/object/singleton.class.php';
 
 /**
  * Default token time which is erased after timeout.

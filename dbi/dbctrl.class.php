@@ -5,7 +5,7 @@
 # Licensed under the MIT, BSD and GPL licenses.
 
 
-require_once 'dbi/dbwrapper.class';
+require_once PATH_TO_CAROSHI . '/dbi/dbwrapper.class';
 
 /**
  * Common SQL interface

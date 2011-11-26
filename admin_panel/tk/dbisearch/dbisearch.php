@@ -13,7 +13,7 @@
 #
 # Licensed under the MIT, BSD and GPL licenses.
 
-require_once 'cursor/merged.class.php';
+require_once PATH_TO_CAROSHI . '/cursor/merged.class.php';
 
 define ('TK_DBISEARCH_NOT_SEARCHED', 0);
 define ('TK_DBISEARCH_NOT_FOUND', 1);

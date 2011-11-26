@@ -5,21 +5,21 @@
 # Licensed under the MIT, BSD and GPL licenses.
 
 
-require_once 'dbi/dbi.class';
-require_once 'dbi/types.php';
-require_once 'file/magic2mime.php';
-require_once 'object/singleton.class.php';
-require_once 'string/strhead.php';
+require_once PATH_TO_CAROSHI . '/dbi/dbi.class';
+require_once PATH_TO_CAROSHI . '/dbi/types.php';
+require_once PATH_TO_CAROSHI . '/file/magic2mime.php';
+require_once PATH_TO_CAROSHI . '/object/singleton.class.php';
+require_once PATH_TO_CAROSHI . '/string/strhead.php';
 
-require_once 'cursor/sql.class.php';
-require_once 'admin_panel/formviews.php';
-require_once 'admin_panel/mime.php';
-require_once 'admin_panel/records.php';
-require_once 'admin_panel/util.php';
-require_once 'admin_panel/widgets.php';
+require_once PATH_TO_CAROSHI . '/cursor/sql.class.php';
+require_once PATH_TO_CAROSHI . '/admin_panel/formviews.php';
+require_once PATH_TO_CAROSHI . '/admin_panel/mime.php';
+require_once PATH_TO_CAROSHI . '/admin_panel/records.php';
+require_once PATH_TO_CAROSHI . '/admin_panel/util.php';
+require_once PATH_TO_CAROSHI . '/admin_panel/widgets.php';
 
-require_once 'admin_panel/_view.class.php';
-require_once 'admin_panel/_form_element.class.php';
+require_once PATH_TO_CAROSHI . '/admin_panel/_view.class.php';
+require_once PATH_TO_CAROSHI . '/admin_panel/_form_element.class.php';
 
 /**
  * User interface

@@ -5,7 +5,7 @@
 # Licensed under the MIT, BSD and GPL licenses.
 
 
-require_once 'libinfo.php';
+require_once PATH_TO_CAROSHI . '/libinfo.php';
 
 /**
  * Standard HTML widget set.

@@ -5,7 +5,7 @@
 # Licensed under the MIT, BSD and GPL licenses.
 
 
-require_once 'object/is_a.php';
+require_once PATH_TO_CAROSHI . '/object/is_a.php';
 
 /**
  * Cursor base class

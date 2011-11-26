@@ -16,11 +16,11 @@
 
 $debug = false;
 
-require_once 'admin_panel/admin_panel.class';
-require_once 'admin_panel/tk/auto_form.php';
-require_once 'admin_panel/tk/dbisearch.php';
-require_once 'dbi/dbi.class';
-require_once 'lib/application.class';
+require_once PATH_TO_CAROSHI . '/admin_panel/admin_panel.class';
+require_once PATH_TO_CAROSHI . '/admin_panel/tk/auto_form.php';
+require_once PATH_TO_CAROSHI . '/admin_panel/tk/dbisearch.php';
+require_once PATH_TO_CAROSHI . '/dbi/dbi.class';
+require_once PATH_TO_CAROSHI . '/lib/application.class';
 
 # Initialise module.
 function tk_record_edit_init (&$this)

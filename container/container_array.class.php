@@ -4,8 +4,8 @@
 # Licensed under the MIT, BSD and GPL licenses.
 
 
-require_once "container/container.class.php";
-require_once "container/iterator_array.class.php";
+require_once PATH_TO_CAROSHI . '/container/container.class.php';
+require_once PATH_TO_CAROSHI . '/container/iterator_array.class.php';
 
 /**
  * Array container

@@ -5,7 +5,7 @@
 # Licensed under the MIT, BSD and GPL licenses.
 
 
-require_once 'cursor/cursor.class.php';
+require_once PATH_TO_CARISHI . '/cursor/cursor.class.php';
 
 /**
  * Cursor that makes an array of cursors behave like one.

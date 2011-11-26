@@ -5,7 +5,7 @@
 # Licensed under the MIT, BSD and GPL licenses.
 
 
-require_once 'cursor/cursor.class.php';
+require_once PATH_TO_CAROSHI . '/cursor/cursor.class.php';
 
 /**
  * Cursor for php arrays.
