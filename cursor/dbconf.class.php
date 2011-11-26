@@ -38,13 +38,12 @@ class cursor_dbconf extends cursor {
     {
         global $config_table;
 
-        $this->_res =& $this->conf->db->select ('*', $config_table, "name LIKE '$prefix%'", 'ORDER BY descr ASC');
-        return ($this->_res->num_rows () < 1) ? false : true;
+        return $this->_res = $this->conf->db->select ('*', $config_table, "name LIKE '$prefix%'", 'ORDER BY descr ASC');
     }
 
     function &_get ()
     {
-        $row =& $this->_res->get ();
+        $row = $this->_res && $this->_res->get ();
 
         # Set record key.
         $this->_key = $row['name'];

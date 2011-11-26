@@ -77,11 +77,10 @@ class DBSESSION {
         if (!$key)
             return;
         $this->_key = $key;
-        $res =& $db->select ('id,is_locked,time,data', $table, "skey='$key'");
-        if ($res->num_rows () < 1)
+        if (!($res = $db->select ('id,is_locked,time,data', $table, "skey='$key'")))
             return;
 
-        $row =& $res->get ();
+        $row = $res->get ();
         if ($row['is_locked'] || $row['time'] < time () - $ttl) {
             $this->_key = '';
             return 0;

@@ -39,7 +39,7 @@ class DBTREE {
 
         # Read in tree nodes.
         $res = $db->select ('*', $table);
-        while ($r = $res->get ()) {
+        while ($res && $r = $res->get ()) {
             if (!$c_id_parent || !$r[$c_id_parent])
                 $r[$c_id_parent] = '0';
             if (!trim ($r['name']))
@@ -50,7 +50,7 @@ class DBTREE {
         # Read in xref nodes.
         if ($xref = $db->def->xref_table ($table)) {
             $res = $db->select ('*', $xref);
-            while ($r = $res->get ())
+            while ($res && $r = $res->get ())
                 $this->_xrefs[$r['id_parent']][] = $r['id_child'];
         }
 
@@ -123,13 +123,14 @@ class DBTREE {
     # Print tree in a HTML table.
     function view ($view, &$app)
     {
+        $db =& $app->db;
         $def =& $app->db->def;
         $table = $this->_table;
 
         if (!isset ($this->_nodes))
 	    return;
         echo '<table border=0><tr><td bgcolor="#cccccc">';
-        if ($t = $app->db->def->xref_table ($this->_table)) {
+        if ($t = $def->xref_table ($this->_table)) {
             $child = 'id_child';
             $ref = 'id_parent';
         } else {
@@ -137,8 +138,7 @@ class DBTREE {
             $ref = $def->ref_id ($table);
             $t = $table;
         }
-        $res =& $app->db->select ($child, $t, "$ref=0");
-        list ($root_id) = $res->get ();
+        $root_id =& $db->select ($child, $t, "$ref=0")->get ($child);
         echo $view ($app, $this->_nodes[$root_id]);
         echo '</td>';
         $this->print_childs_of ($root_id, '', $view, $app);

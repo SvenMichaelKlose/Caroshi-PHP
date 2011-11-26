@@ -62,8 +62,7 @@ class DBOBJ {
         # Get class id, update cache if class is not found.
         if (!sizeof ($__DBOBJ_CLASSCACHE)) {
             # Read all classes into the cache.
-            $cres = $db->select ('id,name', 'obj_classes');
-            if ($cres->num_rows () < 1)
+            if (!($cres = $db->select ('id,name', 'obj_classes')))
                 return;
 	    while ($tmp =& $cres->get ())
 	        $__DBOBJ_CLASSCACHE[$tmp['name']] = $tmp['id'];
@@ -85,9 +84,7 @@ class DBOBJ {
 	        # Read entry into cache.
                 if (!($pri = $dep->primary ($table)))
 	            return;
-	        $res =& $db->select ('*', $table, "$pri=$id");
-	        $row =& $res->get ();
-	        $__DBOBJ_KEYCACHE[$table][$id] = $this->_row = $row;
+	        $__DBOBJ_KEYCACHE[$table][$id] = $this->_row = $db->select ('*', $table, "$pri=$id")->get ();
 	    } else {
 	        $this->_row =& $__DBOBJ_KEYCACHE[$table][$id];
 	        $row =& $this->_row;
@@ -97,11 +94,10 @@ class DBOBJ {
 	    if ($oid = $row[$dep->_obj_id[$table]]) {
       	        # Seek data for id_obj/class combination if it's not in the cache.
 	        if (!isset ($__DBOBJ_DATACACHE[$oid][$cid][$fields])) {
-      	            $dres =& $db->select ($fields, 'obj_data', "id_obj=$oid AND id_class='$cid'");
-	            if ($dres->num_rows () > 0)
-	                $__DBOBJ_DATACACHE[$oid][$cid][$fields] =& $dres->get ();
-                    else
-	                $__DBOBJ_DATACACHE[$oid][$cid][$fields] = 0;
+	            $__DBOBJ_DATACACHE[$oid][$cid][$fields] =
+	                ($dres = $db->select ($fields, 'obj_data', "id_obj=$oid AND id_class='$cid'")) ?
+                            $dres->get () :
+                            0;
 	        }
 
                 # Use object if it's in the cache now.
@@ -155,15 +151,14 @@ class DBOBJ {
                     $this->remove ();
 
                 # Get object id of new table/id pair
-	        $res = $db->select ($dep->_obj_id[$table], $table, $dep->primary ($table) . "=$id");
-	        if ($res && $res->num_rows () >= 1)
+	        if ($res = $db->select ($dep->_obj_id[$table], $table, $dep->primary ($table) . "=$id"))
 	            list ($this->_oid) = $res->get ();
 	        if (!$this->_oid) {  
 	            # Create object id for new table/id and store it
 	            $db->insert ('objects', 'dummy=0');  
 
 	            # Update object reference.
-	            $this->_oid = $this->_db->insert_id ();
+	            $this->_oid = $db->insert_id ();
 	            $db->update ($table, "id_obj=$this->_oid", "id=$id");
 	        }
             }
@@ -203,7 +198,7 @@ class DBOBJ {
             $db->update ('obj_data', $set, 'id=' . $tmp['id']);
         } else {
             $db->insert ('obj_data', $set);
-            $this->active['id'] = $this->_db->insert_id ();
+            $this->active['id'] = $db->insert_id ();
         }  
 
         $this->_drop_cache ();
@@ -213,21 +208,23 @@ class DBOBJ {
     # Returns 'true' if successful.
     function remove ()
     {
+        $db = $this->_db;
+        $dep = $this->_dep;
+
         $this->_drop_cache ();
         if (!$this->_class || !$this->active['_table'] || !$this->active['_id'])
             return false; # Object doesn't exist.
 
         # Remove this data object from the database
-        $this->_db->delete ('obj_data', 'id=' . $this->active['id']);
+        $db->delete ('obj_data', 'id=' . $this->active['id']);
 
         # Remove object reference and entry in table 'objects' if there're
         # no more referenced objects.
-        $res = $this->_db->select ('id', 'obj_data', "id_obj=$this->_oid");
-        if (!$res || !$res->num_rows () > 0) {
-            $this->_db->delete ('objects', "id=$this->_oid");
+        if (!$db->select ('id', 'obj_data', "id_obj=$this->_oid")) {
+            $db->delete ('objects', "id=$this->_oid");
 	    $table = $this->_table;
 	    $id = $this->_id;
-            $this->_db->update ($table, $this->_dep->_obj_id[$table] . '=0', $this->_dep->primary ($table) . "=$id");
+            $db->update ($table, $dep->_obj_id[$table] . '=0', $dep->primary ($table) . "=$id");
         }
 
         # Now the object can be copied to another table; used by assoc ().

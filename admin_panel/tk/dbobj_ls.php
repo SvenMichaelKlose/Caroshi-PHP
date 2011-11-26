@@ -73,8 +73,7 @@ function tk_dbobj_ls (&$this, $table, $id, $link_current = false)
     echo $this->db->traverse_refs_from ($this, $table, $id, '_tk_dbobj_ls_node', 0, false);
 
     # List subcategories
-    $res = $this->db->select ('name, id', $table, "id_parent=$id ORDER BY name ASC");
-    if ($res && $res->num_rows () > 0) {
+    if ($res = $this->db->select ('name, id', $table, "id_parent=$id ORDER BY name ASC")) {
         echo '<P>' . "\n" .  '<FONT COLOR="#888888"><B>' . $lang['subdirectories'] . ':</B></FONT>';
         while (list ($name, $id) = $res->get ()) {
             $p->link ($name, $this->event->name, array ('id' => $id));

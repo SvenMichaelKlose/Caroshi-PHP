@@ -982,7 +982,7 @@ class admin_panel extends singleton {
 
         $options[0] = '-';
         $res = $this->db->select ("$column,$id", $source, '', $where);
-        while ($row = $res->get ())
+        while ($res && $row = $res->get ())
             $options[$row[$id]] = $row[$column];
 
         $this->open_widget ($field);

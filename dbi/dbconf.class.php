@@ -48,11 +48,7 @@ class dbconf {
 
         if (!isset ($application_id) || !$application_id)
             die ('DBConf::exists(): No $application_id.');
-        $res =& $this->db->select ('COUNT(id)', $config_table, "id_application=$application_id AND name='" . addslashes ($name) . "'");
-        if (!$res || $res->num_rows () < 1)
-            return 0;
-        list ($num) = $res->get ();
-        $res->free ();
+        list ($num) = $this->db->select ('COUNT(id)', $config_table, "id_application=$application_id AND name='" . addslashes ($name) . "'")->get ();
         return $num;
     }
 
@@ -61,8 +57,8 @@ class dbconf {
         global $application_id, $config_table;
 
         # Fetch flags and data from config record.
-        $this->_res =& $this->db->select ('is_file,data', $config_table, "id_application=$application_id AND name='" . addslashes ($name) . "'");
-        return $this->_res->get ();
+        $this->_res =& $this->db->select ('is_file, data', $config_table, "id_application=$application_id AND name='" . addslashes ($name) . "'");
+        return $this->_res && $this->_res->get ();
     }
 
     /**
@@ -123,14 +119,15 @@ class dbconf {
     {
         global $application_id, $config_table;
 
-        $res =& $this->db->select ('COUNT(id)', $config_table, "id_application=$application_id");
-        list ($tmp) = $res->get ();
+        $db = $this->db;
+
+        list ($tmp) = $db->select ('COUNT(id)', $config_table, "id_application=$application_id")->get ();
         $q = "data='" . addslashes ($data) . "',is_file=$is_file";
         $q2 = "id_application=$application_id";
         if ($tmp)
-            $this->db->update ($config_table, $q, "$q2 AND name='$name'");
+            $db->update ($config_table, $q, "$q2 AND name='$name'");
         else
-            $this->db->insert ($config_table, $q, "$q2,name='$name'");
+            $db->insert ($config_table, $q, "$q2,name='$name'");
     }
 
     /**

@@ -64,8 +64,7 @@ class dbtoken {
     {
         $this->_write_tokens (); # Be in sync.
 
-        $res = $this->_db->select ('id,data', $this->_token_table, "name='$token'");
-        if ($res->num_rows () < 1)
+        if (!($res = $this->_db->select ('id,data', $this->_token_table, "name='$token'")))
             return false;
         list ($this->_id_token, $data) = $res->get ();
         return unserialize ($data);
@@ -110,8 +109,7 @@ class dbtoken {
         # Use already created link for permanent views.
         if ($type == TOKEN_REUSE) {
       	    $q = "data='" . addslashes (serialize ($data)) . "'";
-      	    $res = $this->_db->select ('name', $this->_token_table, $q);
-      	    if ($res->num_rows () > 0)
+      	    if ($res = $this->_db->select ('name', $this->_token_table, $q))
                 list ($name) = $res->get ();
             else
 	        $this->_write_token ($name, $data, $is_onetime);

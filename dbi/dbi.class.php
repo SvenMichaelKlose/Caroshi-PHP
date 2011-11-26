@@ -40,10 +40,7 @@ class DBI extends DBCtrl {
         if (!($pri = $this->def->primary ($table)))
 	    die ("dbi::column(): No primary key specified for table '$table'.");
 
-        $res = $this->select ($column, $table, "$pri='$id'");
-        list ($column) = $res->get ();
-
-        return $column;
+        return $this->select ($column, $table, "$pri='$id'")->get ($columns);
     }
 
     ######################
@@ -186,7 +183,7 @@ class DBI extends DBCtrl {
         $info = $def->_refs[$table];
         foreach ($info as $ref) {
             $res = $this->select ($def->primary ($ref['table']), $ref['table'], $ref['id'] . "='$id'");
-            if ($res && $res->num_rows () > 0)
+            if ($res)
                 while (list ($id_ref) = $res->get ())
                     $this->multi_delete ($ref['table'], $id_ref);
 	    $this->_delete_update_siblings ($table, $id);
@@ -209,8 +206,7 @@ class DBI extends DBCtrl {
 	    foreach ($ref_tables as $tab) {
 	        if ($tab['table'] != $table)
                     continue;
-                $res = $this->select ('*', $table, $def->primary ($table) . "=$id");
-                if (!$res || $res->num_rows () < 1)
+                if (!($res = $this->select ('*', $table, $def->primary ($table) . "=$id")))
                     continue;
                 $row = $res->get ();
                 $new_id = $row[$tab['id']];
@@ -262,8 +258,7 @@ class DBI extends DBCtrl {
         $q = "$id_next=0";
         if ($id_parent)
             $q .= " AND $id_parent=$id_dest_parent";
-        $res = $this->select ($id, $table, $q);
-        if ($res->num_rows () > 0)
+        if ($res = $this->select ($id, $table, $q))
             list ($last) = $res->get ();
         else
           $last = 0;
@@ -305,7 +300,7 @@ class DBI extends DBCtrl {
  
         # XXX Aua!
         $res = $this->select ($fields, $table);
-        while ($r = $res->get ()) {
+        while ($res && $r = $res->get ()) {
             if ($c_id_parent && !$r[$c_id_parent])
                 $r[$c_id_parent] = '0';
             $nodes[$r[$c_id]] = $r;
@@ -317,10 +312,8 @@ class DBI extends DBCtrl {
             $id_parent = $nodes[$id_next][$c_id_parent];
         }
 
-        if ($xref = $this->def->xref_table ($table)) { 
-            $res =& $db->select ('id_parent', $xref, 'id_child=' . $row['id_child']);
-            list ($id_srcparent) = $res->get ();
-        }
+        if ($xref = $def->xref_table ($table))
+            list ($id_srcparent) = $db->select ('id_parent', $xref, 'id_child=' . $row['id_child'])->get ();
 
         # Check if the record has no siblings and the destination has the
         # same parent. If so, don't move anything.
@@ -359,8 +352,7 @@ class DBI extends DBCtrl {
 	        $q = "$c_next=0 AND $c_id!=$id";
 	        if ($c_id_parent)
 	            $q .= " AND $c_id_parent=$id_parent";
-	        $res = $this->select ($c_id, $table, $q);
-	        if ($res && $res->num_rows () > 0) {
+	        if ($res = $this->select ($c_id, $table, $q)) {
 	            list ($last) = $res->get ();
 	            $this->update ($table, "$c_next=$id", "$c_id=$last");
 	        }

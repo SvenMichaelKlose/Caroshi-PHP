@@ -35,7 +35,7 @@ function dbitree_get_parent ($db, &$table, &$id)
         $ntable = $def->ref_table ($table);
     }
 
-    if ($res->num_rows () < 1) {
+    if (!$res) {
         $table = $id = 0;
         return;
     }
@@ -52,7 +52,7 @@ function dbitree_get_parent ($db, &$table, &$id)
 # $table/$id:	The table that is referenced.
 # $subtype:		The table name of records.
 #			If emptry, it's set to $table.
-function dbitree_get_childs ($db, $table, $id, $subtype = '')
+function dbitree_get_children ($db, $table, $id, $subtype = '')
 {
     $def = $db->def;
 
@@ -62,9 +62,9 @@ function dbitree_get_childs ($db, $table, $id, $subtype = '')
         return $db->select ('*', $subtype, $def->ref_id ($subtype) . "=$id");
     }
 
-    $res = $db->select ('id_child', $xref, "id_parent=$id");
     $q = '';
-    while (list ($id) = $res->get ()) {
+    $res = $db->select ('id_child', $xref, "id_parent=$id");
+    while ($res && list ($id) = $res->get ()) {
         if ($q)
             $q .= ' OR ';
         $q .= "id=$id";

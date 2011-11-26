@@ -37,14 +37,11 @@ function __return_mime (&$this)
     $column = $this->arg ('column');
     $primary = $this->arg ('primary');
     $key = $this->arg ('key');
-    $type = $this->arg ('type');
-
-    $res =& $this->db->select ($column, $table, "$primary=$key");
-    $row =& $res->get ();
-    
-    $type = strtolower ($type);
+    $type = strtolower ($this->arg ('type'));
     if ($type == 'image/jpg')
         $type = 'image/jpeg';
+
+    $row = $this->db->select ($column, $table, "$primary=$key")->get ();
 
     Header ("Content-type: $type");
     echo $row[$column];
