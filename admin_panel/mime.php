@@ -15,11 +15,11 @@
 /**
  * Initialise this module.
  *
- * @param object application $this
+ * @param object application $app
  */
-function _mime_init (&$this)
+function _mime_init (&$app)
 {
-    $this->add_function ('__return_mime', TOKEN_REUSE);
+    $app->add_function ('__return_mime', TOKEN_REUSE);
 }
 
 /**
@@ -29,19 +29,19 @@ function _mime_init (&$this)
  * field name, 'primary' contains the primary key name, 'key' contains the
  + key of the record and 'type' contains the MIME type.
  *
- * @param object application $this
+ * @param object application $app
  */
-function __return_mime (&$this)
+function __return_mime (&$app)
 { 
-    $table = $this->arg ('source');
-    $column = $this->arg ('column');
-    $primary = $this->arg ('primary');
-    $key = $this->arg ('key');
-    $type = strtolower ($this->arg ('type'));
+    $table = $app->arg ('source');
+    $column = $app->arg ('column');
+    $primary = $app->arg ('primary');
+    $key = $app->arg ('key');
+    $type = strtolower ($app->arg ('type'));
     if ($type == 'image/jpg')
         $type = 'image/jpeg';
 
-    $row = $this->db->select ($column, $table, "$primary=$key")->get ();
+    $row = $app->db->select ($column, $table, "$primary=$key")->get ();
 
     Header ("Content-type: $type");
     echo $row[$column];

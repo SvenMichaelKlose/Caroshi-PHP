@@ -23,30 +23,30 @@ include 'admin_panel/tk/fsb.php';
  * Call this before init'ing admin_panel.
  *
  * @access public
- * @param object application $this
+ * @param object application $app
  * @param object dbconf $dbconf Should pass this to tk_dbconf by event arg.
  */
-function tk_dbconf_init (&$this, &$dbconf)
+function tk_dbconf_init (&$app, &$dbconf)
 {
     $ui =& admin_panel::instance ();
 
     cursor_dbconf::set_dbconf ($dbconf);
     $dbconf =& new cursor_dbconf ($dbconf);
 
-    $this->add_function ('tk_dbconf');
+    $app->add_function ('tk_dbconf');
 
-    util_add_raw_functions ($this, array ('_tk_dbconf_update', '_tk_dbconf_reset', '_tk_dbconf_reset_ask', '_tk_dbconf_set_file'));
+    util_add_raw_functions ($app, array ('_tk_dbconf_update', '_tk_dbconf_reset', '_tk_dbconf_reset_ask', '_tk_dbconf_set_file'));
 
-    tk_fsb_init ($this);
+    tk_fsb_init ($app);
 }
 
 /**
  * Event handler: Toolkit entry point.
  *
  * @access public
- * @param object application $this
+ * @param object application $app
  */
-function tk_dbconf (&$this)
+function tk_dbconf (&$app)
 {
     $p =& admin_panel::instance ();
 
@@ -55,23 +55,23 @@ function tk_dbconf (&$this)
     $p->link ('Startseite', 'return2caller');
 
     $v =& new event ('_tk_dbconf_update');
-    $v->set_next ($this->event);
+    $v->set_next ($app->event);
     $p->link ('Konfiguration updaten', $v);
 
     $v =& new event ('_tk_dbconf_reset_ask');
-    $v->set_next ($this->event);
+    $v->set_next ($app->event);
     $p->link ('Konfiguration auf Werkseinstellung zur&uuml;cksetzen', $v);
 
     # Konfigurierbare Gruppen.
-    __tk_dbconf_fields ($this, 'cnf', 'Allgemeine Einstellungen');
-    __tk_dbconf_fields ($this, 'tpl', 'Layoutvorlagen');
-    __tk_dbconf_fields ($this, 'msg', 'Meldungen');
+    __tk_dbconf_fields ($app, 'cnf', 'Allgemeine Einstellungen');
+    __tk_dbconf_fields ($app, 'tpl', 'Layoutvorlagen');
+    __tk_dbconf_fields ($app, 'msg', 'Meldungen');
 }
 
-function __tk_dbconf_fields (&$this, $sel, $headline)
+function __tk_dbconf_fields (&$app, $sel, $headline)
 {
     $p =& admin_panel::instance ();
-    $db =& $this->db;
+    $db =& $app->db;
 
     # Try to fetch an item and return if there's none.
     $cursor =& new cursor_dbconf ($db);
@@ -104,7 +104,7 @@ function __tk_dbconf_fields (&$this, $sel, $headline)
             $arg = array ('filefunc' => '_tk_dbconf_set_file',
                           'data' => $rec['name'], 'ret' => 'file');
             $v =& new event ('tk_fsb', $arg);
-            $v->set_caller ($this->event);
+            $v->set_caller ($app->event);
             $p->link ('Auswahl', $v);
 
 	    $p->radiobox ('is_file', 'yes', 'no');
@@ -125,27 +125,27 @@ function __tk_dbconf_fields (&$this, $sel, $headline)
     $p->close_context ();
 }
 
-function _tk_dbconf_set_file (&$this)
+function _tk_dbconf_set_file (&$app)
 {
-    $data = $this->arg ('data');
-    $file = $this->arg ('file');
+    $data = $app->arg ('data');
+    $file = $app->arg ('file');
 
-    $this->conf->set ($data, $file, true);
+    $app->conf->set ($data, $file, true);
 
-    $this->call ('return2caller');
+    $app->call ('return2caller');
 }
 
-function _tk_dbconf_reset_ask (&$this)
+function _tk_dbconf_reset_ask (&$app)
 {
     $ui =& admin_panel::instance ();
 
     $ui->confirm ('Wirklich die Konfiguration auf Werkseinstellungen zur&uuml;cksetzen?',
                   'Ja, alte Einstellungen verwerfen.', '_tk_dbconf_reset',
                   'Nein, abbrechen.', 'return2caller');
-    $this->call ('return2caller');
+    $app->call ('return2caller');
 }
 
-function _tk_dbconf_update (&$this)
+function _tk_dbconf_update (&$app)
 {
     global $lang, $conf;
 
@@ -157,22 +157,22 @@ function _tk_dbconf_update (&$this)
         if (substr ($key, 0, 4) != 'cnf ')
 	    continue;
         $key = substr ($key, 4);
-        if ($this->conf->exists ($key))
+        if ($app->conf->exists ($key))
 	    continue;
         $num++;
-        $this->conf->create ($key, $value);
+        $app->conf->create ($key, $value);
         $is_file = 0;
         if (substr ($value = $conf['de'][$key], 0, 1) == '@') {
 	    $value = substr ($value, 1);
 	    $is_file = 1;
         }
-        $this->conf->set ($key, $value, $is_file);
+        $app->conf->set ($key, $value, $is_file);
     }
     $ui->msgbox ("Konfiguration wurde erneuert. $num neue Eintraege.");
-    $this->call ('return2caller');
+    $app->call ('return2caller');
 }
 
-function _tk_dbconf_reset (&$this)
+function _tk_dbconf_reset (&$app)
 {
     global $lang, $conf;
 
@@ -180,7 +180,7 @@ function _tk_dbconf_reset (&$this)
 
     if (!is_array ($conf)) {
         $ui->msgbox ('Keine Werkskonfiguration vorhanden.', 'yellow');
-        $this->call ('return2caller');
+        $app->call ('return2caller');
         return;
     }
 
@@ -189,16 +189,16 @@ function _tk_dbconf_reset (&$this)
         if (substr ($key, 0, 4) != 'cnf ')
 	    continue;
         $key = substr ($key, 4);
-        $this->conf->create ($key, $value);
+        $app->conf->create ($key, $value);
         $is_file = 0;
         if (isset ($conf['de'][$key])
 	    && substr ($value = $conf['de'][$key], 0, 1) == '@') {
             $value = substr ($value, 1);
 	    $is_file = 1;
         }
-        $this->conf->set ($key, $value, $is_file);
+        $app->conf->set ($key, $value, $is_file);
     }
     $ui->msgbox ('Konfiguration wurde zur&uuml;ckgesetzt.');
-    $this->call ('return2caller');
+    $app->call ('return2caller');
 }
 ?>

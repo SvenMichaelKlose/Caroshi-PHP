@@ -23,9 +23,9 @@ define ('TK_AUTOFORM_NO_INPUT', 2);
  * Initialise toolkit. Call this in your init() function.
  *
  * @access public
- * @param object application $this
+ * @param object application $app
  */
-function tk_autoform_init (&$this)
+function tk_autoform_init (&$app)
 {
 }
 
@@ -33,15 +33,15 @@ function tk_autoform_init (&$this)
  * Create a widget from dbdepend description.
  *
  * @access public
- * @param object application $this
+ * @param object application $app
  * @param string $source Source name.
  * @param string $field Field name.
  * @param string $flags TK_AUTOFORM_LABELS or TK_AUTOFORM_NO_INPUT.
  */
-function tk_autoform_create_widget (&$this, $source, $field, $flags = 0)
+function tk_autoform_create_widget (&$app, $source, $field, $flags = 0)
 {
     $p =& admin_panel::instance ();
-    $def =& $this->db->def;
+    $def =& $app->db->def;
 
     $type = $def->types ($source);
     if (!$type)
@@ -55,14 +55,14 @@ function tk_autoform_create_widget (&$this, $source, $field, $flags = 0)
     $p->open_row ();
     if ($flags & TK_AUTOFORM_LABELS)
         $p->label (isset ($type['d']) ? $type['d'] : $field);
-    _tk_autoform_create_widget ($this, $type, $field, $flags);
+    _tk_autoform_create_widget ($app, $type, $field, $flags);
     $p->close_row ();
 }
 
-function _tk_autoform_create_widget (&$this, &$type, $field, $flags)
+function _tk_autoform_create_widget (&$app, &$type, $field, $flags)
 {
     $p =& admin_panel::instance ();
-    $def =& $this->db->def;
+    $def =& $app->db->def;
 
     if (isset ($type['tk_autoform']))
         $conf = $type['tk_autoform'];
@@ -129,16 +129,16 @@ function _tk_autoform_create_widget (&$this, &$type, $field, $flags)
  * Create form from dbdepend description.
  *
  * @access public
- * @param object application $this
+ * @param object application $app
  * @param string $source Source name.
  */
-function tk_autoform_create_form (&$this, $source)
+function tk_autoform_create_form (&$app, $source)
 {
-    $def =& $this->db->def;
+    $def =& $app->db->def;
     $defs =& $def->types ($source);
 
     foreach ($defs as $field => $dummy)
-        tk_autoform_create_widget ($this, $source, $field, TK_AUTOFORM_LABELS);
+        tk_autoform_create_widget ($app, $source, $field, TK_AUTOFORM_LABELS);
 }
 
 /**
@@ -152,11 +152,11 @@ function tk_autoform_create_form (&$this, $source)
  * linked record (deprecated).
  *
  * @access public
- * @param object application $this
+ * @param object application $app
  * @param object cursor $c
  * @param array $config Configuration
  */
-function tk_autoform_list_cursor (&$this, &$c, $config)
+function tk_autoform_list_cursor (&$app, &$c, $config)
 {
     $p =& admin_panel::instance ();
 
@@ -174,8 +174,8 @@ function tk_autoform_list_cursor (&$this, &$c, $config)
     while ($rec =& $c->get ()) {
         $source = $c->source ();
         $co = $config[$source];
-        $pri = $this->db->def->primary ($source);
-        $tt = $this->db->def->types ($source);
+        $pri = $app->db->def->primary ($source);
+        $tt = $app->db->def->types ($source);
         $num++;
 
         @$argname = $co['argname'];
@@ -196,7 +196,7 @@ function tk_autoform_list_cursor (&$this, &$c, $config)
         foreach ($fields as $name) {
             $p->open_cell (array ('ALIGN' => 'LEFT'));
             if (isset ($co['cell_functions'][$name])) {
-                $co['cell_functions'][$name] (&$this);
+                $co['cell_functions'][$name] (&$app);
             } else {
                 if (isset ($tt[$name]['tk_autoform']['lookup'])) {
                     $l =& $tt[$name]['tk_autoform']['lookup'];
@@ -211,7 +211,7 @@ function tk_autoform_list_cursor (&$this, &$c, $config)
                         $arg = array ($argname => $rec[$pri]);
                         $v =& new event ($view, $arg);
                         if ($call)
-                            $v->set_caller ($this->event ());
+                            $v->set_caller ($app->event ());
                         $p->link ($data, $v);
 	            } else
 	                $p->label ('&nbsp;');

@@ -8,20 +8,20 @@
  * List result from tk/dbisearch.
  *
  * @access public
- * @param object application $this
+ * @param object application $app
  * @param array $config Configuration for tk_autoform_list_cursor().
  * @see tk_autoform_list_cursor()
  */
-function tk_autoform_list_search_results (&$this, $config = '')
+function tk_autoform_list_search_results (&$app, $config = '')
 {
     $p =& admin_panel::instance ();
-    $status = tk_dbisearch_has_result ($this);
+    $status = tk_dbisearch_has_result ($app);
 
     # A view is already set up by form_search().
     if ($status == TK_DBISEARCH_FOUND) {
-        $cursor =& tk_dbisearch_get_results ($this);
+        $cursor =& tk_dbisearch_get_results ($app);
         $p->open_table ();
-        tk_autoform_list_cursor ($this, $cursor, $config);
+        tk_autoform_list_cursor ($app, $cursor, $config);
         $p->close_table ();
     }
     return $status;

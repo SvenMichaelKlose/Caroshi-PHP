@@ -41,12 +41,12 @@ class tk_dbisearch_query {
  * Initialise the toolkit.
  *
  * @access public
- * @param object application $this
+ * @param object application $app
  */
-function tk_dbisearch_init (&$this)
+function tk_dbisearch_init (&$app)
 {
-    $this->add_function ('tk_dbisearch');
-    $this->raw_views['tk_dbisearch'] = true;
+    $app->add_function ('tk_dbisearch');
+    $app->raw_views['tk_dbisearch'] = true;
 }
 
 /**
@@ -55,11 +55,11 @@ function tk_dbisearch_init (&$this)
  * Event argument 'query' must contain a tk_dbisearch_query object.
  *
  * @access public
- * @param object application $this
+ * @param object application $app
  */
-function tk_dbisearch (&$this)
+function tk_dbisearch (&$app)
 {
-    $o = $this->arg ('query');
+    $o = $app->arg ('query');
 
     $limit =& $o->limit;
     $offset =& $o->offset;
@@ -68,22 +68,22 @@ function tk_dbisearch (&$this)
     else if (!$limit)
         $limit = 65535;
 
-    _tk_dbisearch_query_sql_cursors ($this, $o);
+    _tk_dbisearch_query_sql_cursors ($app, $o);
 
     # Save query object for tk_dbisearch_get_query_object().
-    $this->tk_dbisearch->query =& $o;
+    $app->tk_dbisearch->query =& $o;
 }
 
 /**
  * Create queried cursor_sql objects.
  *
- * The cursors are stored in array $this->tk_dbisearch->cursors.
+ * The cursors are stored in array $app->tk_dbisearch->cursors.
  *
  * @access private
- * @param object application $this
+ * @param object application $app
  * @param object tk_dbisearch $qo
  */
-function _tk_dbisearch_query_sql_cursors (&$this, &$qo)
+function _tk_dbisearch_query_sql_cursors (&$app, &$qo)
 {
     $limit = (int) $qo->limit;
     $not_all = $qo->not_all;
@@ -91,7 +91,7 @@ function _tk_dbisearch_query_sql_cursors (&$this, &$qo)
     $where = $qo->where;
     $q =& $qo->_sql_queries;
 
-    _tk_dbisearch_create_sql_queries ($this, $qo);
+    _tk_dbisearch_create_sql_queries ($app, $qo);
 
     $qo->size = 0;
     $res = array ();
@@ -131,7 +131,7 @@ function _tk_dbisearch_query_sql_cursors (&$this, &$qo)
         if ($s) {
             $offset = 0;
             $limit -= $s;
-            $this->tk_dbisearch->cursors[] = $cursor;
+            $app->tk_dbisearch->cursors[] = $cursor;
         }
     }
 }
@@ -140,17 +140,17 @@ function _tk_dbisearch_query_sql_cursors (&$this, &$qo)
  * Create queries for all form fields if not already done.
  *
  * @access private
- * @param object application $this
+ * @param object application $app
  * @param object tk_dbisearch $qo
  */
-function _tk_dbisearch_create_sql_queries (&$this, &$query)
+function _tk_dbisearch_create_sql_queries (&$app, &$query)
 {
     $fields =& $query->fields;
     if ($query->_sql_queries)
         return;
 
     foreach (array_keys ($fields) as $field)
-        _tk_dbisearch_create_query ($this, $query, $field);
+        _tk_dbisearch_create_query ($app, $query, $field);
 }
 
 /**
@@ -159,7 +159,7 @@ function _tk_dbisearch_create_sql_queries (&$this, &$query)
  * tk_dbisearch_query->fields should contain superclasses of the object.
  *
  * @access private
- * @param object application $this
+ * @param object application $app
  * @param object tk_dbisearch $qo
  */
 function &_tk_dbisearch_get_field (&$query, $field, $element)
@@ -177,13 +177,13 @@ function &_tk_dbisearch_get_field (&$query, $field, $element)
  * The query is stored $query->_sql_queries.
  *
  * @access private
- * @param object application $this
+ * @param object application $app
  * @param object tk_dbisearch $query
  * @param string $field Form field name.
  */
-function _tk_dbisearch_create_query (&$this, &$query, $field)
+function _tk_dbisearch_create_query (&$app, &$query, $field)
 {
-    $def =& $this->db->def;
+    $def =& $app->db->def;
     $empty_fields = _tk_dbisearch_get_field ($query, $field, 'empty_fields');
     $empty_fields = strtolower ($empty_fields);
     $base_exp = _tk_dbisearch_get_field ($query, $field, 'base_exp');
@@ -196,10 +196,10 @@ function _tk_dbisearch_create_query (&$this, &$query, $field)
         die ("tk_dbisearch: Field '$field': Argument 'fields' is not an array.");
     if ($empty_fields && $empty_fields != 'skip' && $empty_fields != 'match')
         die ("tk_dbisearch: Unknown value '$empty_fields' for empty_fields.");
-    if (!isset ($this->named_elements[$field]))
+    if (!isset ($app->named_elements[$field]))
         die ("tk_dbisearch: Unknown form field '$field'.");
 
-    $val = $this->named_elements[$field];
+    $val = $app->named_elements[$field];
     $val = trim ($val);
     $val = addslashes ($val);
 
@@ -249,14 +249,14 @@ function _tk_dbisearch_create_query (&$this, &$query, $field)
  * Get cursor with results.
  *
  * @access public
- * @param object application $this
+ * @param object application $app
  * @returns object cursor_merged
  */
-function tk_dbisearch_get_results (&$this)
+function tk_dbisearch_get_results (&$app)
 {
     $p =& admin_panel::instance ();
 
-    $r = tk_dbisearch_has_result ($this);
+    $r = tk_dbisearch_has_result ($app);
     if ($r != TK_DBISEARCH_FOUND)
         return;
 
@@ -264,7 +264,7 @@ function tk_dbisearch_get_results (&$this)
     $p->clear_record_cache ();
 
     $res =& new cursor_merged ();
-    $res->query ($this->tk_dbisearch->cursors);
+    $res->query ($app->tk_dbisearch->cursors);
     return $res;
 }
 
@@ -272,16 +272,16 @@ function tk_dbisearch_get_results (&$this)
  * Check if a search was performed or not and if records were found.
  *
  * @access public
- * @param object application $this
+ * @param object application $app
  * @returns int Status flags: TK_DBISEARCH_NOT_SEARCHED,
  *              TK_DBISEARCH_NOT_FOUND or TK_DBISEARCH_FOUND.
  */
-function tk_dbisearch_has_result (&$this)
+function tk_dbisearch_has_result (&$app)
 {
-    if (!isset ($this->tk_dbisearch->query))
+    if (!isset ($app->tk_dbisearch->query))
         return TK_DBISEARCH_NOT_SEARCHED;
 
-    if (!$this->tk_dbisearch->query->size)
+    if (!$app->tk_dbisearch->query->size)
         return TK_DBISEARCH_NOT_FOUND;
 
     return TK_DBISEARCH_FOUND;
@@ -291,12 +291,12 @@ function tk_dbisearch_has_result (&$this)
  * Get query object of last result.
  *
  * @access public
- * @param object application $this
+ * @param object application $app
  * @returns object tk_dbisearch_query.
  */
-function tk_dbisearch_get_query_object (&$this)
+function tk_dbisearch_get_query_object (&$app)
 {
-    if (isset ($this->tk_dbisearch->query))
-        return $this->tk_dbisearch->query;
+    if (isset ($app->tk_dbisearch->query))
+        return $app->tk_dbisearch->query;
 }
 ?>

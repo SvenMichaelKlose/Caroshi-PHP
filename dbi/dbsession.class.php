@@ -12,6 +12,12 @@
  * @package Database interfaces
  */
 class DBSESSION {
+    private $_db;
+    private $_key;
+    private $_id;
+    private $_data;
+    private $_ttl;
+    private $_table = 'sessions';
 
     /**
      * Set up a session manager.
@@ -21,7 +27,7 @@ class DBSESSION {
      * @param integer $time_to_live Number of seconds a session must be unused
      *                          before it expires.
      */
-    function &DBSESSION (&$db, $time_to_live = 36000)
+    function DBSESSION (&$db, $time_to_live = 36000)
     {
         $this->_db = &$db;
         $this->_ttl = $time_to_live;
@@ -256,13 +262,5 @@ class DBSESSION {
         $set = "data='" . addslashes (serialize ($this->_data)) . "'";
         $this->_db->update ($this->_table, $set, "id=$this->_id");
     }
-
-    var $_db;
-    var $_key;
-    var $_id;
-    var $_ttl;
-    var $_data;
-    var $_ttl;
-    var $_table = 'sessions';
 }
 ?>

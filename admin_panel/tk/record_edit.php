@@ -16,20 +16,20 @@
 
 $debug = false;
 
-require_once PATH_TO_CAROSHI . '/admin_panel/admin_panel.class';
+require_once PATH_TO_CAROSHI . '/admin_panel/admin_panel.class.php';
 require_once PATH_TO_CAROSHI . '/admin_panel/tk/auto_form.php';
 require_once PATH_TO_CAROSHI . '/admin_panel/tk/dbisearch.php';
-require_once PATH_TO_CAROSHI . '/dbi/dbi.class';
-require_once PATH_TO_CAROSHI . '/lib/application.class';
+require_once PATH_TO_CAROSHI . '/dbi/dbi.class.php';
+require_once PATH_TO_CAROSHI . '/proc/application.class.php';
 
 # Initialise module.
-function tk_record_edit_init (&$this)
+function tk_record_edit_init (&$app)
 {
-    $this->add_view ('_tk_record_edit_edit_record', $this);
-    $this->add_view ('_tk_record_edit_list_records', $this);
+    $app->add_view ('_tk_record_edit_edit_record', $app);
+    $app->add_view ('_tk_record_edit_list_records', $app);
 
-    tk_dbisearch_init ($this);
-    tk_autoform_init ($this);
+    tk_dbisearch_init ($app);
+    tk_autoform_init ($app);
 }
 
 # Module entry point - search form.

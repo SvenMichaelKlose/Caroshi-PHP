@@ -17,11 +17,11 @@
  * Initialise the toolkit.
  *
  * @access public
- * @param object application $this
+ * @param object application $app
  */
-function tk_fsb_init (&$this)
+function tk_fsb_init (&$app)
 {
-    $this->add_function ('tk_fsb');
+    $app->add_function ('tk_fsb');
 }
 
 /**
@@ -30,14 +30,14 @@ function tk_fsb_init (&$this)
  * This function doesn't work.
  *
  * @access public
- * @param object application $this
+ * @param object application $app
  */
-function tk_fsb (&$this)
+function tk_fsb (&$app)
 {
-    $data = $this->arg ('data', ARG_SUB);
-    $ret = $this->arg ('ret', ARG_SUB);
-    $filefunc = $this->arg ('filefunc', ARG_SUB);
-    $dir = $this->arg ('dir', ARG_OPTIONAL);
+    $data = $app->arg ('data', ARG_SUB);
+    $ret = $app->arg ('ret', ARG_SUB);
+    $filefunc = $app->arg ('filefunc', ARG_SUB);
+    $dir = $app->arg ('dir', ARG_OPTIONAL);
 
     $ui =& admin_panel::instance ();
 

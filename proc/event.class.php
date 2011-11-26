@@ -60,7 +60,7 @@ class event {
     function set_next (&$e)
     {
         if (is_string ($e))
-            $e =& new event ($e);
+            $e = new event ($e);
         if (!is_a ($e, 'event'))
             die ('event::set_next(): Argument is not an event object.');
         $this->next =& $e;
@@ -79,10 +79,9 @@ class event {
             die ('event::set_caller(): Argument is not an event object.');
 
         # Call subsession function.
-        $c =& new event ('__call_sub', array ('caller' => $e));
+        $c = new event ('__call_sub', array ('caller' => $e));
         $t = $this;
         $c->set_next ($t);
-        $this = $c;
     }
 
     /**

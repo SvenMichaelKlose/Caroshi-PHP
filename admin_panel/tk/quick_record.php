@@ -15,22 +15,22 @@
 # Licensed under the MIT, BSD and GPL licenses.
 
 # Initialise the module.
-function tk_quick_record_init (&$this)
+function tk_quick_record_init (&$app)
 {
-    $this->add_function ('tk_quick_record');
+    $app->add_function ('tk_quick_record');
 }
 
-# $this->args:
+# $app->args:
 #	'source':    Name of source to edit
 #	'selection': Parameter to get() for list.
 #	'fields':    Fields to edit. (At the time an inputline).
-function tk_quick_record (&$this)
+function tk_quick_record (&$app)
 {
-    $args =& $this->args;
-    $subargs =& $this->subargs;
+    $args =& $app->args;
+    $subargs =& $app->subargs;
     $ui =& admin_panel::instance ();
-    $source = $this->arg ('source', ARG_SUB);
-    $selection = $this->arg ('selection', ARG_SUB);
+    $source = $app->arg ('source', ARG_SUB);
+    $selection = $app->arg ('selection', ARG_SUB);
 
     $ui->headline ('Missing title');
     $ui->link ('zur&uuml;ck', 'return2caller');
@@ -42,7 +42,7 @@ function tk_quick_record (&$this)
             $ui->open_row ();
 
             $v =& new event ('record_delete');
-            $v->set_next ($this->event);
+            $v->set_next ($app->event);
             $ui->link ('Missing delete label', $v);
 
             foreach ($fields as $field)
@@ -58,10 +58,10 @@ function tk_quick_record (&$this)
     $ui->open_row ();
 
     $v =& new event ('record_create');
-    $v->set_next ($this->event);
+    $v->set_next ($app->event);
     $ui->link ('Missing create label.', $v);
     $v =& new event ('form_update');
-    $v->set_next ($this->event);
+    $v->set_next ($app->event);
     $ui->submit_button ('Ok', $v);
 
     $ui->close_row ();

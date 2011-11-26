@@ -49,9 +49,6 @@ class XML_SCANNER {
     # Internal context stack.
     var $context_stack;
     var $dirtype_stack;
-    var $_block_stack; # Opened block elements.
-
-    # Stacked types of currently opened blocks.
     var $_block_stack = array ();
 
     # Calculated information

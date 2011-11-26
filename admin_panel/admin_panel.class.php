@@ -5,7 +5,7 @@
 # Licensed under the MIT, BSD and GPL licenses.
 
 
-require_once PATH_TO_CAROSHI . '/dbi/dbi.class';
+require_once PATH_TO_CAROSHI . '/dbi/dbi.class.php';
 require_once PATH_TO_CAROSHI . '/dbi/types.php';
 require_once PATH_TO_CAROSHI . '/file/magic2mime.php';
 require_once PATH_TO_CAROSHI . '/object/singleton.class.php';
@@ -186,7 +186,7 @@ class admin_panel extends singleton {
 
         # Initialize SQL cursors.
         cursor_sql::set_db ($this->db);
-        $this->v->cursor =& new cursor_sql ();
+        $this->v->cursor = new cursor_sql ();
 
         # Init modules.
         _formviews_init ($app);
@@ -225,7 +225,7 @@ class admin_panel extends singleton {
      * @access public
      * @returns object admin_panel
      */
-    function &instance ()
+    static function &instance ()
     {
         return singleton::instance ('admin_panel');
     }
@@ -251,7 +251,7 @@ class admin_panel extends singleton {
         array_push ($this->_viewstack, $this->v);
 
         # Initialise view.
-        $v =& new _admin_panel_view;
+        $v = new _admin_panel_view;
         $v->no_update = $this->no_update;
         $v->cursor =& $cursor;
         $this->v =& $v;
@@ -1033,7 +1033,7 @@ class admin_panel extends singleton {
         $w =& $this->widgets;
 
         # Store type and fieldnames.
-        $f =& new _form_element;
+        $f = new _form_element;
         $filefield = $this->application->_tokens->create (array ('dummy'));
         $f->is_file = $filefield;	# File data element.
         $f->typefield = $typefield; # File type record field..
@@ -1189,6 +1189,8 @@ class admin_panel extends singleton {
      */
     function link ($label, $event, $fakename = '')
     {
+        if (is_string ($event))
+            $event = new event ($event);
         if (!is_a ($event, 'event'))
             die ('admin_panel::link(): Argument 2 is not an event.');
         if ($fakename && !is_string ($fakename))
@@ -1279,14 +1281,14 @@ class admin_panel extends singleton {
         $c =& $this->v->cursor;
 
         if (is_string ($event))
-            $event =& new event ($event);
+            $event = new event ($event);
         else if (!is_a ($event, 'event'))
             die ('admin_panel::url(): Argument is not an event.');
 
         # Create a link.
         if (!$event->arg ('_cursor'))
             $event->set_arg ('_cursor', $c); # Add context.
-        $link =& $this->application->link ($event);
+        $link = $this->application->link ($event);
 
         # Add anchor if activated and the link points to this event handler.
         if ($this->_anchor)
@@ -1328,7 +1330,7 @@ class admin_panel extends singleton {
     {
         $v =& $this->v;
 
-        $fi =& $this->_form_index;
+        $fi = $this->_form_index;
         $element->form_idx = $fi ? $fi : 0;
 
         $element->cursor = $v->cursor;

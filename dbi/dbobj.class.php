@@ -45,7 +45,7 @@ class DBOBJ {
     var $inactive;	# Contents of all other objects found.
 
     # Initialize and fetch object if exists.
-    function &DBOBJ (&$db, $class, &$dep, $table = '', $id = 0, $only_active = false, $fields = '*')
+    function DBOBJ (&$db, $class, &$dep, $table = '', $id = 0, $only_active = false, $fields = '*')
     {
         global $__DBOBJ_KEYCACHE, $__DBOBJ_CLASSCACHE, $__DBOBJ_DATACACHE;
 
@@ -201,7 +201,7 @@ class DBOBJ {
             $this->active['id'] = $db->insert_id ();
         }  
 
-        $this->_drop_cache ();
+        DBOBJ::_drop_cache ();
     }
 
     # Remove an object.
@@ -211,7 +211,7 @@ class DBOBJ {
         $db = $this->_db;
         $dep = $this->_dep;
 
-        $this->_drop_cache ();
+        DBOBJ::_drop_cache ();
         if (!$this->_class || !$this->active['_table'] || !$this->active['_id'])
             return false; # Object doesn't exist.
 
@@ -233,7 +233,7 @@ class DBOBJ {
         return true;
     }
 
-    function _drop_cache ()
+    static function _drop_cache ()
     {
         global $__DBOBJ_KEYCACHE, $__DBOBJ_CLASSCACHE, $__DBOBJ_DATACACHE;
 
@@ -242,7 +242,7 @@ class DBOBJ {
         $__DBOBJ_DATACACHE = array ();
     }
 
-    function define_tables (&$def)
+    static function define_tables (&$def)
     {
         # X-ref table for categories, pages, products <-> obj_data.
         $def->define_table (
@@ -325,5 +325,5 @@ class DBOBJ {
     }
 }
 
-dbobj::_drop_cache ();
+DBOBJ::_drop_cache ();
 ?>

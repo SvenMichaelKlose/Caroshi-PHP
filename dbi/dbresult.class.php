@@ -14,8 +14,7 @@
  * @package Database interfaces
  */
 class DB_result {
-
-    var $res;
+    private $res;
 
     /**
      * Constructor for use of DBWrapper only.
@@ -25,7 +24,7 @@ class DB_result {
      * @access private
      * @param mixed res Result set of internal type.
      */
-    function &DB_result (&$res) { $this->res =& $res; }
+    function DB_result (&$res) { $this->res =& $res; }
 
     /**
      * Fetch first/next row or field from result set.
@@ -35,7 +34,7 @@ class DB_result {
      *               all fields are returned in a hash, otherwise the field's value
      *               is returned.
      */
-    function &get ($field)
+    function get ($field = 0)
     {
         $row =  mysql_fetch_array ($this->res);
         return $field ? $row[$field] : $row;

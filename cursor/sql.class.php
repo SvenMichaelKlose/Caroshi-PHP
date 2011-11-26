@@ -24,7 +24,7 @@ class cursor_sql extends cursor {
 
     # Set database connection for all cursor_sql instances.
     # (Static function.)
-    function set_db (&$db)
+    static function set_db (&$db)
     {
         if ($GLOBALS['__CURSOR_SQL_INSTANCE'])
             die ('cursor_sql::set_db(): Connection already set.');

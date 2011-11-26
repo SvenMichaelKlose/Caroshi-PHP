@@ -16,15 +16,14 @@
 /**
  * Initialise this module.
  *
- * @param object application $this
+ * @param object application $app
  */
-function _records_init (&$this)
+function _records_init (&$app)
 {
-    $h = array ('record_create', 'record_update', 'record_delete',
-                'record_delete_force');
-    util_add_raw_functions ($this, $h);
+    $h = array ('record_create', 'record_update', 'record_delete', 'record_delete_force');
+    util_add_raw_functions ($app, $h);
 
-    $this->record_messages = array (
+    $app->record_messages = array (
         'record_saved' => 'Record saved.',
         'delete_ask' => 'Delete this record?',
         'delete_nothing' => 'Nothing delted.',
@@ -39,17 +38,17 @@ function _records_init (&$this)
  * Create record listed in $sources with optional field values or alieases.
  *
  * @access public
- * @param object application $this
+ * @param object application $app
  * @param array $set Source set which describes the records to be created.
  */
-function record_create_set (&$this, &$set)
+function record_create_set (&$app, &$set)
 {
     $ui =& admin_panel::instance ();
 
     $keyset = array ();
     foreach ($set as $cursortype => $sources) {
         $tmp = "cursor_$cursortype";
-        $cursor =& new $tmp;
+        $cursor = new $tmp;
 
         foreach ($sources as $source => $pre) {
             if (!is_array ($pre))
@@ -91,34 +90,34 @@ function record_create_set (&$this, &$set)
 /**
  * Create records, print messagebox and jump to next view.
  *
- * @param object application $this
+ * @param object application $app
  * @param array Keyset created by record_create_set().
  * @see record_create_set()
  */
-function _record_create_continue (&$this, $keys)
+function _record_create_continue (&$app, $keys)
 {
-    $next_view =& $this->arg ('next_view', ARG_OPTIONAL);
-    $ret =& $this->arg ('ret', ARG_OPTIONAL);
+    $next_view =& $app->arg ('next_view', ARG_OPTIONAL);
+    $ret =& $app->arg ('ret', ARG_OPTIONAL);
 
     $ui =& admin_panel::instance ();
 
     if (!$keys)
         die ('Couldn\'t create record.');
 
-    if ($keys && isset ($this->record_messages['create_done']))
-        $ui->msgbox ($this->record_messages['create_done']);
+    if ($keys && isset ($app->record_messages['create_done']))
+        $ui->msgbox ($app->record_messages['create_done']);
 
     # Call next function.
     if ($next_view) {
         if (is_string ($next_view))
-            $next_view =& new event ($next_view);
+            $next_view = new event ($next_view);
             if ($ret) {
                 $k = $keys;
                 $k = array_pop ($k);
                 reset ($k);
                 $next_view->args[$ret] = $k[key ($k)];
             }
-        $this->call ($next_view);
+        $app->call ($next_view);
     }
 
     return $keys;
@@ -133,27 +132,27 @@ function _record_create_continue (&$this, $keys)
  * was created.
  *
  * @access public
- * @param object application $this
+ * @param object application $app
  * @see record_create_set()
  */
-function record_create (&$this)
+function record_create (&$app)
 {
-    $sources =& $this->arg ('sources', ARG_OPTIONAL);
-    $msg = $this->arg ('msg', ARG_OPTIONAL);
-    $pre = $this->arg ('preset_values', ARG_OPTIONAL);
+    $sources =& $app->arg ('sources', ARG_OPTIONAL);
+    $msg = $app->arg ('msg', ARG_OPTIONAL);
+    $pre = $app->arg ('preset_values', ARG_OPTIONAL);
 
     # If link was created without arguments, create a source set with a
     # single element from the argument's cursor.
     if (!$sources) {
-        $cursor = $this->arg ('_cursor');
+        $cursor = $app->arg ('_cursor');
         $src = $cursor->source ();
         $sources[$cursor->type ()][$src] = $pre ? $pre : array ();
     } else
-        if ($this->arg ('preset_values', ARG_OPTIONAL))
+        if ($app->arg ('preset_values', ARG_OPTIONAL))
             die ("record_create(): Arguments 'preset_values' and 'sources' can't be used together.");
 
-    $key =& record_create_set ($this, $sources);
-    return _record_create_continue ($this, $key);
+    $key =& record_create_set ($app, $sources);
+    return _record_create_continue ($app, $key);
 }
 
 /**
@@ -163,21 +162,21 @@ function record_create (&$this)
  * highlighted.
  *
  * @access public
- * @param object application $this
+ * @param object application $app
  * @see cmd_update (), form_update()
  */
-function record_update (&$this)
+function record_update (&$app)
 {
-    $cursor =& $this->arg ('_cursor');
+    $cursor =& $app->arg ('_cursor');
 
     $ui =& admin_panel::instance ();
 
-    $err = form_update ($this);
+    $err = form_update ($app);
     if ($err)
         $ui->panic ($err);
 
     $ui->highlight[$cursor->id ()] = '#00FF00';
-    $ui->msgbox ($this->record_messages['record_saved']);
+    $ui->msgbox ($app->record_messages['record_saved']);
 }
 
 /**
@@ -190,19 +189,19 @@ function record_update (&$this)
  * one for the opposite case (the deletion failed).
  *
  * @access public
- * @param object application $this
+ * @param object application $app
  * @see record_delete_force()
  */
-function record_delete (&$this)
+function record_delete (&$app)
 {
-    $cursor = $this->arg ('_cursor', ARG_OPTIONAL);
-    $cursor_list =& $this->arg ('cursor_list', ARG_OPTIONAL);
-    $yes_view = $this->arg ('yes_view', ARG_OPTIONAL);
-    $no_view = $this->arg ('no_view', ARG_OPTIONAL);
+    $cursor = $app->arg ('_cursor', ARG_OPTIONAL);
+    $cursor_list =& $app->arg ('cursor_list', ARG_OPTIONAL);
+    $yes_view = $app->arg ('yes_view', ARG_OPTIONAL);
+    $no_view = $app->arg ('no_view', ARG_OPTIONAL);
 
     $ui =& admin_panel::instance ();
-    $m = $this->record_messages;
-    $tv = $this->event ();
+    $m = $app->record_messages;
+    $tv = $app->event ();
 
     # Highlight records, check available cursors.
     if (!$cursor_list && !is_array ($cursor_list)) {
@@ -237,9 +236,9 @@ function record_delete (&$this)
     }
 
     # Create link to real kill.
-    $yes =& new event ('record_delete_force');
+    $yes = new event ('record_delete_force');
     $yes->set_next ($yes_view);
-    $yes->args['_cursor'] = $this->arg ('_cursor', ARG_OPTIONAL);
+    $yes->args['_cursor'] = $app->arg ('_cursor', ARG_OPTIONAL);
     $yes->args['cursor_list'] =& $cursor_list;
 
     $ui->confirm ($m['delete_ask'], $m['yes'], $yes, $m['no'], $no_view);
@@ -252,12 +251,12 @@ function record_delete (&$this)
  * cursors can be passed in 'cursor_list' instead.
  *
  * @access public
- * @param object application $this
+ * @param object application $app
  */
-function record_delete_force (&$this)
+function record_delete_force (&$app)
 {
-    $cursor = $this->arg ('_cursor', ARG_OPTIONAL);
-    $cursor_list =& $this->arg ('cursor_list', ARG_OPTIONAL);
+    $cursor = $app->arg ('_cursor', ARG_OPTIONAL);
+    $cursor_list =& $app->arg ('cursor_list', ARG_OPTIONAL);
 
     $ui =& admin_panel::instance ();
 
@@ -277,6 +276,6 @@ function record_delete_force (&$this)
     if (isset ($err))
         $ui->panic ($err);
 
-    $ui->msgbox ($this->record_messages['delete_done']);
+    $ui->msgbox ($app->record_messages['delete_done']);
 }
 ?>

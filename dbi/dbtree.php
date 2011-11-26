@@ -77,7 +77,7 @@ function dbitree_get_children ($db, $table, $id, $subtype = '')
 function dbtree_get_object_id ($db, $table, $id)
 {
     $res = $db->select ('*', $t, "id=$i");
-    return $res ? $res->get ('id_obj');
+    return $res ? $res->get ('id_obj') : null;
 }
 
 function dbtree_get_objects_by_id ($db, $id)
@@ -93,7 +93,7 @@ function dbtree_get_objects_by_id ($db, $id)
 function dbtree_get_objects_for_record ($db, $table, $id)
 {
      if ($id_obj = dbtree_get_object_id ($db, $table, $id))
-         return dbtree_get_objects_by_id ($db, $id_obj));
+         return dbtree_get_objects_by_id ($db, $id_obj);
     return Array ();
 }
 

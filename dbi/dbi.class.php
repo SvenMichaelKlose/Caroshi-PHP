@@ -5,8 +5,8 @@
 # Licensed under the MIT, BSD and GPL licenses.
 
 
-require_once PATH_TO_CAROSHI . '/dbi/dbctrl.class';
-require_once PATH_TO_CAROSHI . '/dbi/dbdepend.class';
+require_once PATH_TO_CAROSHI . '/dbi/dbctrl.class.php';
+require_once PATH_TO_CAROSHI . '/dbi/dbdepend.class.php';
 
 /**
  * dbctrl extension (deprecated)
@@ -21,7 +21,7 @@ class DBI extends DBCtrl {
     # <func name="DBI">
     #  <about>Use this constructor to pass db login information.</about>
     # </func>
-    function &DBI ($dbname, $host, $user, $passwd, $class_dbdef = 0)
+    function DBI ($dbname, $host, $user, $passwd, $class_dbdef = 0)
     {
         !$class_dbdef ? $this->def = new DBDEPEND : $this->def = $class_dbdef;
         $this->DBCtrl ($dbname, $host, $user, $passwd);

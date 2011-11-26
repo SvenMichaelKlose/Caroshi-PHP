@@ -16,12 +16,12 @@
  * Initialise the tooklit.
  *
  * @access public
- * @param object application $this
+ * @param object application $app
  */
-function tk_range_edit_init (&$this)
+function tk_range_edit_init (&$app)
 {
     $h = array ('tk_range_edit_select', 'tk_range_edit_select_all', 'tk_range_edit_unselect_all', 'tk_range_edit_call');
-    util_add_raw_functions ($this, $h);
+    util_add_raw_functions ($app, $h);
 }
 
 /**
@@ -32,11 +32,11 @@ function tk_range_edit_init (&$this)
  * values.
  *
  * @access public
- * @param object application $this
+ * @param object application $app
  */
-function tk_range_edit_select (&$this)
+function tk_range_edit_select (&$app)
 {
-    $marker_field = $this->arg ('marker_field');
+    $marker_field = $app->arg ('marker_field');
 
     $ui =& admin_panel::instance ();
 
@@ -44,7 +44,7 @@ function tk_range_edit_select (&$this)
     $source = '';
     $markers = array ();
     $fetched_keys = array ();
-    foreach ($this->elements as $e) {
+    foreach ($app->elements as $e) {
         $cursor =& $e->cursor;
         $s = $cursor->source ();
         $k = $cursor->key ();
@@ -71,8 +71,8 @@ function tk_range_edit_select (&$this)
         die ("tk_range_edit_select(): No element called '$marker_field' in form.");
 
     # Collect changed marker indices and markers that occured the first time.
-    if (isset ($this->subargs['tk_range_edit'][$source])) {
-        $old_markers = $this->subargs['tk_range_edit'][$source];
+    if (isset ($app->subargs['tk_range_edit'][$source])) {
+        $old_markers = $app->subargs['tk_range_edit'][$source];
         foreach ($markers as $i => $marker) {
             $key = $marker->cursor->key ();
             $val = $marker->val;
@@ -119,14 +119,14 @@ function tk_range_edit_select (&$this)
         $source = $cursor->source ();
         $key = $cursor->key ();
 
-        $this->subargs['tk_range_edit'][$source][$key] =
+        $app->subargs['tk_range_edit'][$source][$key] =
             $record_cache[$source][$key][$marker_field];
 
         if (isset ($record_cache[$source][$key][$marker_field]) && $record_cache[$source][$key][$marker_field])
             $ui->highlight[$cursor->id ()] = 'yellow';
     }
 
-    record_cache_safe ($this);
+    record_cache_safe ($app);
 }
 
 /**
@@ -137,18 +137,18 @@ function tk_range_edit_select (&$this)
  * values.
  *
  * @access public
- * @param object application $this
+ * @param object application $app
  * @returns int 0: No marker set, 1: All markers set, 2: Some markers set.
  */
-function tk_range_edit_all_selected (&$this, $marker_field)
+function tk_range_edit_all_selected (&$app, $marker_field)
 {
     $ui =& admin_panel::instance ();
 
     $s = $u = 0;
-    if (!isset ($this->elements))
+    if (!isset ($app->elements))
         return 0;
 
-    foreach ($this->elements as $e) {
+    foreach ($app->elements as $e) {
         $cursor =& $e->cursor;
         $source = $cursor->source ();
         $key = $cursor->key ();
@@ -172,15 +172,15 @@ function tk_range_edit_all_selected (&$this, $marker_field)
  * Select/unselect all markers.
  *
  * @access public
- * @param object application $this
+ * @param object application $app
  * @param string $marker_field Form names of marker fields.
  * @param boolean $val New content of marker fields.
  */
-function tk_range_edit_do_select_all (&$this, $marker_field, $val)
+function tk_range_edit_do_select_all (&$app, $marker_field, $val)
 {
     $ui =& admin_panel::instance ();
 
-    foreach ($this->elements as $e) {
+    foreach ($app->elements as $e) {
         $cursor =& $e->cursor;
         $src = $cursor->source ();
         $key = $cursor->key ();
@@ -196,11 +196,11 @@ function tk_range_edit_do_select_all (&$this, $marker_field, $val)
  * Event argument 'marker_fields' contains the form name of all marker fields.
  *
  * @access public
- * @param object application $this
+ * @param object application $app
  */
-function tk_range_edit_select_all (&$this)
+function tk_range_edit_select_all (&$app)
 {
-    tk_range_edit_do_select_all (&$this, $this->arg ('marker_field'), true);
+    tk_range_edit_do_select_all ($app, $app->arg ('marker_field'), true);
 }
 
 /**
@@ -209,11 +209,11 @@ function tk_range_edit_select_all (&$this)
  * Event argument 'marker_fields' contains the form name of all marker fields.
  *
  * @access public
- * @param object application $this
+ * @param object application $app
  */
-function tk_range_edit_unselect_all (&$this)
+function tk_range_edit_unselect_all (&$app)
 {
-    tk_range_edit_do_select_all (&$this, $this->arg ('marker_field'), false);
+    tk_range_edit_do_select_all ($app, $app->arg ('marker_field'), false);
 }
 
 /**
@@ -225,20 +225,20 @@ function tk_range_edit_unselect_all (&$this)
  * argument name for the array of cursors.
  *
  * @access public
- * @param object application $this
+ * @param object application $app
  * @see cursor
  */
-function tk_range_edit_call (&$this)
+function tk_range_edit_call (&$app)
 {
-    $argname = $this->arg ('argname');
-    $marker_field = $this->arg ('marker_field');
-    $view = $this->arg ('view');
+    $argname = $app->arg ('argname');
+    $marker_field = $app->arg ('marker_field');
+    $view = $app->arg ('view');
 
     $ui =& admin_panel::instance ();
 
     # Collect marker cursors into array.
     $cursors = array ();
-    foreach ($this->elements as $e) {
+    foreach ($app->elements as $e) {
         $cursor =& $e->cursor;
         $source = $cursor->source ();
         $key = $cursor->key ();
@@ -249,6 +249,6 @@ function tk_range_edit_call (&$this)
     }
 
     $view->set_arg ($argname, $cursors);
-    $this->call ($view);
+    $app->call ($view);
 }
 ?>

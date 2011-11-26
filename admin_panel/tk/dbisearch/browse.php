@@ -16,20 +16,20 @@
  * Create button to new result page.
  *
  * @access private
- * @param object application $this
+ * @param object application $app
  * @param int $index Index of first record.
  * @param string $label Label for button.
  * @param string $image Path to image for button.
  */
-function _tk_dbisearch_browse_button (&$this, $index, $label, $image)
+function _tk_dbisearch_browse_button (&$app, $index, $label, $image)
 {
     $p =& admin_panel::instance (); # php bug
-    $tv =& $this->event ();
+    $tv =& $app->event ();
 
-    $q =& tk_dbisearch_get_query_object ($this);
+    $q =& tk_dbisearch_get_query_object ($app);
     $q->offset = $index;
     $v =& new event ('tk_dbisearch', array ('query' => $q));
-    $v->set_next ($this->event ());
+    $v->set_next ($app->event ());
     if ($image)
         $p->image_link ($label, $image, $v);
     else
@@ -43,18 +43,18 @@ function _tk_dbisearch_browse_button (&$this, $index, $label, $image)
  * If there's no more than one page nothing is printed at all.
  *
  * @access public
- * @param object application $this
+ * @param object application $app
  * @param string $g_begin Path to image for link to first record.
  * @param string $g_prev Path to image for link to previous record.
  * @param string $g_next Path to image for link to next record.
  * @param string $g_end Path to image for link to last record.
  * @see tk_dbisearch()
  */
-function tk_dbisearch_browse (&$this, $g_begin = '', $g_prev = '', $g_next = '', $g_end = '')
+function tk_dbisearch_browse (&$app, $g_begin = '', $g_prev = '', $g_next = '', $g_end = '')
 {
     $p =& admin_panel::instance ();
 
-    $q = tk_dbisearch_get_query_object ($this);
+    $q = tk_dbisearch_get_query_object ($app);
     $l = $q->limit;
     $i = $q->offset;
     $s = $q->size;
@@ -69,14 +69,14 @@ function tk_dbisearch_browse (&$this, $g_begin = '', $g_prev = '', $g_next = '',
 
     # Button to first page.
     if ($i > 0)
-        _tk_dbisearch_browse_button ($this, 0, '<<', $g_begin);
+        _tk_dbisearch_browse_button ($app, 0, '<<', $g_begin);
     else
         $p->image ('<<', $g_begin);
 
     # Button to previous page.
     if ($i > 0) {
         $pi = $i >= $l ? $i - $l : 0;
-        _tk_dbisearch_browse_button ($this, $pi, '<', $g_prev);
+        _tk_dbisearch_browse_button ($app, $pi, '<', $g_prev);
     } else
         $p->image ('<', $g_prev);
 
@@ -88,13 +88,13 @@ function tk_dbisearch_browse (&$this, $g_begin = '', $g_prev = '', $g_next = '',
 
     # Button to next page.
     if ($i < $s - $l)
-        _tk_dbisearch_browse_button ($this, $i + $l, '>', $g_next);
+        _tk_dbisearch_browse_button ($app, $i + $l, '>', $g_next);
     else
         $p->image ('>', $g_next);
 
     # Button to last page.
     if ($i < $s - $l && $s > $l)
-        _tk_dbisearch_browse_button ($this, $s - $l, '>>', $g_end);
+        _tk_dbisearch_browse_button ($app, $s - $l, '>>', $g_end);
     else
         $p->image ('>>', $g_end);
 

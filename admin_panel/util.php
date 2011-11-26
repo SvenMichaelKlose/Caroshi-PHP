@@ -17,17 +17,17 @@
  * Add handler functions to an application.
  *
  * @access public
- * @param object application $this
+ * @param object application $app
  * @param array $handlers List of handler names.
  */
-function util_add_functions (&$this, &$handlers)
+function util_add_functions (&$app, &$handlers)
 {
     if (!is_array ($handlers))
         die ('util_add_functions(): Handler list is not an array.');
 
     foreach ($handlers as $n) {
-        $this->add_function ($n);
-        $this->raw_views[$n] = true;
+        $app->add_function ($n);
+        $app->raw_views[$n] = true;
     }
 }
 
@@ -37,17 +37,17 @@ function util_add_functions (&$this, &$handlers)
  * No HTML header is generated for 'raw' handlers.
  *
  * @access public
- * @param object application $this
+ * @param object application $app
  * @param array $handlers List of handler names.
  */
-function util_add_raw_functions (&$this, &$handlers)
+function util_add_raw_functions (&$app, &$handlers)
 {
     if (!is_array ($handlers))
         die ('util_add_raw_functions(): Handler list is not an array.');
 
     foreach ($handlers as $n) {
-        $this->add_function ($n);
-        $this->raw_views[$n] = true;
+        $app->add_function ($n);
+        $app->raw_views[$n] = true;
     }
 }
 
@@ -59,17 +59,17 @@ function util_add_raw_functions (&$this, &$handlers)
  * Each init function takes a reference to the application object.
  *
  * @access public
- * @param object application $this
+ * @param object application $app
  * @param array $modules List of module names.
  */
-function util_init_modules (&$this, &$modules)
+function util_init_modules (&$app, &$modules)
 {
     if (!is_array ($modules))
         die ('util_add_modules(): Module list is not an array.');
 
     foreach ($modules as $m) {
         $m .= '_init';
-        $m ($this);
+        $m ($app);
     }
 }
 ?>

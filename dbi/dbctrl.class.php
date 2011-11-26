@@ -5,7 +5,7 @@
 # Licensed under the MIT, BSD and GPL licenses.
 
 
-require_once PATH_TO_CAROSHI . '/dbi/dbwrapper.class';
+require_once PATH_TO_CAROSHI . '/dbi/dbwrapper.class.php';
 
 /**
  * Common SQL interface
@@ -17,8 +17,8 @@ require_once PATH_TO_CAROSHI . '/dbi/dbwrapper.class';
  * @package Database interfaces
  */
 class DBCtrl extends DBWrapper {
-    var $db_name;
-    var $prefix;
+    private $db_name;
+    private $prefix;
 
     /**
      * Set up a database connection or reuse an existing one.
@@ -29,7 +29,7 @@ class DBCtrl extends DBWrapper {
      * @param string user   User name.
      * @param string passwd Password.
      */
-    function &DBCtrl ($dbname, $host, $user, $passwd)
+    function DBCtrl ($dbname, $host, $user, $passwd)
     {
          $this->db_name = $dbname;
          $this->prefix = '';
@@ -51,7 +51,7 @@ class DBCtrl extends DBWrapper {
      * @param string tail  Tail to SQL query.
      * @return object db_result Returns false if result is empty.
      */
-    function &select ($what, $table, $where = '', $tail = '')
+    function select ($what, $table, $where = '', $tail = '')
     {
         $q = "SELECT $what FROM $this->prefix$table";
         if ($where)
@@ -59,7 +59,7 @@ class DBCtrl extends DBWrapper {
         if ($tail)
             $q .= " $tail";
         $res = $this->query ($q);
-        return $res->num_rows () ? $res;
+        return $res->num_rows () ? $res : null;
     }
 
     /**
@@ -74,7 +74,7 @@ class DBCtrl extends DBWrapper {
      * @param string where WHERE clause without WHERE keyword.
      * @return object db_result
      */
-    function &update ($table, $set, $where)
+    function update ($table, $set, $where)
     {
         $q = "UPDATE $this->prefix$table SET $set";
         if (!$where)
@@ -95,7 +95,7 @@ class DBCtrl extends DBWrapper {
      * @param string where WHERE clause without WHERE keyword.
      * @return object db_result
      */
-    function &insert ($table, $set)
+    function insert ($table, $set)
     {
         return $this->query ("INSERT INTO $this->prefix$table SET $set");
     }
@@ -111,7 +111,7 @@ class DBCtrl extends DBWrapper {
      * @param string where WHERE clause without WHERE keyword.
      * @return object db_result
      */
-    function &delete ($table, $where = '')
+    function delete ($table, $where = '')
     {
         $q = "DELETE FROM $this->prefix$table";
         if ($where)

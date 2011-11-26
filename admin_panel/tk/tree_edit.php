@@ -14,53 +14,53 @@
 
 # Initialise the module.
 # XXX This should be tree_edit_init().
-function tree_edit_register (&$this)
+function tree_edit_register (&$app)
   {
-    $this->add_function ('tree_edit_move');
-    $this->add_function ('move_node_to');
-    $this->add_function ('move_node4real');
-    $this->raw_views['move_node4real'] = true;
+    $app->add_function ('tree_edit_move');
+    $app->add_function ('move_node_to');
+    $app->add_function ('move_node4real');
+    $app->raw_views['move_node4real'] = true;
 }
 
-function tree_edit (&$this, &$args)
+function tree_edit (&$app, &$args)
 {
     $ui =& admin_panel::instance ();
-    $te =& $this->event ();
+    $te =& $app->event ();
 
     foreach ($args as $name => $data)
         $te->set_arg ($name, $data);
-    $table = $this->arg ('source');
-    $id = $this->arg ('id');
-    $nodefunc = $this->arg ('nodefunc', ARG_OPTIONAL);
-    $def =& $this->db->def;
+    $table = $app->arg ('source');
+    $id = $app->arg ('id');
+    $nodefunc = $app->arg ('nodefunc', ARG_OPTIONAL);
+    $def =& $app->db->def;
 
     # Display category tree.
     echo "<CENTER><TABLE BORDER=0 BGCOLOR=\"#EEEEEE\"><TR><TD>";
-    $tree =& new DBTREE ($this->db, $table, $id);
+    $tree = new DBTREE ($app->db, $table, $id);
     if (isset ($ui->highlight))
         $tree->highlight = $ui->highlight;
-    $tree->view ($nodefunc ? $nodefunc : 'tv_node', $this);
+    $tree->view ($nodefunc ? $nodefunc : 'tv_node', $app);
     echo '</TD></TR></TABLE></CENTER>';
 }
 
 # Generic view of a node.
-# $this->args:
+# $app->args:
 #   'name'		Name of name field.
 #   'id'		Name of primary key.
 #   'nodeview'	View for contents of a node.
 #   'nodecreator'	View to create a node.
 #   'no_create'	Inhibit link to create a new subnode
-function tv_node (&$this, &$node)
+function tv_node (&$app, &$node)
 {
     $p =& admin_panel::instance ();
-    $nid = $this->arg ('id');
+    $nid = $app->arg ('id');
 
-    $name =& $node[$this->arg ('name')];
-    $nodeview =& $this->arg ('nodeview');
-    $no_create =& $this->arg ('no_create', ARG_OPTIONAL);
+    $name =& $node[$app->arg ('name')];
+    $nodeview =& $app->arg ('nodeview');
+    $no_create =& $app->arg ('no_create', ARG_OPTIONAL);
 
     if (!$name)
-        $name = $this->arg ('txt_unnamed');
+        $name = $app->arg ('txt_unnamed');
     $id = $node[$nid];
     $str = '<TABLE CELLPADDING="0" CELLSPACING="0" BORDER="0"><TR>' .
            '<TD WIDTH="100%" ALIGN="LEFT">' .
@@ -68,124 +68,124 @@ function tv_node (&$this, &$node)
 	   '</TD>';
     if (!$no_create)
         $str .= '<TD><font size="-1">' .
-	        $p->link ('+&gt;', new event ($this->arg ('nodecreator'), array ('id' => $id, '__next' => $this->args ()))) .
+	        $p->link ('+&gt;', new event ($app->arg ('nodecreator'), array ('id' => $id, '__next' => $app->args ()))) .
                 '</font></td>';
     $str .= '</TR></TABLE>';
 }
 
-# $this->args:
+# $app->args:
 #   'name'		Name of name field.
 #   'id'		Name of primary key.
-function tv_move_node (&$this, &$node)
+function tv_move_node (&$app, &$node)
 {
     $p =& admin_panel::instance ();
 
-    $name = $node[$this->arg ('name')];
-    $id = $node[$this->arg ('id')];
-    $p->link ("<B>$name</B>", new event ('move_node_to', array_merge ($this->event->args, array ('id_src' => $id))));
+    $name = $node[$app->arg ('name')];
+    $id = $node[$app->arg ('id')];
+    $p->link ("<B>$name</B>", new event ('move_node_to', array_merge ($app->event->args, array ('id_src' => $id))));
 }
 
-# $this->args:
+# $app->args:
 #   'name'		Name of name field.
 #   'id'		Name of primary key.
 #   'id_src'		Primary key of node to move.
-function tv_move_to_node (&$this, &$node)
+function tv_move_to_node (&$app, &$node)
 {
     $p =& admin_panel::instance ();
 
-    $name = $node[$this->arg ('name')];
-    $id = $node[$this->arg ('id')];
-    $id_src = $this->arg ('id_src');
-    $table = $this->arg ('source');
+    $name = $node[$app->arg ('name')];
+    $id = $node[$app->arg ('id')];
+    $id_src = $app->arg ('id_src');
+    $table = $app->arg ('source');
 
-    $id_parent = $node[$this->db->def->ref_id ($table)];
+    $id_parent = $node[$app->db->def->ref_id ($table)];
 
     if ($id == $id_src)
         return "<B>$name</B>";
-    return "<b>$name</b> " . $p->link ('^', new event ('move_node4real', array_merge ($this->args, array ('id_dest' => $id_parent,
-                                                                                                          'id_src' => $id_src, 'id_dest_next' => $id)))) .
-           ' ' . $p->link ('\/', new event ('move_node4real', array_merge ($this->args, array ('id_dest' => $id_parent,
-                                                                                                'id_src' => $id_src,
-      	                                                                                        'id_dest_next' => $node['id_next'])))) .
-           ' ' . $p->link ('>', new event ('move_node4real', array_merge ($this->args, array ('id_dest' => $id,
-                                                                                              'id_src' => $id_src))));
+    return "<b>$name</b> " . $p->link ('^', new event ('move_node4real', array_merge ($app->args, array ('id_dest' => $id_parent,
+                                                                                                         'id_src' => $id_src, 'id_dest_next' => $id)))) .
+           ' ' . $p->link ('\/', new event ('move_node4real', array_merge ($app->args, array ('id_dest' => $id_parent,
+                                                                                              'id_src' => $id_src,
+      	                                                                                      'id_dest_next' => $node['id_next'])))) .
+           ' ' . $p->link ('>', new event ('move_node4real', array_merge ($app->args, array ('id_dest' => $id,
+                                                                                             'id_src' => $id_src))));
 }
 
-# $this->args:
+# $app->args:
 #   'source'		Name of table containing the nodes.
-function move_node_to (&$this)
+function move_node_to (&$app)
 {
-    $def =& $this->db->def;
+    $def =& $app->db->def;
     $ui =& admin_panel::instance ();
 
-    $table = $this->arg ('source');
-    $id = $this->arg ('id');
-    $id_src = $this->arg ('id_src');
-    $txt_back = $this->arg ('txt_back');
-    $txt_select_dest = $this->arg ('txt_select_dest');
+    $table = $app->arg ('source');
+    $id = $app->arg ('id');
+    $id_src = $app->arg ('id_src');
+    $txt_back = $app->arg ('txt_back');
+    $txt_select_dest = $app->arg ('txt_select_dest');
 
     $p->msgbox ("$txt_select_dest:", 'yellow');
     $p->link ($txt_back, 'return2caller');
     echo "<CENTER><TABLE BORDER=0 BGCOLOR=\"#EEEEEE\"><TR><TD>";
-    $tree =& new DBTREE ($this->db, $table, $id);
+    $tree = new DBTREE ($app->db, $table, $id);
     $tree->highlight[$p->view_id ($table, $id_src)] = 'yellow';
-    $tree->view ('tv_move_to_node', $this);
+    $tree->view ('tv_move_to_node', $app);
     echo '</TD></TR></TABLE></CENTER>';
 }
 
-# $this->args:
+# $app->args:
 #   'source'		Name of table containing the nodes.
 #   'name'		Name of name field.
 #   'id_src'		Primary key of node to move.
 #   'id_dest'		Primary key of destination node.
 #   'id_dest_next'	Primary key of destination/next sibling.
 #   'id'		Name of primary key.
-function move_node4real (&$this)
+function move_node4real (&$app)
 {
-    $def =& $this->db->def;
+    $def =& $app->db->def;
     $ui =& admin_panel::instance ();
 
-    $table = $this->arg ('source');
-    $id = $this->arg ('id');
-    $id_src = $this->arg ('id_src');
-    $id_dest = $this->arg ('id_dest');
-    $id_dest_next = $this->arg ('id_dest_next', ARG_OPTIONAL);
-    $txt_moved = $this->arg ('txt_moved');
-    $txt_not_moved = $this->arg ('txt_not_moved');
-    $txt_move_again = $this->arg ('txt_move_again');
+    $table = $app->arg ('source');
+    $id = $app->arg ('id');
+    $id_src = $app->arg ('id_src');
+    $id_dest = $app->arg ('id_dest');
+    $id_dest_next = $app->arg ('id_dest_next', ARG_OPTIONAL);
+    $txt_moved = $app->arg ('txt_moved');
+    $txt_not_moved = $app->arg ('txt_not_moved');
+    $txt_move_again = $app->arg ('txt_move_again');
 
-    if (!$this->db->move ($table, $id_src, $id_dest_next, $id_dest))
+    if (!$app->db->move ($table, $id_src, $id_dest_next, $id_dest))
         $ui->msgbox ($txt_moved);
     else
         $ui->msgbox ($txt_not_moved, 'red');
 
-    $ui->link ($txt_move_again, new event ('move_node_to', array_merge ($this->args, array ('id_src' => $id_src))));
+    $ui->link ($txt_move_again, new event ('move_node_to', array_merge ($app->args, array ('id_src' => $id_src))));
 
     $ui->highlight[$ui->view_id ($table, $id_src)] = '#00FF00';
 
-    $this->call ('return2caller');
+    $app->call ('return2caller');
 }
 
-# $this->args:
+# $app->args:
 #   'source'		Name of table containing the nodes.
 #   'name'		Name of name field.
 #   'id'		Name of primary key.
-function tree_edit_move (&$this)
+function tree_edit_move (&$app)
 {
     $p =& admin_panel::instance ();
 
-    $table = $this->arg ('source');
-    $id = $this->arg ('id');
-    $txt_back = $this->arg ('txt_back');
-    $txt_select_node = $this->arg ('txt_select_node');
-    $def =& $this->db->def;
+    $table = $app->arg ('source');
+    $id = $app->arg ('id');
+    $txt_back = $app->arg ('txt_back');
+    $txt_select_node = $app->arg ('txt_select_node');
+    $def =& $app->db->def;
 
     $p->msgbox ("$txt_select_node:", 'yellow');
     $p->link ($txt_back, 'return2caller');
     echo "<CENTER><TABLE BORDER=0 BGCOLOR=\"#EEEEEE\"><TR><TD>";
 
-    $tree =& new DBTREE ($this->db, $table, $id);
-    $tree->view ('tv_move_node', $this);
+    $tree = new DBTREE ($app->db, $table, $id);
+    $tree->view ('tv_move_node', $app);
 
     echo '</TD></TR></TABLE></CENTER>';
 }

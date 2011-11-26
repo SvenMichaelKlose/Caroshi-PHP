@@ -18,15 +18,15 @@
  * Initialise the toolkit.
  *
  * @access public
- * @param object application $this
+ * @param object application $app
  */
-function tk_list_move_init (&$this)
+function tk_list_move_init (&$app)
 {
     $h = array ('tk_list_move', 'tk_list_move_to');
-    util_add_functions ($this, $h);
+    util_add_functions ($app, $h);
 
     $h = array ( '_tk_list_move_go');
-    util_add_raw_functions ($this, $h);
+    util_add_raw_functions ($app, $h);
 }
 
 /**
@@ -36,52 +36,52 @@ function tk_list_move_init (&$this)
  * 'txt_choose_dest', 'txt_moved', 'txt_no_record', 'func_record', 'selection'
  *
  * @access public
- * @param object application $this
+ * @param object application $app
  */
-function tk_list_move (&$this)
+function tk_list_move (&$app)
 {
-    $txt = $this->arg ('txt_choose_which', ARG_SUB);
+    $txt = $app->arg ('txt_choose_which', ARG_SUB);
 
-    _tk_list_move_list ($this, 'tk_list_move_to', $txt, false);
+    _tk_list_move_list ($app, 'tk_list_move_to', $txt, false);
 }
 
-function tk_list_move_to (&$this)
+function tk_list_move_to (&$app)
 {
-    $id_from = $this->arg ('id_from');
-    $txt = $this->arg ('txt_choose_dest', ARG_SUB);
-    $source = $this->arg ('source', ARG_SUB);
+    $id_from = $app->arg ('id_from');
+    $txt = $app->arg ('txt_choose_dest', ARG_SUB);
+    $source = $app->arg ('source', ARG_SUB);
 
     $p =& admin_panel::instance ();
 
     $p->highlight[$p->view_id ($source, $id_from)] = 'yellow';
-    _tk_list_move_list ($this, '_tk_list_move_go', $txt, true);
+    _tk_list_move_list ($app, '_tk_list_move_go', $txt, true);
 }
 
-function _tk_list_move_go (&$this)
+function _tk_list_move_go (&$app)
 {
-    $id_from = $this->arg ('id_from');
-    $id_to = $this->arg ('id_to');
-    $id_parent = $this->arg ('id_parent', ARG_OPTIONAL);
-    $source = $this->arg ('source', ARG_SUB);
+    $id_from = $app->arg ('id_from');
+    $id_to = $app->arg ('id_to');
+    $id_parent = $app->arg ('id_parent', ARG_OPTIONAL);
+    $source = $app->arg ('source', ARG_SUB);
 
     $p =& admin_panel::instance ();
 
-    $ret = $this->db->move ($source, $id_from, $id_to, $id_parent);
+    $ret = $app->db->move ($source, $id_from, $id_to, $id_parent);
 
     if ($ret)
-        $p->msgbox ($this->arg ('txt_not_moved', ARG_SUB), 'red');
+        $p->msgbox ($app->arg ('txt_not_moved', ARG_SUB), 'red');
     else
-        $p->msgbox ($this->arg ('txt_moved', ARG_SUB));
+        $p->msgbox ($app->arg ('txt_moved', ARG_SUB));
 
     $p->highlight[$p->view_id ($source, $id_from)] = '#00FF00';
-    $this->call ('return2caller');
+    $app->call ('return2caller');
 }
 
-function _tk_list_move_destlink (&$this)
+function _tk_list_move_destlink (&$app)
 {
-    $id_from = $this->arg ('id_from');
-    $source = $this->arg ('source', ARG_SUB);
-    $txt = $this->arg ('txt_choose', ARG_SUB);
+    $id_from = $app->arg ('id_from');
+    $source = $app->arg ('source', ARG_SUB);
+    $txt = $app->arg ('txt_choose', ARG_SUB);
 
     $p =& admin_panel::instance ();
 
@@ -92,26 +92,26 @@ function _tk_list_move_destlink (&$this)
     $p->open_row ();
     $p->open_cell (array ('ALIGN' => 'CENTER'));
     $arg = array ('id_from' => $id_from, 'id_to' => $p->v->key);
-    if ($c_parent = $this->db->def->ref_id ($source))
-        $arg['id_parent'] = $this->db->column ($source, $c_parent, $id_from);
+    if ($c_parent = $app->db->def->ref_id ($source))
+        $arg['id_parent'] = $app->db->column ($source, $c_parent, $id_from);
     $p->link ($txt, new event ('_tk_list_move_go', $arg));
     $p->close_cell ();
     $p->close_row ();
 }
 
-function _tk_list_move_list (&$this, $func_link, $msg, $mode)
+function _tk_list_move_list (&$app, $func_link, $msg, $mode)
 {
     # Check arguments.
-    $this->arg ('txt_choose_which', ARG_SUB);
-    $this->arg ('txt_choose_dest', ARG_SUB);
-    $this->arg ('txt_choose', ARG_SUB);
-    $this->arg ('txt_not_moved', ARG_SUB);
-    $this->arg ('txt_moved', ARG_SUB);
-    $this->arg ('txt_no_record', ARG_SUB);
+    $app->arg ('txt_choose_which', ARG_SUB);
+    $app->arg ('txt_choose_dest', ARG_SUB);
+    $app->arg ('txt_choose', ARG_SUB);
+    $app->arg ('txt_not_moved', ARG_SUB);
+    $app->arg ('txt_moved', ARG_SUB);
+    $app->arg ('txt_no_record', ARG_SUB);
 
-    $source = $this->arg ('source', ARG_SUB);
-    $selection = $this->arg ('selection', ARG_SUB);
-    $func_record = $this->arg ('func_record', ARG_SUB);
+    $source = $app->arg ('source', ARG_SUB);
+    $selection = $app->arg ('selection', ARG_SUB);
+    $func_record = $app->arg ('func_record', ARG_SUB);
 
     $p =& admin_panel::instance ();
 
@@ -120,10 +120,10 @@ function _tk_list_move_list (&$this, $func_link, $msg, $mode)
         $p->msgbox ($msg);
         while ($p->get ()) {
 	    if ($mode)
-	        _tk_list_move_destlink ($this);
+	        _tk_list_move_destlink ($app);
             $p->paragraph ();
             $p->open_row ();
-            $func_record ($this);
+            $func_record ($app);
 	    if (!$mode) {
                 $v =& new event (func_link, array ('id_from' => $v->key));
 	        $p->link ('choose', $v);
@@ -134,10 +134,10 @@ function _tk_list_move_list (&$this, $func_link, $msg, $mode)
         $c =& $p->get_cursor ();
         $c->use_key (0);
         if ($mode)
-            _tk_list_move_destlink ($this);
+            _tk_list_move_destlink ($app);
     } else {
-        $p->msgbox ($this->arg ('txt_no_record'));
-        $this->call ('return2caller');
+        $p->msgbox ($app->arg ('txt_no_record'));
+        $app->call ('return2caller');
         return;
     }
     $p->close_source ();

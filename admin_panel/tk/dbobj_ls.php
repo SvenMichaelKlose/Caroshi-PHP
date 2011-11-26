@@ -16,16 +16,16 @@
  * Initialise the toolkit.
  *
  * @access public
- * @param object application $this
+ * @param object application $app
  */
-function tk_dbobj_ls_init (&$this)
+function tk_dbobj_ls_init (&$app)
 {
-    $this->add_function ('tk_dbobj_ls');
+    $app->add_function ('tk_dbobj_ls');
 }
 
-# Create a link if $table/$row[$this->db->primaries[$table]] is not the
+# Create a link if $table/$row[$app->db->primaries[$table]] is not the
 # cursor position.
-function _tk_dbobj_ls_node (&$this, $table, $row, $arg)
+function _tk_dbobj_ls_node (&$app, $table, $row, $arg)
 {
     global $lang;
 
@@ -40,12 +40,12 @@ function _tk_dbobj_ls_node (&$this, $table, $row, $arg)
     $args['id'] = $id;
 
     # If this is the current position, only show where we are.
-    if (!$this->arg ('dbobj_ls_link_current')
-	&& $this->arg ('dbobj_ls_table') == $table
-        && $this->arg ('dbobj_ls_id') == $id)
+    if (!$app->arg ('dbobj_ls_link_current')
+	&& $app->arg ('dbobj_ls_table') == $table
+        && $app->arg ('dbobj_ls_id') == $id)
         $out .= "<B>$name</B>";
     else
-        $out .= $p->_looselink ($name, new event ($this->event->name, $args));
+        $out .= $p->_looselink ($name, new event ($app->event->name, $args));
 
     return $out;
 }
@@ -56,27 +56,27 @@ function _tk_dbobj_ls_node (&$this, $table, $row, $arg)
  * We should use admin_panel::open_widget here.
  *
  * @access public
- * @param object application $this
+ * @param object application $app
  * @param string $table Table name.
  * @param string $id Primary key of root node.
  */
-function tk_dbobj_ls (&$this, $table, $id, $link_current = false)
+function tk_dbobj_ls (&$app, $table, $id, $link_current = false)
 {
     global $lang;
 
     $p =& admin_panel::instance ();
 
     # Create link path.
-    $this->event->args['dbobj_ls_table'] = $table;
-    $this->event->args['dbobj_ls_id'] = $id;
-    $this->event->args['dbobj_ls_link_current'] = $link_current;
-    echo $this->db->traverse_refs_from ($this, $table, $id, '_tk_dbobj_ls_node', 0, false);
+    $app->event->args['dbobj_ls_table'] = $table;
+    $app->event->args['dbobj_ls_id'] = $id;
+    $app->event->args['dbobj_ls_link_current'] = $link_current;
+    echo $app->db->traverse_refs_from ($app, $table, $id, '_tk_dbobj_ls_node', 0, false);
 
     # List subcategories
-    if ($res = $this->db->select ('name, id', $table, "id_parent=$id ORDER BY name ASC")) {
+    if ($res = $app->db->select ('name, id', $table, "id_parent=$id ORDER BY name ASC")) {
         echo '<P>' . "\n" .  '<FONT COLOR="#888888"><B>' . $lang['subdirectories'] . ':</B></FONT>';
         while (list ($name, $id) = $res->get ()) {
-            $p->link ($name, $this->event->name, array ('id' => $id));
+            $p->link ($name, $app->event->name, array ('id' => $id));
             echo ' ';
         }
     }

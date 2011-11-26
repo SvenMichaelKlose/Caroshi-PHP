@@ -27,7 +27,7 @@ class singleton {
         $__SINGLETONS[$class] =& $instance;
     }
 
-    function &instance ($class)
+    static function &instance ($class)
     {
         global $__SINGLETONS;
 

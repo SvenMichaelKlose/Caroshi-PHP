@@ -13,22 +13,22 @@
 # Licensed under the MIT, BSD and GPL licenses.
 
 
-function _formviews_init (&$this)
+function _formviews_init (&$app)
 {
     $e = array ('form_parser', 'form_update', 'form_create', 'form_safe', 'form_check');
-    util_add_raw_functions ($this, $e);
+    util_add_raw_functions ($app, $e);
 }
 
 /**
  * Collect and sort form elements and fetch uploaded files.
  *
  * @access private
- * @param object application $this Reference to current application.
+ * @param object application $app Reference to current application.
  * @param array $forms            Form elements sorted by form index.
  * @param array $formevents       Form functions, keyed by form index.
  * @param array $filteredelements Elements that need filtering. 
  */
-function _form_collect (&$this, &$forms, &$formevents, &$filteredelements)
+function _form_collect (&$app, &$forms, &$formevents, &$filteredelements)
 {
     global $item;
 
@@ -41,7 +41,7 @@ function _form_collect (&$this, &$forms, &$formevents, &$filteredelements)
     $filteredelements = array();
     foreach ($item as $token => $v) {
         # Unserialise _form_element object.
-        $e =& $this->_tokens->get ($token);
+        $e =& $app->_tokens->get ($token);
 
         # Store form function specified by submit button.
         if ($e->is_submit) {
@@ -89,19 +89,19 @@ function _form_collect (&$this, &$forms, &$formevents, &$filteredelements)
  * Forms without events are ignored.
  *
  * @access public
- * @oaram object application $this
+ * @oaram object application $app
  */
-function form_parser (&$this)
+function form_parser (&$app)
 {
     global $debug;
   
     # Read in form.
-    _form_collect ($this, $forms, $formevents, $filteredelements);
+    _form_collect ($app, $forms, $formevents, $filteredelements);
 
     # Call each form filter with its set of elements.
     foreach ($filteredelements as $filter => $elements) {
-        $this->elements =& $filteredelements[$filter];
-        $this->call (new event ($filter));
+        $app->elements =& $filteredelements[$filter];
+        $app->call (new event ($filter));
     }
 
     # Trigger events in forms.
@@ -110,13 +110,13 @@ function form_parser (&$this)
 	    $forms[$index] = array ();
 
         # Sort in elements for form/event.
-        unset ($this->elements);
-        unset ($this->named_elements);
-        unset ($this->element_sources);
+        unset ($app->elements);
+        unset ($app->named_elements);
+        unset ($app->element_sources);
 
-        $this->elements =& $forms[$index];
+        $app->elements =& $forms[$index];
 
-        foreach ($this->elements as $k => $f) {
+        foreach ($app->elements as $k => $f) {
             $cursor =& $f->cursor;
             $source = $cursor->source ();
             $field = $cursor->field ();
@@ -126,33 +126,33 @@ function form_parser (&$this)
             if ($f->element_filter_write) {
                 $filter = $f->element_filter_write;
                 $v = $filter ($v);
-                $this->elements[$k]->val = $v;
+                $app->elements[$k]->val = $v;
             }
 
             # Save form value.
             if ($source && $v && $cursor->type ())
-                $this->element_sources[$cursor->type ()][$source][$field] =& $v;
+                $app->element_sources[$cursor->type ()][$source][$field] =& $v;
 
             # Sort in value for lookup by field name.
-            $this->named_elements[$field] =& $f->val;
+            $app->named_elements[$field] =& $f->val;
         }
 
         if ($debug) {
             echo "<b>Form elements: for $view->name:</b><br>";
-            debug_dump ($this->elements);
+            debug_dump ($app->elements);
         }
 
-        $this->call ($view);
+        $app->call ($view);
     }
 }
 
 /**
  * Write file type and name to record. 
  *
- * @oaram object application $this
+ * @oaram object application $app
  * @oaram object cursor $cursor
  */
-function _form_update_fileinfo (&$this, &$cursor, &$e)
+function _form_update_fileinfo (&$app, &$cursor, &$e)
 {
     # Get type and name of file.
     $field = $e->is_file;
@@ -182,20 +182,20 @@ function _form_update_fileinfo (&$this, &$cursor, &$e)
  * ignored.
  *
  * @access public
- * @oaram object application $this
+ * @oaram object application $app
  */
-function form_update (&$this)
+function form_update (&$app)
 {
-    $keyset =& $this->arg ('keyset', ARG_OPTIONAL);
-    $ignored =& $this->arg ('ignored_elements', ARG_OPTIONAL);
+    $keyset =& $app->arg ('keyset', ARG_OPTIONAL);
+    $ignored =& $app->arg ('ignored_elements', ARG_OPTIONAL);
 
     $ui =& admin_panel::instance ();
 
-    if (!isset ($this->elements))
+    if (!isset ($app->elements))
         die ('form_update(): No form posted.');
 
     # Update form element by element.
-    foreach ($this->elements as $token => $e) {
+    foreach ($app->elements as $token => $e) {
         $v = $e->val;
         $cursor =& $e->cursor;
         $src = $cursor->source ();
@@ -219,7 +219,7 @@ function form_update (&$this)
 
         # Also update name and type of file.
         if ($e->is_file) {
-            _form_update_fileinfo ($this, $cursor, $e);
+            _form_update_fileinfo ($app, $cursor, $e);
             $quote = true;
         }
 
@@ -237,14 +237,14 @@ function form_update (&$this)
  *
  * The record cache will identify records using the context cursor.
  *
- * @oaram object application $this
+ * @oaram object application $app
  */
-function form_safe (&$this)
+function form_safe (&$app)
 {
     $ui =& admin_panel::instance ();
     $record_cache =& $ui->record_cache;
 
-    foreach ($this->elements as $e) {
+    foreach ($app->elements as $e) {
         $cursor =& $e->cursor;
         $v =& $e->val;
 
@@ -260,7 +260,7 @@ function form_safe (&$this)
 	    $record_cache[$s][$key][$f] = $v;
       }
 
-      record_cache_safe ($this);
+      record_cache_safe ($app);
 }
 
 /**
@@ -268,28 +268,28 @@ function form_safe (&$this)
  *
  * Optional event argumet 'sources' takes a source set.
  *
- * @oaram object application $this
+ * @oaram object application $app
  */
-function form_create (&$this)
+function form_create (&$app)
 {
-    $sources =& $this->arg ('sources', ARG_OPTIONAL);
+    $sources =& $app->arg ('sources', ARG_OPTIONAL);
 
     $ui =& admin_panel::instance ();
 
-    if (!form_has_content ($this)) {
+    if (!form_has_content ($app)) {
         $ui->msgbox ('Record not created - fill form with content before.', 'red');
         return;
     }
 
     $sources = !isset ($sources) ?
-               $this->element_sources :
-               array_merge_recursive ($this->element_sources, $sources);
-    $keys = record_create_set ($this, $sources);
+               $app->element_sources :
+               array_merge_recursive ($app->element_sources, $sources);
+    $keys = record_create_set ($app, $sources);
 
     $arg = array ('keyset' => $keys);
-    $this->call (new event ('form_update', $arg));
+    $app->call (new event ('form_update', $arg));
 
-    return _record_create_continue ($this, $keys);
+    return _record_create_continue ($app, $keys);
 }
 
 /**
@@ -304,15 +304,15 @@ function form_create (&$this)
  * In case a match contained an errror, warnings are printed and the
  * function dies after checking all fields.
  *
- * @oaram object application $this
+ * @oaram object application $app
  */
-function form_check (&$this)
+function form_check (&$app)
 {
     global $debug;
 
-    $error_view = $this->arg ('on_error');
-    $patterns = $this->arg ('patterns');
-    $highlight_color = $this->arg ('highlight_color', ARG_OPTIONAL);
+    $error_view = $app->arg ('on_error');
+    $patterns = $app->arg ('patterns');
+    $highlight_color = $app->arg ('highlight_color', ARG_OPTIONAL);
     if (!$highlight_color)
         $highlight_color = '#FF0000';
 
@@ -321,7 +321,7 @@ function form_check (&$this)
     # Check all form elements that come along.
     $errors = false;
     $panic = 0;
-    foreach ($this->elements as $e) {
+    foreach ($app->elements as $e) {
         $cursor =& $e->cursor;
         if ($cursor->type () != 'sql')
             continue;
@@ -361,7 +361,7 @@ function form_check (&$this)
         return;
 
     # Call error_view (error_args).
-    $this->call ($error_view);
+    $app->call ($error_view);
 
     # Avoid call of next function by exiting here.
     application::close ();
@@ -370,14 +370,14 @@ function form_check (&$this)
 /**
  * Check if form contains any data.
  *
- * @oaram object application $this
+ * @oaram object application $app
  */
-function form_has_content (&$this)
+function form_has_content (&$app)
 {
-    if (!isset ($this->elements))
+    if (!isset ($app->elements))
         die ('form_has_content(): Form function called without posted form.');
 
-    foreach ($this->elements as $e)
+    foreach ($app->elements as $e)
         if (isset ($e->val) && $e->val)
 	    return true;
 
@@ -387,11 +387,11 @@ function form_has_content (&$this)
 /**
  * Save record cache to session.
  *
- * @oaram object application $this
+ * @oaram object application $app
  */
-function record_cache_safe (&$this)
+function record_cache_safe (&$app)
 {
-    $session =& $this->session;
+    $session =& $app->session;
     $ui =& admin_panel::instance ();
     $rc =& $ui->record_cache;
 
@@ -404,11 +404,11 @@ function record_cache_safe (&$this)
 /**
  * Fetch record cache from session. 
  *
- * @oaram object application $this
+ * @oaram object application $app
  */
-function record_cache_fetch (&$this)
+function record_cache_fetch (&$app)
 {
-    $session =& $this->session;
+    $session =& $app->session;
     $ui =& admin_panel::instance ();
     $rc =& $ui->record_cache;
 

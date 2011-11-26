@@ -5,8 +5,8 @@
 # Licensed under the MIT, BSD and GPL licenses.
 
 
-require_once PATH_TO_CAROSHI . '/dbi/dbi.class';
-require_once PATH_TO_CAROSHI . '/dbi/dbsession.class';
+require_once PATH_TO_CAROSHI . '/dbi/dbi.class.php';
+require_once PATH_TO_CAROSHI . '/dbi/dbsession.class.php';
 require_once PATH_TO_CAROSHI . '/dbi/dbtoken.class.php';
 require_once PATH_TO_CAROSHI . '/object/is_a.php';
 require_once PATH_TO_CAROSHI . '/proc/debug_dump.php';
@@ -26,8 +26,16 @@ define ('ARG_SUB', 2);
  */
 class application {
     # Public.
-    var $db;		# dbi.class instance.
-    var $session;	# dbsession.class instance.
+    public $db;		# dbi.class instance.
+    public $session;	# dbsession.class instance.
+
+    # Private. Hands off.
+    private $_subargs;  # Current subsession arguments.
+    private $_event;    # Current function's event object.
+    private $_handlers; # Array of event handler keyed by name.
+    private $_null_handler = 'defaultview'; # Name of null event handler.
+    private $_types;
+    private $_tokens;   # Reference to dbtoken.class instance.
 
     /**
      * Execute application.
@@ -46,8 +54,8 @@ class application {
         if (!isset ($this->_event)) {
 	    if ($debug)
 	        echo 'No event.<BR>';
-	    $this->_event =& new event ($this->_null_handler);
-            $sub =& new _application_subsession;
+	    $this->_event = new event ($this->_null_handler);
+            $sub = new _application_subsession;
             $this->_event->subsession = $tokens->create ($sub);
         }
 
@@ -86,7 +94,7 @@ class application {
      * @access public
      * @returns object event
      */
-    function &event ()
+    function event ()
     {
         return $this->_event;
     }
@@ -100,7 +108,7 @@ class application {
      * @access public
      * @param object event $e Event to trigger.
      */
-    function &call_single (&$e)
+    function call_single (&$e)
     {
         if (!is_a ($e, 'event'))
             die ('application::call_single(): Parameter is not an event.');
@@ -117,7 +125,7 @@ class application {
         $this->_event =& $e;
         if (!isset ($e->subsession) || !$e->subsession)
             $e->subsession = $oldevent->subsession;
-        $sub =& $tokens->get ($e->subsession);
+        $sub = $tokens->get ($e->subsession);
         $this->_subargs =& $sub->args;
 
         # Dump arguments in debug mode.
@@ -167,12 +175,12 @@ class application {
      * @access public
      * @param object event Event to trigger.
      */
-    function &call ($e)
+    function call ($e)
     {
         global $debug;
 
         if (is_string ($e)) {
-            $e =& new event ($e);
+            $e = new event ($e);
             $e->subsession = $this->_event->subsession;
         } else if (!is_a ($e, 'event')) {
             debug_dump ($e);
@@ -185,7 +193,7 @@ class application {
             if (!isset ($this->_handlers[$handler])) {
 	        if ($handler)
 	            echo "Unknown event handler '$handler'.<BR>";
-                $e =& new event ($this->_null_handler);
+                $e = new event ($this->_null_handler);
             }
 
             # Detect infinite loops.
@@ -256,13 +264,12 @@ class application {
      */
     function link ($e)
     {
-        global $SCRIPT_NAME;
         $tokens =& $this->_tokens;
         $te =& $this->_event;
 
         # Make event object from event handler name or check its class.
         if (is_string ($e))
-            $e =& new event ($e);
+            $e = new event ($e);
         else if (!is_a ($e, 'event'))
             die ('application::link(): Argument is not an event object.');
 
@@ -286,7 +293,7 @@ class application {
         $token = $tokens->create ($e, $this->_types[$handler]);
 
         # Create directory part of the URL.
-        return "$SCRIPT_NAME/$token/";
+        return $_SERVER['SCRIPT_NAME'] . "/$token/";
     }
 
     /**
@@ -317,7 +324,7 @@ class application {
      * @param string $name Name of argument.
      * @param integer $flags Type of argument (TOKEN_SUB | TOKEN_OPTIONAL).
      */
-    function &arg ($name, $flags = 0)
+    function arg ($name, $flags = 0)
     { 
         $e =& $this->_event;
         $func = $e->name;
@@ -353,7 +360,7 @@ class application {
      * @access public
      * @returns array Array of arguments keyed by name.
      */
-    function &args ()
+    function args ()
     {
         return $this->_event->args;
     }
@@ -457,13 +464,13 @@ class application {
      */
     function _url2event ()
     {
-        global $PATH_INFO;
+        $url = $_SERVER['PATH_INFO'];
         $tokens =& $this->_tokens;
         $session =& $this->session;
 
-        if (!isset ($PATH_INFO))
+        if (!$url)
             return;
-        $path = explode ('/', $PATH_INFO);
+        $path = explode ('/', $url);
         if (!$path[1])
 	    return;
         $e = $tokens->get ($path[1]);
@@ -488,10 +495,10 @@ class application {
         $db->create_tables ();
         if ($err = $db->error ())
             die ("<b>application.class install failed: $err</b><br>" .
-                 "Please check file .dbi.conf and try again.<br>" .
+                 "Please check file 'config.php' and try again.<br>" .
                  "Bitte &Uuml;berpr&uuml;fen Sie die Eintr&auml;ge in der " .
                  "Datei .dbi.conf und versuchen Sie es erneut.");
-        die ("<font color="green"><b>application base installed - <a href=\"$SCRIPT_NAME\">Please reload</a>.</b>");
+        die ("<font color=\"green\"><b>application base installed - <a href=\"$SCRIPT_NAME\">Please reload</a>.</b>");
     }
 
     /**
@@ -507,14 +514,14 @@ class application {
             debug_env_dump ();
 
         # Connect to database specified in .dbi.conf.php.
-        if (!file_exists ('.dbi.conf.php'))
+        if (!file_exists ('config.php'))
 	    die ('Can\'t find file .dbi.conf.php - stop.<br>Kann Datei .dbi.conf.php nicht finden - stop.');
-        include '.dbi.conf.php';
-        $this->db =& new DBI ($dbidatabase, $dbiserver, $dbiuser, $dbipwd);
+        include 'config.php';
+        $this->db = new DBI ($dbidatabase, $dbiserver, $dbiuser, $dbipwd);
         $db =& $this->db;
 
         # Get session.
-        $this->session =& new DBSESSION ($this->db);
+        $this->session = new DBSESSION ($this->db);
         if (isset ($application_session_table))
              $this->session->set_table ($application_session_table);
 
@@ -522,11 +529,15 @@ class application {
         $this->session->force_key ();
 
         # Create tokenizer.
-        $this->_tokens =& new dbtoken ($db, $this->session);
+        $this->_tokens = new dbtoken ($db, $this->session);
         if (isset ($application_token_table))
            $this->_tokens->set_table ($application_token_table);
         else
            $application_token_table = 'tokens';
+
+        # Invoke init in derived class.
+        # All event handlers and database tables must be registered in there.
+        $this->init ();
 
         # Check if tables are installed and install them if not.
         $db->select ('COUNT(1)', $application_token_table);
@@ -539,19 +550,7 @@ class application {
         $this->add_method ('__call_sub', $this);
 
         # Get event object from URL.
-        $this->_event =& $this->_url2event ();
-
-        # Invoke init in derived class.
-        # All event handlers and database tables must be registered in there.
-        $this->init ();
+        $this->_event = $this->_url2event ();
     }
-
-    # Private. Hands off.
-    var $_subargs;  # Current subsession arguments.
-    var $_event;    # Current function's event object.
-    var $_handlers; # Array of event handler keyed by name.
-    var $_null_handler = 'defaultview'; # Name of null event handler.
-    var $_types;
-    var $_tokens;   # Reference to dbtoken.class instance.
 }
 ?>

@@ -37,7 +37,7 @@ class DBWrapper {
      * @param string user   User name.
      * @param string passwd Password.
      */
-    function &DBWrapper ($dbname, $host, $user, $passwd)
+    function DBWrapper ($dbname, $host, $user, $passwd)
     {
         # Try to get a persistent connection, a temporary one otherwise.
         # @Do not complain.
@@ -100,7 +100,7 @@ class DBWrapper {
                 $tail .= ", KEY($name)";
         }
 
-        dbwrapper::query ("CREATE TABLE $prefix$table ($query$tail)");
+        $this->query ("CREATE TABLE $prefix$table ($query$tail)");
     }
 
     /**
@@ -110,7 +110,7 @@ class DBWrapper {
      * @param string query SQL query string
      * @return object db_result
      */
-    function &query ($query)
+    function query ($query)
     {
         global $debug;
 
@@ -124,7 +124,7 @@ class DBWrapper {
             }
         }
 
-        $this->_last_result =& new DB_result (mysql_query ($query, $this->_db));
+        $this->_last_result = new DB_result (mysql_query ($query, $this->_db));
 
         if ($m = $this->error ()) {
             if (!$debug)
