@@ -1,22 +1,22 @@
 <?php
-  /**
-   * RFC 2110 "MIME E-mail Encapsulation of Aggregate Documents, such as HTML"
-   * compliant mail attachment creation.
-   *
-   * @access public
-   * @module rfc2110
-   * @package Network functions
-   */
+/**
+ * RFC 2110 "MIME E-mail Encapsulation of Aggregate Documents, such as HTML"
+ * compliant mail attachment creation.
+ *
+ * @access public
+ * @module rfc2110
+ * @package Network functions
+ */
 
-  # Copyright (c) 2000-2001 dev/consulting GmbH
-  # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
-  #
+# Copyright (c) 2000-2001 dev/consulting GmbH
+# Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
+#
 # Licensed under the MIT, BSD and GPL licenses.
 
 
-  # Example:
+# Example:
 /*
-    mail (
+  mail (
       "sven@devcon.net",
       "ILOVEYOU",
       rfc2110_attachment (
@@ -30,84 +30,84 @@
     ); # sends some text and some.gif to sven@devcon.net
 */
 
-  $__rfc2110boundary = uniqid (rand ());
+$__rfc2110boundary = uniqid (rand ());
 
-  /**
-   * Common boundary string.
-   *
-   * @access public
-   * @returns string
-   */
-  function rfc2110_boundary ()
-  {
+/**
+ * Common boundary string.
+ *
+ * @access public
+ * @returns string
+ */
+function rfc2110_boundary ()
+{
     global $__rfc2110boundary;
     return "rfc2110_boundary_cs" . $__rfc2110boundary;
-  }
+}
 
-  /**
-   * Create multipart header extension.
-   *
-   * @access public
-   * @returns string
-   */
-  function rfc2110_header ($fromemail)
-  {
+/**
+ * Create multipart header extension.
+ *
+ * @access public
+ * @returns string
+ */
+function rfc2110_header ($fromemail)
+{
     return "From: $fromemail\n" .
 	   "Reply-To: $fromemail\n" .
 	   "X-Mailer: central services rfc2110 support.\n" .
     	   "Mime-Version: 1.0\n" .
 	   "Content-Type: Multipart/mixed; boundary=\"".
 	   rfc2110_boundary () . "\"";
-  }
+}
 
-  /**
-   * End of message body.
-   *
-   * @access public
-   * @returns string
-   */
-  function rfc2110_tail ()
-  {
+/**
+ * End of message body.
+ *
+ * @access public
+ * @returns string
+ */
+function rfc2110_tail ()
+{
     return "--" . rfc2110_boundary () . "--\n";
-  }
+}
 
-  /**
-   * Create attachment
-   *
-   * @access public
-   * @param string $content Data to attach.
-   * @param string $type MIME type of the data.
-   * @param string $encoding Encoding type.
-   * @param string $contentid Content-ID
-   * @returns string
-   */
-  function rfc2110_attachment ($content, $type, $encoding = 0, $contentid = 0)
-  {
+/**
+ * Create attachment
+ *
+ * @access public
+ * @param string $content Data to attach.
+ * @param string $type MIME type of the data.
+ * @param string $encoding Encoding type.
+ * @param string $contentid Content-ID
+ * @returns string
+ */
+function rfc2110_attachment ($content, $type, $encoding = 0, $contentid = 0)
+{
     global $_rfc2110comment;
     if (!$_rfc2110comment) {
-      $_rfc2110comment = true;
-      $header = "  This is a multipart mime message.\n\n";
+        $_rfc2110comment = true;
+        $header = "  This is a multipart mime message.\n\n";
     }
     $header .= "--" . rfc2110_boundary () . "\n";
     if ($contentid)
-      $header .= "Content-ID: $contentid\n";
+        $header .= "Content-ID: $contentid\n";
     if ($type)
-      $header .= "Content-Type: $type\n";
+        $header .= "Content-Type: $type\n";
     if ($encoding)
-      $header .= "Content-Transfer-Encoding: $encoding\n";
+        $header .= "Content-Transfer-Encoding: $encoding\n";
     return "$header\n$content";
-  }
+}
 
-  /**
-   * Create base64 encoded file attachment
-   *
-   * @access public
-   * @param string $filename Path to file.
-   * @param string $type MIME type of file.
-   * @returns string
-   */
-  function rfc2110_file ($filename, $type)
-  {
+/**
+ * Create base64 encoded file attachment
+ *
+ * @access public
+ * @param string $filename Path to file.
+ * @param string $type MIME type of file.
+ * @returns string
+ */
+function rfc2110_file ($filename, $type)
+{
     # Read in file, encode base64
     $fd = fopen ($filename, "r");
     $image = base64_encode ($bin = fread ($fd, filesize ($filename)));
@@ -115,15 +115,15 @@
 
     # Make 64 char wide strips from encoded file
     for ($i = 0; $i < strlen ($image); $i += 64)
-      $attachment .= substr ($image, $i, 64) . "\n";
+        $attachment .= substr ($image, $i, 64) . "\n";
 
     # Create attachment with md5 checksum
     return rfc2110_attachment (
-      $attachment,
-      $type . "; name=\"$filename\"\n" .
-	"Content-Disposition: inline; filename=\"$filename\"\n" .
-	"Content-MD5: ". md5 ($bin),
-      "base64"
+        $attachment,
+        $type . "; name=\"$filename\"\n" .
+	    "Content-Disposition: inline; filename=\"$filename\"\n" .
+	    "Content-MD5: ". md5 ($bin),
+        "base64"
     );
-  }
+}
 ?>

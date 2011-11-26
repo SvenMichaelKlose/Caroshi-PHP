@@ -1,19 +1,18 @@
 <?php
-  # Copyright (c) 2002 Sven Michael Klose <pixel@copei.de>
-  #
+# Copyright (c) 2002 Sven Michael Klose <pixel@copei.de>
+#
 # Licensed under the MIT, BSD and GPL licenses.
 
 
-  require_once "object/abstract.class.php";
+require_once "object/abstract.class.php";
 
-  /**
-   * Iterator superclass.
-   *
-   * @access public
-   * @package Containers
-   */
-  class iterator extends abstract {
-
+/**
+ * Iterator superclass.
+ *
+ * @access public
+ * @package Containers
+ */
+class iterator extends abstract {
     /**
      * Construct iterator.
      *
@@ -23,8 +22,8 @@
      */
     function iterator (&$ct)
     {
-      $this->abstract ('iterator');
-      $this->_ct =& $ct;
+        $this->abstract ('iterator');
+        $this->_ct =& $ct;
     }
 
     /**
@@ -35,7 +34,7 @@
      */
     function &current ()
     {
-      abstract::call_pure_virtual ('current');
+        abstract::call_pure_virtual ('current');
     }
 
     /**
@@ -48,7 +47,7 @@
      */
     function advance ($distance = 1)
     {
-      abstract::call_pure_virtual ('advance');
+        abstract::call_pure_virtual ('advance');
     }
 
     /**
@@ -59,7 +58,7 @@
      */
     function &good ()
     {
-      abstract::call_pure_virtual ('good');
+        abstract::call_pure_virtual ('good');
     }
 
     /**
@@ -71,12 +70,12 @@
      */
     function &get ($distance = 1)
     {
-      $rec =& $this->get ();
-      $this->advance ($distance);
-      return $rec;
+        $rec =& $this->get ();
+        $this->advance ($distance);
+        return $rec;
     }
 
     var $_ct;     # Reference to container.
     var $_is_end; # True if iterator points to the end of a list.
-  }
+}
 ?>

@@ -1,20 +1,19 @@
 <?php
-  # Copyright (c) 2001-2002 dev/consulting GmbH
-  # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
-  #
+# Copyright (c) 2001-2002 dev/consulting GmbH
+# Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
+#
 # Licensed under the MIT, BSD and GPL licenses.
 
 
-  require_once 'object/is_a.php';
+require_once 'object/is_a.php';
 
-  /**
-   * Cursor base class
-   *
-   * @access public
-   * @package Cursor interfaces
-   */
-  class cursor {
-
+/**
+ * Cursor base class
+ *
+ * @access public
+ * @package Cursor interfaces
+ */
+class cursor {
     /**
      * Current view's source name.
      * @access private
@@ -119,7 +118,7 @@
      */
     function cursor ($type)
     {
-      $this->_type = $type;
+        $this->_type = $type;
     }
 
     /**
@@ -135,19 +134,19 @@
      */
     function query ($selection = '', $order = '')
     {
-      $this->_is_first = false;
-      $this->_waked_up = false;
-      $ret = $this->_query ($selection, $order);
-      $this->_is_queried = $this->_is_good = $ret;
-      if ($ret) {
-        $this->_selection = $selection;
-        $this->_order = $order;
-      } else {
-        $this->_selection = '';
-        $this->_order = '';
-      }
-      $this->_num_gets = 0;
-      return $ret;
+        $this->_is_first = false;
+        $this->_waked_up = false;
+        $ret = $this->_query ($selection, $order);
+        $this->_is_queried = $this->_is_good = $ret;
+        if ($ret) {
+            $this->_selection = $selection;
+            $this->_order = $order;
+        } else {
+            $this->_selection = '';
+            $this->_order = '';
+        }
+        $this->_num_gets = 0;
+        return $ret;
     }
 
     /**
@@ -159,18 +158,18 @@
      */
     function &current ()
     {
-      if (!$this->_is_good)
-        return;
+        if (!$this->_is_good)
+            return;
 
-      if ($this->_is_queried)
+        if ($this->_is_queried)
+            return $this->_current;
+
+        # Get first record.
+        if (!$this->get ())
+            return;
+        $this->_is_first = true;
+
         return $this->_current;
-
-      # Get first record.
-      if (!$this->get ())
-        return;
-      $this->_is_first = true;
-
-      return $this->_current;
     }
 
     /**
@@ -186,27 +185,27 @@
      */
     function &get ($selection = '', $order = '')
     {
-      if ($this->_waked_up)
-        $this->_restore_result ();
+        if ($this->_waked_up)
+            $this->_restore_result ();
 
-      $this->_num_gets++;
+        $this->_num_gets++;
 
-      # Query if selection is defined.
-      if ($selection)
-        $this->query ($selection, $order);
-      else if ($this->_is_first) {
-        # Return first record get'ed by current().
-        $this->_is_first = false;
-        return $this->_current;
-      }
+        # Query if selection is defined.
+        if ($selection)
+            $this->query ($selection, $order);
+        else if ($this->_is_first) {
+            # Return first record get'ed by current().
+            $this->_is_first = false;
+            return $this->_current;
+        }
 
-      if (!$this->_is_good)
-        return; # Nothing queried.
+        if (!$this->_is_good)
+            return; # Nothing queried.
 
-      $ret =& $this->_get ();
-      $this->_current = $ret;
-      $this->_is_good = $ret ? true : false;
-      return $ret;
+        $ret =& $this->_get ();
+        $this->_current = $ret;
+        $this->_is_good = $ret ? true : false;
+        return $ret;
     }
 
     /**
@@ -219,7 +218,7 @@
      */
     function size ()
     {
-      die ('cursor::size(): Function not implemented by derived class.');
+        die ('cursor::size(): Function not implemented by derived class.');
     }
 
     /**
@@ -230,15 +229,15 @@
      */
     function id ()
     {
-      $id = '';
-      foreach (array ('_type', '_source', '_key', '_field') as $v) {
-        if (isset ($this->$v))
-          $id .= $this->$v;
-        $id .= "'";
-      }
-      if (isset ($this->_lower))
-        $id .= $this->_lower->id ();
-      return $id;
+        $id = '';
+        foreach (array ('_type', '_source', '_key', '_field') as $v) {
+            if (isset ($this->$v))
+                $id .= $this->$v;
+            $id .= "'";
+        }
+        if (isset ($this->_lower))
+            $id .= $this->_lower->id ();
+        return $id;
     }
 
     /**
@@ -250,7 +249,7 @@
      */
     function set_source ($source)
     {
-      $this->_source = $source;
+        $this->_source = $source;
     }
 
     /**
@@ -262,7 +261,7 @@
      */
     function source ()
     {
-      return $this->_source;
+        return $this->_source;
     }
 
     /**
@@ -277,7 +276,7 @@
      */
     function set_key ($key)
     {
-      $this->_key = $key;
+        $this->_key = $key;
     }
 
     /**
@@ -289,7 +288,7 @@
      */
     function key ()
     {
-      return $this->_key;
+        return $this->_key;
     }
 
     /**
@@ -303,7 +302,7 @@
      */
     function set_field ($field)
     {
-      $this->_field = $field;
+        $this->_field = $field;
     }
 
     /**
@@ -315,7 +314,7 @@
      */
     function field ()
     {
-      return $this->_field;
+        return $this->_field;
     }
 
     /**
@@ -327,7 +326,7 @@
      */
     function type ()
     {
-      return $this->_type;
+        return $this->_type;
     }
 
     /**
@@ -341,8 +340,8 @@
      */
     function __sleep ()
     {
-      return array ('_source', '_key', '_field', '_type', '_lower',
-                    '_selection', '_order', '_num_gets');
+        return array ('_source', '_key', '_field', '_type', '_lower',
+                      '_selection', '_order', '_num_gets');
     }
 
     /**
@@ -353,11 +352,11 @@
      */
     function _restore_result ()
     {
-      $this->_waked_up = false;
-      $num = $this->_num_gets;
-      $this->query ($this->_selection, $this->_order);
-      while ($num--)
-        $this->get ();
+        $this->_waked_up = false;
+        $num = $this->_num_gets;
+        $this->query ($this->_selection, $this->_order);
+        while ($num--)
+            $this->get ();
     }
 
     /**
@@ -370,7 +369,7 @@
      */
     function __wakeup ()
     {
-      $this->_waked_up = true;
+        $this->_waked_up = true;
     }
-  }
+}
 ?>

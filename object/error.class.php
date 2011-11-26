@@ -1,17 +1,16 @@
 <?php
-  # Copyright (c) 2002 dev/consulting GmbH, Sven Michael Klose <pixel@copei.de>
-  #
+# Copyright (c) 2002 dev/consulting GmbH, Sven Michael Klose <pixel@copei.de>
+#
 # Licensed under the MIT, BSD and GPL licenses.
 
 
-  /**
-   * Error class for return values.
-   *
-   * @access public
-   * @package Object functions and base classes.
-   */
-  class error {
-
+/**
+ * Error class for return values.
+ *
+ * @access public
+ * @package Object functions and base classes.
+ */
+class error {
     /**
      * Error message.
      *
@@ -37,8 +36,8 @@
      */
     function error ($message, $mode)
     {
-      $this->_message = $message;
-      $this->_mode = $mode;
+        $this->_message = $message;
+        $this->_mode = $mode;
     }
 
     /**
@@ -49,7 +48,7 @@
      */
     function message ()
     {
-      return $this->_message;
+        return $this->_message;
     }
 
     /**
@@ -60,7 +59,7 @@
      */
     function mode ()
     {
-      return $this->_mode;
+        return $this->_mode;
     }
-  }
+}
 ?>

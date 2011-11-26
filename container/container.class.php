@@ -1,18 +1,18 @@
 <?php
-  # Copyright (c) 2002 Sven Michael Klose <pixel@copei.de>
-  #
+# Copyright (c) 2002 Sven Michael Klose <pixel@copei.de>
+#
 # Licensed under the MIT, BSD and GPL licenses.
 
 
-  require_once "object/abstract.class.php";
+require_once "object/abstract.class.php";
 
-  /**
-   * Container superclass
-   *
-   * @access public
-   * @package Containers
-   */
-  class container extends abstract {
+/**
+ * Container superclass
+ *
+ * @access public
+ * @package Containers
+ */
+class container extends abstract {
 
     /**
      * Initialise container.
@@ -22,7 +22,7 @@
      */
     function container ($derived_class)
     {
-      $this->abstract ('container', $derived_class);
+        $this->abstract ('container', $derived_class);
     }
 
     /**
@@ -33,7 +33,7 @@
      */
     function assign ($data)
     {
-      abstract::call_pure_virtual ('erase');
+        abstract::call_pure_virtual ('erase');
     }
 
     /**
@@ -44,7 +44,7 @@
      */
     function erase ($iterator)
     {
-      abstract::call_pure_virtual ('erase');
+        abstract::call_pure_virtual ('erase');
     }
 
     /**
@@ -58,7 +58,7 @@
      */
     function insert ($iterator, $record)
     {
-      abstract::call_pure_virtual ('insert');
+        abstract::call_pure_virtual ('insert');
     }
 
     /**
@@ -69,7 +69,7 @@
      */
     function &begin ()
     {
-      abstract::call_pure_virtual ('begin');
+        abstract::call_pure_virtual ('begin');
     }
 
     /**
@@ -82,7 +82,7 @@
      */
     function &end ()
     {
-      abstract::call_pure_virtual ('end');
+        abstract::call_pure_virtual ('end');
     }
 
     /**
@@ -93,8 +93,8 @@
      */
     function push_front ($record)
     {
-      $it =& $this->begin ();
-      $this->insert ($it, $record);
+        $it =& $this->begin ();
+        $this->insert ($it, $record);
     }
 
     /**
@@ -105,8 +105,8 @@
      */
     function push_back ($record)
     {
-      $it =& $this->end ();
-      $this->insert ($it, $record);
+        $it =& $this->end ();
+        $this->insert ($it, $record);
     }
 
     /**
@@ -119,8 +119,8 @@
      */
     function pop_front ()
     {
-      $it =& $this->begin ();
-      $this->erase ($it);
+        $it =& $this->begin ();
+        $this->erase ($it);
     }
 
     /**
@@ -133,10 +133,9 @@
      */
     function pop_back ()
     {
-      $it =& $this->end ();
-      $it->advance (-1);
-      $this->erase ($it);
+        $it =& $this->end ();
+        $it->advance (-1);
+        $this->erase ($it);
     }
-
-  }
+}
 ?>

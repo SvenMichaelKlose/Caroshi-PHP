@@ -1,22 +1,22 @@
 <?php
-  # Copyright (c) 2000-2002 dev/consulting GmbH
-  # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
-  #
+# Copyright (c) 2000-2002 dev/consulting GmbH
+# Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
+#
 # Licensed under the MIT, BSD and GPL licenses.
 
 
-  require_once 'dbi/dbwrapper.class';
+require_once 'dbi/dbwrapper.class';
 
-  /**
-   * Common SQL interface
-   *
-   * Applications communicate with SQL databases of different flavours
-   * transparently through this class.
-   *
-   * @access public
-   * @package Database interfaces
-   */
-  class DBCtrl extends DBWrapper {
+/**
+ * Common SQL interface
+ *
+ * Applications communicate with SQL databases of different flavours
+ * transparently through this class.
+ *
+ * @access public
+ * @package Database interfaces
+ */
+class DBCtrl extends DBWrapper {
     var $db_name;
     var $prefix;
 
@@ -31,9 +31,9 @@
      */
     function &DBCtrl ($dbname, $host, $user, $passwd)
     {
-       $this->db_name = $dbname;
-       $this->prefix = '';
-       $this->DBWrapper ($dbname, $host, $user, $passwd);
+         $this->db_name = $dbname;
+         $this->prefix = '';
+         $this->DBWrapper ($dbname, $host, $user, $passwd);
     }
 
     /**
@@ -53,12 +53,12 @@
      */
     function &select ($what, $table, $where = '', $tail = '')
     {
-      $q = 'SELECT ' . $what . ' FROM ' . $this->prefix . $table;
-      if ($where)
-        $q .= ' WHERE ' . $where;
-      if ($tail)
-        $q .= ' ' . $tail;
-      return $this->query ($q);
+        $q = 'SELECT ' . $what . ' FROM ' . $this->prefix . $table;
+        if ($where)
+            $q .= ' WHERE ' . $where;
+        if ($tail)
+            $q .= ' ' . $tail;
+        return $this->query ($q);
     }
 
     /**
@@ -75,11 +75,11 @@
      */
     function &update ($table, $set, $where)
     {
-      $q = 'UPDATE ' . $this->prefix . $table . ' SET ' . $set;
-      if (!$where)
-        die ('dbctrl::update(): Need where clause. ' . $q);
-      $q .= ' WHERE ' . $where;
-      return $this->query ($q);
+        $q = 'UPDATE ' . $this->prefix . $table . ' SET ' . $set;
+        if (!$where)
+            die ('dbctrl::update(): Need where clause. ' . $q);
+        $q .= ' WHERE ' . $where;
+        return $this->query ($q);
     }
 
     /**
@@ -96,8 +96,8 @@
      */
     function &insert ($table, $set)
     {
-      $set = " SET $set";
-      return $this->query ('INSERT INTO ' . $this->prefix . $table .$set);
+        $set = " SET $set";
+        return $this->query ('INSERT INTO ' . $this->prefix . $table .$set);
     }
 
     /**
@@ -113,10 +113,10 @@
      */
     function &delete ($table, $where = '')
     {
-      $q = 'DELETE FROM ' . $this->prefix . $table;
-      if ($where)
-        $q .= ' WHERE ' . $where;
-      return $this->query ($q);
+        $q = 'DELETE FROM ' . $this->prefix . $table;
+        if ($where)
+            $q .= ' WHERE ' . $where;
+        return $this->query ($q);
     }
 
     /**
@@ -127,7 +127,7 @@
      */
     function set_table_prefix ($prefix)
     {
-      $this->prefix = $prefix;
+        $this->prefix = $prefix;
     }
 
     /**
@@ -138,9 +138,9 @@
      */
     function table_prefix ($table = '')
     {
-      if (!$this->prefix)
-        return $table;
-      return $this->prefix . $table;
+        if (!$this->prefix)
+            return $table;
+        return $this->prefix . $table;
     }
-  }
+}
 ?>

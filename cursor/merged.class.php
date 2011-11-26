@@ -1,23 +1,22 @@
 <?php
-  # Copyright (c) 2002 dev/consulting GmbH
-  # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
-  #
+# Copyright (c) 2002 dev/consulting GmbH
+# Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
+#
 # Licensed under the MIT, BSD and GPL licenses.
 
 
-  require_once 'cursor/cursor.class.php';
+require_once 'cursor/cursor.class.php';
 
-  /**
-   * Cursor that makes an array of cursors behave like one.
-   *
-   * The last record/cursor that was get()'ed is referred to as the
-   * 'current' cursor.
-   *
-   * @access public
-   * @package Cursor interfaces
-   */
-  class cursor_merged extends cursor {
-
+/**
+ * Cursor that makes an array of cursors behave like one.
+ *
+ * The last record/cursor that was get()'ed is referred to as the
+ * 'current' cursor.
+ *
+ * @access public
+ * @package Cursor interfaces
+ */
+class cursor_merged extends cursor {
     # Private. Hands off.
     var $_cursors; # Set of cursors.
     var $_index;   # Curret index in set.
@@ -30,7 +29,7 @@
      */
     function cursor_merged ()
     {
-      $this->cursor ('merged');
+        $this->cursor ('merged');
     }
 
     /**
@@ -41,20 +40,20 @@
      */
     function _query (&$cursors)
     {
-      if (!is_array ($cursors))
-        die ('cursor_merged::query(): Need an array.');
+        if (!is_array ($cursors))
+            die ('cursor_merged::query(): Need an array.');
 
-      $this->_cursors =& $cursors;
-      $this->_index = 0;
-      $this->_size = 0;
-      $i = 0;
-      foreach ($cursors as $cursor) {
-        if (!is_a ($cursor, 'cursor'))
-          die ("Index $i in array is not a cursor - stop.");
-        $this->_size += $cursor->size ();
-      }
+        $this->_cursors =& $cursors;
+        $this->_index = 0;
+        $this->_size = 0;
+        $i = 0;
+        foreach ($cursors as $cursor) {
+            if (!is_a ($cursor, 'cursor'))
+                die ("Index $i in array is not a cursor - stop.");
+            $this->_size += $cursor->size ();
+        }
 
-      return true;
+        return true;
     }
 
     /**
@@ -65,14 +64,14 @@
      */
     function &_pos ()
     {
-      $index =& $this->_index;
-      $set =& $this->_cursors;
-      $s = sizeof ($set) - 1;
+        $index =& $this->_index;
+        $set =& $this->_cursors;
+        $s = sizeof ($set) - 1;
 
-      if ($index > $s)
-        $index = $s;
+        if ($index > $s)
+            $index = $s;
 
-      return $set[$index];
+        return $set[$index];
     }
 
     /**
@@ -83,21 +82,21 @@
      */
     function &_get ()
     {
-      $c =& $this->_pos ();
+        $c =& $this->_pos ();
 
-      $rec =& $c->get ();
-      if ($rec)
-        return $rec;
+        $rec =& $c->get ();
+        if ($rec)
+            return $rec;
 
-      # Step to next cursor.
-      $this->_index++;
-      $c =& $this->_pos ();
-      if (!$c)
-        return;
+        # Step to next cursor.
+        $this->_index++;
+        $c =& $this->_pos ();
+        if (!$c)
+            return;
 
-      $rec =& $c->get ();
-      if ($rec)
-        return $rec;
+        $rec =& $c->get ();
+        if ($rec)
+            return $rec;
     }
 
     /**
@@ -108,8 +107,8 @@
      */
     function set ($value)
     {
-      $c =& $this->_pos ();
-      $c->set ($value);
+        $c =& $this->_pos ();
+        $c->set ($value);
     }
 
     /**
@@ -120,8 +119,8 @@
      */
     function create ($pre = 0)
     {
-      $c =& $this->_pos ();
-      $c->create ($pre);
+        $c =& $this->_pos ();
+        $c->create ($pre);
     }
 
     /**
@@ -131,8 +130,8 @@
      */
     function delete ()
     {
-      $c =& $this->_pos ();
-      $c->delete ($pre);
+        $c =& $this->_pos ();
+        $c->delete ($pre);
     }
 
     /**
@@ -143,7 +142,7 @@
      */
     function size ()
     {
-      return $this->_size;
+        return $this->_size;
     }
 
     /**
@@ -153,12 +152,12 @@
      */
     function _die ($func)
     {
-      die ("cursor_merged::$func(): Invalid method for this type of cursor.");
+        die ("cursor_merged::$func(): Invalid method for this type of cursor.");
     }
 
     function set_source ()
     {
-      $this->_die ('set_source');
+        $this->_die ('set_source');
     }
 
     /**
@@ -169,18 +168,18 @@
      */
     function source ()
     {
-      $c =& $this->_pos ();
-      if (!$c)
-        return;
-      return $c->source ();
+        $c =& $this->_pos ();
+        if (!$c)
+            return;
+        return $c->source ();
     }
 
     function set_key ($key)
     {
-      $c =& $this->_pos ();
-      if (!$c)
-        return;
-      return $c->set_key ($key);
+        $c =& $this->_pos ();
+        if (!$c)
+            return;
+        return $c->set_key ($key);
     }
 
     /**
@@ -191,10 +190,10 @@
      */
     function key ()
     {
-      $c =& $this->_pos ();
-      if (!$c)
-        return;
-      return $c->key ();
+        $c =& $this->_pos ();
+        if (!$c)
+            return;
+        return $c->key ();
     }
 
     /**
@@ -205,10 +204,10 @@
      */
     function set_field ($field)
     {
-      $c =& $this->_pos ();
-      if (!$c)
-        return;
-      $c->set_field ($field);
+        $c =& $this->_pos ();
+        if (!$c)
+            return;
+        $c->set_field ($field);
     }
 
     /**
@@ -219,10 +218,10 @@
      */
     function field ()
     {
-      $c =& $this->_pos ();
-      if (!$c)
-        return;
-      return $c->field ();
+        $c =& $this->_pos ();
+        if (!$c)
+            return;
+        return $c->field ();
     }
 
     /**
@@ -233,10 +232,10 @@
      */
     function type ()
     {
-      $c =& $this->_pos ();
-      if (!$c)
-        return;
-      return $c->type ();
+        $c =& $this->_pos ();
+        if (!$c)
+            return;
+        return $c->type ();
     }
 
     /**
@@ -247,10 +246,10 @@
      */
     function id ()
     {
-      $c =& $this->_pos ();
-      if (!$c)
-        return;
-      return $c->id ();
+        $c =& $this->_pos ();
+        if (!$c)
+            return;
+        return $c->id ();
     }
 
     /**
@@ -260,11 +259,11 @@
      */
     function &__sleep ()
     {
-      $elements = cursor::__sleep ();
-      $elements[] = '_cursors';
-      $elements[] = '_index';
-      $elements[] = '_size';
-      return $elements;
+        $elements = cursor::__sleep ();
+        $elements[] = '_cursors';
+        $elements[] = '_index';
+        $elements[] = '_size';
+        return $elements;
     }
-  }
+}
 ?>

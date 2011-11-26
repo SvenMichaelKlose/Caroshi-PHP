@@ -1,32 +1,18 @@
 <?php
-  # $Id: treeview.class,v 1.37 2002/06/01 04:53:47 sven Exp $
-  #
-  # Copyright (c) 2000-2001 dev/consulting GmbH
-  # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
-  #
-  # This library is free software; you can redistribute it and/or
-  # modify it under the terms of the GNU Lesser General Public
-  # License as published by the Free Software Foundation; either
-  # version 2.1 of the License, or (at your option) any later version.
-  #
-  # This library is distributed in the hope that it will be useful,
-  # but WITHOUT ANY WARRANTY; without even the implied warranty of
-  # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  # Lesser General Public License for more details.
-  #
-  # You should have received a copy of the GNU Lesser General Public
-  # License along with this library; if not, write to the Free Software
-  # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# Copyright (c) 2000-2001 dev/consulting GmbH
+# Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
+#
+# Licensed under the MIT, BSD and GPL licenses.
 
-  /**
-   * Tree widget.
-   *
-   * @deprec
-   * @access public
-   * @module tk_dbtree
-   * @package User interface toolkits
-   */
-  class DBTREE {
+/**
+ * Tree widget.
+ *
+ * @deprec
+ * @access public
+ * @module tk_dbtree
+ * @package User interface toolkits
+ */
+class DBTREE {
     var $db;
     var $_nodes;
     var $_xrefs;
@@ -161,5 +147,5 @@
       $this->print_childs_of ($root_id, '', $view, $app);
       echo '</table>';
     }
-  }
+}
 ?>

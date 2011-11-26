@@ -1,16 +1,16 @@
 <?php
-  # Copyright (c) 2000-2002 dev/consulting GmbH
-  # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
-  #
+# Copyright (c) 2000-2002 dev/consulting GmbH
+# Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
+#
 # Licensed under the MIT, BSD and GPL licenses.
 
 
-  /**
-   * Form element object
-   *
-   * @package User interface
-   */
-  class _form_element {
+/**
+ * Form element object
+ *
+ * @package User interface
+ */
+class _form_element {
 
     /**
      * Posted value.
@@ -86,5 +86,5 @@
      * @var object event
      */
     var $view = 0;
-  }
+}
 ?>

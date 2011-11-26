@@ -1,29 +1,28 @@
 <?php
-  # Copyright (c) 2000-2002 dev/consulting GmbH
-  # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
-  #
+# Copyright (c) 2000-2002 dev/consulting GmbH
+# Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
+#
 # Licensed under the MIT, BSD and GPL licenses.
 
 
-  require_once 'dbi/dbresult.class.php';
+require_once 'dbi/dbresult.class.php';
 
-  # Number of queries run by this class since contruction.
-  $DB_QUERIES = 0;
+# Number of queries run by this class since contruction.
+$DB_QUERIES = 0;
 
-  /**
-   * A wrapper for derived classes to access a MySQL database.
-   *
-   * This is the reference implementation for vendor-dependent database
-   * wrappers. To write wrappers for other databases than MySQL take care
-   * to use this class layout.
-   *
-   * @access private
-   * @package Database interfaces
-   * @copyright dev/consulting GmbH
-   * @author    Sven Michael Klose
-   */
-  class DBWrapper {
-
+/**
+ * A wrapper for derived classes to access a MySQL database.
+ *
+ * This is the reference implementation for vendor-dependent database
+ * wrappers. To write wrappers for other databases than MySQL take care
+ * to use this class layout.
+ *
+ * @access private
+ * @package Database interfaces
+ * @copyright dev/consulting GmbH
+ * @author    Sven Michael Klose
+ */
+class DBWrapper {
     # Private vars.
     var $_db;
     var $_db_name;
@@ -40,12 +39,12 @@
      */
     function &DBWrapper ($dbname, $host, $user, $passwd)
     {
-      # Try to get a persistent connection, a temporary one otherwise.
-      # @Do not complain.
-      @$this->_db =& mysql_pconnect ($host, $user, $passwd)
-      || @$this->_db =& mysql_connect ($host, $user, $passwd);
+        # Try to get a persistent connection, a temporary one otherwise.
+        # @Do not complain.
+        @$this->_db =& mysql_pconnect ($host, $user, $passwd)
+        || @$this->_db =& mysql_connect ($host, $user, $passwd);
 
-      @mysql_select_db ($dbname, $this->_db);
+        @mysql_select_db ($dbname, $this->_db);
     }
 
     /**
@@ -56,7 +55,7 @@
      */
     function create_db ($name)
     {
-      return mysql_create_db ($name);
+        return mysql_create_db ($name);
     }
 
     /**
@@ -67,7 +66,7 @@
      */
     function drop_db ($name)
     {
-      return mysql_drop_db ($name);
+        return mysql_drop_db ($name);
     }
 
     /**
@@ -80,28 +79,28 @@
      */
     function create_table ($dep, $table, $prefix)
     {
-      if (!$fields = $dep->types ($table))
-        panic ('dbwrapper::create_table(): $table is undefined.');
+        if (!$fields = $dep->types ($table))
+            panic ('dbwrapper::create_table(): $table is undefined.');
 
-      $query = '';
-      $tail = '';
-      foreach ($fields as $name => $field) {
-        # Check if info is complete.
-	if (!isset ($field['n']))
-	  panic ('dbwrapper::create_table(): field without a name.');
-	if (!isset ($field['t']))
-	  panic ('dbwrapper::create_table(): field without a SQL type.');
+        $query = '';
+        $tail = '';
+        foreach ($fields as $name => $field) {
+            # Check if info is complete.
+	    if (!isset ($field['n']))
+	        panic ('dbwrapper::create_table(): field without a name.');
+	    if (!isset ($field['t']))
+	        panic ('dbwrapper::create_table(): field without a SQL type.');
 
-	if ($query)
-	  $query .= ',';
-	$query .= $field['n'] . ' ' . $field['t'];
+	    if ($query)
+	        $query .= ',';
+	    $query .= $field['n'] . ' ' . $field['t'];
 
-        # Create index if wanted.
-        if (isset ($field['i']))
-          $tail .= ",KEY($name)";
-      }
+            # Create index if wanted.
+            if (isset ($field['i']))
+                $tail .= ",KEY($name)";
+        }
 
-      dbwrapper::query ("CREATE TABLE $prefix$table ($query$tail)");
+        dbwrapper::query ("CREATE TABLE $prefix$table ($query$tail)");
     }
 
     /**
@@ -113,36 +112,36 @@
      */
     function &query ($query)
     {
-      global $debug;
+        global $debug;
 
-      if ($debug) {
-	$GLOBALS['DB_QUERIES']++;
-        if ($debug & 2) {
-	  echo '<font size="-1" color="blue">' . htmlentities ($query) .
-	       "</font>\n";
-	  flush ();
-	  $t = gettimeofday ();
-          $start = $t['usec'] + $t['sec'] * 1000000;
+        if ($debug) {
+	    $GLOBALS['DB_QUERIES']++;
+            if ($debug & 2) {
+	        echo '<font size="-1" color="blue">' . htmlentities ($query) .
+	             "</font>\n";
+	        flush ();
+	        $t = gettimeofday ();
+                $start = $t['usec'] + $t['sec'] * 1000000;
+            }
         }
-      }
 
-      $this->_last_result =& new DB_result (mysql_query ($query, $this->_db));
+        $this->_last_result =& new DB_result (mysql_query ($query, $this->_db));
 
-      if ($m = $this->error ()) {
-        if (!$debug)
-          echo '<font size="-1" color="blue">' . htmlentities ($query) .
-               "</font>\n";
-        echo '<font color="red" size="-1">' . $m . "</font><BR>\n";
-      }
-      if ($debug) {
-        if ($debug & 2) {
-	  $t = gettimeofday ();
-          echo ($t['usec'] + $t['sec'] * 1000000 - $start) / 1000000 .
-	       "s<br>\n";
+        if ($m = $this->error ()) {
+            if (!$debug)
+                echo '<font size="-1" color="blue">' . htmlentities ($query) .
+                     "</font>\n";
+            echo '<font color="red" size="-1">' . $m . "</font><BR>\n";
         }
-      }
+        if ($debug) {
+            if ($debug & 2) {
+	        $t = gettimeofday ();
+                echo ($t['usec'] + $t['sec'] * 1000000 - $start) / 1000000 .
+	             "s<br>\n";
+            }
+        }
 
-      return $this->_last_result;
+        return $this->_last_result;
     }
 
     /**
@@ -153,7 +152,7 @@
      */
     function insert_id ()
     {
-      return mysql_insert_id ();
+        return mysql_insert_id ();
     }
 
     /**
@@ -164,7 +163,7 @@
      */
     function close ()
     {
-      return mysql_close ();
+        return mysql_close ();
     }
 
     /**
@@ -175,7 +174,7 @@
      */
     function error ()
     {
-      return mysql_error ();
+        return mysql_error ();
     }
 
     /**
@@ -186,7 +185,7 @@
      */
     function is_connected ()
     {
-      return $this->_db ? 1 : 0;
+        return $this->_db ? 1 : 0;
     }
-  }
+}
 ?>

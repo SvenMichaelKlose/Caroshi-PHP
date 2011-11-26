@@ -1,20 +1,19 @@
 <?php
-  # Copyright (c) 2000-2002 dev/consulting GmbH
-  # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
-  #
+# Copyright (c) 2000-2002 dev/consulting GmbH
+# Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
+#
 # Licensed under the MIT, BSD and GPL licenses.
 
 
-  require_once 'libinfo.php';
+require_once 'libinfo.php';
 
-  /**
-   * Standard HTML widget set.
-   *
-   * @access public
-   * @package User interface
-   */
-  class widget_set {
-
+/**
+ * Standard HTML widget set.
+ *
+ * @access public
+ * @package User interface
+ */
+class widget_set {
     /**
      * Use relative links if true.
      *
@@ -30,17 +29,17 @@
      */
     function widget_set ()
     {
-      $this->color['headline'] = '#00AAFF';
-      $this->color['cell'] = 'CCCCCC';
-      $this->color['table_header'] = '#00AA00';
-      $this->color['msgbox'] = 'black';
-      $this->color['msgbox_text'] = '#00FF00';
-      $this->color['bgcolor'] = 'white';
-      $this->color['text'] = 'black';
-      $this->color['link'] = 'blue';
-      $this->color['alink'] = 'black';
-      $this->color['vlink'] = 'blue';
-      $this->color['title bgcolor'] = '#4444FF';
+        $this->color['headline'] = '#00AAFF';
+        $this->color['cell'] = 'CCCCCC';
+        $this->color['table_header'] = '#00AA00';
+        $this->color['msgbox'] = 'black';
+        $this->color['msgbox_text'] = '#00FF00';
+        $this->color['bgcolor'] = 'white';
+        $this->color['text'] = 'black';
+        $this->color['link'] = 'blue';
+        $this->color['alink'] = 'black';
+        $this->color['vlink'] = 'blue';
+        $this->color['title bgcolor'] = '#4444FF';
     }
 
     /**
@@ -51,12 +50,12 @@
      */
     function _attrs ($array)
     {
-      if (is_array ($array) == false)
-        return '';
-      $out = '';
-      foreach ($array as $key => $val)
-        $out .= ' ' . $key . '="' . $val . '"';
-      return $out;
+        if (is_array ($array) == false)
+            return '';
+        $out = '';
+        foreach ($array as $key => $val)
+            $out .= ' ' . $key . '="' . $val . '"';
+        return $out;
     }
 
     /**
@@ -68,31 +67,31 @@
      */
     function header ($header, $comp)
     {
-      $tmp = ($GLOBALS['SERVER_PORT'] == 443) ? 's' : '';
+        $tmp = ($GLOBALS['SERVER_PORT'] == 443) ? 's' : '';
 
-      echo "<HTML><HEAD>\n<TITLE>$header</TITLE>\n".
-        "<!--\n" .
-        "  Caroshi " . CAROSHI_VERSION . "\n" .
-        "      http://www.devcon.net/\n" .
-        "      http://lilly.devconsult.de/~sven\n" .
-        "-->\n".
-        "</HEAD>\n" .
-        '<BODY BGCOLOR="' . $this->color['bgcolor'] .
-        '" TEXT="' . $this->color['text'] . '" LINK="' . $this->color['link'] .
-        '" ALINK="' . $this->color['alink'] . '" ' .
-        'VLINK="' . $this->color['vlink'] . '">';
-      if ($this->short_links)
-        echo '<BASE HREF="http' . $tmp . '://' . $GLOBALS['SERVER_NAME'] .
-             $GLOBALS['SCRIPT_NAME'] . '/">';
-      echo "<TABLE BORDER=0 WIDTH=\"100%\">\n".
-           "<TR><TD BGCOLOR=\"" . $this->color['title bgcolor'] .
-           "\" WIDTH=\"100%\"><FONT COLOR=WHITE>" .
-           "<B>$header</B></FONT></TD>";
-      if ($comp)
-        echo "<TD BGCOLOR=\"" . $this->color['title bgcolor'] .
-             "\" ALIGN=RIGHT><FONT COLOR=YELLOW><B>" .
-             "$comp</B></FONT></TD>";
-      echo "</TR></TABLE>\n\n";
+        echo "<HTML><HEAD>\n<TITLE>$header</TITLE>\n".
+              "<!--\n" .
+              "  Caroshi " . CAROSHI_VERSION . "\n" .
+              "      http://www.devcon.net/\n" .
+              "      http://lilly.devconsult.de/~sven\n" .
+              "-->\n".
+              "</HEAD>\n" .
+              '<BODY BGCOLOR="' . $this->color['bgcolor'] .
+              '" TEXT="' . $this->color['text'] . '" LINK="' . $this->color['link'] .
+              '" ALINK="' . $this->color['alink'] . '" ' .
+              'VLINK="' . $this->color['vlink'] . '">';
+        if ($this->short_links)
+            echo '<BASE HREF="http' . $tmp . '://' . $GLOBALS['SERVER_NAME'] .
+                 $GLOBALS['SCRIPT_NAME'] . '/">';
+        echo "<TABLE BORDER=0 WIDTH=\"100%\">\n".
+             "<TR><TD BGCOLOR=\"" . $this->color['title bgcolor'] .
+             "\" WIDTH=\"100%\"><FONT COLOR=WHITE>" .
+             "<B>$header</B></FONT></TD>";
+        if ($comp)
+          echo "<TD BGCOLOR=\"" . $this->color['title bgcolor'] .
+               "\" ALIGN=RIGHT><FONT COLOR=YELLOW><B>" .
+               "$comp</B></FONT></TD>";
+        echo "</TR></TABLE>\n\n";
     }
 
     /**
@@ -102,7 +101,7 @@
      */
     function close ()
     {
-      echo "\n</BODY>\n</HTML>\n";
+        echo "\n</BODY>\n</HTML>\n";
     }
 
     /**
@@ -112,10 +111,10 @@
      */
     function footer ()
     {
-      echo "\n";
-      if ($this->short_links)
-        echo "</BASE>";
-      echo "</BODY>\n</HTML>\n";
+        echo "\n";
+        if ($this->short_links)
+            echo "</BASE>";
+        echo "</BODY>\n</HTML>\n";
     }
 
     /**
@@ -126,7 +125,7 @@
      */
     function print_text ($text)
     {
-      echo $text;
+        echo $text;
     }
 
     /**
@@ -137,7 +136,7 @@
      */
     function print_label ($text)
     {
-      echo "<b>$text</b>";
+        echo "<b>$text</b>";
     }
 
     /**
@@ -148,11 +147,11 @@
      */
     function headline ($txt)
     {
-      echo
-	'<TABLE BORDER=0 WIDTH="100%" CELLPADDING="2">' .
-        '<TR><TD BGCOLOR="' . $this->color['headline'] .
-        '" WIDTH="100%"><FONT COLOR="WHITE"><B>' .
-        $txt . '</B></FONT></TD></TR></TABLE>';
+        echo
+	  '<TABLE BORDER=0 WIDTH="100%" CELLPADDING="2">' .
+          '<TR><TD BGCOLOR="' . $this->color['headline'] .
+          '" WIDTH="100%"><FONT COLOR="WHITE"><B>' .
+          $txt . '</B></FONT></TD></TR></TABLE>';
     }
 
     /**
@@ -164,10 +163,10 @@
      */
     function msgbox ($msg, $color = 0)
     {
-      echo "<TABLE BORDER=0 WIDTH=\"100%\" BGCOLOR='" .
-           $this->color['msgbox']  . "'>\n" . '<TR><TD ALIGN=CENTER>' .
-	   "<FONT COLOR=\"" . ($color != 0 ? $color : $this->color['msgbox_text']) . "\"><B>$msg</B></FONT></TD></TR>\n" .
-	   "</TABLE>\n";
+        echo "<TABLE BORDER=0 WIDTH=\"100%\" BGCOLOR='" .
+             $this->color['msgbox']  . "'>\n" . '<TR><TD ALIGN=CENTER>' .
+	     "<FONT COLOR=\"" . ($color != 0 ? $color : $this->color['msgbox_text']) . "\"><B>$msg</B></FONT></TD></TR>\n" .
+	     "</TABLE>\n";
     }
 
     /**
@@ -178,8 +177,8 @@
      */
     function open_form ($action)
     {
-      echo '<FORM ENCTYPE="multipart/form-data" ACTION="' .
-           $action . '" METHOD=POST>' . "\n";
+        echo '<FORM ENCTYPE="multipart/form-data" ACTION="' .
+             $action . '" METHOD=POST>' . "\n";
     }
 
     /**
@@ -189,7 +188,7 @@
      */
     function close_form ()
     {
-      echo "</FORM>\n";
+        echo "</FORM>\n";
     }
 
     /**
@@ -201,8 +200,8 @@
      */
     function image ($alt, $src)
     {
-      echo '<IMG SRC="' . $src .'" BORDER="0"' .
-           ($alt ? ' ALT="' . $alt . '"' : '') . '>';
+        echo '<IMG SRC="' . $src .'" BORDER="0"' .
+             ($alt ? ' ALT="' . $alt . '"' : '') . '>';
     }
 
     /**
@@ -215,8 +214,8 @@
      */
     function image_link ($alt, $src, $url)
     { 
-      echo '<A HREF="' . $url . '"><IMG SRC="' . $src .'" ALT="' .
-            htmlentities ($alt) . '" BORDER="0"></A>';
+        echo '<A HREF="' . $url . '"><IMG SRC="' . $src .'" ALT="' .
+              htmlentities ($alt) . '" BORDER="0"></A>';
     }
 
     /**
@@ -229,14 +228,14 @@
      */
     function _input ($type, $name, $val = '', $extra = '')
     {
-      echo '<INPUT TYPE="' . $type . '"';
-      if ($name)
-        echo ' NAME="'. $name . '"';
-      if (!(is_string ($val) && $val == ''))
-        echo ' VALUE="' . $val . '"';
-      if ($extra)
-        echo $extra;
-      echo '>';
+        echo '<INPUT TYPE="' . $type . '"';
+        if ($name)
+            echo ' NAME="'. $name . '"';
+        if (!(is_string ($val) && $val == ''))
+            echo ' VALUE="' . $val . '"';
+        if ($extra)
+            echo $extra;
+        echo '>';
     }
 
     /**
@@ -249,7 +248,7 @@
      */
     function inputline ($name, $val, $size)
     {
-      $this->_input ('TEXT', $name, $val, ' SIZE="' . $size . '"');
+        $this->_input ('TEXT', $name, $val, ' SIZE="' . $size . '"');
     }
 
     /**
@@ -262,7 +261,7 @@
      */
     function password ($name, $val, $size)
     {
-      $this->_input ('PASSWORD', $name, $val, ' SIZE="' . $size . '"');
+        $this->_input ('PASSWORD', $name, $val, ' SIZE="' . $size . '"');
     }
 
     /**
@@ -275,14 +274,14 @@
      */
     function select ($name, $current_val, $options)
     {
-      echo "<SELECT NAME=\"". $name ."\">\n";
-      foreach ($options as $val => $string) {
-        echo '<OPTION VALUE="' . $val . '"';
-        if ($current_val == $val)
-          echo ' SELECTED';
-        echo '>' . $string . "\n";
-      }
-      echo "</SELECT>\n";
+        echo "<SELECT NAME=\"". $name ."\">\n";
+        foreach ($options as $val => $string) {
+            echo '<OPTION VALUE="' . $val . '"';
+            if ($current_val == $val)
+                echo ' SELECTED';
+            echo '>' . $string . "\n";
+        }
+        echo "</SELECT>\n";
     }
 
     /**
@@ -296,9 +295,9 @@
      */
     function textarea ($name, $cols, $rows, $val)
     {
-      echo '<TEXTAREA NAME="' . $name . '" ' .
-           'ROWS="' . $rows . '" COLS="' . $cols . '" WRAP="VIRTUAL">' . $val .
-           '</TEXTAREA>';
+        echo '<TEXTAREA NAME="' . $name . '" ' .
+             'ROWS="' . $rows . '" COLS="' . $cols . '" WRAP="VIRTUAL">' . $val .
+             '</TEXTAREA>';
     }
 
     /**
@@ -310,7 +309,7 @@
      */
     function hidden ($name, $val)
     {
-      $this->_input ('HIDDEN', $name, $val);
+        $this->_input ('HIDDEN', $name, $val);
     }
 
     /**
@@ -321,7 +320,7 @@
      */
     function fileform ($name)
     {
-      $this->_input ('FILE', $name);
+        $this->_input ('FILE', $name);
     }
 
     /**
@@ -334,10 +333,10 @@
      */
     function radiobox ($name, $val, $current_val)
     {
-      $checked = '';
-      if ($val == $current_val)
-        $checked = ' CHECKED';
-      $this->_input ('RADIO', $name, $val, $checked);
+        $checked = '';
+        if ($val == $current_val)
+            $checked = ' CHECKED';
+        $this->_input ('RADIO', $name, $val, $checked);
     }
 
     /**
@@ -350,10 +349,10 @@
      */
     function checkbox ($name, $val, $current_val)
     {
-      $checked = '';
-      if ($val == $current_val)
-        $checked = ' CHECKED';
-      $this->_input ('CHECKBOX', $name, $val, $checked);
+        $checked = '';
+        if ($val == $current_val)
+            $checked = ' CHECKED';
+        $this->_input ('CHECKBOX', $name, $val, $checked);
     }
 
     /**
@@ -365,7 +364,7 @@
      */
     function submit ($name, $val)
     {
-      $this->_input ('SUBMIT', $name, $val);
+        $this->_input ('SUBMIT', $name, $val);
     }
 
     /**
@@ -378,8 +377,8 @@
      */
     function submit_image ($label, $image_url, $name)
     {
-      echo "<INPUT TYPE=\"IMAGE\" SRC=\"$image_url\" VALUE=\"$label\" " .
-           "NAME=\"$name\" BORDER=\"0\">";
+        echo "<INPUT TYPE=\"IMAGE\" SRC=\"$image_url\" VALUE=\"$label\" " .
+             "NAME=\"$name\" BORDER=\"0\">";
     }
 
     /**
@@ -390,7 +389,7 @@
      */
     function reset ($label)
     {
-      $this->_input ('RESET', '', $label);
+        $this->_input ('RESET', '', $label);
     }
 
     /**
@@ -401,18 +400,18 @@
      */
     function open_table ($attrs = '')
     {
-      if (!$attrs)
-        $attrs = array ();
-      if (!isset ($attrs['WIDTH']))
-        $attrs['WIDTH'] = '100%';
-      if (!isset ($attrs['BORDER']))
-        $attrs['BORDER'] = '0';
-      if (!isset ($attrs['CELLPADDING']))
-        $attrs['CELLPADDING'] = '1';
-      if (!isset ($attrs['CELLSPACING']))
-        $attrs['CELLSPACING'] = '1';
+        if (!$attrs)
+            $attrs = array ();
+        if (!isset ($attrs['WIDTH']))
+            $attrs['WIDTH'] = '100%';
+        if (!isset ($attrs['BORDER']))
+            $attrs['BORDER'] = '0';
+        if (!isset ($attrs['CELLPADDING']))
+            $attrs['CELLPADDING'] = '1';
+        if (!isset ($attrs['CELLSPACING']))
+            $attrs['CELLSPACING'] = '1';
 
-      echo '<TABLE' . $this->_attrs ($attrs) . '>';
+        echo '<TABLE' . $this->_attrs ($attrs) . '>';
     }
 
     /**
@@ -422,7 +421,7 @@
      */
     function close_table ()
     {
-      echo "</TABLE>\n";
+        echo "</TABLE>\n";
     }
 
     /**
@@ -433,7 +432,7 @@
      */
     function open_row ($attrs = '')
     {
-      echo '<TR' . $this->_attrs ($attrs) . '>';
+        echo '<TR' . $this->_attrs ($attrs) . '>';
     }
 
     /**
@@ -443,7 +442,7 @@
      */
     function close_row ()
     {
-      echo "</TR>\n";
+        echo "</TR>\n";
     }
 
     /**
@@ -454,7 +453,7 @@
      */
     function open_cell ($attrs = '')
     {
-      echo '<TD' . $this->_attrs ($attrs) . '>';
+        echo '<TD' . $this->_attrs ($attrs) . '>';
     }
 
     /**
@@ -464,7 +463,7 @@
      */
     function close_cell ()
     {
-      echo '</TD>';
+        echo '</TD>';
     }
 
     /**
@@ -476,16 +475,16 @@
      */
     function table_headers ($array, $attrs = '')
     {
-      if (!$attrs)
-        $attrs = array ();
-      if (!isset ($attrs['BGCOLOR']))
-        $attrs['BGCOLOR'] = $this->color['table_header'];
+        if (!$attrs)
+            $attrs = array ();
+        if (!isset ($attrs['BGCOLOR']))
+            $attrs['BGCOLOR'] = $this->color['table_header'];
 
-      $this->open_row ();
-      foreach ($array as $v)
-	echo '<TH' . $this->_attrs ($attrs) .
-	     '><FONT COLOR="WHITE">' . $v . '</FONT></TH>';
-      $this->close_row ();
+        $this->open_row ();
+        foreach ($array as $v)
+	    echo '<TH' . $this->_attrs ($attrs) .
+	         '><FONT COLOR="WHITE">' . $v . '</FONT></TH>';
+        $this->close_row ();
     }
-  }
+}
 ?>

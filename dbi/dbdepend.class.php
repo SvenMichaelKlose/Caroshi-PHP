@@ -1,18 +1,18 @@
 <?php
-  # Copyright (c) 2000-2002 dev/consulting GmbH
-  # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
-  #
+# Copyright (c) 2000-2002 dev/consulting GmbH
+# Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
+#
 # Licensed under the MIT, BSD and GPL licenses.
 
 
-  /**
-   * SQL database description.
-   *
-   * @access public
-   * @package Database interfaces
-   * @author Sven Michael Klose <pixel@copei.de>
-   */
-  class DBDEPEND {
+/**
+ * SQL database description.
+ *
+ * @access public
+ * @package Database interfaces
+ * @author Sven Michael Klose <pixel@copei.de>
+ */
+class DBDEPEND {
 
     var $_ref_table;
     var $_ref_id;
@@ -60,28 +60,28 @@
      */
     function define_table ($table, $fields)
     {
-      if (isset ($this->_types[$table]))
-        die ('dbdepend::define_table(): Table ' . $table . ' already exists.');
+        if (isset ($this->_types[$table]))
+            die ('dbdepend::define_table(): Table ' . $table . ' already exists.');
 
-      # Fill up hashes we can access fast.
-      foreach ($fields as $field) {
-        # Check if info is complete.
-	if (!isset ($field['n']))
-	  panic ('dbdepend::define_table(): field without a name.');
-	if (!isset ($field['t']))
-	  panic ('dbdepend::define_table(): field without a SQL type.');
+        # Fill up hashes we can access fast.
+        foreach ($fields as $field) {
+            # Check if info is complete.
+	    if (!isset ($field['n']))
+	        panic ('dbdepend::define_table(): field without a name.');
+	    if (!isset ($field['t']))
+	        panic ('dbdepend::define_table(): field without a SQL type.');
 
-        # Default extended type is 'string'.
-	if (!isset ($field['e']))
-	  $field['e'] = 'string';
+            # Default extended type is 'string'.
+	    if (!isset ($field['e']))
+	        $field['e'] = 'string';
 
-	$name = $field['n'];
-	$type = $field['t'];
-	$desc = isset ($field['d']) ? $desc = $field['d'] : '';
-	$this->_types[$table][$name] = $type;
-	$this->_desc[$table][$name] = $desc;
-	$this->_exttypes[$table][$name] = $field;
-      }
+	    $name = $field['n'];
+	    $type = $field['t'];
+	    $desc = isset ($field['d']) ? $desc = $field['d'] : '';
+	    $this->_types[$table][$name] = $type;
+	    $this->_desc[$table][$name] = $desc;
+	    $this->_exttypes[$table][$name] = $field;
+        }
     }
 
     /**
@@ -95,10 +95,10 @@
      */
     function types ($table = '')
     {
-      if (!$table)
-        return $this->_exttypes;
-      if (isset ($this->_exttypes[$table]))
-        return $this->_exttypes[$table];
+        if (!$table)
+            return $this->_exttypes;
+        if (isset ($this->_exttypes[$table]))
+            return $this->_exttypes[$table];
     }
 
     /**
@@ -121,15 +121,15 @@
      */
     function set_ref ($table, $ref_table, $ref_id)
     {
-      $this->_chktbl ($table, 'set_ref');
+        $this->_chktbl ($table, 'set_ref');
 
-      $this->_refs[$table][] = array ('table' => $ref_table, 'id' => $ref_id);
-      $this->_ref_table[$ref_table] = $table;
-      $this->_ref_id[$ref_table] = $ref_id;
-      $this->table[$table][] = $ref_table;
+        $this->_refs[$table][] = array ('table' => $ref_table, 'id' => $ref_id);
+        $this->_ref_table[$ref_table] = $table;
+        $this->_ref_id[$ref_table] = $ref_id;
+        $this->table[$table][] = $ref_table;
 
-      # TODO: Move this to exttypes.
-      $this->_obj_id[$ref_table] = 'id_obj';
+        # TODO: Move this to exttypes.
+        $this->_obj_id[$ref_table] = 'id_obj';
     }
 
     /**
@@ -141,8 +141,8 @@
      */
     function ref_table ($table)
     {
-      if (isset ($this->_ref_table[$table]))
-        return $this->_ref_table[$table];
+        if (isset ($this->_ref_table[$table]))
+            return $this->_ref_table[$table];
     }
 
     /**
@@ -154,8 +154,8 @@
      */
     function ref_id ($table)
     {
-      if (isset ($this->_ref_id[$table]))
-        return $this->_ref_id[$table];
+        if (isset ($this->_ref_id[$table]))
+            return $this->_ref_id[$table];
     }
 
     /**
@@ -170,10 +170,10 @@
      */
     function set_listref ($table, $id_last, $id_next)
     {
-      $this->_chktbl ($table, 'set_listref');
+        $this->_chktbl ($table, 'set_listref');
 
-      $this->_listrefs[$table]['last'] = $id_last;
-      $this->_listrefs[$table]['next'] = $id_next;
+        $this->_listrefs[$table]['last'] = $id_last;
+        $this->_listrefs[$table]['next'] = $id_next;
     }
 
     /**
@@ -184,7 +184,7 @@
      */
     function is_list ($table)
     {
-      return isset ($this->_listrefs[$table]);
+        return isset ($this->_listrefs[$table]);
     }
 
     /**
@@ -196,7 +196,7 @@
      */
     function set_xref ($table, $xref_table)
     {
-      $this->_xref_tables[$table] = $xref_table;
+        $this->_xref_tables[$table] = $xref_table;
     }
 
     /**
@@ -208,8 +208,8 @@
      */
     function xref_table ($table)
     {
-      if (isset ($this->_xref_tables[$table]))
-        return $this->_xref_tables[$table];
+        if (isset ($this->_xref_tables[$table]))
+            return $this->_xref_tables[$table];
     }
 
     /**
@@ -221,8 +221,8 @@
      */
     function prev_of ($table)
     {
-      if (isset ($this->_listrefs[$table]['last']))
-        return $this->_listrefs[$table]['last'];
+        if (isset ($this->_listrefs[$table]['last']))
+            return $this->_listrefs[$table]['last'];
     }
 
     /**
@@ -234,8 +234,8 @@
      */
     function next_of ($table)
     {
-      if (isset ($this->_listrefs[$table]['next']))
-        return $this->_listrefs[$table]['next'];
+        if (isset ($this->_listrefs[$table]['next']))
+            return $this->_listrefs[$table]['next'];
     }
 
     /**
@@ -247,12 +247,12 @@
      */
     function set_primary ($table, $primary)
     {
-      $this->_chktbl ($table, 'set_primary');
-      if (isset ($this->_primaries[$table]))
-        die ('dbdepend::set_primary(): Primary key for table ' . $table .
-	     ' already exists.');
+        $this->_chktbl ($table, 'set_primary');
+        if (isset ($this->_primaries[$table]))
+            die ('dbdepend::set_primary(): Primary key for table ' . $table .
+	         ' already exists.');
 
-      $this->_primaries[$table] = $primary;
+        $this->_primaries[$table] = $primary;
     }
 
     /**
@@ -264,8 +264,8 @@
      */
     function primary ($table)
     {
-      if (isset ($this->_primaries[$table]))
-        return $this->_primaries[$table];
+        if (isset ($this->_primaries[$table]))
+            return $this->_primaries[$table];
     }
 
     /**
@@ -277,8 +277,8 @@
      */
     function _chktbl ($table, $func)
     {
-      if (!isset ($this->_types[$table]))
-        die ("dbdepend::$func(): Table $table isn't defined.");
+        if (!isset ($this->_types[$table]))
+            die ("dbdepend::$func(): Table $table isn't defined.");
     }
-  }
+}
 ?>

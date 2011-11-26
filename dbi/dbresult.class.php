@@ -1,19 +1,19 @@
 <?php
-  # Copyright (c) 2000-2002 dev/consulting GmbH
-  # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
-  #
+# Copyright (c) 2000-2002 dev/consulting GmbH
+# Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
+#
 # Licensed under the MIT, BSD and GPL licenses.
 
 
-  /**
-   * Datbase result object.
-   *
-   * This class represents results returned by DBWrapper::query ().
-   *
-   * @access public
-   * @package Database interfaces
-   */
-  class DB_result {
+/**
+ * Datbase result object.
+ *
+ * This class represents results returned by DBWrapper::query ().
+ *
+ * @access public
+ * @package Database interfaces
+ */
+class DB_result {
 
     var $res;
 
@@ -46,5 +46,5 @@
      * Frees the result from memory.
      */
     function free () { mysql_free_result ($this->res); }
-  }
+}
 ?>

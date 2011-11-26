@@ -1,33 +1,33 @@
 <?php
-  # Copyright (c) 2000-2002 dev/consulting GmbH
-  # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
-  #
+# Copyright (c) 2000-2002 dev/consulting GmbH
+# Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
+#
 # Licensed under the MIT, BSD and GPL licenses.
 
 
-  require_once 'dbi/dbi.class';
-  require_once 'dbi/types.php';
-  require_once 'file/magic2mime.php';
-  require_once 'object/singleton.class.php';
-  require_once 'string/strhead.php';
+require_once 'dbi/dbi.class';
+require_once 'dbi/types.php';
+require_once 'file/magic2mime.php';
+require_once 'object/singleton.class.php';
+require_once 'string/strhead.php';
 
-  require_once 'cursor/sql.class.php';
-  require_once 'admin_panel/formviews.php';
-  require_once 'admin_panel/mime.php';
-  require_once 'admin_panel/records.php';
-  require_once 'admin_panel/util.php';
-  require_once 'admin_panel/widgets.php';
+require_once 'cursor/sql.class.php';
+require_once 'admin_panel/formviews.php';
+require_once 'admin_panel/mime.php';
+require_once 'admin_panel/records.php';
+require_once 'admin_panel/util.php';
+require_once 'admin_panel/widgets.php';
 
-  require_once 'admin_panel/_view.class.php';
-  require_once 'admin_panel/_form_element.class.php';
+require_once 'admin_panel/_view.class.php';
+require_once 'admin_panel/_form_element.class.php';
 
-  /**
-   * User interface
-   *
-   * @access public
-   * @package User interface
-   */
-  class admin_panel extends singleton {
+/**
+ * User interface
+ *
+ * @access public
+ * @package User interface
+ */
+class admin_panel extends singleton {
 
     /**
      * Reference to application that uses this instance.
@@ -165,34 +165,34 @@
      */
     function admin_panel (&$app, $widgets = 0)
     {
-      if (!is_a ($app, 'application'))
-        die ('admin_panel constructor: First argument is not an application ' .
-             'object.');
-      if ($widgets && !is_object ($widgets))
-        die ('admin_panel constructor: Widget set is not an object.');
+        if (!is_a ($app, 'application'))
+            die ('admin_panel constructor: First argument is not an application ' .
+                 'object.');
+        if ($widgets && !is_object ($widgets))
+            die ('admin_panel constructor: Widget set is not an object.');
 
-      $this->singleton ($this);
+        $this->singleton ($this);
 
-      # Initialize member variables.
-      $this->application =& $app;
-      $this->application->short_links = false;
-      $this->widgets = $widgets ? $widgets : new widget_set ();
-      $this->db =& $app->db;
-      $this->v = new _admin_panel_view;
-      $this->highlight = array ();
-      $this->_viewstack = array ();
-      $app->raw_views['__return_mime'] = true;
+        # Initialize member variables.
+        $this->application =& $app;
+        $this->application->short_links = false;
+        $this->widgets = $widgets ? $widgets : new widget_set ();
+        $this->db =& $app->db;
+        $this->v = new _admin_panel_view;
+        $this->highlight = array ();
+        $this->_viewstack = array ();
+        $app->raw_views['__return_mime'] = true;
 
-      record_cache_fetch ($app);
+        record_cache_fetch ($app);
 
-      # Initialize SQL cursors.
-      cursor_sql::set_db ($this->db);
-      $this->v->cursor =& new cursor_sql ();
+        # Initialize SQL cursors.
+        cursor_sql::set_db ($this->db);
+        $this->v->cursor =& new cursor_sql ();
 
-      # Init modules.
-      _formviews_init ($app);
-      _records_init ($app);
-      _mime_init ($app);
+        # Init modules.
+        _formviews_init ($app);
+        _records_init ($app);
+        _mime_init ($app);
     }
 
     /**
@@ -202,23 +202,23 @@
      */
     function close ()
     {
-      $app =& $this->application;
-      $source = $this->v->cursor->source ();
+        $app =& $this->application;
+        $source = $this->v->cursor->source ();
 
-      # Check if all data source contexts are closed.
-      if ($openviews = sizeof ($this->_viewstack))
-	die ("admin_panel::close(): $openviews view(s) still open for " .
-             "source '$source' - stop.");
+        # Check if all data source contexts are closed.
+        if ($openviews = sizeof ($this->_viewstack))
+	    die ("admin_panel::close(): $openviews view(s) still open for " .
+                 "source '$source' - stop.");
 
-      # Call user defined function or output standard footer or do nothing.
-      if (!method_exists ($app, 'end_view')) {
-        $tv = $app->event ();
-        if (!isset ($app->raw_views[$tv->name]))
-          $this->widgets->footer ();
-      }
+        # Call user defined function or output standard footer or do nothing.
+        if (!method_exists ($app, 'end_view')) {
+            $tv = $app->event ();
+            if (!isset ($app->raw_views[$tv->name]))
+                $this->widgets->footer ();
+        }
 
-      # Save record cache to session data.
-      record_cache_safe ($this->application);
+        # Save record cache to session data.
+        record_cache_safe ($this->application);
     }
 
     /**
@@ -229,7 +229,7 @@
      */
     function &instance ()
     {
-      return singleton::instance ('admin_panel');
+        return singleton::instance ('admin_panel');
     }
 
     #############
@@ -244,19 +244,19 @@
      */
     function open_context (&$cursor)
     {
-      if (!is_a ($cursor, 'cursor'))
-        die ('admin_panel::open_context(): Argument is not a cursor');
-      if (!sizeof ($this->_viewstack))
-        $this->_form_index++;
+        if (!is_a ($cursor, 'cursor'))
+            die ('admin_panel::open_context(): Argument is not a cursor');
+        if (!sizeof ($this->_viewstack))
+            $this->_form_index++;
 
-      # Push old view on stack.
-      array_push ($this->_viewstack, $this->v);
+        # Push old view on stack.
+        array_push ($this->_viewstack, $this->v);
 
-      # Initialise view.
-      $v =& new _admin_panel_view;
-      $v->no_update = $this->no_update;
-      $v->cursor =& $cursor;
-      $this->v =& $v;
+        # Initialise view.
+        $v =& new _admin_panel_view;
+        $v->no_update = $this->no_update;
+        $v->cursor =& $cursor;
+        $this->v =& $v;
     }
 
     /**
@@ -266,7 +266,7 @@
      */
     function close_context ()
     {
-      $this->v = array_pop ($this->_viewstack);
+        $this->v = array_pop ($this->_viewstack);
     }
 
     /**
@@ -279,10 +279,10 @@
      */
     function use_filter ($filtername)
     {
-      if (!is_string ($filtername))
-        die ('admin_panel::use_filter(): Argument is not a string');
+        if (!is_string ($filtername))
+            die ('admin_panel::use_filter(): Argument is not a string');
 
-      $this->_form_filter = $filtername;
+        $this->_form_filter = $filtername;
     }
 
     /**
@@ -296,13 +296,13 @@
      */
     function use_element_filters ($filter_read, $filter_write)
     {
-      if (!is_string ($filter_read))
-        die ('admin_panel::use_element_filters(): Argument 1 is not a string');
-      if (!is_string ($filter_read))
-        die ('admin_panel::use_element_filters(): Argument 2 is not a string');
+        if (!is_string ($filter_read))
+            die ('admin_panel::use_element_filters(): Argument 1 is not a string');
+        if (!is_string ($filter_read))
+            die ('admin_panel::use_element_filters(): Argument 2 is not a string');
 
-      $this->_element_filter_read = $filter_read;
-      $this->_element_filter_write = $filter_write;
+        $this->_element_filter_read = $filter_read;
+        $this->_element_filter_write = $filter_write;
     }
 
     ########################
@@ -317,7 +317,7 @@
      */
     function &get_cursor ()
     {
-      return $this->v->cursor;
+        return $this->v->cursor;
     }
 
     /**
@@ -327,7 +327,7 @@
      */
     function clear_record_cache ()
     {
-      unset ($this->record_cache);
+        unset ($this->record_cache);
     }
 
     /**
@@ -340,35 +340,35 @@
      */
     function value ($field_name)
     {
-      $v =& $this->v;
-      $cursor =& $v->cursor;
-      $record_cache =& $this->record_cache;
-      $f =& $this->_element_filter_read;
+        $v =& $this->v;
+        $cursor =& $v->cursor;
+        $record_cache =& $this->record_cache;
+        $f =& $this->_element_filter_read;
 
-      if (!is_string ($field_name))
-        die ('admin_panel::value(): Argument is not a string');
+        if (!is_string ($field_name))
+            die ('admin_panel::value(): Argument is not a string');
 
-      if ($cursor->source ())
-        $source = $cursor->source ();
-      $key = $cursor->key () ? $cursor->key () : '_last';
+        if ($cursor->source ())
+            $source = $cursor->source ();
+        $key = $cursor->key () ? $cursor->key () : '_last';
 
-      # Check if there's something in the cache.
-      if (isset ($source)) {
-        $i =& $record_cache[$source][$key][$field_name];
-	if (isset ($i))
-          return $i;
-      }
+        # Check if there's something in the cache.
+        if (isset ($source)) {
+            $i =& $record_cache[$source][$key][$field_name];
+	    if (isset ($i))
+                return $i;
+        }
 
-      # Return real records returned by the record interface.
-      $r = $cursor->current ();
-      $i =& $r[$field_name];
+        # Return real records returned by the record interface.
+        $r = $cursor->current ();
+        $i =& $r[$field_name];
 
-      # Run element through filter function.
-      if ($f)
-        $i = $f ($i);
+        # Run element through filter function.
+        if ($f)
+            $i = $f ($i);
 
-      if (!is_null ($i))
-        return $i;
+        if (!is_null ($i))
+            return $i;
     }
 
     /**
@@ -380,12 +380,12 @@
      */
     function set_value ($field, $val)
     {
-      $v =& $this->v->cursor;
+        $v =& $this->v->cursor;
 
-      if (!is_string ($field_name))
-        die ('admin_panel::set_value(): Field name is not a string');
+        if (!is_string ($field_name))
+            die ('admin_panel::set_value(): Field name is not a string');
 
-      $this->record_cache[$v->source ()][$v->key ()][$field] = $val;
+        $this->record_cache[$v->source ()][$v->key ()][$field] = $val;
     }
 
     /**
@@ -397,7 +397,7 @@
      */
     function header ($header, $comp = '')
     {
-      $this->widgets->header ($header, $comp);
+        $this->widgets->header ($header, $comp);
     }
 
     #########################
@@ -412,9 +412,9 @@
      */
     function headline ($text)
     {
-      $this->open_widget ();
-      $this->widgets->headline ($text);
-      $this->close_widget ();
+        $this->open_widget ();
+        $this->widgets->headline ($text);
+        $this->close_widget ();
     }
 
     /**
@@ -426,9 +426,9 @@
      */
     function msgbox ($message, $color = 0)
     {
-      $this->open_widget ();
-      $this->widgets->msgbox ($message, $color);
-      $this->close_widget ();
+        $this->open_widget ();
+        $this->widgets->msgbox ($message, $color);
+        $this->close_widget ();
     }
 
     /**
@@ -439,16 +439,16 @@
      */
     function panic ($message)
     {
-      global $SERVER_ADMIN;
+        global $SERVER_ADMIN;
 
-      echo "<P><FONT COLOR=RED><B>$message";
-      if (!isset ($SERVER_ADMIN))
-        $SERVER_ADMIN = 'root';
-      mail ($SERVER_ADMIN, "Panic: $SERVER_NAME", "$message\n");
-      echo '<P>Internal script error. Administrator alarmed.';
-      echo '</B></FONT>';
-      echo '</BODY></HTML>';
-      die ($message);
+        echo "<P><FONT COLOR=RED><B>$message";
+        if (!isset ($SERVER_ADMIN))
+            $SERVER_ADMIN = 'root';
+        mail ($SERVER_ADMIN, "Panic: $SERVER_NAME", "$message\n");
+        echo '<P>Internal script error. Administrator alarmed.';
+        echo '</B></FONT>';
+        echo '</BODY></HTML>';
+        die ($message);
     }
 
     /**
@@ -465,20 +465,20 @@
     function confirm ($msg, $option_yes, $event_yes, $option_no, $event_no,
                       $color = 0)
     {
-      if (!is_a ($event_yes, 'event'))
-        die ('admin_panel::confirm(): event_yes is not an event object.');
-      if (!is_a ($event_no, 'event'))
-        die ('admin_panel::confirm(): event_no is not an event object.');
+        if (!is_a ($event_yes, 'event'))
+            die ('admin_panel::confirm(): event_yes is not an event object.');
+        if (!is_a ($event_no, 'event'))
+            die ('admin_panel::confirm(): event_no is not an event object.');
 
-      $this->widgets->msgbox ($msg, $color);
+        $this->widgets->msgbox ($msg, $color);
 
-      $t = "<FONT COLOR=\"GREEN\">$option_no</FONT>";
-      $l = $this->_looselink ($t, $event_no);
-      $this->widgets->msgbox ($l);
+        $t = "<FONT COLOR=\"GREEN\">$option_no</FONT>";
+        $l = $this->_looselink ($t, $event_no);
+        $this->widgets->msgbox ($l);
 
-      $t = "<FONT COLOR=\"RED\">$option_yes</FONT>";
-      $l = $this->_looselink ($t, $event_yes);
-      $this->widgets->msgbox ($l);
+        $t = "<FONT COLOR=\"RED\">$option_yes</FONT>";
+        $l = $this->_looselink ($t, $event_yes);
+        $this->widgets->msgbox ($l);
     }
 
     /**
@@ -489,10 +489,10 @@
      */
     function set_default_formevent ($event)
     {
-      if (!is_a ($event, 'event'))
-        die ('admin_panel::set_default_formevent(): Argument is not an event.');
+        if (!is_a ($event, 'event'))
+            die ('admin_panel::set_default_formevent(): Argument is not an event.');
 
-      $this->v->defaultfunc =& $event;
+        $this->v->defaultfunc =& $event;
     }
 
     /**
@@ -505,19 +505,19 @@
      */
     function open_form ($default_event = 0)
     {
-      if ($default_event && !is_a ($default_event, 'event'))
-        die ('admin_panel::open_form(): Argument is not an event.');
+        if ($default_event && !is_a ($default_event, 'event'))
+            die ('admin_panel::open_form(): Argument is not an event.');
 
-      if ($default_event)
-        $this->set_default_formevent ($default_event);
+        if ($default_event)
+            $this->set_default_formevent ($default_event);
 
-      # Only open a document form if we are in need for updates and there's no
-      # already opened form.
-      $nu =& $v->no_update;
-      if (!$this->_openform && (!isset ($nu) || !$nu))
-        $this->widgets->open_form ($this->url (new event ('form_parser')));
+        # Only open a document form if we are in need for updates and there's no
+        # already opened form.
+        $nu =& $v->no_update;
+        if (!$this->_openform && (!isset ($nu) || !$nu))
+            $this->widgets->open_form ($this->url (new event ('form_parser')));
 
-      $this->_openform++;
+        $this->_openform++;
     }
 
     /**
@@ -529,10 +529,10 @@
      */
     function close_form ()
     {
-      if (!$this->_openform--)
-        die ('admin_panel.class->close_form(): No form opened - stop.');
-      if (!$this->_openform)
-        $this->widgets->close_form ();
+        if (!$this->_openform--)
+            die ('admin_panel.class->close_form(): No form opened - stop.');
+        if (!$this->_openform)
+            $this->widgets->close_form ();
     }
 
     /**
@@ -542,11 +542,11 @@
      */
     function open_table ($attrs = 0)
     {
-      if ($attrs && !is_array ($attrs))
-        die ('admin_panel::open_table(): Argument is not an array.');
+        if ($attrs && !is_array ($attrs))
+            die ('admin_panel::open_table(): Argument is not an array.');
 
-      if (!$this->_opentable++)
-        $this->widgets->open_table ($attrs);
+        if (!$this->_opentable++)
+            $this->widgets->open_table ($attrs);
     }
 
     /**
@@ -558,19 +558,19 @@
      */
     function close_table ()
     {
-      if (!$this->_opentable--)
-        die ('admin_panel::close_table(): Table stack underflow - stop.');
-      if ($this->_opentable)
-        return;
+        if (!$this->_opentable--)
+            die ('admin_panel::close_table(): Table stack underflow - stop.');
+        if ($this->_opentable)
+            return;
 
-      if ($this->_openrow)
-        die ('admin_panel::close_table(): ' . $this->_openrow . ' rows ' .
-             'still open.');
-      if ($this->_opencells)
-        die ('admin_panel::close_table(): ' . $this->_opencells . ' cells ' .
-             'still open.');
+        if ($this->_openrow)
+            die ('admin_panel::close_table(): ' . $this->_openrow . ' rows ' .
+               'still open.');
+        if ($this->_opencells)
+            die ('admin_panel::close_table(): ' . $this->_opencells . ' cells ' .
+               'still open.');
 
-      $this->widgets->close_table ();
+        $this->widgets->close_table ();
     }
 
     /**
@@ -580,23 +580,23 @@
      */
     function _do_highlighting (&$attrs)
     {
-      if (!is_array ($attrs))
-        $attrs = array ();
-      $cursor =& $this->v->cursor;
-      $vid = $cursor->id ();
-      $f = $cursor->field ();
-      $h =& $this->highlight;
-      $w =& $this->widgets;
+        if (!is_array ($attrs))
+            $attrs = array ();
+        $cursor =& $this->v->cursor;
+        $vid = $cursor->id ();
+        $f = $cursor->field ();
+        $h =& $this->highlight;
+        $w =& $this->widgets;
 
-      # Do highlighting.
-      if (isset ($h[$vid]))
-  	$attrs['BGCOLOR'] = $h[$vid];
-      else if (isset ($f) && isset ($h[$vid . $f]))
-  	$attrs['BGCOLOR'] = $h[$vid . $f];
+        # Do highlighting.
+        if (isset ($h[$vid]))
+  	    $attrs['BGCOLOR'] = $h[$vid];
+        else if (isset ($f) && isset ($h[$vid . $f]))
+  	    $attrs['BGCOLOR'] = $h[$vid . $f];
 
-      # Else use default color.
-      else if (!isset ($attrs['BGCOLOR']) && isset ($w->color['cell'])) 
-  	$attrs['BGCOLOR'] = $w->color['cell'];
+        # Else use default color.
+        else if (!isset ($attrs['BGCOLOR']) && isset ($w->color['cell'])) 
+  	  $attrs['BGCOLOR'] = $w->color['cell'];
     }
 
     /**
@@ -606,13 +606,13 @@
      */
     function open_row ($attrs = 0)
     {
-      if ($attrs && !is_array ($attrs))
-        die ('admin_panel::open_row(): Argument is not an array.');
+        if ($attrs && !is_array ($attrs))
+            die ('admin_panel::open_row(): Argument is not an array.');
 
-      $this->_do_highlighting ($attrs);
+        $this->_do_highlighting ($attrs);
 
-      if (!$this->_openrow++)
-        $this->widgets->open_row ($attrs);
+        if (!$this->_openrow++)
+            $this->widgets->open_row ($attrs);
     }
 
     /**
@@ -624,15 +624,15 @@
      */
     function close_row ()
     {
-      if (!$this->_openrow--)
-        die ('ADMIN_PANEL->close_row(): Table row stack underflow - stop.');
-      if ($this->_openrow)
-        return;
-      if ($this->_opencells)
-        die ('admin_panel::close_row(): ' . $this->_opencells . ' cells ' .
-             'still open.');
+        if (!$this->_openrow--)
+            die ('ADMIN_PANEL->close_row(): Table row stack underflow - stop.');
+        if ($this->_openrow)
+            return;
+        if ($this->_opencells)
+            die ('admin_panel::close_row(): ' . $this->_opencells . ' cells ' .
+               'still open.');
 
-      $this->widgets->close_row ();
+        $this->widgets->close_row ();
     }
 
     /**
@@ -642,19 +642,19 @@
      */
     function open_cell ($attrs = 0)
     {
-      $w =& $this->widgets;
+        $w =& $this->widgets;
 
-      if ($attrs && !is_array ($attrs))
-        die ('admin_panel::open_cell(): Argument is not an array.');
+        if ($attrs && !is_array ($attrs))
+            die ('admin_panel::open_cell(): Argument is not an array.');
 
-      if ($this->_opencells++)
-        return;
-      if (!$this->_openrow)
-        die ('ADMIN_PANEL->open_cell(): No row for cell.');
+        if ($this->_opencells++)
+            return;
+        if (!$this->_openrow)
+            die ('ADMIN_PANEL->open_cell(): No row for cell.');
 
-      $this->_do_highlighting ($attrs);
+        $this->_do_highlighting ($attrs);
 
-      $w->open_cell ($attrs);
+        $w->open_cell ($attrs);
     }
 
     /**
@@ -666,11 +666,11 @@
      */
     function close_cell ()
     {
-      if (--$this->_opencells)
-        return;
-      if ($this->_opencells < 0)
-        die ('ADMIN_PANEL->close_cell(): Table cell stack underflow - stop.');
-      $this->widgets->close_cell ();
+        if (--$this->_opencells)
+            return;
+        if ($this->_opencells < 0)
+            die ('ADMIN_PANEL->close_cell(): Table cell stack underflow - stop.');
+        $this->widgets->close_cell ();
     }
 
     /**
@@ -681,12 +681,12 @@
      */
     function table_headers ($titles, $attrs = 0)
     {
-      if (!is_array ($titles))
-        die ('admin_panel::table_headers(): Need an array of field names.');
-      if ($attrs && !is_array ($attrs))
-        die ('admin_panel::table_headers(): Attributes are not in array.');
+        if (!is_array ($titles))
+            die ('admin_panel::table_headers(): Need an array of field names.');
+        if ($attrs && !is_array ($attrs))
+            die ('admin_panel::table_headers(): Attributes are not in array.');
 
-      $this->widgets->table_headers ($titles, $attrs);
+        $this->widgets->table_headers ($titles, $attrs);
     }
     
     /**
@@ -697,16 +697,16 @@
      */
     function show ($field)
     {
-      if (!is_string ($field))
-        die ('admin_panel::show(): Argument is not a string.');
+        if (!is_string ($field))
+            die ('admin_panel::show(): Argument is not a string.');
 
-      $text = $this->value ($field);
-      if (!$text)
-	$text = '&nbsp;';
+        $text = $this->value ($field);
+        if (!$text)
+	    $text = '&nbsp;';
 
-      $this->open_widget ($field);
-      $this->widgets->print_text ($text);
-      $this->close_widget ();
+        $this->open_widget ($field);
+        $this->widgets->print_text ($text);
+        $this->close_widget ();
     }
     
     /**
@@ -722,17 +722,17 @@
      */
     function show_ref ($field, $source, $column)
     {
-      if (!is_string ($field))
-        die ('admin_panel::show_ref(): Field name is not a string.');
-      if (!is_string ($field))
-        die ('admin_panel::show_ref(): Source name is not a string.');
-      if (!is_string ($field))
-        die ('admin_panel::show_ref(): Column name is not a string.');
+        if (!is_string ($field))
+            die ('admin_panel::show_ref(): Field name is not a string.');
+        if (!is_string ($field))
+            die ('admin_panel::show_ref(): Source name is not a string.');
+        if (!is_string ($field))
+            die ('admin_panel::show_ref(): Column name is not a string.');
 
-      $val = $this->db->column ($source, $column, $this->value ($field));
-      $this->open_widget ($field);
-      $this->widgets->print_text ($val);
-      $this->close_widget ();
+        $val = $this->db->column ($source, $column, $this->value ($field));
+        $this->open_widget ($field);
+        $this->widgets->print_text ($val);
+        $this->close_widget ();
     }
 
     /**
@@ -745,14 +745,14 @@
      */
     function paragraph ($html = '')
     {
-      if ($this->_opentable) {
-        $o = $this->_opentable;
-        while ($this->_opentable)
-          $this->close_table ();
-        echo $html;
-        while ($o--)
-          $this->open_table ();
-      }
+        if ($this->_opentable) {
+            $o = $this->_opentable;
+            while ($this->_opentable)
+                $this->close_table ();
+            echo $html;
+            while ($o--)
+              $this->open_table ();
+        }
     }
 
     /**
@@ -767,16 +767,16 @@
      */
     function open_widget ($field = '', $attrs = 0)
     {
-      $c =& $this->v->cursor;
+        $c =& $this->v->cursor;
 
-      if (!is_string ($field))
-        die ('admin_panel::open_widget(): Field name is not a string.');
-      if ($attrs && !is_array ($attrs))
-        die ('admin_panel::open_widget(): Attributes are not in array.');
+        if (!is_string ($field))
+            die ('admin_panel::open_widget(): Field name is not a string.');
+        if ($attrs && !is_array ($attrs))
+            die ('admin_panel::open_widget(): Attributes are not in array.');
 
-      $c->set_field ($field);
-      $this->open_row ();
-      $this->open_cell ($attrs);
+        $c->set_field ($field);
+        $this->open_row ();
+        $this->open_cell ($attrs);
     }
 
     /**
@@ -788,11 +788,11 @@
      */
     function close_widget ()
     {
-      $c =& $this->v->cursor;
+        $c =& $this->v->cursor;
 
-      $this->close_cell ();
-      $this->close_row ();
-      $c->set_field ('');
+        $this->close_cell ();
+        $this->close_row ();
+        $c->set_field ('');
     }
 
     ### The following functions only work inside tables:
@@ -808,12 +808,12 @@
      */
     function print_text ($text)
     {
-      if (!$text)
-	$text = '&nbsp;';
+        if (!$text)
+	    $text = '&nbsp;';
 
-      $this->open_widget ();
-      $this->widgets->print_text ($text);
-      $this->close_widget ();
+        $this->open_widget ();
+        $this->widgets->print_text ($text);
+        $this->close_widget ();
     }
 
     /**
@@ -827,12 +827,12 @@
      */
     function label ($text)
     {
-      if (!$text)
-	$text = '&nbsp;';
+        if (!$text)
+	    $text = '&nbsp;';
 
-      $this->open_widget ();
-      $this->widgets->print_label ($text);
-      $this->close_widget ();
+        $this->open_widget ();
+        $this->widgets->print_label ($text);
+        $this->close_widget ();
     }
 
     /**
@@ -844,33 +844,33 @@
      */
     function show_mime_image ($field, $type)
     {
-      if (!is_string ($field))
-        die ('admin_panel::show_mime_image(): Field name is not a string.');
-      if (!is_string ($type))
-        die ('admin_panel::show_mime_image(): MIME type is not a string.');
+        if (!is_string ($field))
+            die ('admin_panel::show_mime_image(): Field name is not a string.');
+        if (!is_string ($type))
+            die ('admin_panel::show_mime_image(): MIME type is not a string.');
 
-      $v =& $this->v->cursor;
-      $source = $v->source ();
-      $url = $this->fileurl ($source, $field, $v->key (), $type,
+        $v =& $this->v->cursor;
+        $source = $v->source ();
+        $url = $this->fileurl ($source, $field, $v->key (), $type,
                              $this->value ($field));
 
-      $this->open_widget ($field);
-      $this->widgets->image ('', $url);
-      $this->close_widget ();
+        $this->open_widget ($field);
+        $this->widgets->image ('', $url);
+        $this->close_widget ();
     }
 
     function _inputline ($type, $field, $maxlen)
     {
-      $w =& $this->widgets;
-      $size = ($maxlen < 60) ? $maxlen : 60;
-      $val = htmlentities ($this->value ($field));
+        $w =& $this->widgets;
+        $size = ($maxlen < 60) ? $maxlen : 60;
+        $val = htmlentities ($this->value ($field));
 
-      $this->open_widget ($field);
-      if ($type == 'TEXT')
-        $w->inputline ($this->new_formfield ($field), $val, $size);
-      else
-        $w->password ($this->new_formfield ($field), $val, $size);
-      $this->close_widget ();
+        $this->open_widget ($field);
+        if ($type == 'TEXT')
+            $w->inputline ($this->new_formfield ($field), $val, $size);
+        else
+            $w->password ($this->new_formfield ($field), $val, $size);
+        $this->close_widget ();
     }
 
     /**
@@ -882,12 +882,12 @@
      */
     function inputline ($field, $maxlen)
     {
-      if (!is_string ($field))
-        die ('admin_panel::inputline(): Field name is not a string.');
-      if (!is_int ($maxlen))
-        die ('admin_panel::inputline(): MIME type is not a string.');
+        if (!is_string ($field))
+            die ('admin_panel::inputline(): Field name is not a string.');
+        if (!is_int ($maxlen))
+            die ('admin_panel::inputline(): MIME type is not a string.');
 
-      $this->_inputline ('TEXT', $field, $maxlen);
+        $this->_inputline ('TEXT', $field, $maxlen);
     }
 
 
@@ -902,12 +902,12 @@
      */
     function password ($field, $maxlen, $label = '')
     {
-      if (!is_string ($field))
-        die ('admin_panel::password(): Field name is not a string.');
-      if (!is_int ($maxlen))
-        die ('admin_panel::password(): MIME type is not a string.');
+        if (!is_string ($field))
+            die ('admin_panel::password(): Field name is not a string.');
+        if (!is_int ($maxlen))
+            die ('admin_panel::password(): MIME type is not a string.');
 
-      $this->_inputline ('PASSWORD', $field, $maxlen);
+        $this->_inputline ('PASSWORD', $field, $maxlen);
     }
 
     /**
@@ -923,19 +923,19 @@
     function radiobox ($field, $label_true, $label_false,
                        $value_true = 1, $value_false = 0)
     {
-      if (!is_string ($field))
-        die ('admin_panel::radiobox(): Field name is not a string.');
+        if (!is_string ($field))
+            die ('admin_panel::radiobox(): Field name is not a string.');
 
-      $w =& $this->widgets;
-      $v = $this->value ($field);
-      $i = $this->new_formfield ($field);
+        $w =& $this->widgets;
+        $v = $this->value ($field);
+        $i = $this->new_formfield ($field);
 
-      $this->open_widget ($field);
-      $w->radiobox ($i, $value_true, $v);
-      echo $label_true;
-      $w->radiobox ($i, $value_false, $v);
-      echo $label_false;
-      $this->close_widget ();
+        $this->open_widget ($field);
+        $w->radiobox ($i, $value_true, $v);
+        echo $label_true;
+        $w->radiobox ($i, $value_false, $v);
+        echo $label_false;
+        $this->close_widget ();
     }
 
     /**
@@ -951,22 +951,22 @@
     # Select one of the strings in array $optionlist.
     function select_string ($field, $optionlist, $use_stringkey = true)
     {
-      if (!is_string ($field))
-        die ('admin_panel::select_string(): Field name is not a string.');
-      if (!is_array ($optionlist))
-        die ('admin_panel::select_string(): Option list is not an array.');
+        if (!is_string ($field))
+            die ('admin_panel::select_string(): Field name is not a string.');
+        if (!is_array ($optionlist))
+            die ('admin_panel::select_string(): Option list is not an array.');
 
-      if ($use_stringkey) {
-        foreach ($optionlist as $string)
-          $options[$string] = $string;
-      } else
-        $options = $optionlist;
+        if ($use_stringkey) {
+            foreach ($optionlist as $string)
+                $options[$string] = $string;
+        } else
+            $options = $optionlist;
 
-      $this->open_widget ($field);
-      $this->widgets->select ($this->new_formfield ($field),
-                              $this->value ($field),
-                              $options);
-      $this->close_widget ();
+        $this->open_widget ($field);
+        $this->widgets->select ($this->new_formfield ($field),
+                                $this->value ($field),
+                                $options);
+        $this->close_widget ();
     }
 
     /**
@@ -983,22 +983,22 @@
      */
     function select_id ($field, $source, $column, $id, $where = '')
     {
-      if (!is_string ($field))
-        die ('admin_panel::select_id(): Field name is not a string.');
-      if (!is_string ($source))
-        die ('admin_panel::select_id(): Source name is not a string.');
-      if (!is_string ($column))
-        die ('admin_panel::select_id(): Column name is not a string.');
+        if (!is_string ($field))
+            die ('admin_panel::select_id(): Field name is not a string.');
+        if (!is_string ($source))
+            die ('admin_panel::select_id(): Source name is not a string.');
+        if (!is_string ($column))
+            die ('admin_panel::select_id(): Column name is not a string.');
 
-      $options[0] = '-';
-      $res = $this->db->select ("$column,$id", $source, '', $where);
-      while ($row = $res->get ())
-        $options[$row[$id]] = $row[$column];
+        $options[0] = '-';
+        $res = $this->db->select ("$column,$id", $source, '', $where);
+        while ($row = $res->get ())
+            $options[$row[$id]] = $row[$column];
 
-      $this->open_widget ($field);
-      $this->widgets->select ($this->new_formfield ($field),
-                              $this->value ($field), $options);
-      $this->close_widget ();
+        $this->open_widget ($field);
+        $this->widgets->select ($this->new_formfield ($field),
+                                $this->value ($field), $options);
+        $this->close_widget ();
     }
 
     /**
@@ -1011,19 +1011,19 @@
      */
     function textarea ($field, $width, $height)
     {
-      if (!is_string ($field))
-        die ('admin_panel::textarea(): Field name is not a string.');
-      if (!is_int ($width))
-        die ('admin_panel::textarea(): Width is not an integer.');
-      if (!is_int ($height))
-        die ('admin_panel::textarea(): Height is not an integer.');
+        if (!is_string ($field))
+            die ('admin_panel::textarea(): Field name is not a string.');
+        if (!is_int ($width))
+            die ('admin_panel::textarea(): Width is not an integer.');
+        if (!is_int ($height))
+            die ('admin_panel::textarea(): Height is not an integer.');
 
-      $val = htmlentities ($this->value ($field));
+        $val = htmlentities ($this->value ($field));
 
-      $this->open_widget ($field);
-      $this->widgets->textarea ($this->new_formfield ($field),
-                                $width, $height, $val);
-      $this->close_widget ();
+        $this->open_widget ($field);
+        $this->widgets->textarea ($this->new_formfield ($field),
+                                  $width, $height, $val);
+        $this->close_widget ();
     }
 
     /**
@@ -1039,22 +1039,22 @@
      */
     function fileform ($field, $typefield = '', $filenamefield = '')
     {
-      if (!is_string ($field))
-        die ('admin_panel::open_widget(): Field name is not a string.');
+        if (!is_string ($field))
+            die ('admin_panel::open_widget(): Field name is not a string.');
 
-      $w =& $this->widgets;
+        $w =& $this->widgets;
 
-      # Store type and fieldnames.
-      $f =& new _form_element;
-      $filefield = $this->application->_tokens->create (array ('dummy'));
-      $f->is_file = $filefield;	# File data element.
-      $f->typefield = $typefield; # File type record field..
-      $f->filenamefield = $filenamefield; # File name record field.
+        # Store type and fieldnames.
+        $f =& new _form_element;
+        $filefield = $this->application->_tokens->create (array ('dummy'));
+        $f->is_file = $filefield;	# File data element.
+        $f->typefield = $typefield; # File type record field..
+        $f->filenamefield = $filenamefield; # File name record field.
 
-      $this->open_widget ($field);
-      $w->hidden ($this->new_formfield ($field, 0, $f), 0);
-      $w->fileform ($filefield);
-      $this->close_widget ();
+        $this->open_widget ($field);
+        $w->hidden ($this->new_formfield ($field, 0, $f), 0);
+        $w->fileform ($filefield);
+        $this->close_widget ();
     }
 
     /**
@@ -1068,24 +1068,24 @@
      */
     function checkbox ($field, $event = 0)
     {
-      if (!is_string ($field))
-        die ('admin_panel::checkbox(): Field name is not a string.');
-      if ($event && !is_a ($event, 'event'))
-        die ('admin_panel::checkbox(): Argument 2 is not an event.');
+        if (!is_string ($field))
+            die ('admin_panel::checkbox(): Field name is not a string.');
+        if ($event && !is_a ($event, 'event'))
+            die ('admin_panel::checkbox(): Argument 2 is not an event.');
 
-      $w =& $this->widgets;
+        $w =& $this->widgets;
 
-      $this->open_widget ($field);
+        $this->open_widget ($field);
 
-      # This is a workaround which forces a value of 0 if the checkbox is
-      # not selected.
-      $w->hidden ($this->new_formfield ($field, $event), 0);
+        # This is a workaround which forces a value of 0 if the checkbox is
+        # not selected.
+        $w->hidden ($this->new_formfield ($field, $event), 0);
 
-      # Print checkbox.
-      $w->checkbox ($this->new_formfield ($field, $event), 1,
-                    $this->value ($field));
+        # Print checkbox.
+        $w->checkbox ($this->new_formfield ($field, $event), 1,
+                      $this->value ($field));
 
-      $this->close_widget ();
+        $this->close_widget ();
     }
 
     /**
@@ -1096,9 +1096,9 @@
      */
     function reset_button ($label = 'reset')
     {
-      $this->open_widget ('', array ('ALIGN' => 'CENTER'));
-      $this->widgets->reset ($label);
-      $this->close_widget ();
+        $this->open_widget ('', array ('ALIGN' => 'CENTER'));
+        $this->widgets->reset ($label);
+        $this->close_widget ();
     }
 
     /**
@@ -1110,10 +1110,10 @@
      */
     function submit_name ($event = 0)
     {
-      $f = new _form_element;
-      $f->is_submit = true;
+        $f = new _form_element;
+        $f->is_submit = true;
 
-      return $this->_new_formtoken ($event, $f);
+        return $this->_new_formtoken ($event, $f);
     }
 
     /**
@@ -1125,12 +1125,12 @@
      */
     function submit_button ($label, $view = 0)
     {
-      $f = new _form_element;
-      $f->is_submit = true;
+        $f = new _form_element;
+        $f->is_submit = true;
 
-      $this->open_widget ('', array ('ALIGN' => 'CENTER'));
-      $this->widgets->submit ($this->_new_formtoken ($view, $f), $label);
-      $this->close_widget ();
+        $this->open_widget ('', array ('ALIGN' => 'CENTER'));
+        $this->widgets->submit ($this->_new_formtoken ($view, $f), $label);
+        $this->close_widget ();
     }
 
     /**
@@ -1143,13 +1143,13 @@
      */
     function submit_image ($label, $image, $view = 0)
     {
-      $f = new _form_element;
-      $f->is_submit = true;
-      $formname = $this->_new_formtoken ($view, $f);
+        $f = new _form_element;
+        $f->is_submit = true;
+        $formname = $this->_new_formtoken ($view, $f);
 
-      $this->open_widget ('', array ('ALIGN' => 'CENTER'));
-      $this->widgets->submit_image ($label, $image, $formname);
-      $this->close_widget ();
+        $this->open_widget ('', array ('ALIGN' => 'CENTER'));
+        $this->widgets->submit_image ($label, $image, $formname);
+        $this->close_widget ();
     }
 
     #############
@@ -1168,9 +1168,9 @@
      */
     function use_anchor ()
     {
-      $this->_anchor = true;
-      $this->_anchors++;
-      echo '<A NAME="a' . $this->_anchors . '">';
+        $this->_anchor = true;
+        $this->_anchors++;
+        echo '<A NAME="a' . $this->_anchors . '">';
     }
 
     /**
@@ -1180,16 +1180,16 @@
      */
     function no_anchor ()
     {
-      $this->_anchor = false;
+        $this->_anchor = false;
     }
 
     # Create HTML-Link without table tags.
     # The link is not printed but returned! Echo yourself.
     function _looselink ($label, $view, $fakename = '')
     {
-      $url = $this->url ($view);
+        $url = $this->url ($view);
 
-      return "<A HREF=\"$url$fakename\">$label</A>";
+        return "<A HREF=\"$url$fakename\">$label</A>";
     }
 
     /**
@@ -1203,20 +1203,20 @@
      */
     function link ($label, $event, $fakename = '')
     {
-      if (!is_a ($event, 'event'))
-        die ('admin_panel::link(): Argument 2 is not an event.');
-      if ($fakename && !is_string ($fakename))
-        die ('admin_panel::link(): Argument 3 is not a string.');
+        if (!is_a ($event, 'event'))
+            die ('admin_panel::link(): Argument 2 is not an event.');
+        if ($fakename && !is_string ($fakename))
+            die ('admin_panel::link(): Argument 3 is not a string.');
 
-      if (!$this->_opentable) {
-        echo '[' . $this->_looselink ($label, $event, $fakename) . '] ';
-	return;
-      }
-      $link = $this->_looselink ($label, $event, $fakename);
+        if (!$this->_opentable) {
+            echo '[' . $this->_looselink ($label, $event, $fakename) . '] ';
+	    return;
+        }
+        $link = $this->_looselink ($label, $event, $fakename);
 
-      $this->open_widget ();
-      $this->widgets->print_text ($link);
-      $this->close_widget ();
+        $this->open_widget ();
+        $this->widgets->print_text ($link);
+        $this->close_widget ();
     }
 
     /**
@@ -1229,9 +1229,9 @@
     # Create image cell with link.
     function image ($label, $src)
     {
-      $this->open_widget ();
-      $this->widgets->image ($label, $src);
-      $this->close_widget ();
+        $this->open_widget ();
+        $this->widgets->image ($label, $src);
+        $this->close_widget ();
     }
 
     /**
@@ -1246,14 +1246,14 @@
     # Create image cell with link.
     function image_link ($label, $src, $event)
     {
-      if (!is_a ($event, 'event'))
-        die ('admin_panel::image_link(): Argument 3 is not an event.');
+        if (!is_a ($event, 'event'))
+            die ('admin_panel::image_link(): Argument 3 is not an event.');
 
-      $url = $this->url ($event);
+        $url = $this->url ($event);
 
-      $this->open_widget ();
-      $this->widgets->image_link ($label, $src, $url);
-      $this->close_widget ();
+        $this->open_widget ();
+        $this->widgets->image_link ($label, $src, $url);
+        $this->close_widget ();
     }
 
     ###############################
@@ -1272,12 +1272,12 @@
      */
     function fileurl ($source, $field, $key, $mime_type, $data = 0)
     {
-      $pri = $this->db->def->primary ($source);
-      $arg = array ('source' => $source, 'column' => $field,
-	            'primary' => $pri, 'key' => $key, 'type' => $mime_type);
-      return $this->application->link ('__return_mime', $arg) .
-             md5 (substr ($data, 0, 1024)) .
-             '.' . substr ($mime_type, strpos ($mime_type, '/') + 1);
+        $pri = $this->db->def->primary ($source);
+        $arg = array ('source' => $source, 'column' => $field,
+	              'primary' => $pri, 'key' => $key, 'type' => $mime_type);
+        return $this->application->link ('__return_mime', $arg) .
+               md5 (substr ($data, 0, 1024)) .
+               '.' . substr ($mime_type, strpos ($mime_type, '/') + 1);
     }
 
     /**
@@ -1290,23 +1290,23 @@
      */
     function url (&$event)
     {
-      $c =& $this->v->cursor;
+        $c =& $this->v->cursor;
 
-      if (is_string ($event))
-        $event =& new event ($event);
-      else if (!is_a ($event, 'event'))
-        die ('admin_panel::url(): Argument is not an event.');
+        if (is_string ($event))
+            $event =& new event ($event);
+        else if (!is_a ($event, 'event'))
+            die ('admin_panel::url(): Argument is not an event.');
 
-      # Create a link.
-      if (!$event->arg ('_cursor'))
-        $event->set_arg ('_cursor', $c); # Add context.
-      $link =& $this->application->link ($event);
+        # Create a link.
+        if (!$event->arg ('_cursor'))
+            $event->set_arg ('_cursor', $c); # Add context.
+        $link =& $this->application->link ($event);
 
-      # Add anchor if activated and the link points to this event handler.
-      if ($this->_anchor)
-	$link .= '#a' . $this->_anchors;
+        # Add anchor if activated and the link points to this event handler.
+        if ($this->_anchor)
+	    $link .= '#a' . $this->_anchors;
 
-      return $link;
+        return $link;
     }
 
     /**
@@ -1320,17 +1320,17 @@
      */
     function new_formfield ($field, $event = 0, $f = 0)
     {
-      $v =& $this->v;
-      $c =& $v->cursor;
+        $v =& $this->v;
+        $c =& $v->cursor;
 
-      if ($event && !is_a ($event, 'event'))
-        die ('admin_panel::new_formfield(): Argument 2 is not an event.');
+        if ($event && !is_a ($event, 'event'))
+            die ('admin_panel::new_formfield(): Argument 2 is not an event.');
 
-      $c->set_field ($field);
-      if (!$f)
-        $f = new _form_element;
+        $c->set_field ($field);
+        if (!$f)
+            $f = new _form_element;
 
-      return $this->_new_formtoken ($event, $f);
+        return $this->_new_formtoken ($event, $f);
     }
 
     /**
@@ -1340,13 +1340,13 @@
      */
     function _add_context (&$element)
     {
-      $v =& $this->v;
+        $v =& $this->v;
 
-      $fi =& $this->_form_index;
-      $element->form_idx = $fi ? $fi : 0;
+        $fi =& $this->_form_index;
+        $element->form_idx = $fi ? $fi : 0;
 
-      $element->cursor = $v->cursor;
-      $element->view->args['_cursor'] =& $v->cursor;
+        $element->cursor = $v->cursor;
+        $element->view->args['_cursor'] =& $v->cursor;
     }
 
     /**
@@ -1359,20 +1359,20 @@
      */
     function _new_formtoken ($view, $element)
     {
-      $tv = $this->application->event ();
+        $tv = $this->application->event ();
 
-      $view->subsession = $tv->subsession;
+        $view->subsession = $tv->subsession;
 
-      $element->view = $view;
-      $df =& $this->v->defaultfunc;
-      if (isset ($df))
-	$element->defaultfunc = $df;
-      if ($this->_form_filter)
-	$element->use_filter = $this->_form_filter;
-      $element->element_filter_write = $this->_element_filter_write;
+        $element->view = $view;
+        $df =& $this->v->defaultfunc;
+        if (isset ($df))
+	    $element->defaultfunc = $df;
+        if ($this->_form_filter)
+	    $element->use_filter = $this->_form_filter;
+        $element->element_filter_write = $this->_element_filter_write;
 
-      $this->_add_context ($element);
-      return 'item[' . $this->application->_tokens->create ($element) . ']';
+        $this->_add_context ($element);
+        return 'item[' . $this->application->_tokens->create ($element) . ']';
     }
-  }
+}
 ?>

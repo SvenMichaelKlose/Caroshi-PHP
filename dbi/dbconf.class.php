@@ -1,18 +1,18 @@
 <?php
-  # Copyright (c) 2000-2001 dev/consulting GmbH
-  # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
-  #
+# Copyright (c) 2000-2001 dev/consulting GmbH
+# Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
+#
 # Licensed under the MIT, BSD and GPL licenses.
 
 
-  /**
-   * Read configuration from database.
-   *
-   * @access public
-   * @package Database interfaces
-   * @author Sven Michael Klose <pixel@copei.de>
-   */
-  class dbconf {
+/**
+ * Read configuration from database.
+ *
+ * @access public
+ * @package Database interfaces
+ * @author Sven Michael Klose <pixel@copei.de>
+ */
+class dbconf {
     var $db;
     var $_res;	# Helper for create().
 
@@ -24,15 +24,15 @@
      */
     function &dbconf (&$db)
     {
-      global $application_id, $config_table;
+        global $application_id, $config_table;
 
-      # Check application ID.
-      if (!isset ($application_id) || !$application_id)
-        die ('$application_id missing.');
-      if (!isset ($config_table) || !$config_table)
-        die ('$config_table missing.');
+        # Check application ID.
+        if (!isset ($application_id) || !$application_id)
+            die ('$application_id missing.');
+        if (!isset ($config_table) || !$config_table)
+            die ('$config_table missing.');
 
-      $this->db =& $db;
+        $this->db =& $db;
     }
 
     /**
@@ -44,33 +44,33 @@
      */
     function exists ($name)
     {
-      global $application_id, $config_table;
+        global $application_id, $config_table;
 
-      if (!isset ($application_id) || !$application_id)
-        die ('DBConf::exists(): No $application_id.');
-      $res =& $this->db->select (
-        'COUNT(id)', $config_table,
-	'id_application=' . $application_id .
-	' AND name=\'' . addslashes ($name) . '\''
-      );
-      if (!$res || $res->num_rows () < 1)
-        return 0;
-      list ($num) = $res->get ();
-      $res->free ();
-      return $num;
+        if (!isset ($application_id) || !$application_id)
+            die ('DBConf::exists(): No $application_id.');
+        $res =& $this->db->select (
+            'COUNT(id)', $config_table,
+	    'id_application=' . $application_id .
+	    ' AND name=\'' . addslashes ($name) . '\''
+        );
+        if (!$res || $res->num_rows () < 1)
+            return 0;
+        list ($num) = $res->get ();
+        $res->free ();
+        return $num;
     }
 
     function _get ($name)
     {
-      global $application_id, $config_table;
+        global $application_id, $config_table;
 
-      # Fetch flags and data from config record.
-      $this->_res =& $this->db->select (
-        'is_file,data', $config_table,
-	'id_application=' . $application_id .
-        ' AND name=\'' . addslashes ($name) . '\''
-      );
-      return $this->_res->get ();
+        # Fetch flags and data from config record.
+        $this->_res =& $this->db->select (
+            'is_file,data', $config_table,
+	    'id_application=' . $application_id .
+            ' AND name=\'' . addslashes ($name) . '\''
+        );
+        return $this->_res->get ();
     }
 
     /**
@@ -83,27 +83,27 @@
      */
     function &get ($name)
     {
-      list ($is_file, $data) = $this->_get ($name);
+        list ($is_file, $data) = $this->_get ($name);
 
-      # If it's a file name read the file in.
-      if (!$is_file)
+        # If it's a file name read the file in.
+        if (!$is_file)
+            return $data;
+
+        if (!file_exists ($data)) {
+            echo 'dbi/dbconf::get(): File "' . $data .
+                 '" for config entry "' . $name . '" not found.<br>';
+            return;
+        }
+
+        if (!($fd = @fopen ($data, 'r')))
+            return;
+
+        $data = '';
+        while ($tmp = fgets ($fd, 65535))
+            $data .= $tmp;
+        fclose ($fd);
+
         return $data;
-
-      if (!file_exists ($data)) {
-        echo 'dbi/dbconf::get(): File "' . $data .
-             '" for config entry "' . $name . '" not found.<br>';
-        return;
-      }
-
-      if (!($fd = @fopen ($data, 'r')))
-        return;
-
-      $data = '';
-      while ($tmp = fgets ($fd, 65535))
-         $data .= $tmp;
-      fclose ($fd);
-
-      return $data;
     }
 
     /**
@@ -115,8 +115,8 @@
      */
     function is_file ($name)
     {
-      list ($is_file, $data) = $this->_get ($name);
-      return $is_file;
+        list ($is_file, $data) = $this->_get ($name);
+        return $is_file;
     }
 
     /**
@@ -130,18 +130,18 @@
      */
     function set ($name, $data, $is_file = 0)
     {
-      global $application_id, $config_table;
+        global $application_id, $config_table;
 
-      $res =& $this->db->select (
-        'COUNT(id)', $config_table, 'id_application=' . $application_id
-      );
-      list ($tmp) = $res->get ();
-      $q = "data='" . addslashes ($data) . "',is_file=$is_file";
-      $q2 = "id_application=$application_id";
-      if ($tmp)
-        $this->db->update ($config_table, $q, "$q2 AND name='$name'");
-      else
-        $this->db->insert ($config_table, $q, "$q2,name='$name'");
+        $res =& $this->db->select (
+            'COUNT(id)', $config_table, 'id_application=' . $application_id
+        );
+        list ($tmp) = $res->get ();
+        $q = "data='" . addslashes ($data) . "',is_file=$is_file";
+        $q2 = "id_application=$application_id";
+        if ($tmp)
+            $this->db->update ($config_table, $q, "$q2 AND name='$name'");
+        else
+            $this->db->insert ($config_table, $q, "$q2,name='$name'");
     }
 
     /**
@@ -153,18 +153,18 @@
      */
     function create ($name, $descr)
     {
-      global $application_id, $config_table;
+        global $application_id, $config_table;
 
-      $data = $this->get ($name);
-      if ($this->_res->num_rows () > 0)
-        return;
+        $data = $this->get ($name);
+        if ($this->_res->num_rows () > 0)
+            return;
 
-      $data = addslashes ($data);
-      $descr = addslashes ($descr);
-      $q = "data='$data',id_application=$application_id,name='$name'," .
-           "descr='$descr'";
-      $this->db->insert ($config_table, $q);
-      $this->_res->free ();
+        $data = addslashes ($data);
+        $descr = addslashes ($descr);
+        $q = "data='$data',id_application=$application_id,name='$name'," .
+             "descr='$descr'";
+        $this->db->insert ($config_table, $q);
+        $this->_res->free ();
     }
 
     /**
@@ -175,33 +175,33 @@
      */
     function define_tables (&$def)
     {
-      global $config_table;
+        global $config_table;
       
-      if (!isset ($config_table))
-        $config_table = 'config';
+        if (!isset ($config_table))
+            $config_table = 'config';
 
-      $def->define_table (
-        $config_table,
-	array (array ('n' => 'id',
-                      't' => 'INT NOT NULL AUTO_INCREMENT PRIMARY KEY'),
-	       array ('n' => 'id_application',
-                      'i' => 'true',
-                      't' => 'INT NOT NULL'),
-	       array ('n' => 'is_file',
-                      'i' => 'true',
-                      't' => 'INT NOT NULL'),
-	       array ('n' => 'mime',
-                      't' => 'VARCHAR(255) NOT NULL'),
-	       array ('n' => 'name',
-                      'i' => 'true',
-                      't' => 'VARCHAR(255) NOT NULL'),
-	       array ('n' => 'descr',
-                      't' => 'VARCHAR(255) NOT NULL'),
-	       array ('n' => 'data',
-                      't' => 'MEDIUMTEXT NOT NULL'))
-      );
-      # XXX Should be id.
-      $def->set_primary ($config_table, 'name');
+        $def->define_table (
+            $config_table,
+	    array (array ('n' => 'id',
+                          't' => 'INT NOT NULL AUTO_INCREMENT PRIMARY KEY'),
+	           array ('n' => 'id_application',
+                          'i' => 'true',
+                          't' => 'INT NOT NULL'),
+	           array ('n' => 'is_file',
+                          'i' => 'true',
+                          't' => 'INT NOT NULL'),
+	           array ('n' => 'mime',
+                          't' => 'VARCHAR(255) NOT NULL'),
+	           array ('n' => 'name',
+                          'i' => 'true',
+                          't' => 'VARCHAR(255) NOT NULL'),
+	           array ('n' => 'descr',
+                          't' => 'VARCHAR(255) NOT NULL'),
+	           array ('n' => 'data',
+                          't' => 'MEDIUMTEXT NOT NULL'))
+        );
+        # XXX Should be id.
+        $def->set_primary ($config_table, 'name');
     }
-  }
+}
 ?>

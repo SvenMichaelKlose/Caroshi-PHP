@@ -1,17 +1,17 @@
 <?php
-  # Copyright (c) 2000-2002 dev/consulting GmbH
-  # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
-  #
+# Copyright (c) 2000-2002 dev/consulting GmbH
+# Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
+#
 # Licensed under the MIT, BSD and GPL licenses.
 
 
-  /**
-   * Event object.
-   *
-   * @access public
-   * @package Application server
-   */
-  class event {
+/**
+ * Event object.
+ *
+ * @access public
+ * @package Application server
+ */
+class event {
     /**
      * Create event object.
      *
@@ -21,17 +21,17 @@
      */
     function event ($name, $args = 0)
     {
-      if (!is_string ($name)) {
-        debug_dump ($name);
-        die ('event::event(): Handler name is not a string.');
-      }
-      if (!$args)
-        $args = array ();
-      else if (!is_array ($args))
-        die ("event::event(): args is not an array for handler '$name'.");
+        if (!is_string ($name)) {
+            debug_dump ($name);
+            die ('event::event(): Handler name is not a string.');
+        }
+        if (!$args)
+            $args = array ();
+        else if (!is_array ($args))
+            die ("event::event(): args is not an array for handler '$name'.");
 
-      $this->name = $name;
-      $this->args = $args;
+        $this->name = $name;
+        $this->args = $args;
     }
 
     /**
@@ -43,12 +43,12 @@
      */
     function &arg ($name)
     {
-      if (!is_string ($name))
-        die ('event::arg(): Argument name is not a string.');
+        if (!is_string ($name))
+            die ('event::arg(): Argument name is not a string.');
 
-      $a =& $this->args[$name];
-      if (isset ($a))
-        return $a;
+        $a =& $this->args[$name];
+        if (isset ($a))
+            return $a;
     }
 
     /**
@@ -59,11 +59,11 @@
      */
     function set_next (&$e)
     {
-      if (is_string ($e))
-        $e =& new event ($e);
-      if (!is_a ($e, 'event'))
-        die ('event::set_next(): Argument is not an event object.');
-      $this->next =& $e;
+        if (is_string ($e))
+            $e =& new event ($e);
+        if (!is_a ($e, 'event'))
+            die ('event::set_next(): Argument is not an event object.');
+        $this->next =& $e;
     }
 
     /* Set return function for call to subsession.
@@ -75,14 +75,14 @@
      */
     function set_caller ($e)
     {
-      if (!is_a ($e, 'event'))
-        die ('event::set_caller(): Argument is not an event object.');
+        if (!is_a ($e, 'event'))
+            die ('event::set_caller(): Argument is not an event object.');
 
-      # Call subsession function.
-      $c =& new event ('__call_sub', array ('caller' => $e));
-      $t = $this;
-      $c->set_next ($t);
-      $this = $c;
+        # Call subsession function.
+        $c =& new event ('__call_sub', array ('caller' => $e));
+        $t = $this;
+        $c->set_next ($t);
+        $this = $c;
     }
 
     /**
@@ -94,15 +94,15 @@
      */
     function set_arg ($name, $data)
     { 
-      if (!is_string ($name))
-        die ('event::set_arg(): Argument name is not a string.');
+        if (!is_string ($name))
+            die ('event::set_arg(): Argument name is not a string.');
 
-      $this->args[$name] = $data;
+        $this->args[$name] = $data;
     }
 
     var $name;
     var $args;
     var $next = 0;
     var $subsession;
-  }
+}
 ?>
