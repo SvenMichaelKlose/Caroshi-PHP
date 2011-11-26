@@ -1,15 +1,15 @@
 <?php
-  /**
-   * General library info.
-   *
-   * @access public
-   * @module libinfo
-   * @package Miscellaneous
-   */
+/**
+ * General library info.
+ *
+ * @access public
+ * @module libinfo
+ * @package Miscellaneous
+ */
 
-  # Copyright (c) 2002 dev/consulting GmbH
-  # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
-  #
+# Copyright (c) 2002 dev/consulting GmbH
+# Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
+#
 # Licensed under the MIT, BSD and GPL licenses.
 
 

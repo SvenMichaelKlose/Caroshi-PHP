@@ -148,6 +148,7 @@ function _tk_dbconf_reset_ask (&$this)
 function _tk_dbconf_update (&$this)
 {
     global $lang, $conf;
+
     $ui =& admin_panel::instance ();
 
     # Define config items using the language definition.

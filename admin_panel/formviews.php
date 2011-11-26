@@ -308,13 +308,14 @@ function form_create (&$this)
  */
 function form_check (&$this)
 {
+    global $debug;
+
     $error_view = $this->arg ('on_error');
     $patterns = $this->arg ('patterns');
     $highlight_color = $this->arg ('highlight_color', ARG_OPTIONAL);
     if (!$highlight_color)
         $highlight_color = '#FF0000';
 
-    global $debug;
     $ui =& admin_panel::instance ();
 
     # Check all form elements that come along.
