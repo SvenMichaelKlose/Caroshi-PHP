@@ -28,5 +28,12 @@ class _admin_panel_view {
      * @var object event
      */
     var $defaultfunc;
+
+    function _admin_panel_view (&$cursor, $no_update, $defaultfunc)
+    {
+        $this->cursor =& $cursor;
+        $this->no_update = $no_update;
+        $this->defaultfunc = $defaultfunc;
+    }
 }
 ?>

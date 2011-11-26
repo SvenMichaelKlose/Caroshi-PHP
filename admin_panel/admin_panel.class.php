@@ -177,7 +177,6 @@ class admin_panel extends singleton {
         $this->application->short_links = false;
         $this->widgets = $widgets ? $widgets : new widget_set ();
         $this->db =& $app->db;
-        $this->v = new _admin_panel_view;
         $this->highlight = array ();
         $this->_viewstack = array ();
         $app->raw_views['__return_mime'] = true;
@@ -186,7 +185,8 @@ class admin_panel extends singleton {
 
         # Initialize SQL cursors.
         cursor_sql::set_db ($this->db);
-        $this->v->cursor = new cursor_sql ();
+
+        $this->v = new _admin_panel_view (new cursor_sql (), null, null);
 
         # Init modules.
         _formviews_init ($app);
@@ -247,14 +247,8 @@ class admin_panel extends singleton {
         if (!sizeof ($this->_viewstack))
             $this->_form_index++;
 
-        # Push old view on stack.
         array_push ($this->_viewstack, $this->v);
-
-        # Initialise view.
-        $v = new _admin_panel_view;
-        $v->no_update = $this->no_update;
-        $v->cursor =& $cursor;
-        $this->v =& $v;
+        $this->v = new _admin_panel_view ($cursor, $no_update, null);
     }
 
     /**
@@ -338,13 +332,13 @@ class admin_panel extends singleton {
      */
     function value ($field_name)
     {
+        if (!is_string ($field_name))
+            die ('admin_panel::value(): Argument is not a string');
+
         $v =& $this->v;
         $cursor =& $v->cursor;
         $record_cache =& $this->record_cache;
         $f =& $this->_element_filter_read;
-
-        if (!is_string ($field_name))
-            die ('admin_panel::value(): Argument is not a string');
 
         if ($cursor->source ())
             $source = $cursor->source ();
@@ -365,8 +359,7 @@ class admin_panel extends singleton {
         if ($f)
             $i = $f ($i);
 
-        if (!is_null ($i))
-            return $i;
+        return $i;
     }
 
     /**
@@ -509,8 +502,7 @@ class admin_panel extends singleton {
 
         # Only open a document form if we are in need for updates and there's no
         # already opened form.
-        $nu =& $v->no_update;
-        if (!$this->_openform && (!isset ($nu) || !$nu))
+        if (!$v->no_update || !$this->_openform)
             $this->widgets->open_form ($this->url (new event ('form_parser')));
 
         $this->_openform++;
@@ -527,6 +519,7 @@ class admin_panel extends singleton {
     {
         if (!$this->_openform--)
             die ('admin_panel.class->close_form(): No form opened - stop.');
+
         if (!$this->_openform)
             $this->widgets->close_form ();
     }
@@ -912,8 +905,7 @@ class admin_panel extends singleton {
      * @param mixed $value_true Data for 'true' option.
      * @param mixed $value_false Data for 'false' option.
      */
-    function radiobox ($field, $label_true, $label_false,
-                       $value_true = 1, $value_false = 0)
+    function radiobox ($field, $label_true, $label_false, $value_true = 1, $value_false = 0)
     {
         if (!is_string ($field))
             die ('admin_panel::radiobox(): Field name is not a string.');
@@ -1302,8 +1294,7 @@ class admin_panel extends singleton {
      *
      * @access public
      * @param string $field
-     * @param object event $event
-     *        Event to trigger if widget is a submit button.
+     * @param object event $event Event to trigger if widget is a submit button.
      * @param object _form_element $f For internal use.
      */
     function new_formfield ($field, $event = 0, $f = 0)
