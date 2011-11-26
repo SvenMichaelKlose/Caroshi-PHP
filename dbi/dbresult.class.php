@@ -24,7 +24,7 @@ class DB_result {
      * @access private
      * @param mixed res Result set of internal type.
      */
-    function DB_result (&$res) { $this->res =& $res; }
+    function DB_result ($res) { $this->res = $res; }
 
     /**
      * Fetch first/next row or field from result set.

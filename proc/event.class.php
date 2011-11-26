@@ -41,7 +41,7 @@ class event {
      * @param string $name Argument name.
      * @returns mixed
      */
-    function &arg ($name)
+    function arg ($name)
     {
         if (!is_string ($name))
             die ('event::arg(): Argument name is not a string.');

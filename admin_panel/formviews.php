@@ -412,6 +412,6 @@ function record_cache_fetch (&$app)
     $ui =& admin_panel::instance ();
     $rc =& $ui->record_cache;
 
-    $rc =& $session->get ('_admin_panel.class/record cache');
+    $rc = $session->get ('_admin_panel.class/record cache');
 }
 ?>
