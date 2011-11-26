@@ -43,20 +43,6 @@ class cursor {
     var $_type;
 
     /**
-     * Lower cursor.
-     * @access private
-     * @var string
-     */
-    var $_lower;
-
-    /**
-     * Do we have a record set?
-     * @access private
-     * @var string
-     */
-    var $_is_good = false;
-
-    /**
      * Last read record.
      * @access private
      * @var string
@@ -64,32 +50,18 @@ class cursor {
     var $_current;
 
     /**
-     * Last record was first but read with current().
-     * @access private
-     * @var string
-     */
-    var $_is_first = false;
-
-    /**
-     * query() was called.
-     * @access private
-     * @var string
-     */
-    var $_is_queried = false;
-
-    /**
      * Last query selection.
      * @access private
      * @var mixed
-     * @see query,get(),__wakeup()
+     * @see query,get()
      */
     var $_selection = false;
 
     /**
-     * Last query order.
+     * Last query's order.
      * @access private
      * @var mixed
-     * @see query(),get(),__wakeup()
+     * @see query(),get()
      */
     var $_order = false;
 
@@ -102,12 +74,12 @@ class cursor {
     var $_num_gets = 0;
 
     /**
-     * Set, if cursor needs to restore the result set.
+     * Tells if a query was performed.
      * @access private
-     * @var boolean
-     * @see query(),get(),__wakeup(),_restore_result()
+     * @var integer
+     * @see query(),get(),__wakeup()
      */
-    var $_waked_up = false;
+    var $_did_query = false;
 
     /**
      * Create cursor and set its type.
@@ -134,19 +106,11 @@ class cursor {
      */
     function query ($selection = '', $order = '')
     {
-        $this->_is_first = false;
-        $this->_waked_up = false;
-        $ret = $this->_query ($selection, $order);
-        $this->_is_queried = $this->_is_good = $ret;
-        if ($ret) {
-            $this->_selection = $selection;
-            $this->_order = $order;
-        } else {
-            $this->_selection = '';
-            $this->_order = '';
-        }
+        $this->_did_query = true;
+        $this->_selection = $selection;
+        $this->_order = $order;
         $this->_num_gets = 0;
-        return $ret;
+        return $this->_query ($selection, $order);
     }
 
     /**
@@ -158,17 +122,6 @@ class cursor {
      */
     function &current ()
     {
-        if (!$this->_is_good)
-            return;
-
-        if ($this->_is_queried)
-            return $this->_current;
-
-        # Get first record.
-        if (!$this->get ())
-            return;
-        $this->_is_first = true;
-
         return $this->_current;
     }
 
@@ -183,28 +136,15 @@ class cursor {
      * @returns mixed Record.
      * @see key(), current()
      */
-    function &get ($selection = '', $order = '')
+    function get ($selection = '', $order = '')
     {
         if ($this->_waked_up)
             $this->_restore_result ();
 
-        $this->_num_gets++;
-
-        # Query if selection is defined.
-        if ($selection)
-            $this->query ($selection, $order);
-        else if ($this->_is_first) {
-            # Return first record get'ed by current().
-            $this->_is_first = false;
-            return $this->_current;
-        }
-
-        if (!$this->_is_good)
-            return; # Nothing queried.
-
         $ret =& $this->_get ();
         $this->_current = $ret;
-        $this->_is_good = $ret ? true : false;
+        if ($ret)
+            $this->_num_gets++;
         return $ret;
     }
 
@@ -244,7 +184,7 @@ class cursor {
      * Set source name.
      *
      * @access public
-     * @returns string Source name.
+     * @returns mixed
      * @see source()
      */
     function set_source ($source)
@@ -256,7 +196,7 @@ class cursor {
      * Get source name.
      *
      * @access public
-     * @returns string The length is undefined.
+     * @returns mixed
      * @see set_source()
      */
     function source ()
@@ -268,7 +208,7 @@ class cursor {
      * Set record key.
      *
      * Setting the key has no effect on the referenced record.
-     * This only affects method key(),
+     * This only affects methods key() and id(),
      *
      * @access public
      * @returns string Source name.
@@ -318,10 +258,10 @@ class cursor {
     }
 
     /**
-     * Get currently selected field.
+     * Get type name.
      *
      * @access public
-     * @returns string The length is undefined.
+     * @returns string The cursor's type name.
      * @see cursor()
      */
     function type ()
@@ -330,7 +270,7 @@ class cursor {
     }
 
     /**
-     * Serialise no more than the reference info.
+     * Magic function to tell PHP which properties to serialize,
      *
      * Derived classes must add their variables in their own __sleep()
      * method.
@@ -340,35 +280,25 @@ class cursor {
      */
     function __sleep ()
     {
-        return array ('_source', '_key', '_field', '_type', '_lower', '_selection', '_order', '_num_gets');
+        return array ('_source', '_key', '_field', '_type', '_lower', '_selection', '_order', '_did_query', '_num_gets');
     }
 
     /**
-     * Restore result set.
+     * Magic function called by PHP after unserialization.
      *
-     * @access private
-     * @returns array List of variable name to serialize.
-     */
-    function _restore_result ()
-    {
-        $this->_waked_up = false;
-        $num = $this->_num_gets;
-        $this->query ($this->_selection, $this->_order);
-        while ($num--)
-            $this->get ();
-    }
-
-    /**
-     * Mark cursor as waked-up.
-     *
-     * This will force get() to restore the result set.
+     * Repeats query() and number of calls to get().
      *
      * @access private
      * @returns array List of variable name to serialize.
      */
     function __wakeup ()
     {
-        $this->_waked_up = true;
+        if (!$this->_did_query)
+            return;
+        $num = $this->_num_gets;
+        $this->query ($this->_selection, $this->_order);
+        while ($num--)
+            $this->get ();
     }
 }
 ?>
