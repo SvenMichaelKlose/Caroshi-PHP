@@ -5,6 +5,7 @@
 # Licensed under the MIT, BSD and GPL licenses.
 
 
+require_once PATH_TO_CAROSHI . '/dbi/sql.php';
 require_once PATH_TO_CAROSHI . '/dbi/dbctrl.class.php';
 require_once PATH_TO_CAROSHI . '/dbi/dbdepend.class.php';
 
@@ -71,7 +72,7 @@ class DBI extends DBCtrl {
             # Skip primary key except it's preset.
             if ($v['readonly'] || (!$pre[$v['n']] && $v['n'] == $pri))
                 continue;
-	    $set .= sql_append_assignment ($set, $v['n'], $pre[$v'n']);
+	    $set = sql_append_assignment ($set, $v['n'], $pre[$v['n']]);
         }
         $this->insert ($table, $set);
     }
