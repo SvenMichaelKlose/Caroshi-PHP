@@ -138,10 +138,7 @@ class cursor {
      */
     function get ($selection = '', $order = '')
     {
-        if ($this->_waked_up)
-            $this->_restore_result ();
-
-        $ret =& $this->_get ();
+        $ret = $this->_get ();
         $this->_current = $ret;
         if ($ret)
             $this->_num_gets++;
@@ -280,7 +277,7 @@ class cursor {
      */
     function __sleep ()
     {
-        return array ('_source', '_key', '_field', '_type', '_lower', '_selection', '_order', '_did_query', '_num_gets');
+        return array ('_source', '_key', '_field', '_type', '_selection', '_order', '_did_query', '_num_gets');
     }
 
     /**
