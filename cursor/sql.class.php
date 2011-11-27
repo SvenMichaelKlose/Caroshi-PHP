@@ -43,7 +43,7 @@ class cursor_sql extends cursor {
         $size = 0;
 
         # Make query with selection.
-        $q = "SELECT * FROM " . $db->table_prefix ($table) . ($whereclause ? " WHERE $whereclause" : '';
+        $q = "SELECT * FROM " . $db->table_prefix ($table) . ($whereclause ? " WHERE $whereclause" : '');
 
         # If we have a list limit query to record without reference to previous
         # one.
@@ -65,7 +65,7 @@ class cursor_sql extends cursor {
             $row =& $res->get ();
             $this->_get_next_id = $row[$pri];
         } else {
-            $res =& $db->query ("$q $order");
+            $res = $db->query ("$q $order");
             $size = $res->num_rows ();
             if ($size < 1)
                 return false;
@@ -97,7 +97,7 @@ class cursor_sql extends cursor {
         }
 
         # Fetch next record.
-        $row =& $this->_res->get ();
+        $row = $this->_res ? $this->_res->get () : null;
         if ($e = $db->error ())
             $this->panic ($e);
 
