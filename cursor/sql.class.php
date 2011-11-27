@@ -36,18 +36,14 @@ class cursor_sql extends cursor {
     {
         $db =& $GLOBALS['__CURSOR_SQL_INSTANCE'];
         $def =& $db->def;
-        $v =& $this;
 
-        $table = $v->_source;
+        $table = $this->_source;
         $pri = $def->primary ($table);
-        $size =& $this->_size;
+        $size = $this->_size;
         $size = 0;
 
-        # Start with query that fetches the whole table.
-        $q = "SELECT * FROM " . $db->table_prefix ($table);
-
-        if ($whereclause)
-            $q .= " WHERE $whereclause";
+        # Make query with selection.
+        $q = "SELECT * FROM " . $db->table_prefix ($table) . ($whereclause ? " WHERE $whereclause" : '';
 
         # If we have a list limit query to record without reference to previous
         # one.
@@ -67,7 +63,7 @@ class cursor_sql extends cursor {
 
             # Remember reference to first record.
             $row =& $res->get ();
-            $v->_get_next_id = $row[$pri];
+            $this->_get_next_id = $row[$pri];
         } else {
             $res =& $db->query ("$q $order");
             $size = $res->num_rows ();
@@ -75,32 +71,28 @@ class cursor_sql extends cursor {
                 return false;
         }
 
-        $v->_res =& $res;
+        $this->_res =& $res;
         return true;
     }
 
-    function &_get ()
+    function _get ()
     {
         $db =& $GLOBALS['__CURSOR_SQL_INSTANCE'];
         $def =& $db->def;
-        unset ($this->_current);
-
-        # Current view's source of information is specified by a table name.
         $table = $this->_source;
         $pri = $def->primary ($table);
 
         # If record is stored in a list, do a new query using the reference in
         # the last record stored in $v->_get_next_id.
-        $is_list = $def->is_list ($table);
-        if ($is_list) {
+        if ($is_list = $def->is_list ($table)) {
             if (!isset ($this->_get_next_id))
 	        return false;
 
             $wtable = $db->table_prefix ($table);
-            $nid = $this->_get_next_id;
-            $q = "SELECT * FROM $wtable WHERE $pri='$nid'";
-            $v->_res =& $db->query ($q);
-            if ($v->_res->num_rows () < 1)
+            $key_of_next = $this->_get_next_id;
+            $q = "SELECT * FROM $wtable WHERE $pri='$key_of_next'";
+            $this->_res =& $db->query ($q);
+            if ($this->_res->num_rows () < 1)
                 return false;
         }
 
@@ -120,21 +112,19 @@ class cursor_sql extends cursor {
         return $row;
     }
 
-    # Update a row's field.
-    function set ($value)
+    /**
+     * Update the last fetched record.
+     *
+     * @access public
+     * @param array $values Field values keyed by their names.
+     */
+    function set ($values)
     {
-        $db =& $GLOBALS['__CURSOR_SQL_INSTANCE'];
-        $def =& $db->def;
-        $source = $this->_source;
-        $key = addslashes ($this->_key);
-        $field = $this->_field;
-        if (!$field)
-            die ('cursor_sql::set(): No field to set.');
+        if (!is_array ($values))
+            die ('cursor_sql::set(): Argument is not an array.');
 
-        $types = $def->types ($source);
-        if (!isset ($types[$field]))
-	    die ("cursor_sql::set(): No field '$field' in table '$source'<br>");
-        $db->update ($source, $field . '="' . $value . '"', $def->primary ($source) . '="' . $key . '"');
+        $db =& $GLOBALS['__CURSOR_SQL_INSTANCE'];
+        $db->update ($source, sql_assignment ($db->def->primary ($this->_source), $this->_key), sql_array_assignments ($values));
     }
 
     function create ($pre = 0, $parent = 0)
