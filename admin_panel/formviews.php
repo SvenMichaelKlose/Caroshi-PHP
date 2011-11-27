@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Form parser and generic form handlers.
  *
@@ -6,6 +7,7 @@
  * @module form
  * @package User interface
  */
+
 
 # Copyright (c) 2000-2002 dev/consulting GmbH
 # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
@@ -30,7 +32,7 @@ function _formviews_init (&$app)
  */
 function _form_collect (&$app, &$forms, &$formevents, &$filteredelements)
 {
-    global $item;
+    $item = $_POST['item'];
 
     # Sort elements by form function and read the token data.
     if (!isset ($item) || !is_array ($item))
@@ -41,7 +43,7 @@ function _form_collect (&$app, &$forms, &$formevents, &$filteredelements)
     $filteredelements = array();
     foreach ($item as $token => $v) {
         # Unserialise _form_element object.
-        $e =& $app->_tokens->get ($token);
+        $e = $app->_tokens->get ($token);
 
         # Store form function specified by submit button.
         if ($e->is_submit) {
@@ -414,4 +416,5 @@ function record_cache_fetch (&$app)
 
     $rc = $session->get ('_admin_panel.class/record cache');
 }
+
 ?>

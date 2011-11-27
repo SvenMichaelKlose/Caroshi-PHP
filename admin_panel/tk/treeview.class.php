@@ -54,7 +54,7 @@ class DBTREE {
                 $this->_xrefs[$r['id_parent']][] = $r['id_child'];
         }
 
-        $this->db = &$db;
+        $this->db =& $db;
         $this->_table = $table;
         $this->_c_id = $c_id;
         $this->_c_id_parent = $c_id_parent;

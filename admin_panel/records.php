@@ -35,7 +35,7 @@ function _records_init (&$app)
 }
 
 /**
- * Create record listed in $sources with optional field values or alieases.
+ * Create record listed in $sources with optional field values or aliases.
  *
  * @access public
  * @param object application $app
@@ -96,10 +96,10 @@ function record_create_set (&$app, &$set)
  */
 function _record_create_continue (&$app, $keys)
 {
-    $next_view =& $app->arg ('next_view', ARG_OPTIONAL);
-    $ret =& $app->arg ('ret', ARG_OPTIONAL);
+    $next_view = $app->arg ('next_view', ARG_OPTIONAL);
+    $ret = $app->arg ('ret', ARG_OPTIONAL);
 
-    $ui =& admin_panel::instance ();
+    $ui =& $app->ui;
 
     if (!$keys)
         die ('Couldn\'t create record.');
@@ -137,7 +137,7 @@ function _record_create_continue (&$app, $keys)
  */
 function record_create (&$app)
 {
-    $sources =& $app->arg ('sources', ARG_OPTIONAL);
+    $sources = $app->arg ('sources', ARG_OPTIONAL);
     $msg = $app->arg ('msg', ARG_OPTIONAL);
     $pre = $app->arg ('preset_values', ARG_OPTIONAL);
 
@@ -151,7 +151,7 @@ function record_create (&$app)
         if ($app->arg ('preset_values', ARG_OPTIONAL))
             die ("record_create(): Arguments 'preset_values' and 'sources' can't be used together.");
 
-    $key =& record_create_set ($app, $sources);
+    $key = record_create_set ($app, $sources);
     return _record_create_continue ($app, $key);
 }
 

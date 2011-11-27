@@ -25,7 +25,7 @@ function tree_edit_register (&$app)
 function tree_edit (&$app, &$args)
 {
     $ui =& admin_panel::instance ();
-    $te =& $app->event ();
+    $te = $app->event ();
 
     foreach ($args as $name => $data)
         $te->set_arg ($name, $data);

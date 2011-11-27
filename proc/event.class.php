@@ -46,9 +46,8 @@ class event {
         if (!is_string ($name))
             die ('event::arg(): Argument name is not a string.');
 
-        $a =& $this->args[$name];
-        if (isset ($a))
-            return $a;
+        if (isset ($this->args[$name]))
+            return $this->args[$name];
     }
 
     /**
@@ -57,13 +56,13 @@ class event {
      * @access public
      * @param object event $e
      */
-    function set_next (&$e)
+    function set_next ($e)
     {
         if (is_string ($e))
             $e = new event ($e);
         if (!is_a ($e, 'event'))
             die ('event::set_next(): Argument is not an event object.');
-        $this->next =& $e;
+        $this->next = $e;
     }
 
     /* Set return function for call to subsession.
