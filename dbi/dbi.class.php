@@ -67,17 +67,11 @@ class DBI extends DBCtrl {
         }
 
         $set = '';
-        for ($v = reset ($hash); $v; $v = $next) {
-	    $next = next ($hash);
-
+        foreach ($hash as $v) {
             # Skip primary key except it's preset.
-            if (isset ($v['readonly']) ||
-                !isset ($pre[$v['n']]) && $v['n'] == $pri)
+            if ($v['readonly'] || (!$pre[$v['n']] && $v['n'] == $pri))
                 continue;
-            if ($set)
-	        $set .= ',';
-            $d = isset ($pre[$v['n']]) ? addslashes ($pre[$v['n']]) : '';
-	    $set .= $v['n'] . "='$d'";
+	    $set .= sql_append_assignment ($set, $v['n'], $pre[$v'n']);
         }
         $this->insert ($table, $set);
     }
