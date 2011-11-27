@@ -30,12 +30,12 @@ class application {
     public $session;	# dbsession.class instance.
 
     # Private. Hands off.
-    private $_subargs;  # Current subsession arguments.
-    private $_event;    # Current function's event object.
-    private $_handlers; # Array of event handler keyed by name.
-    private $_null_handler = 'defaultview'; # Name of null event handler.
-    private $_types;
-    private $_tokens;   # Reference to dbtoken.class instance.
+    var $_subargs;  # Current subsession arguments.
+    var $_event;    # Current function's event object.
+    var $_handlers; # Array of event handler keyed by name.
+    var $_null_handler = 'defaultview'; # Name of null event handler.
+    var $_types;
+    var $_tokens;   # Reference to dbtoken.class instance.
 
     /**
      * Execute application.
@@ -144,9 +144,9 @@ class application {
 
         # Call event handler.
         if (($obj =& $this->_handlers[$handler]))
-	    $ret =& $obj->$handler ($this);
+	    $ret = $obj->$handler ($this);
         else
-	    $ret =& $handler ($this);
+	    $ret = $handler ($this);
 
         if ($this->debug) {
             echo "<b>Return value of event handler '$handler':</b>";
@@ -203,7 +203,7 @@ class application {
                 die ("application::call (): Infinite loop detected before call to event handler '$handler'.");
             $called[$sv] = true;
 
-	    $ret =& $this->call_single ($e);
+	    $ret = $this->call_single ($e);
 
             $e = $e->next;
 	    if (!is_a ($e, 'event'))
@@ -328,8 +328,8 @@ class application {
     { 
         $e =& $this->_event;
         $func = $e->name;
-        $arg =& $e->arg ($name);
-        $sub =& $this->_subargs[$name];
+        $arg = $e->arg ($name);
+        $sub = $this->_subargs[$name];
 
         if (!is_string ($name))
             die ('application::arg(): Argument name is not a string.');
@@ -464,7 +464,7 @@ class application {
      */
     function _url2event ()
     {
-        $url = $_SERVER['PATH_INFO'];
+        @$url = $_SERVER['PATH_INFO'];
         $tokens =& $this->_tokens;
         $session =& $this->session;
 
