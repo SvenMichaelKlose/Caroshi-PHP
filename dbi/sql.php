@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SQL utiliy functions.
  *
@@ -16,25 +17,25 @@
 function sql_value ($v)
 {
     if (!is_string ($v))
-        die ('sql_value: Argument is not a string.');
+        die ("sql_value: $v is not a string.");
     return mysql_real_escape_string ($v);
 }
 
 function sql_quote ($v)
 {
-    if (!is_string ($v))
-        die ('sql_value: Argument is not a string.');
+    if ($v && !is_string ($v))
+        die ("sql_quote: $v is not a string.");
     return '"' . mysql_real_escape_string ($v) . '"';
 }
 
 function sql_assignment ($k, $v)
 {
-    return sql_value ($k) . '=' . '"' . sql_quote ($v) . '"':
+    return sql_value ($k) . '=' . sql_quote ($v);
 }
 
 function sql_append_assignment ($x, $k, $v)
 {
-    return ($x ? ',' : '') . sql_assignment ($k, $v);
+    return $x . ($x ? ',' : '') . sql_assignment ($k, $v);
 }
 
 /**
@@ -55,4 +56,5 @@ function sql_array_assignments ($values)
         sql_append_assignment ($x, $k, $v);
     return $x;
 }
+
 ?>
