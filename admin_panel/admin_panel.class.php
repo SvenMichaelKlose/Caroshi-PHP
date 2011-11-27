@@ -248,7 +248,7 @@ class admin_panel extends singleton {
             $this->_form_index++;
 
         array_push ($this->_viewstack, $this->v);
-        $this->v = new _admin_panel_view ($cursor, $no_update, null);
+        $this->v = new _admin_panel_view ($cursor, $this->no_update, null);
     }
 
     /**
@@ -502,7 +502,7 @@ class admin_panel extends singleton {
 
         # Only open a document form if we are in need for updates and there's no
         # already opened form.
-        if (!$v->no_update || !$this->_openform)
+        if (!$this->no_update || !$this->_openform)
             $this->widgets->open_form ($this->url (new event ('form_parser')));
 
         $this->_openform++;
@@ -1101,13 +1101,13 @@ class admin_panel extends singleton {
      * @param string $label Label for the button.
      * @param object event $event Event to use for the submit button.
      */
-    function submit_button ($label, $view = 0)
+    function submit_button ($label, $event)
     {
         $f = new _form_element;
         $f->is_submit = true;
 
         $this->open_widget ('', array ('ALIGN' => 'CENTER'));
-        $this->widgets->submit ($this->_new_formtoken ($view, $f), $label);
+        $this->widgets->submit ($this->_new_formtoken ($event, $f), $label);
         $this->close_widget ();
     }
 
@@ -1336,18 +1336,17 @@ class admin_panel extends singleton {
      * @param object event $view XXX &$view would crash.
      * @param object _form_element $element
      */
-    function _new_formtoken ($view, $element)
+    function _new_formtoken ($event, $element)
     {
         $tv = $this->application->event ();
 
-        $view->subsession = $tv->subsession;
+        $event->subsession = $tv->subsession;
+        $element->view = $event;
 
-        $element->view = $view;
         $df =& $this->v->defaultfunc;
         if (isset ($df))
 	    $element->defaultfunc = $df;
-        if ($this->_form_filter)
-	    $element->use_filter = $this->_form_filter;
+        $element->use_filter = $this->_form_filter;
         $element->element_filter_write = $this->_element_filter_write;
 
         $this->_add_context ($element);
