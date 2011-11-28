@@ -43,7 +43,7 @@ function _records_init (&$app)
  */
 function record_create_set (&$app, &$set)
 {
-    $ui =& admin_panel::instance ();
+    $ui =& $app->ui;
 
     $keyset = array ();
     foreach ($set as $cursortype => $sources) {
@@ -169,7 +169,7 @@ function record_update (&$app)
 {
     $cursor =& $app->arg ('_cursor');
 
-    $ui =& admin_panel::instance ();
+    $ui =& $app->ui;
 
     $err = form_update ($app);
     if ($err)
@@ -258,7 +258,7 @@ function record_delete_force (&$app)
     $cursor = $app->arg ('_cursor', ARG_OPTIONAL);
     $cursor_list =& $app->arg ('cursor_list', ARG_OPTIONAL);
 
-    $ui =& admin_panel::instance ();
+    $ui =& $app->ui;
 
     if (!$cursor_list) {
         if (!$cursor)

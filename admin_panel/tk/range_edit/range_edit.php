@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Selection of multiple records (context cursors).
  *
@@ -38,7 +39,7 @@ function tk_range_edit_select (&$app)
 {
     $marker_field = $app->arg ('marker_field');
 
-    $ui =& admin_panel::instance ();
+    $ui =& $app->ui;
 
     # Collect markers of first source.
     $source = '';
@@ -142,7 +143,7 @@ function tk_range_edit_select (&$app)
  */
 function tk_range_edit_all_selected (&$app, $marker_field)
 {
-    $ui =& admin_panel::instance ();
+    $ui =& $app->ui;
 
     $s = $u = 0;
     if (!isset ($app->elements))
@@ -178,7 +179,7 @@ function tk_range_edit_all_selected (&$app, $marker_field)
  */
 function tk_range_edit_do_select_all (&$app, $marker_field, $val)
 {
-    $ui =& admin_panel::instance ();
+    $ui =& $app->ui;
 
     foreach ($app->elements as $e) {
         $cursor =& $e->cursor;
@@ -234,7 +235,7 @@ function tk_range_edit_call (&$app)
     $marker_field = $app->arg ('marker_field');
     $view = $app->arg ('view');
 
-    $ui =& admin_panel::instance ();
+    $ui =& $app->ui;
 
     # Collect marker cursors into array.
     $cursors = array ();
@@ -251,4 +252,5 @@ function tk_range_edit_call (&$app)
     $view->set_arg ($argname, $cursors);
     $app->call ($view);
 }
+
 ?>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Editor for moving single records in a SQL list.
  *
@@ -51,7 +52,7 @@ function tk_list_move_to (&$app)
     $txt = $app->arg ('txt_choose_dest', ARG_SUB);
     $source = $app->arg ('source', ARG_SUB);
 
-    $p =& admin_panel::instance ();
+    $p =& $app->ui;
 
     $p->highlight[$p->view_id ($source, $id_from)] = 'yellow';
     _tk_list_move_list ($app, '_tk_list_move_go', $txt, true);
@@ -64,7 +65,7 @@ function _tk_list_move_go (&$app)
     $id_parent = $app->arg ('id_parent', ARG_OPTIONAL);
     $source = $app->arg ('source', ARG_SUB);
 
-    $p =& admin_panel::instance ();
+    $p =& $app->ui;
 
     $ret = $app->db->move ($source, $id_from, $id_to, $id_parent);
 
@@ -83,7 +84,7 @@ function _tk_list_move_destlink (&$app)
     $source = $app->arg ('source', ARG_SUB);
     $txt = $app->arg ('txt_choose', ARG_SUB);
 
-    $p =& admin_panel::instance ();
+    $p =& $app->ui;
 
     if ($id_from == $p->v->key)
         return;
@@ -113,7 +114,7 @@ function _tk_list_move_list (&$app, $func_link, $msg, $mode)
     $selection = $app->arg ('selection', ARG_SUB);
     $func_record = $app->arg ('func_record', ARG_SUB);
 
-    $p =& admin_panel::instance ();
+    $p =& $app->ui;
 
     $p->open_source ($source);
     if ($p->query ($selection, true)) {
@@ -142,4 +143,5 @@ function _tk_list_move_list (&$app, $func_link, $msg, $mode)
     }
     $p->close_source ();
 }
+
 ?>

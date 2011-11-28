@@ -190,7 +190,7 @@ function form_update (&$app)
     $keyset =& $app->arg ('keyset', ARG_OPTIONAL);
     $ignored =& $app->arg ('ignored_elements', ARG_OPTIONAL);
 
-    $ui =& admin_panel::instance ();
+    $ui =& $app->ui;
 
     if (!isset ($app->elements))
         die ('form_update(): No form posted.');
@@ -244,7 +244,7 @@ function form_update (&$app)
  */
 function form_safe (&$app)
 {
-    $ui =& admin_panel::instance ();
+    $ui =& $app->ui;
     $record_cache =& $ui->record_cache;
 
     foreach ($app->elements as $e) {
@@ -277,7 +277,7 @@ function form_create (&$app)
 {
     $sources =& $app->arg ('sources', ARG_OPTIONAL);
 
-    $ui =& admin_panel::instance ();
+    $ui =& $app->ui;
 
     if (!form_has_content ($app)) {
         $ui->msgbox ('Record not created - fill form with content before.', 'red');
@@ -319,7 +319,7 @@ function form_check (&$app)
     if (!$highlight_color)
         $highlight_color = '#FF0000';
 
-    $ui =& admin_panel::instance ();
+    $ui =& $app->ui;
 
     # Check all form elements that come along.
     $errors = false;
@@ -395,7 +395,7 @@ function form_has_content (&$app)
 function record_cache_safe (&$app)
 {
     $session =& $app->session;
-    $ui =& admin_panel::instance ();
+    $ui =& $app->ui;
     $rc =& $ui->record_cache;
 
     if (!isset ($ui->record_cache))
@@ -412,7 +412,7 @@ function record_cache_safe (&$app)
 function record_cache_fetch (&$app)
 {
     $session =& $app->session;
-    $ui =& admin_panel::instance ();
+    $ui =& $app->ui;
     $rc =& $ui->record_cache;
 
     $rc = $session->get ('_admin_panel.class/record cache');

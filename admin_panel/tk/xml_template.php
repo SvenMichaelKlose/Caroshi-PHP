@@ -1,4 +1,5 @@
 <?php
+
 /**
  * XML template bindings for admin_panel.
  *
@@ -26,7 +27,7 @@ function tk_template_forms_init (&$app, &$this)
 # $this: Reference to application obj.
 function tk_template_get_field (&$this, &$res, $field)
 {
-    $ui =& admin_panel::instance ();
+    $ui =& $app->ui;
 
     $res["form_$field"] = $ui->new_formfield ($field);
     $res[$field] = $ui->value ($field);
@@ -35,8 +36,9 @@ function tk_template_get_field (&$this, &$res, $field)
 # $this: Reference to tk_template obj.
 function dirtag_cms_form_action (&$this, $args)
 {
-    $ui =& admin_panel::instance ();
+    $ui =& $app->ui;
 
     return $ui->url (new event ('form_parser'));
 }
+
 ?>

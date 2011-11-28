@@ -8,7 +8,6 @@
 require_once PATH_TO_CAROSHI . '/dbi/dbi.class.php';
 require_once PATH_TO_CAROSHI . '/dbi/types.php';
 require_once PATH_TO_CAROSHI . '/file/magic2mime.php';
-require_once PATH_TO_CAROSHI . '/object/singleton.class.php';
 require_once PATH_TO_CAROSHI . '/string/strhead.php';
 
 require_once PATH_TO_CAROSHI . '/cursor/sql.class.php';
@@ -27,7 +26,7 @@ require_once PATH_TO_CAROSHI . '/admin_panel/_form_element.class.php';
  * @access public
  * @package User interface
  */
-class admin_panel extends singleton {
+class admin_panel {
 
     /**
      * Reference to application that uses this instance.
@@ -170,8 +169,6 @@ class admin_panel extends singleton {
         if ($widgets && !is_object ($widgets))
             die ('admin_panel constructor: Widget set is not an object.');
 
-        $this->singleton ($this);
-
         # Initialize member variables.
         $this->application =& $app;
         $this->application->short_links = false;
@@ -219,16 +216,6 @@ class admin_panel extends singleton {
         record_cache_safe ($this->application);
     }
 
-    /**
-     * Get reference to the one and only instance of this class.
-     *
-     * @access public
-     * @returns object admin_panel
-     */
-    static function &instance ()
-    {
-        return singleton::instance ('admin_panel');
-    }
 
     #############
     ### Views ###

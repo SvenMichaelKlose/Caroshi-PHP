@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Lister for dbobj.class' directory service.
  *
@@ -29,7 +30,7 @@ function _tk_dbobj_ls_node (&$app, $table, $row, $arg)
 {
     global $lang;
 
-    $p =& admin_panel::instance ();
+    $p =& $app->ui;
 
     $name = '<I>' . ereg_replace (' +', '&nbsp;', $row['name']) . '</I>';
     $id = $row['id'];
@@ -64,7 +65,7 @@ function tk_dbobj_ls (&$app, $table, $id, $link_current = false)
 {
     global $lang;
 
-    $p =& admin_panel::instance ();
+    $p =& $app->ui;
 
     # Create link path.
     $app->event->args['dbobj_ls_table'] = $table;

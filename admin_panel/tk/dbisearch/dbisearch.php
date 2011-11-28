@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Database search for forms via cursor_sql
  *
@@ -254,7 +255,7 @@ function _tk_dbisearch_create_query (&$app, &$query, $field)
  */
 function tk_dbisearch_get_results (&$app)
 {
-    $p =& admin_panel::instance ();
+    $p =& $app->ui;
 
     $r = tk_dbisearch_has_result ($app);
     if ($r != TK_DBISEARCH_FOUND)
@@ -299,4 +300,5 @@ function tk_dbisearch_get_query_object (&$app)
     if (isset ($app->tk_dbisearch->query))
         return $app->tk_dbisearch->query;
 }
+
 ?>

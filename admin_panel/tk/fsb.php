@@ -1,4 +1,5 @@
 <?php
+
 /**
  * File selector page.
  *
@@ -39,7 +40,7 @@ function tk_fsb (&$app)
     $filefunc = $app->arg ('filefunc', ARG_SUB);
     $dir = $app->arg ('dir', ARG_OPTIONAL);
 
-    $ui =& admin_panel::instance ();
+    $ui =& $app->ui;
 
     if (!$dir)
         $dir = $GLOBALS['DOCUMENT_ROOT'];
@@ -71,4 +72,5 @@ function tk_fsb (&$app)
     $ui->close_table ();
     closedir($handle); 
 }
+
 ?>

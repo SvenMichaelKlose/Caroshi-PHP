@@ -1,4 +1,5 @@
 <?
+
 /**
  * Browse widget for dbisearch result lists.
  *
@@ -23,7 +24,7 @@
  */
 function _tk_dbisearch_browse_button (&$app, $index, $label, $image)
 {
-    $p =& admin_panel::instance (); # php bug
+    $p =& $app->ui;
     $tv =& $app->event ();
 
     $q =& tk_dbisearch_get_query_object ($app);
@@ -52,7 +53,7 @@ function _tk_dbisearch_browse_button (&$app, $index, $label, $image)
  */
 function tk_dbisearch_browse (&$app, $g_begin = '', $g_prev = '', $g_next = '', $g_end = '')
 {
-    $p =& admin_panel::instance ();
+    $p =& $app->ui;
 
     $q = tk_dbisearch_get_query_object ($app);
     $l = $q->limit;
@@ -102,4 +103,5 @@ function tk_dbisearch_browse (&$app, $g_begin = '', $g_prev = '', $g_next = '', 
 
     $p->paragraph ();
 }
+
 ?>

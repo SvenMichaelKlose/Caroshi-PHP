@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Editor for SQL tables.
  *
@@ -28,7 +29,7 @@ function tk_quick_record (&$app)
 {
     $args =& $app->args;
     $subargs =& $app->subargs;
-    $ui =& admin_panel::instance ();
+    $ui =& $app->ui;
     $source = $app->arg ('source', ARG_SUB);
     $selection = $app->arg ('selection', ARG_SUB);
 
@@ -67,4 +68,5 @@ function tk_quick_record (&$app)
     $ui->close_row ();
     $ui->close_source ();
 }
+
 ?>

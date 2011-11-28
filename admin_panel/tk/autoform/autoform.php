@@ -40,7 +40,7 @@ function tk_autoform_init (&$app)
  */
 function tk_autoform_create_widget (&$app, $source, $field, $flags = 0)
 {
-    $p =& admin_panel::instance ();
+    $p =& $app->ui;
     $def =& $app->db->def;
 
     $type = $def->types ($source);
@@ -61,7 +61,7 @@ function tk_autoform_create_widget (&$app, $source, $field, $flags = 0)
 
 function _tk_autoform_create_widget (&$app, &$type, $field, $flags)
 {
-    $p =& admin_panel::instance ();
+    $p =& $app->ui;
     $def =& $app->db->def;
 
     if (isset ($type['tk_autoform']))
@@ -158,7 +158,7 @@ function tk_autoform_create_form (&$app, $source)
  */
 function tk_autoform_list_cursor (&$app, &$c, $config)
 {
-    $p =& admin_panel::instance ();
+    $p =& $app->ui;
 
     if (!is_a ($c, 'cursor'))
         die ('tk_autoform_list_cursor(): Argument 2 is not a cursor.');

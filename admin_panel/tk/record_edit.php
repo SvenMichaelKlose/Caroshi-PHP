@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Editor for records without references.
  *
@@ -40,7 +41,7 @@ function tk_record_edit_init (&$app)
 #                 If not specified all fields are listed.
 function tk_record_edit ()
 {
-    $p =& admin_panel::instance ();
+    $p =& $app->ui;
 
     $id = $this->arg ('id');
     $source = $this->arg ('source', ARG_SUB);
@@ -96,7 +97,7 @@ function tk_record_edit ()
 # Print menu bar for search page.
 function _tk_record_edit_submit_buttons ()
 {
-    $ui =& admin_panel::instance ();
+    $ui =& $app->ui;
     $id = $this->arg ('id', ARG_OPTIONAL);
 
     $ui->open_row (array ('ALIGN' => 'CENTER'));
@@ -125,7 +126,7 @@ function _tk_record_edit_submit_buttons ()
 # Print menu bar for record editor.
 function _tk_record_edit_update_buttons ()
 {
-    $p =& admin_panel::instance ();
+    $p =& $app->ui;
 
     $p->open_row (array ('ALIGN' => 'CENTER'));
 
@@ -147,7 +148,7 @@ function _tk_record_edit_update_buttons ()
 # Bearbeitungsseite fuer Kundenentrag.
 function _tk_record_edit_edit_record (&$this)
 {
-    $p =& admin_panel::instance ();
+    $p =& $app->ui;
 
     $id = $this->arg ('id');
     $source = $this->arg ('source', ARG_SUB);
@@ -170,7 +171,7 @@ function _tk_record_edit_edit_record (&$this)
 # Uebersichtsseite aller Kunden.
 function _tk_record_edit_list_records (&$this)
 {
-    $p =& admin_panel::instance ();
+    $p =& $app->ui;
 
     $source = $this->arg ('source', ARG_SUB);
     $list_fields = $this->arg ('list_fields', ARG_SUB);
@@ -198,4 +199,5 @@ function _tk_record_edit_list_records (&$this)
     tk_autoform_list_results ($this, 'tk_record_edit', 'id', $source, $list_fields, $selection);
     $p->close_source ();
 }
+
 ?>

@@ -28,7 +28,7 @@ include 'admin_panel/tk/fsb.php';
  */
 function tk_dbconf_init (&$app, &$dbconf)
 {
-    $ui =& admin_panel::instance ();
+    $ui =& $app->ui;
 
     cursor_dbconf::set_dbconf ($dbconf);
     $dbconf =& new cursor_dbconf ($dbconf);
@@ -48,7 +48,7 @@ function tk_dbconf_init (&$app, &$dbconf)
  */
 function tk_dbconf (&$app)
 {
-    $p =& admin_panel::instance ();
+    $p =& $app->ui;
 
     $p->headline ('Konfiguration');
 
@@ -70,7 +70,7 @@ function tk_dbconf (&$app)
 
 function __tk_dbconf_fields (&$app, $sel, $headline)
 {
-    $p =& admin_panel::instance ();
+    $p =& $app->ui;
     $db =& $app->db;
 
     # Try to fetch an item and return if there's none.
@@ -137,7 +137,7 @@ function _tk_dbconf_set_file (&$app)
 
 function _tk_dbconf_reset_ask (&$app)
 {
-    $ui =& admin_panel::instance ();
+    $ui =& $app->ui;
 
     $ui->confirm ('Wirklich die Konfiguration auf Werkseinstellungen zur&uuml;cksetzen?',
                   'Ja, alte Einstellungen verwerfen.', '_tk_dbconf_reset',
@@ -149,7 +149,7 @@ function _tk_dbconf_update (&$app)
 {
     global $lang, $conf;
 
-    $ui =& admin_panel::instance ();
+    $ui =& $app->ui;
 
     # Define config items using the language definition.
     $num = 0;
@@ -176,7 +176,7 @@ function _tk_dbconf_reset (&$app)
 {
     global $lang, $conf;
 
-    $ui =& admin_panel::instance ();
+    $ui =& $app->ui;
 
     if (!is_array ($conf)) {
         $ui->msgbox ('Keine Werkskonfiguration vorhanden.', 'yellow');

@@ -24,7 +24,7 @@ function tree_edit_register (&$app)
 
 function tree_edit (&$app, &$args)
 {
-    $ui =& admin_panel::instance ();
+    $ui =& $app->ui;
     $te = $app->event ();
 
     foreach ($args as $name => $data)
@@ -52,7 +52,7 @@ function tree_edit (&$app, &$args)
 #   'no_create'	Inhibit link to create a new subnode
 function tv_node (&$app, &$node)
 {
-    $p =& admin_panel::instance ();
+    $p =& $app->ui;
     $nid = $app->arg ('id');
 
     $name =& $node[$app->arg ('name')];
@@ -78,7 +78,7 @@ function tv_node (&$app, &$node)
 #   'id'		Name of primary key.
 function tv_move_node (&$app, &$node)
 {
-    $p =& admin_panel::instance ();
+    $p =& $app->ui;
 
     $name = $node[$app->arg ('name')];
     $id = $node[$app->arg ('id')];
@@ -91,7 +91,7 @@ function tv_move_node (&$app, &$node)
 #   'id_src'		Primary key of node to move.
 function tv_move_to_node (&$app, &$node)
 {
-    $p =& admin_panel::instance ();
+    $p =& $app->ui;
 
     $name = $node[$app->arg ('name')];
     $id = $node[$app->arg ('id')];
@@ -116,7 +116,7 @@ function tv_move_to_node (&$app, &$node)
 function move_node_to (&$app)
 {
     $def =& $app->db->def;
-    $ui =& admin_panel::instance ();
+    $ui =& $app->ui;
 
     $table = $app->arg ('source');
     $id = $app->arg ('id');
@@ -143,7 +143,7 @@ function move_node_to (&$app)
 function move_node4real (&$app)
 {
     $def =& $app->db->def;
-    $ui =& admin_panel::instance ();
+    $ui =& $app->ui;
 
     $table = $app->arg ('source');
     $id = $app->arg ('id');
@@ -172,7 +172,7 @@ function move_node4real (&$app)
 #   'id'		Name of primary key.
 function tree_edit_move (&$app)
 {
-    $p =& admin_panel::instance ();
+    $p =& $app->ui;
 
     $table = $app->arg ('source');
     $id = $app->arg ('id');

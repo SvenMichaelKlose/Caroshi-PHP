@@ -1,4 +1,5 @@
 <?php
+
 # Copyright (c) 2001-2202 dev/consulting GmbH
 # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
 #
@@ -14,7 +15,7 @@
  */
 function tk_autoform_list_search_results (&$app, $config = '')
 {
-    $p =& admin_panel::instance ();
+    $p =& $app->ui;
     $status = tk_dbisearch_has_result ($app);
 
     # A view is already set up by form_search().
@@ -26,4 +27,5 @@ function tk_autoform_list_search_results (&$app, $config = '')
     }
     return $status;
 }
+
 ?>
