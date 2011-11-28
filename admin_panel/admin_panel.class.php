@@ -407,9 +407,7 @@ class admin_panel {
      */
     function headline ($text)
     {
-        $this->open_widget ();
         $this->widgets->headline ($text);
-        $this->close_widget ();
     }
 
     /**
