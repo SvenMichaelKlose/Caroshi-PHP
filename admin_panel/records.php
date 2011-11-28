@@ -145,8 +145,7 @@ function record_create (&$app)
     # single element from the argument's cursor.
     if (!$sources) {
         $cursor = $app->arg ('_cursor');
-        $src = $cursor->source ();
-        $sources[$cursor->type ()][$src] = $pre ? $pre : array ();
+        $sources[$cursor->type ()][$cursor->source] = $pre ? $pre : array ();
     } else
         if ($app->arg ('preset_values', ARG_OPTIONAL))
             die ("record_create(): Arguments 'preset_values' and 'sources' can't be used together.");
