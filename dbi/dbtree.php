@@ -76,7 +76,7 @@ function dbitree_get_children ($db, $table, $id, $subtype = '')
 
 function dbtree_get_object_id ($db, $table, $id)
 {
-    $res = $db->select ('*', $t, "id=$i");
+    $res = $db->select ('*', $table, "id=$id");
     return $res ? $res->get ('id_obj') : null;
 }
 
