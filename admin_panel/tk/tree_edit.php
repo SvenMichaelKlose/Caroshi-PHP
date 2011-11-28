@@ -102,13 +102,11 @@ function tv_move_to_node (&$app, &$node)
 
     if ($id == $id_src)
         return "<B>$name</B>";
-    return "<b>$name</b> " . $p->link ('^', new event ('move_node4real', array_merge ($app->args (), array ('id_dest' => $id_parent,
-                                                                                                            'id_src' => $id_src, 'id_dest_next' => $id)))) .
-           ' ' . $p->link ('\/', new event ('move_node4real', array_merge ($app->args (), array ('id_dest' => $id_parent,
-                                                                                                 'id_src' => $id_src,
-      	                                                                                         'id_dest_next' => $node['id_next'])))) .
-           ' ' . $p->link ('>', new event ('move_node4real', array_merge ($app->args (), array ('id_dest' => $id,
-                                                                                                'id_src' => $id_src))));
+    $args = array_merge ($app->args (), array ('id_dest' => $id_parent,
+                                               'id_src' => $id_src));
+    return "<b>$name</b> " . $p->link ('^', new event ('move_node4real', array_merge ($args, array ('id_dest_next' => $id)))) .
+           ' ' . $p->link ('\/', new event ('move_node4real', array_merge ($args, array ('id_dest_next' => $node['id_next'])))) .
+           ' ' . $p->link ('>', new event ('move_node4real', $args));
 }
 
 # $app->args:
