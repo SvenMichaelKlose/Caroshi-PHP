@@ -44,7 +44,6 @@ function _form_collect (&$app, &$forms, &$formevents, &$filteredelements)
     foreach ($item as $token => $v) {
         # Unserialise _form_element object.
         $e = $app->_tokens->get ($token);
-
         # Store form function specified by submit button.
         if ($e->is_submit) {
             # TODO: Multiple form functions (only first element is used).
@@ -81,7 +80,7 @@ function _form_collect (&$app, &$forms, &$formevents, &$filteredelements)
             $filteredelements[$filter][$token] =& $e;
         }
 
-        $forms[$e->form_idx][$token] =& $e;
+        $forms[$e->form_idx][$token] = $e;
     }
 }
 
@@ -230,7 +229,9 @@ function form_update (&$app)
 	    $v = addslashes ($v);
 
         # Update field in database.
-        $cursor->set ($v);
+        $record = $cursor->current ();
+        $record[$field] = $v;
+        $cursor->set ($record);
     }
 }
 
