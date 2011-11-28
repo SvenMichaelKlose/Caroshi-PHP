@@ -199,7 +199,7 @@ function form_update (&$app)
     foreach ($app->elements as $token => $e) {
         $v = $e->val;
         $cursor =& $e->cursor;
-        $src = $cursor->source ();
+        $source = $cursor->source ();
         $type = $cursor->type ();
         $field = $cursor->field ();
 
@@ -211,9 +211,9 @@ function form_update (&$app)
         if (!$cursor->key ()) {
             # Die if there's no key.
             if (!$keyset || !isset ($keyset[$type][$src]))
-                die ("form_update(): No key for field '{${$cursor->field ()}}' in source '$src' of type '$type'.");
+                die ("form_update(): No key for field '{${$cursor->field ()}}' in source '$source' of type '$type'.");
 
-            $cursor->set_key ($keyset[$type][$src]);
+            $cursor->set_key ($keyset[$type][$source]);
         }
 
         $quote = false;
@@ -229,9 +229,7 @@ function form_update (&$app)
 	    $v = addslashes ($v);
 
         # Update field in database.
-        $record = $cursor->current ();
-        $record[$field] = $v;
-        $cursor->set ($record);
+        $cursor->set_value ($field, $v);
     }
 }
 

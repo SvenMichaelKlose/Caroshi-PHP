@@ -128,6 +128,26 @@ class cursor_sql extends cursor {
         $db->update ($this->_source, sql_array_assignments ($values), sql_assignment ($primary, $this->_key));
     }
 
+
+    /**
+     * Update field in the last fetched record.
+     *
+     * @access public
+     * @param string $field Field name.
+     * @param string $value Field value.
+     */
+    function set_value  ($field, $value)
+    {
+        if (!is_string ($field))
+            die ('cursor_sql::set_value(): Field is not a string.');
+        if (!is_string ($value))
+            die ('cursor_sql::set_value(): Value is not a string.');
+
+        $db =& $GLOBALS['__CURSOR_SQL_INSTANCE'];
+        $primary = $db->def->primary ($this->_source);
+        $db->update ($this->_source, sql_assignment ($field, $value), sql_assignment ($primary, $this->_key));
+    }
+
     function create ($pre = 0, $parent = 0)
     {
         $db =& $GLOBALS['__CURSOR_SQL_INSTANCE'];
