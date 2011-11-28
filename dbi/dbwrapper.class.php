@@ -39,12 +39,8 @@ class DBWrapper {
      */
     function DBWrapper ($dbname, $host, $user, $passwd)
     {
-        # Try to get a persistent connection, a temporary one otherwise.
-        # @Do not complain.
-        @$this->_db =& mysql_pconnect ($host, $user, $passwd)
-        || @$this->_db =& mysql_connect ($host, $user, $passwd);
-
-        @mysql_select_db ($dbname, $this->_db);
+        $this->_db = mysql_pconnect ($host, $user, $passwd);
+        mysql_select_db ($dbname, $this->_db);
     }
 
     /**
@@ -77,7 +73,7 @@ class DBWrapper {
      * @param string table  Table name.
      * @param string prefix Table name.prefix to use.
      */
-    function create_table ($dep, $table, $prefix)
+    function _create_table ($dep, $table, $prefix)
     {
         if (!$fields = $dep->types ($table))
             panic ('dbwrapper::create_table(): $table is undefined.');

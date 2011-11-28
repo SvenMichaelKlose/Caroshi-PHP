@@ -87,7 +87,7 @@ class DBI extends DBCtrl {
         $t = (substr ($table, 0, 4) == '_wrk') ?
              substr ($table, 4, strlen ($table) - 4) :
              $table;
-        dbwrapper::create_table ($this->def, $table, $this->table_prefix ());
+        $this->_create_table ($this->def, $table, $this->table_prefix ());
     }
 
     function drop_table ($name)
