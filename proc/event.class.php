@@ -55,6 +55,7 @@ class event {
      *
      * @access public
      * @param object event $e
+     * @returns object event Itself.
      */
     function set_next ($e)
     {
@@ -63,6 +64,7 @@ class event {
         if (!is_a ($e, 'event'))
             die ('event::set_next(): Argument is not an event object.');
         $this->next = $e;
+        return $e;
     }
 
     /* Set return function for call to subsession.
@@ -71,6 +73,7 @@ class event {
      *
      * @access public
      * @param object event $e Function to return to.
+     * @returns object event Itself.
      */
     function set_caller ($e)
     {
@@ -81,6 +84,7 @@ class event {
         $c = new event ('__call_sub', array ('caller' => $e));
         $t = $this;
         $c->set_next ($t);
+        return $e;
     }
 
     /**
@@ -89,6 +93,7 @@ class event {
      * @access public
      * @param string $name Argument name.
      * @param mixed $data New argument data.
+     * @returns mixed New rgument data.
      */
     function set_arg ($name, $data)
     { 
