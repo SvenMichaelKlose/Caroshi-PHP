@@ -69,10 +69,10 @@ class DBI extends DBCtrl {
 
         $set = '';
         foreach ($hash as $v) {
-            # Skip primary key except it's preset.
-            if ($v['readonly'] || (!$pre[$v['n']] && $v['n'] == $pri))
+            $n = $v['n'];
+            if (!isset ($pre[$n]) || isset ($v['readonly']) || $n == $pri)
                 continue;
-	    $set = sql_append_assignment ($set, $v['n'], $pre[$v['n']]);
+	    $set = sql_append_assignment ($set, $n, $pre[$n]);
         }
         $this->insert ($table, $set);
     }

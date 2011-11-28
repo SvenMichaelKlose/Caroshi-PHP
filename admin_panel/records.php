@@ -45,7 +45,6 @@ function _record_create_continue (&$app, $keys)
 {
     $next_view = $app->arg ('next_view', ARG_OPTIONAL);
     $ret = $app->arg ('ret', ARG_OPTIONAL);
-
     $ui =& $app->ui;
 
     if (!$keys)
@@ -164,8 +163,7 @@ function record_create (&$app)
  */
 function record_update (&$app)
 {
-    $cursor =& $app->arg ('_cursor');
-
+    $cursor = $app->arg ('_cursor');
     $ui =& $app->ui;
 
     $err = form_update ($app);
@@ -192,10 +190,9 @@ function record_update (&$app)
 function record_delete (&$app)
 {
     $cursor = $app->arg ('_cursor', ARG_OPTIONAL);
-    $cursor_list =& $app->arg ('cursor_list', ARG_OPTIONAL);
+    $cursor_list = $app->arg ('cursor_list', ARG_OPTIONAL);
     $yes_view = $app->arg ('yes_view', ARG_OPTIONAL);
     $no_view = $app->arg ('no_view', ARG_OPTIONAL);
-
     $ui =& $app->ui;
     $m = $app->record_messages;
     $tv = $app->event ();
@@ -235,8 +232,8 @@ function record_delete (&$app)
     # Create link to real kill.
     $yes = new event ('record_delete_force');
     $yes->set_next ($yes_view);
-    $yes->args['_cursor'] = $app->arg ('_cursor', ARG_OPTIONAL);
-    $yes->args['cursor_list'] =& $cursor_list;
+    $yes->set_arg ('_cursor', $app->arg ('_cursor', ARG_OPTIONAL));
+    $yes->set_arg ('cursor_list', $cursor_list);
 
     $ui->confirm ($m['delete_ask'], $m['yes'], $yes, $m['no'], $no_view);
 }
@@ -253,8 +250,7 @@ function record_delete (&$app)
 function record_delete_force (&$app)
 {
     $cursor = $app->arg ('_cursor', ARG_OPTIONAL);
-    $cursor_list =& $app->arg ('cursor_list', ARG_OPTIONAL);
-
+    $cursor_list = $app->arg ('cursor_list', ARG_OPTIONAL);
     $ui =& $app->ui;
 
     if (!$cursor_list) {
