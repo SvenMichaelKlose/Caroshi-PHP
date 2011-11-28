@@ -35,59 +35,6 @@ function _records_init (&$app)
 }
 
 /**
- * Create record listed in $sources with optional field values or aliases.
- *
- * @access public
- * @param object application $app
- * @param array $set Source set which describes the records to be created.
- */
-function record_create_set (&$app, &$set)
-{
-    $ui =& $app->ui;
-
-    $keyset = array ();
-    foreach ($set as $cursortype => $sources) {
-        $tmp = "cursor_$cursortype";
-        $cursor = new $tmp;
-
-        foreach ($sources as $source => $pre) {
-            if (!is_array ($pre))
-                die ("Can't create record. Preset values are not in an array for source $source.");
-
-            # Replace aliases by key to inserted record in specified source in
-            # this function. An alias is placed in preset_values' field data in
-            # the form @<source name>.
-            if (sizeof ($pre)) {
-                foreach ($pre as $field => $data) {
-                    if (substr ($data, 0, 1) == '@') {
-                        $s = substr ($data, 1);
-                        if (!isset ($aliases[$s]))
-                            die ("No record in source $source created source $s could point to.");
-
-                        # Replace alias by id of inserted record.
-                        $pre[$field] = $aliases[$s];
-                    }
-                }
-            }
-
-            # Create record.
-            $cursor->set_source ($source);
-            $key = $cursor->create ($pre);
-            $keyset[$cursor->type ()][$source] = $key;
-
-            # Remeber key for alias.
-            $aliases[$source] = $key;
-
-            # Highlight new record.
-            $cursor->set_key ($key);
-            $ui->highlight[$cursor->id ()] = '#00FF00';
-        }
-    }
-
-    return $keyset;
-}
-
-/**
  * Create records, print messagebox and jump to next view.
  *
  * @param object application $app
@@ -121,6 +68,57 @@ function _record_create_continue (&$app, $keys)
     }
 
     return $keys;
+}
+
+/**
+ * Create record listed in $sources with optional field values or aliases.
+ *
+ * @access public
+ * @param object application $app
+ * @param array $set Source set which describes the records to be created.
+ */
+function record_create_set (&$app, &$set)
+{
+    $ui =& $app->ui;
+
+    $keyset = array ();
+    foreach ($set as $cursortype => $sources) {
+        $tmp = "cursor_$cursortype";
+        $cursor = new $tmp;
+
+        foreach ($sources as $source => $pre) {
+            if (!is_array ($pre))
+                die ("Can't create record. Preset values are not in an array for source $source.");
+
+            # Replace aliases by key to inserted record in specified source in
+            # this function. An alias is placed in preset_values' field data in
+            # the form @<source name>.
+            foreach ($pre as $field => $data) {
+                if (substr ($data, 0, 1) == '@') {
+                    $s = substr ($data, 1);
+                    if (!isset ($aliases[$s]))
+                        die ("No record in source $source created source $s could point to.");
+
+                    # Replace alias by id of inserted record.
+                    $pre[$field] = $aliases[$s];
+                }
+            }
+
+            # Create record.
+            $cursor->set_source ($source);
+            $key = $cursor->create ($pre);
+            $keyset[$cursor->type ()][$source] = $key;
+
+            # Remeber key for alias.
+            $aliases[$source] = $key;
+
+            # Highlight new record.
+            $cursor->set_key ($key);
+            $ui->highlight[$cursor->id ()] = '#00FF00';
+        }
+    }
+
+    return $keyset;
 }
 
 /**
