@@ -41,7 +41,7 @@ class DBI extends DBCtrl {
         if (!$pri = $this->def->primary ($table))
 	    die ("dbi::column(): No primary key specified for table '$table'.");
 
-        return $this->select ($column, $table, "$pri='$id'")->get ($columns);
+        return $this->select ($column, $table, "$pri='$id'")->get ($column);
     }
 
     ######################
