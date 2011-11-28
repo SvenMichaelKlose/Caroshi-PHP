@@ -64,7 +64,7 @@ class admin_panel {
      * Cached cursor values. The array contains the keyed by context cursor id.
      * @access public
      * @var array
-     * @see val()
+     * @see value()
      */
     var $record_cache;
 
@@ -171,6 +171,7 @@ class admin_panel {
 
         # Initialize member variables.
         $this->application =& $app;
+        $this->application->ui =& $this;
         $this->application->short_links = false;
         $this->widgets = $widgets ? $widgets : new widget_set ();
         $this->db =& $app->db;
