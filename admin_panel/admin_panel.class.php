@@ -1324,8 +1324,10 @@ class admin_panel {
      */
     function _new_formtoken ($event, $element)
     {
-        $event->subsession = $this->application->event ()->subsession;
-        $element->view = $event;
+        if ($event) {
+            $event->subsession = $this->application->event ()->subsession;
+            $element->view = $event;
+        }
 
         $df =& $this->v->defaultfunc;
         if (isset ($df))
@@ -1340,7 +1342,8 @@ class admin_panel {
         if (!$element->cursor)
             $element->cursor = $this->v->cursor;
 
-        $element->view->args['_cursor'] = $element->cursor;
+        if ($element->view)
+            $element->view->set_arg ('_cursor', $element->cursor);
 
         return 'item[' . $this->application->_tokens->create ($element) . ']';
     }
