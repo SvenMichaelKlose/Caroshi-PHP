@@ -1314,35 +1314,19 @@ class admin_panel extends singleton {
      * @param object event $event Event to trigger if widget is a submit button.
      * @param object _form_element $f For internal use.
      */
-    function new_formfield ($field, $event = 0, $f = 0)
+    function new_formfield ($field, $event = 0, $element = 0)
     {
-        $v =& $this->v;
-        $c =& $v->cursor;
+        $c = $this->v->cursor;
 
         if ($event && !is_a ($event, 'event'))
             die ('admin_panel::new_formfield(): Argument 2 is not an event.');
 
         $c->set_field ($field);
-        if (!$f)
-            $f = new _form_element;
+        if (!$element)
+            $element = new _form_element;
+        $element->cursor = $c;
 
-        return $this->_new_formtoken ($event, $f);
-    }
-
-    /**
-     * Add context info to event.
-     *
-     * @param object event $event
-     */
-    function _add_context (&$element)
-    {
-        $v =& $this->v;
-
-        $fi = $this->_form_index;
-        $element->form_idx = $fi ? $fi : 0;
-
-        $element->cursor = $v->cursor;
-        $element->view->args['_cursor'] =& $v->cursor;
+        return $this->_new_formtoken ($event, $element);
     }
 
     /**
@@ -1350,23 +1334,29 @@ class admin_panel extends singleton {
      *
      * This function creates a name containing a token
      *
-     * @param object event $view XXX &$view would crash.
+     * @param object event $event
      * @param object _form_element $element
      */
     function _new_formtoken ($event, $element)
     {
-        $tv = $this->application->event ();
-
-        $event->subsession = $tv->subsession;
+        $event->subsession = $this->application->event ()->subsession;
         $element->view = $event;
 
         $df =& $this->v->defaultfunc;
         if (isset ($df))
 	    $element->defaultfunc = $df;
+
         $element->use_filter = $this->_form_filter;
         $element->element_filter_write = $this->_element_filter_write;
 
-        $this->_add_context ($element);
+        $fi = $this->_form_index;
+        $element->form_idx = $fi ? $fi : 0;
+
+        if (!$element->cursor)
+            $element->cursor = $this->v->cursor;
+
+        $element->view->args['_cursor'] = $element->cursor;
+
         return 'item[' . $this->application->_tokens->create ($element) . ']';
     }
 }
