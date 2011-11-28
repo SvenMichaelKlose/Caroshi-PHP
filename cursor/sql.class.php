@@ -148,12 +148,10 @@ class cursor_sql extends cursor {
         $db->update ($this->_source, sql_assignment ($field, $value), sql_assignment ($primary, $this->_key));
     }
 
-    function create ($pre = 0, $parent = 0)
+    function create ($pre = 0)
     {
         $db =& $GLOBALS['__CURSOR_SQL_INSTANCE'];
-        $key = isset ($this->_key) ? addslashes ($this->_key) : 0;
-
-        return $db->append_new ($this->_source, $key, $pre);
+        return $db->append_new ($this->_source, $pre);
     }
 
     function delete ()
