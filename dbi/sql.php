@@ -53,7 +53,8 @@ function sql_array_assignments ($values)
 
     $x = '';
     foreach ($values as $k => $v)
-        sql_append_assignment ($x, $k, $v);
+        if (!is_numeric ($k))
+            $x = sql_append_assignment ($x, $k, $v);
     return $x;
 }
 
