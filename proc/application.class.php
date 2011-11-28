@@ -1,16 +1,17 @@
 <?php
+
 # Copyright (c) 2000-2002 dev/consulting GmbH
 # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
 #
 # Licensed under the MIT, BSD and GPL licenses.
 
-
+require_once PATH_TO_CAROSHI . '/proc/debug_dump.php';
+require_once PATH_TO_CAROSHI . '/proc/error.php';
 require_once PATH_TO_CAROSHI . '/dbi/dbi.class.php';
 require_once PATH_TO_CAROSHI . '/dbi/dbsession.class.php';
 require_once PATH_TO_CAROSHI . '/dbi/dbtoken.class.php';
 require_once PATH_TO_CAROSHI . '/object/is_a.php';
 require_once PATH_TO_CAROSHI . '/proc/type.php';
-require_once PATH_TO_CAROSHI . '/proc/debug_dump.php';
 require_once PATH_TO_CAROSHI . '/proc/event.class.php';
 require_once PATH_TO_CAROSHI . '/proc/_subsession.class.php';
 
@@ -539,4 +540,5 @@ class application {
         $this->_event = $this->_url2event ();
     }
 }
+
 ?>
