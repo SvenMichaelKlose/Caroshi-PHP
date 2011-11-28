@@ -199,7 +199,7 @@ function record_delete (&$app)
     $yes_view = $app->arg ('yes_view', ARG_OPTIONAL);
     $no_view = $app->arg ('no_view', ARG_OPTIONAL);
 
-    $ui =& admin_panel::instance ();
+    $ui =& $app->ui;
     $m = $app->record_messages;
     $tv = $app->event ();
 
