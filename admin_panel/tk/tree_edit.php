@@ -82,7 +82,7 @@ function tv_move_node (&$app, &$node)
 
     $name = $node[$app->arg ('name')];
     $id = $node[$app->arg ('id')];
-    $p->link ("<B>$name</B>", new event ('move_node_to', array_merge ($app->event->args, array ('id_src' => $id))));
+    $p->link ("<B>$name</B>", new event ('move_node_to', array_merge ($app->event ()->args, array ('id_src' => $id))));
 }
 
 # $app->args:
@@ -102,13 +102,13 @@ function tv_move_to_node (&$app, &$node)
 
     if ($id == $id_src)
         return "<B>$name</B>";
-    return "<b>$name</b> " . $p->link ('^', new event ('move_node4real', array_merge ($app->args, array ('id_dest' => $id_parent,
-                                                                                                         'id_src' => $id_src, 'id_dest_next' => $id)))) .
-           ' ' . $p->link ('\/', new event ('move_node4real', array_merge ($app->args, array ('id_dest' => $id_parent,
-                                                                                              'id_src' => $id_src,
-      	                                                                                      'id_dest_next' => $node['id_next'])))) .
-           ' ' . $p->link ('>', new event ('move_node4real', array_merge ($app->args, array ('id_dest' => $id,
-                                                                                             'id_src' => $id_src))));
+    return "<b>$name</b> " . $p->link ('^', new event ('move_node4real', array_merge ($app->args (), array ('id_dest' => $id_parent,
+                                                                                                            'id_src' => $id_src, 'id_dest_next' => $id)))) .
+           ' ' . $p->link ('\/', new event ('move_node4real', array_merge ($app->args (), array ('id_dest' => $id_parent,
+                                                                                                 'id_src' => $id_src,
+      	                                                                                         'id_dest_next' => $node['id_next'])))) .
+           ' ' . $p->link ('>', new event ('move_node4real', array_merge ($app->args (), array ('id_dest' => $id,
+                                                                                                'id_src' => $id_src))));
 }
 
 # $app->args:
@@ -116,7 +116,7 @@ function tv_move_to_node (&$app, &$node)
 function move_node_to (&$app)
 {
     $def =& $app->db->def;
-    $ui =& $app->ui;
+    $p =& $app->ui;
 
     $table = $app->arg ('source');
     $id = $app->arg ('id');
@@ -128,7 +128,10 @@ function move_node_to (&$app)
     $p->link ($txt_back, 'return2caller');
     echo "<CENTER><TABLE BORDER=0 BGCOLOR=\"#EEEEEE\"><TR><TD>";
     $tree = new DBTREE ($app->db, $table, $id);
-    $tree->highlight[$p->view_id ($table, $id_src)] = 'yellow';
+    $c = new cursor_sql ();
+    $c->set_source ($table);
+    $c->set_key ($id_src);
+    $tree->highlight[$c->id ()] = 'yellow';
     $tree->view ('tv_move_to_node', $app);
     echo '</TD></TR></TABLE></CENTER>';
 }
