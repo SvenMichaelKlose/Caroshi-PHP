@@ -76,7 +76,7 @@ function _form_collect (&$app, &$forms, &$formevents, &$filteredelements)
         # Schedule element for run through filter function.
         if ($e->use_filter) {
             $filter = $e->use_filter;
-            $formfilter[$filter->name] = $e;
+            $formfilter[$filter] = $e;
             $filteredelements[$filter][$token] = $e;
         }
 
