@@ -219,7 +219,7 @@ class DBI extends DBCtrl {
 
     # Append new record to end of doubly linked list identified by the
     # parent node in the tree $id_dest_parent.
-    function append_new ($table, $id_dest_parent = 0, $pre = 0)
+    function append_new ($table, $pre = 0)
     {
         if (!$pre)
             $pre = array ();
@@ -235,6 +235,7 @@ class DBI extends DBCtrl {
         $id_next = $def->next_of ($table);
         $id_parent = $def->ref_id ($table);
 
+/*
         # Get destination list's parent record if required.
         if ($id_parent) {
             if (!$id_dest_parent)
@@ -242,6 +243,7 @@ class DBI extends DBCtrl {
             if (!isset ($pre[$id_parent]))
                 $pre[$id_parent] = $id_dest_parent;
         }
+*/
 
         # Do simple append if no list or list references are overridden.
         if (!$def->is_list ($table) || isset ($pre[$id_last]) || isset ($pre[$id_next])) {
@@ -252,7 +254,7 @@ class DBI extends DBCtrl {
         # Get id of last record in list.
         $q = "$id_next=0";
         if ($id_parent)
-            $q .= " AND $id_parent=$id_dest_parent";
+            $q .= " AND $id_parent=" . $pre[$id_parent];
         if ($res = $this->select ($id, $table, $q))
             list ($last) = $res->get ();
         else
@@ -268,8 +270,10 @@ class DBI extends DBCtrl {
         if ($last)
             $this->update ($table, "$id_next=$nid", "$id=$last");
 
+/*
         if ($xref = $def->xref_table ($table))
             $this->insert ($xref, "id_parent=$id_dest_parent, id_child=$nid");
+*/
 
         return $nid;
     }
