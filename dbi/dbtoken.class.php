@@ -85,7 +85,7 @@ class dbtoken {
             die ('dbtoken::write(): Need a name.');
 
         if (!isset ($this->_types[$name])) {
-            $this->_tokens[$name] =& $data;
+            $this->_tokens[$name] = $data;
             $this->_types[$name] = TOKEN_DEFAULT;
             return;
         }
@@ -117,20 +117,17 @@ class dbtoken {
         }
 
         # Add new token entry.
-        $this->_tokens[$name] =& $data;
-        $this->_types[$name] =& $type;
+        $this->_tokens[$name] = $data;
+        $this->_types[$name] = $type;
 
-        # Write tokens from time to time.
-        if (!$this->_num_tokens % 1000)
-            $this->_write_tokens ();
-
+        $this->_write_tokens (); # XXX otherwise data gets lost.
         return $name;
     }
 
     # Remove all tokens of this session.
     function clear_all ()
     {
-        $table =& $this->_token_table;
+        $table = $this->_token_table;
         $id_session = $this->_session->id ();
         $this->_db->delete ($table, "id_session=$id_session");
     }
@@ -183,8 +180,8 @@ class dbtoken {
     {
         $id_token = $this->_id_token;
         $id_session = $this->_session->id ();
-        $table =& $this->_token_table;
-        $ttl =& $this->_ttl;
+        $table = $this->_token_table;
+        $ttl = $this->_ttl;
 
         if ($id_token) {
             $q = "id_parent!=$id_token AND is_onetime=1 AND id_session=$id_session";
@@ -197,7 +194,7 @@ class dbtoken {
     {
         $id_token = $this->_id_token;
         $id_session = $this->_session->id ();
-        $table =& $this->_token_table;
+        $table = $this->_token_table;
         $time = $this->_time;
         $data = addslashes (serialize ($data));
 
