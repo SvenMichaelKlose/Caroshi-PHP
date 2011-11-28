@@ -164,10 +164,8 @@ class admin_panel {
      */
     function admin_panel (&$app, $widgets = 0)
     {
-        if (!is_a ($app, 'application'))
-            die ('admin_panel constructor: First argument is not an application object.');
-        if ($widgets && !is_object ($widgets))
-            die ('admin_panel constructor: Widget set is not an object.');
+        type ($app, 'application');
+        $widgets && type_object ($widgets);
 
         # Initialize member variables.
         $this->application =& $app;
@@ -232,8 +230,7 @@ class admin_panel {
      */
     function set_context (&$cursor)
     {
-        if (!is_a ($cursor, 'cursor'))
-            die ('admin_panel::set_context(): Argument is not a cursor');
+        type ($cursor, 'cursor');
         $this->v = new _admin_panel_view ($cursor, $this->no_update, null);
     }
 
@@ -247,8 +244,7 @@ class admin_panel {
      */
     function open_context (&$cursor)
     {
-        if (!is_a ($cursor, 'cursor'))
-            die ('admin_panel::open_context(): Argument is not a cursor');
+        type ($cursor, 'cursor');
 
         if (!sizeof ($this->_viewstack))
             $this->_form_index++;
@@ -277,8 +273,7 @@ class admin_panel {
      */
     function use_filter ($filtername)
     {
-        if (!is_string ($filtername))
-            die ('admin_panel::use_filter(): Argument is not a string');
+        type_string ($filtername);
 
         $this->_form_filter = $filtername;
     }
@@ -294,10 +289,8 @@ class admin_panel {
      */
     function use_element_filters ($filter_read, $filter_write)
     {
-        if (!is_string ($filter_read))
-            die ('admin_panel::use_element_filters(): Argument 1 is not a string');
-        if (!is_string ($filter_read))
-            die ('admin_panel::use_element_filters(): Argument 2 is not a string');
+        type_string ($filter_read);
+        type_string ($filter_write);
 
         $this->_element_filter_read = $filter_read;
         $this->_element_filter_write = $filter_write;
@@ -338,8 +331,7 @@ class admin_panel {
      */
     function value ($field_name)
     {
-        if (!is_string ($field_name))
-            die ('admin_panel::value(): Argument is not a string');
+        type_string ($field_name);
 
         $v =& $this->v;
         $cursor =& $v->cursor;
@@ -377,8 +369,7 @@ class admin_panel {
      */
     function set_value ($field, $val)
     {
-        if (!is_string ($field))
-            die ('admin_panel::set_value(): Field name is not a string');
+        type_string ($field);
 
         $v =& $this->v->cursor;
         $this->record_cache[$v->source ()][$v->key ()][$field] = $val;
@@ -458,10 +449,8 @@ class admin_panel {
      */
     function confirm ($msg, $option_yes, $event_yes, $option_no, $event_no, $color = 0)
     {
-        if (!is_a ($event_yes, 'event'))
-            die ('admin_panel::confirm(): event_yes is not an event object.');
-        if (!is_a ($event_no, 'event'))
-            die ('admin_panel::confirm(): event_no is not an event object.');
+        type ($event_yes, 'event');
+        type ($event_no, 'event');
 
         $this->widgets->msgbox ($msg, $color);
 
@@ -482,8 +471,7 @@ class admin_panel {
      */
     function set_default_formevent ($event)
     {
-        if (!is_a ($event, 'event'))
-            die ('admin_panel::set_default_formevent(): Argument is not an event.');
+        type ($event, 'event');
 
         $this->v->defaultfunc =& $event;
     }
@@ -498,8 +486,7 @@ class admin_panel {
      */
     function open_form ($default_event = 0)
     {
-        if ($default_event && !is_a ($default_event, 'event'))
-            die ('admin_panel::open_form(): Argument is not an event.');
+        $default_event && type ($default_event, 'event');
 
         if ($default_event)
             $this->set_default_formevent ($default_event);
@@ -535,8 +522,7 @@ class admin_panel {
      */
     function open_table ($attrs = 0)
     {
-        if ($attrs && !is_array ($attrs))
-            die ('admin_panel::open_table(): Argument is not an array.');
+        $attrs && type_array ($attrs);
 
         if (!$this->_opentable++)
             $this->widgets->open_table ($attrs);
@@ -597,8 +583,7 @@ class admin_panel {
      */
     function open_row ($attrs = 0)
     {
-        if ($attrs && !is_array ($attrs))
-            die ('admin_panel::open_row(): Argument is not an array.');
+        $attrs && type_array ($attrs);
 
         $this->_do_highlighting ($attrs);
 
@@ -634,8 +619,7 @@ class admin_panel {
     {
         $w =& $this->widgets;
 
-        if ($attrs && !is_array ($attrs))
-            die ('admin_panel::open_cell(): Argument is not an array.');
+        $attrs && type_array ($attrs);
 
         if ($this->_opencells++)
             return;
@@ -671,10 +655,8 @@ class admin_panel {
      */
     function table_headers ($titles, $attrs = 0)
     {
-        if (!is_array ($titles))
-            die ('admin_panel::table_headers(): Need an array of field names.');
-        if ($attrs && !is_array ($attrs))
-            die ('admin_panel::table_headers(): Attributes are not in array.');
+        type_array ($titles);
+        $attrs && type_array ($attrs);
 
         $this->widgets->table_headers ($titles, $attrs);
     }
@@ -687,8 +669,7 @@ class admin_panel {
      */
     function show ($field)
     {
-        if (!is_string ($field))
-            die ('admin_panel::show(): Argument is not a string.');
+        type_string ($field);
 
         $text = $this->value ($field);
         if (!$text)
@@ -712,12 +693,9 @@ class admin_panel {
      */
     function show_ref ($field, $source, $column)
     {
-        if (!is_string ($field))
-            die ('admin_panel::show_ref(): Field name is not a string.');
-        if (!is_string ($field))
-            die ('admin_panel::show_ref(): Source name is not a string.');
-        if (!is_string ($field))
-            die ('admin_panel::show_ref(): Column name is not a string.');
+        type_string ($field);
+        type_string ($source);
+        type_string ($column);
 
         $val = $this->db->column ($source, $column, $this->value ($field));
         $this->open_widget ($field);
@@ -757,12 +735,10 @@ class admin_panel {
      */
     function open_widget ($field = '', $attrs = 0)
     {
-        $c =& $this->v->cursor;
+        type_string ($field);
+        $attrs && type_array ($attrs);
 
-        if (!is_string ($field))
-            die ('admin_panel::open_widget(): Field name is not a string.');
-        if ($attrs && !is_array ($attrs))
-            die ('admin_panel::open_widget(): Attributes are not in array.');
+        $c =& $this->v->cursor;
 
         $c->set_field ($field);
         $this->open_row ();
@@ -834,10 +810,8 @@ class admin_panel {
      */
     function show_mime_image ($field, $type)
     {
-        if (!is_string ($field))
-            die ('admin_panel::show_mime_image(): Field name is not a string.');
-        if (!is_string ($type))
-            die ('admin_panel::show_mime_image(): MIME type is not a string.');
+        type_string ($field);
+        type_string ($type);
 
         $v =& $this->v->cursor;
         $source = $v->source ();
@@ -871,10 +845,8 @@ class admin_panel {
      */
     function inputline ($field, $maxlen)
     {
-        if (!is_string ($field))
-            die ('admin_panel::inputline(): Field name is not a string.');
-        if (!is_int ($maxlen))
-            die ('admin_panel::inputline(): MIME type is not a string.');
+        type_string ($field);
+        type_int ($maxlen);
 
         $this->_inputline ('TEXT', $field, $maxlen);
     }
@@ -891,10 +863,8 @@ class admin_panel {
      */
     function password ($field, $maxlen, $label = '')
     {
-        if (!is_string ($field))
-            die ('admin_panel::password(): Field name is not a string.');
-        if (!is_int ($maxlen))
-            die ('admin_panel::password(): MIME type is not a string.');
+        type_string ($field);
+        type_int ($maxlen);
 
         $this->_inputline ('PASSWORD', $field, $maxlen);
     }
@@ -911,8 +881,7 @@ class admin_panel {
      */
     function radiobox ($field, $label_true, $label_false, $value_true = 1, $value_false = 0)
     {
-        if (!is_string ($field))
-            die ('admin_panel::radiobox(): Field name is not a string.');
+        type_string ($field);
 
         $w =& $this->widgets;
         $v = $this->value ($field);
@@ -939,10 +908,8 @@ class admin_panel {
     # Select one of the strings in array $optionlist.
     function select_string ($field, $optionlist, $use_stringkey = true)
     {
-        if (!is_string ($field))
-            die ('admin_panel::select_string(): Field name is not a string.');
-        if (!is_array ($optionlist))
-            die ('admin_panel::select_string(): Option list is not an array.');
+        type_string ($field);
+        type_array ($optionlist);
 
         if ($use_stringkey) {
             foreach ($optionlist as $string)
@@ -969,12 +936,9 @@ class admin_panel {
      */
     function select_id ($field, $source, $column, $id, $where = '')
     {
-        if (!is_string ($field))
-            die ('admin_panel::select_id(): Field name is not a string.');
-        if (!is_string ($source))
-            die ('admin_panel::select_id(): Source name is not a string.');
-        if (!is_string ($column))
-            die ('admin_panel::select_id(): Column name is not a string.');
+        type_string ($field);
+        type_string ($source);
+        type_string ($column);
 
         $options[0] = '-';
         $res = $this->db->select ("$column,$id", $source, '', $where);
@@ -996,12 +960,9 @@ class admin_panel {
      */
     function textarea ($field, $width, $height)
     {
-        if (!is_string ($field))
-            die ('admin_panel::textarea(): Field name is not a string.');
-        if (!is_int ($width))
-            die ('admin_panel::textarea(): Width is not an integer.');
-        if (!is_int ($height))
-            die ('admin_panel::textarea(): Height is not an integer.');
+        type_string ($field);
+        type_int ($width);
+        type_int ($height);
 
         $val = htmlentities ($this->value ($field));
 
@@ -1023,8 +984,9 @@ class admin_panel {
      */
     function fileform ($field, $typefield = '', $filenamefield = '')
     {
-        if (!is_string ($field))
-            die ('admin_panel::open_widget(): Field name is not a string.');
+        type_string ($field);
+        type_string ($typefield);
+        type_string ($filenamefield);
 
         $w =& $this->widgets;
 
@@ -1052,10 +1014,8 @@ class admin_panel {
      */
     function checkbox ($field, $event = 0)
     {
-        if (!is_string ($field))
-            die ('admin_panel::checkbox(): Field name is not a string.');
-        if ($event && !is_a ($event, 'event'))
-            die ('admin_panel::checkbox(): Argument 2 is not an event.');
+        type_string ($field);
+        $event && type ($event, 'event');
 
         $w =& $this->widgets;
 
@@ -1187,10 +1147,8 @@ class admin_panel {
     {
         if (is_string ($event))
             $event = new event ($event);
-        if (!is_a ($event, 'event'))
-            die ('admin_panel::link(): Argument 2 is not an event.');
-        if ($fakename && !is_string ($fakename))
-            die ('admin_panel::link(): Argument 3 is not a string.');
+        type ($event, 'event');
+        $fakename && type_string ($fakename);
 
         if (!$this->_opentable) {
             echo '[' . $this->_looselink ($label, $event, $fakename) . '] ';
@@ -1230,8 +1188,9 @@ class admin_panel {
     # Create image cell with link.
     function image_link ($label, $src, $event)
     {
-        if (!is_a ($event, 'event'))
-            die ('admin_panel::image_link(): Argument 3 is not an event.');
+        type_string ($label);
+        type_string ($src);
+        type ($event, 'event');
 
         $url = $this->url ($event);
 
@@ -1277,8 +1236,7 @@ class admin_panel {
         $c =& $this->v->cursor;
         if (is_string ($event))
             $event = new event ($event);
-        else if (!is_a ($event, 'event'))
-            die ('admin_panel::url(): Argument is not an event.');
+        else type ($event, 'event');
 
         # Create a link.
         if (!$event->arg ('_cursor'))
@@ -1302,10 +1260,9 @@ class admin_panel {
      */
     function new_formfield ($field, $event = 0, $element = 0)
     {
-        $c = $this->v->cursor;
+        $event && type ($event, 'event');
 
-        if ($event && !is_a ($event, 'event'))
-            die ('admin_panel::new_formfield(): Argument 2 is not an event.');
+        $c = $this->v->cursor;
 
         $c->set_field ($field);
         if (!$element)

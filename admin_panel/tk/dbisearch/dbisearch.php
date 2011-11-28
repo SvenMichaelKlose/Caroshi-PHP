@@ -193,8 +193,7 @@ function _tk_dbisearch_create_query (&$app, &$query, $field)
     $order  = $query->order;
     $q =& $query->_sql_queries;
 
-    if (isset ($fields) && !is_array ($fields))
-        die ("tk_dbisearch: Field '$field': Argument 'fields' is not an array.");
+    isset ($fields) && type_array ($fields);
     if ($empty_fields && $empty_fields != 'skip' && $empty_fields != 'match')
         die ("tk_dbisearch: Unknown value '$empty_fields' for empty_fields.");
     if (!isset ($app->named_elements[$field]))

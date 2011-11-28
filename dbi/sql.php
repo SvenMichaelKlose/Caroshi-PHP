@@ -16,15 +16,13 @@
 
 function sql_value ($v)
 {
-    if (!is_string ($v))
-        die ("sql_value: $v is not a string.");
+    type_string ($v);
     return mysql_real_escape_string ($v);
 }
 
 function sql_quote ($v)
 {
-    if ($v && !is_string ($v))
-        die ("sql_quote: $v is not a string.");
+    $v && type_string ($v);
     return '"' . mysql_real_escape_string ($v) . '"';
 }
 
@@ -48,8 +46,7 @@ function sql_append_assignment ($x, $k, $v)
  */
 function sql_array_assignments ($values)
 {
-    if (!is_array ($values))
-        die ('sql_array_assignments: Argument is not an array.');
+    type_array ($values);
 
     $x = '';
     foreach ($values as $k => $v)

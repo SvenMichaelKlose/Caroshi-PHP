@@ -120,8 +120,7 @@ class cursor_sql extends cursor {
      */
     function set ($values)
     {
-        if (!is_array ($values))
-            die ('cursor_sql::set(): Argument is not an array.');
+        type_array ($values);
 
         $db =& $GLOBALS['__CURSOR_SQL_INSTANCE'];
         $primary = $db->def->primary ($this->_source);
@@ -138,10 +137,8 @@ class cursor_sql extends cursor {
      */
     function set_value  ($field, $value)
     {
-        if (!is_string ($field))
-            die ('cursor_sql::set_value(): Field is not a string.');
-        if (!is_string ($value))
-            die ('cursor_sql::set_value(): Value is not a string.');
+        type_string ($field);
+        type_string ($value);
 
         $db =& $GLOBALS['__CURSOR_SQL_INSTANCE'];
         $primary = $db->def->primary ($this->_source);

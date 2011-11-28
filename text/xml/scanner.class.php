@@ -406,8 +406,7 @@ class XML_SCANNER {
      */
     function &scan (&$data)
     {
-        if (!is_string ($data))
-            die ('xml_scanner::scan(): Argument is not a string."');
+        type_string ($data);
 
         $this->_in = '';
         $this->_block_stack = array ();

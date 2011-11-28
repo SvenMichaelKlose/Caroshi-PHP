@@ -37,10 +37,8 @@ define ('TOKEN_REUSE', 2);
 class dbtoken {
     function dbtoken ($db, $session)
     {
-        if (!is_a ($db, 'dbctrl'))
-            die ('token::token(): Need dbctrl object.');
-        if (!is_a ($session, 'dbsession'))
-            die ('token::token(): Need dbsession object.');
+        type ($db, 'dbctrl');
+        type ($session, 'dbsession');
 
         $this->_db =& $db;
         $this->_session =& $session;
@@ -51,8 +49,7 @@ class dbtoken {
 
     function set_timeout ($seconds)
     {
-        if (!is_int ($seconds))
-            die ("dbtoken::set_timeout(): Argument is not an integer (seconds).");
+        type_int ($seconds);
         if ($seconds < 1)
             die ("dbtoken::set_timeout(): Number of seconds must be >1.");
 
@@ -79,10 +76,9 @@ class dbtoken {
      */
     function write ($name, $data)
     {
-        $this->_write_tokens (); # Be in sync.
+        type_string ($name);
 
-        if (!$name)
-            die ('dbtoken::write(): Need a name.');
+        $this->_write_tokens (); # Be in sync.
 
         if (!isset ($this->_types[$name])) {
             $this->_tokens[$name] = $data;
@@ -141,8 +137,7 @@ class dbtoken {
     {
         if (!trim ($table_name))
             die ('dbtoken::define_table(): Table name must not be empty.');
-        if (!is_string ($table_name))
-            die ('dbtoken::define_table(): Table name must be a string.');
+        type_string ($table_name);
         $this->_token_table = $table_name;
     }
 

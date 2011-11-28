@@ -21,14 +21,10 @@ class event {
      */
     function event ($name, $args = 0)
     {
-        if (!is_string ($name)) {
-            debug_dump ($name);
-            die ('event::event(): Handler name is not a string.');
-        }
+        type_string ($name);
         if (!$args)
             $args = array ();
-        else if (!is_array ($args))
-            die ("event::event(): args is not an array for handler '$name'.");
+        type_array ($args);
 
         $this->name = $name;
         $this->args = $args;
@@ -43,8 +39,7 @@ class event {
      */
     function arg ($name)
     {
-        if (!is_string ($name))
-            die ('event::arg(): Argument name is not a string.');
+        type_string ($name);
 
         if (isset ($this->args[$name]))
             return $this->args[$name];
@@ -77,8 +72,7 @@ class event {
      */
     function set_caller ($e)
     {
-        if (!is_a ($e, 'event'))
-            die ('event::set_caller(): Argument is not an event object.');
+        type ($e, 'event');
 
         # Call subsession function.
         $c = new event ('__call_sub', array ('caller' => $e));
@@ -97,8 +91,7 @@ class event {
      */
     function set_arg ($name, $data)
     { 
-        if (!is_string ($name))
-            die ('event::set_arg(): Argument name is not a string.');
+        type_string ($name);
 
         $this->args[$name] = $data;
     }

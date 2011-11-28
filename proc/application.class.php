@@ -9,6 +9,7 @@ require_once PATH_TO_CAROSHI . '/dbi/dbi.class.php';
 require_once PATH_TO_CAROSHI . '/dbi/dbsession.class.php';
 require_once PATH_TO_CAROSHI . '/dbi/dbtoken.class.php';
 require_once PATH_TO_CAROSHI . '/object/is_a.php';
+require_once PATH_TO_CAROSHI . '/proc/type.php';
 require_once PATH_TO_CAROSHI . '/proc/debug_dump.php';
 require_once PATH_TO_CAROSHI . '/proc/event.class.php';
 require_once PATH_TO_CAROSHI . '/proc/_subsession.class.php';
@@ -110,8 +111,7 @@ class application {
      */
     function call_single (&$e)
     {
-        if (!is_a ($e, 'event'))
-            die ('application::call_single(): Parameter is not an event.');
+        type ($e, 'event');
 
         $tokens =& $this->_tokens;
 
@@ -182,10 +182,7 @@ class application {
         if (is_string ($e)) {
             $e = new event ($e);
             $e->subsession = $this->_event->subsession;
-        } else if (!is_a ($e, 'event')) {
-            debug_dump ($e);
-            die ('application::call(): Argument is not an event object.');
-        }
+        } else type ($e, 'event');
 
         $handler = $e->name;
         do {
@@ -226,8 +223,7 @@ class application {
      */
     function add_function ($handler, $token_type = TOKEN_DEFAULT)
     {
-        if (!is_string ($handler))
-            die ('application::add_function(): Handler name is not a string.');
+        type_string ($handler);
 
         $this->_set_type ($handler, $token_type);
         $this->_handlers[$handler] = false;
@@ -243,12 +239,9 @@ class application {
      */
     function add_method ($method, &$object, $token_type = TOKEN_DEFAULT)
     {
-        if (!is_string ($method))
-            die ('application::add_method(): Method name is not a string.');
-        if (!is_object ($object))
-            die ('application::add_method(): Method name is not a string.');
-        if (!is_int ($token_type))
-            die ('application::add_method(): Token type is not an integer.');
+        type_string ($method);
+        type_object ($object);
+        type_int ($token_type);
 
         $this->_set_type ($method, $token_type);
         $this->_handlers[$method] =& $object;
@@ -270,8 +263,7 @@ class application {
         # Make event object from event handler name or check its class.
         if (is_string ($e))
             $e = new event ($e);
-        else if (!is_a ($e, 'event'))
-            die ('application::link(): Argument is not an event object.');
+        else type ($e, 'event');
 
         # Die if the event handler doesn't exist.
         $handler = $e->name;
@@ -331,8 +323,7 @@ class application {
         $arg = $e->arg ($name);
         $sub = $this->_subargs[$name];
 
-        if (!is_string ($name))
-            die ('application::arg(): Argument name is not a string.');
+        type_string ($name);
 
         # Load session argument with argument of the same name.
         if ($flags & ARG_SUB && isset ($arg))
@@ -388,8 +379,7 @@ class application {
      */
     function set_timeout ($seconds)
     {
-        if (!is_int ($seconds))
-            die ('application::set_timeout(): Argument is not an integer.');
+        type_int ($second, 'int');
 
         $this->session->set_timeout ($seconds);
         $this->_tokens->set_timeout ($seconds);
@@ -406,8 +396,7 @@ class application {
      */
     function set_null_handler ($handler)
     {
-        if (!is_string ($handler))
-            die ('application::set_null_handler(): Handler name is not a string.');
+        type_string ($handler);
 
         $this->_null_handler = $handler;
     }

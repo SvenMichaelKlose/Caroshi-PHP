@@ -22,8 +22,7 @@
  */
 function util_add_functions (&$app, &$handlers)
 {
-    if (!is_array ($handlers))
-        die ('util_add_functions(): Handler list is not an array.');
+    type_array ($handlers);
 
     foreach ($handlers as $n) {
         $app->add_function ($n);
@@ -42,8 +41,7 @@ function util_add_functions (&$app, &$handlers)
  */
 function util_add_raw_functions (&$app, &$handlers)
 {
-    if (!is_array ($handlers))
-        die ('util_add_raw_functions(): Handler list is not an array.');
+    type_array ($handlers);
 
     foreach ($handlers as $n) {
         $app->add_function ($n);
@@ -64,7 +62,7 @@ function util_add_raw_functions (&$app, &$handlers)
  */
 function util_init_modules (&$app, &$modules)
 {
-    if (!is_array ($modules))
+    type_array ($modules);
         die ('util_add_modules(): Module list is not an array.');
 
     foreach ($modules as $m) {

@@ -158,12 +158,10 @@ function tk_autoform_create_form (&$app, $source)
  */
 function tk_autoform_list_cursor (&$app, &$c, $config)
 {
-    $p =& $app->ui;
+    type ($c, 'cursor');
+    type_array ($config);
 
-    if (!is_a ($c, 'cursor'))
-        die ('tk_autoform_list_cursor(): Argument 2 is not a cursor.');
-    if (!is_array ($config))
-        die ('tk_autoform_list_cursor(): Argument 3 is not an array.');
+    $p =& $app->ui;
 
     if (isset ($config['head_fields']))
         $p->table_headers ($config['head_fields']);
@@ -189,8 +187,7 @@ function tk_autoform_list_cursor (&$app, &$c, $config)
                 if ($n != $pri)
                     $fields[] = $n;
         }
-        if (!is_array ($fields))
-            die ("Field list is not an array for source '$source'.");
+        type_array ($fields);
 
         $p->open_row ();
         foreach ($fields as $name) {
