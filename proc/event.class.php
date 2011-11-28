@@ -103,6 +103,17 @@ class event {
         $this->args[$name] = $data;
     }
 
+    /**
+     * Remove an argument.
+     *
+     * @access public
+     * @param string $name Argument name.
+     */
+    function remove_arg ($name)
+    { 
+        unset ($this->args[$name]);
+    }
+
     var $name;
     var $args;
     var $next = 0;
