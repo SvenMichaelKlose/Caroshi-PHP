@@ -94,7 +94,7 @@ class application {
      * @access public
      * @returns object event
      */
-    function event ()
+    function &event ()
     {
         return $this->_event;
     }
