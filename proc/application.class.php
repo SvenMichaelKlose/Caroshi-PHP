@@ -300,8 +300,8 @@ class application {
             echo "<b>Returning from session.</b><br>";
 
         # Get parent event including subsession.
-        $s =& $this->_tokens->get ($this->_event->subsession);
-        $p =& $s->parent;
+        $s = $this->_tokens->get ($this->_event->subsession);
+        $p = $s->parent;
 
         if (!$p)
 	    die ('application::return2caller(): No session to return to.');
@@ -454,12 +454,12 @@ class application {
      */
     function _url2event ()
     {
-        @$url = $_SERVER['PATH_INFO'];
+        if (!isset ($_SERVER['PATH_INFO']))
+            return;
+        $url = $_SERVER['PATH_INFO'];
         $tokens =& $this->_tokens;
         $session =& $this->session;
 
-        if (!$url)
-            return;
         $path = explode ('/', $url);
         if (!$path[1])
 	    return;
