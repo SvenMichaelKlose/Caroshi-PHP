@@ -28,7 +28,7 @@ class DBTREE {
     # $table  = Name of table that contains tree nodes.
     # $c_id   = Name of primary key.
     # $c_id_parent = Name of column referencing a parent node.
-    function &DBTREE (&$db, $table, $c_id, $c_id_parent = '', $c_last = '', $c_next = '')
+    function DBTREE (&$db, $table, $c_id, $c_id_parent = '', $c_last = '', $c_next = '')
     {
         if (!$c_id_parent)
             $c_id_parent = $db->def->ref_id ($table);
@@ -138,7 +138,7 @@ class DBTREE {
             $ref = $def->ref_id ($table);
             $t = $table;
         }
-        $root_id =& $db->select ($child, $t, "$ref=0")->get ($child);
+        $root_id = $db->select ($child, $t, "$ref=0")->get ($child);
         echo $view ($app, $this->_nodes[$root_id]);
         echo '</td>';
         $this->print_childs_of ($root_id, '', $view, $app);

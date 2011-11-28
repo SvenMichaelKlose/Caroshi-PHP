@@ -55,9 +55,9 @@ function tv_node (&$app, &$node)
     $p =& $app->ui;
     $nid = $app->arg ('id');
 
-    $name =& $node[$app->arg ('name')];
-    $nodeview =& $app->arg ('nodeview');
-    $no_create =& $app->arg ('no_create', ARG_OPTIONAL);
+    $name = $node[$app->arg ('name')];
+    $nodeview = $app->arg ('nodeview');
+    $no_create = $app->arg ('no_create', ARG_OPTIONAL);
 
     if (!$name)
         $name = $app->arg ('txt_unnamed');

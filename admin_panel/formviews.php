@@ -76,8 +76,8 @@ function _form_collect (&$app, &$forms, &$formevents, &$filteredelements)
         # Schedule element for run through filter function.
         if ($e->use_filter) {
             $filter = $e->use_filter;
-            $formfilter[$filter->name] =& $e;
-            $filteredelements[$filter][$token] =& $e;
+            $formfilter[$filter->name] = $e;
+            $filteredelements[$filter][$token] = $e;
         }
 
         $forms[$e->form_idx][$token] = $e;
@@ -101,7 +101,7 @@ function form_parser (&$app)
 
     # Call each form filter with its set of elements.
     foreach ($filteredelements as $filter => $elements) {
-        $app->elements =& $filteredelements[$filter];
+        $app->elements = $filteredelements[$filter];
         $app->call (new event ($filter));
     }
 
@@ -115,13 +115,13 @@ function form_parser (&$app)
         unset ($app->named_elements);
         unset ($app->element_sources);
 
-        $app->elements =& $forms[$index];
+        $app->elements = $forms[$index];
 
         foreach ($app->elements as $k => $f) {
-            $cursor =& $f->cursor;
+            $cursor = $f->cursor;
             $source = $cursor->source ();
             $field = $cursor->field ();
-            $v =& $f->val;
+            $v = $f->val;
 
             # Run element through filter function.
             if ($f->element_filter_write) {
@@ -132,10 +132,10 @@ function form_parser (&$app)
 
             # Save form value.
             if ($source && $v && $cursor->type ())
-                $app->element_sources[$cursor->type ()][$source][$field] =& $v;
+                $app->element_sources[$cursor->type ()][$source][$field] = $v;
 
             # Sort in value for lookup by field name.
-            $app->named_elements[$field] =& $f->val;
+            $app->named_elements[$field] = $f->val;
         }
 
         if ($debug) {
@@ -187,8 +187,8 @@ function _form_update_fileinfo (&$app, &$cursor, &$e)
  */
 function form_update (&$app)
 {
-    $keyset =& $app->arg ('keyset', ARG_OPTIONAL);
-    $ignored =& $app->arg ('ignored_elements', ARG_OPTIONAL);
+    $keyset = $app->arg ('keyset', ARG_OPTIONAL);
+    $ignored = $app->arg ('ignored_elements', ARG_OPTIONAL);
 
     $ui =& $app->ui;
 
@@ -198,7 +198,7 @@ function form_update (&$app)
     # Update form element by element.
     foreach ($app->elements as $token => $e) {
         $v = $e->val;
-        $cursor =& $e->cursor;
+        $cursor = $e->cursor;
         $source = $cursor->source ();
         $type = $cursor->type ();
         $field = $cursor->field ();
@@ -243,11 +243,11 @@ function form_update (&$app)
 function form_safe (&$app)
 {
     $ui =& $app->ui;
-    $record_cache =& $ui->record_cache;
+    $record_cache = $ui->record_cache;
 
     foreach ($app->elements as $e) {
-        $cursor =& $e->cursor;
-        $v =& $e->val;
+        $cursor = $e->cursor;
+        $v = $e->val;
 
         # Don't cache uploaded files.
         if ($e->is_file)
@@ -273,7 +273,7 @@ function form_safe (&$app)
  */
 function form_create (&$app)
 {
-    $sources =& $app->arg ('sources', ARG_OPTIONAL);
+    $sources = $app->arg ('sources', ARG_OPTIONAL);
 
     $ui =& $app->ui;
 
@@ -323,7 +323,7 @@ function form_check (&$app)
     $errors = false;
     $panic = 0;
     foreach ($app->elements as $e) {
-        $cursor =& $e->cursor;
+        $cursor = $e->cursor;
         if ($cursor->type () != 'sql')
             continue;
         $source = $cursor->source ();
@@ -393,10 +393,9 @@ function form_has_content (&$app)
 function record_cache_safe (&$app)
 {
     $session =& $app->session;
-    $ui =& $app->ui;
-    $rc =& $ui->record_cache;
+    $rc = $app->ui->record_cache;
 
-    if (!isset ($ui->record_cache))
+    if (!isset ($app->ui->record_cache))
         return;
 
     $session->set ('_admin_panel.class/record cache', $rc);
@@ -409,11 +408,7 @@ function record_cache_safe (&$app)
  */
 function record_cache_fetch (&$app)
 {
-    $session =& $app->session;
-    $ui =& $app->ui;
-    $rc =& $ui->record_cache;
-
-    $rc = $session->get ('_admin_panel.class/record cache');
+    $app->ui->record_cache = $app->session->get ('_admin_panel.class/record cache');
 }
 
 ?>

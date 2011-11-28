@@ -51,18 +51,18 @@ class cursor_sql extends cursor {
             $w = ' ' . $def->prev_of ($table) . '=0';
             $qp = ($whereclause ? ' AND ' : ' WHERE ') . $w;
 
-            $res =& $db->query ($q . $qp);
+            $res = $db->query ($q . $qp);
             $size = $res->num_rows ();
             if ($size < 1) {
 	        # Couldn't fetch list start, try without next record.
-                $res =& $db->query ($q);
+                $res = $db->query ($q);
                 $size = $res->num_rows ();
                 if ($size < 1)
                     return false;
 	    }
 
             # Remember reference to first record.
-            $row =& $res->get ();
+            $row = $res->get ();
             $this->_get_next_id = $row[$pri];
         } else {
             $res = $db->query ("$q $order");
@@ -71,7 +71,7 @@ class cursor_sql extends cursor {
                 return false;
         }
 
-        $this->_res =& $res;
+        $this->_res = $res;
         return true;
     }
 
@@ -91,7 +91,7 @@ class cursor_sql extends cursor {
             $wtable = $db->table_prefix ($table);
             $key_of_next = $this->_get_next_id;
             $q = "SELECT * FROM $wtable WHERE $pri='$key_of_next'";
-            $this->_res =& $db->query ($q);
+            $this->_res = $db->query ($q);
             if ($this->_res->num_rows () < 1)
                 return false;
         }
