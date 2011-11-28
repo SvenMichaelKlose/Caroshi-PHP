@@ -497,7 +497,7 @@ class application {
             die ("<b>application.class install failed: $err</b><br>" .
                  "Please check file 'config.php' and try again.<br>" .
                  "Bitte &Uuml;berpr&uuml;fen Sie die Eintr&auml;ge in der " .
-                 "Datei .dbi.conf und versuchen Sie es erneut.");
+                 "Datei 'config.php' und versuchen Sie es erneut.");
         die ("<font color=\"green\"><b>application base installed - <a href=\"$SCRIPT_NAME\">Please reload</a>.</b>");
     }
 
@@ -508,15 +508,12 @@ class application {
      */
     function _application_init ()
     {
-        global $debug;
+        global $debug, $dbidatabase, $dbiserver, $dbiuser, $dbipwd;
 
         if ($debug)
             debug_env_dump ();
 
-        # Connect to database specified in .dbi.conf.php.
-        if (!file_exists ('config.php'))
-	    die ('Can\'t find file .dbi.conf.php - stop.<br>Kann Datei .dbi.conf.php nicht finden - stop.');
-        include 'config.php';
+        # Connect to database.
         $this->db = new DBI ($dbidatabase, $dbiserver, $dbiuser, $dbipwd);
         $db =& $this->db;
 
