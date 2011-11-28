@@ -124,7 +124,8 @@ class cursor_sql extends cursor {
             die ('cursor_sql::set(): Argument is not an array.');
 
         $db =& $GLOBALS['__CURSOR_SQL_INSTANCE'];
-        $db->update ($source, sql_assignment ($db->def->primary ($this->_source), $this->_key), sql_array_assignments ($values));
+        $primary = $db->def->primary ($this->_source);
+        $db->update ($this->_source, sql_array_assignments ($values), sql_assignment ($primary, $this->_key));
     }
 
     function create ($pre = 0, $parent = 0)
