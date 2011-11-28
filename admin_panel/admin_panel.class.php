@@ -235,7 +235,24 @@ class admin_panel extends singleton {
     #############
 
     /**
+     * Set a new context.
+     *
+     * Overwrites the current context.
+     *
+     * @access public
+     * @param object cursor $cursor
+     */
+    function set_context (&$cursor)
+    {
+        if (!is_a ($cursor, 'cursor'))
+            die ('admin_panel::set_context(): Argument is not a cursor');
+        $this->v = new _admin_panel_view ($cursor, $this->no_update, null);
+    }
+
+    /**
      * Open a new context.
+     *
+     * Saves the former context before setting the new one.
      *
      * @access public
      * @param object cursor $cursor
@@ -244,11 +261,12 @@ class admin_panel extends singleton {
     {
         if (!is_a ($cursor, 'cursor'))
             die ('admin_panel::open_context(): Argument is not a cursor');
+
         if (!sizeof ($this->_viewstack))
             $this->_form_index++;
 
         array_push ($this->_viewstack, $this->v);
-        $this->v = new _admin_panel_view ($cursor, $this->no_update, null);
+        $this->set_context ($cursor);
     }
 
     /**
@@ -1271,7 +1289,6 @@ class admin_panel extends singleton {
     function url (&$event)
     {
         $c =& $this->v->cursor;
-
         if (is_string ($event))
             $event = new event ($event);
         else if (!is_a ($event, 'event'))
