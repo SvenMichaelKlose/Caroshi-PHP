@@ -44,7 +44,7 @@ function sql_append_assignment ($x, $k, $v)
  * @returns string
  * @package Database interfaces
  */
-function sql_array_assignments ($values)
+function sql_assignments ($values)
 {
     type_array ($values);
 

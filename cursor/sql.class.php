@@ -124,7 +124,7 @@ class cursor_sql extends cursor {
 
         $db =& $GLOBALS['__CURSOR_SQL_INSTANCE'];
         $primary = $db->def->primary ($this->_source);
-        $db->update ($this->_source, sql_array_assignments ($values), sql_assignment ($primary, $this->_key));
+        $db->update ($this->_source, sql_assignments ($values), sql_assignment ($primary, $this->_key));
     }
 
 
