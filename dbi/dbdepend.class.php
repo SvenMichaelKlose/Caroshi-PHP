@@ -84,6 +84,14 @@ class DBDEPEND {
         }
     }
 
+    function table_names ()#
+    {
+        foreach ($this->_types as $name =>$dummy)
+            if (!is_numeric ($name))
+                $names[] = $name;
+        return $names;
+    }
+
     /**
      * Return array of extended field description of a $table.
      *

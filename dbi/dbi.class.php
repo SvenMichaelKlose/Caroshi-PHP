@@ -102,8 +102,8 @@ class DBI extends DBCtrl {
     # Create all defined tables.
     function create_tables ($table_prefix = '')
     {
-        foreach ($this->def->types () as $table => $dummy)
-            dbwrapper::create_table ($this->def, $table, $table_prefix);
+        foreach ($this->def->table_names () as $table)
+            $this->_create_table ($this->def, $table, $table_prefix);
     }
 
     function lock_tables ()
@@ -156,7 +156,8 @@ class DBI extends DBCtrl {
         $c_last = $def->prev_of ($table);
         $c_next = $def->next_of ($table);
 
-        $res = $this->select ("$c_last,$c_next", $table, "$c_id=$id");
+        if (!$res = $this->select ("$c_last,$c_next", $table, "$c_id=$id"))
+            return;
         list ($id_last, $id_next) = $res->get ();
         if ($id_last)
             $this->update ($table, "$c_next=$id_next", "$c_id=$id_last");
