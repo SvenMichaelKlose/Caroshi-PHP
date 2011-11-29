@@ -36,9 +36,10 @@ function type ($x, $typelist)
             return;
 
     $trace = debug_backtrace ();
+    $req = '';
     foreach ($args as $type)
         $req .= ($req ? ', ' : '') . $type;
-    die ("In file <b>'" . $trace[1][file] . "'</b> on line <b>" . $trace[1][line] . "</b>: " .
+    die ("In file <b>'" . $trace[1]['file'] . "'</b> on line <b>" . $trace[1]['line'] . "</b>: " .
          "Type assertion found <b><i>'" . gettype ($x) . "'</i></b> found but need one of these: <b><i>$req</i></b>.");
 }
 
