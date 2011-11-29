@@ -161,10 +161,10 @@ class widget_set {
      */
     function msgbox ($msg, $color = 0)
     {
-        echo "<TABLE BORDER=0 WIDTH=\"100%\" BGCOLOR='" .
-             $this->color['msgbox']  . "'>\n" . '<TR><TD ALIGN=CENTER>' .
-	     "<FONT COLOR=\"" . ($color != 0 ? $color : $this->color['msgbox_text']) . "\"><B>$msg</B></FONT></TD></TR>\n" .
-	     "</TABLE>\n";
+        echo "<TABLE BORDER=0 WIDTH=\"100%\" BGCOLOR='" . $this->color['msgbox'] ."'>" .
+             '<TR><TD ALIGN=CENTER>' .
+	     "<FONT COLOR=\"" . ($color ? $color : $this->color['msgbox_text']) . "\"><B>$msg</B></FONT>" .
+             "</TD></TR></TABLE>\n";
     }
 
     /**
