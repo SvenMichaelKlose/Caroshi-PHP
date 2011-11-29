@@ -68,9 +68,9 @@ function debug_dump ($a)
  */
 function debug_env_dump ()
 {
-    $tmp = array ('HTTP_SERVER_VARS' => $GLOBALS['HTTP_SERVER_VARS'],
-                  'HTTP_ENV_VARS' => $GLOBALS['HTTP_ENV_VARS'],
-                  'HTTP_POST_VARS' => $GLOBALS['HTTP_POST_VARS']);
+    $tmp = array ('HTTP_SERVER_VARS' => $_SERVER,
+                  'HTTP_ENV_VARS' => $_ENV,
+                  'HTTP_POST_VARS' => $_POST);
     debug_dump ($tmp);
 }
 ?>
