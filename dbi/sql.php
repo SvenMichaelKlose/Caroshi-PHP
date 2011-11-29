@@ -31,9 +31,9 @@ function sql_assignment ($k, $v)
     return sql_value ($k) . '=' . sql_quote ($v);
 }
 
-function sql_append_assignment ($x, $k, $v)
+function sql_append_assignment ($x, $k, $v, $padding = ', ')
 {
-    return $x . ($x ? ',' : '') . sql_assignment ($k, $v);
+    return $x . ($x ? $padding : '') . sql_assignment ($k, $v);
 }
 
 /**
@@ -44,14 +44,14 @@ function sql_append_assignment ($x, $k, $v)
  * @returns string
  * @package Database interfaces
  */
-function sql_assignments ($values)
+function sql_assignments ($values, $padding = ', ')
 {
     type_array ($values);
 
     $x = '';
     foreach ($values as $k => $v)
         if (!is_numeric ($k))
-            $x = sql_append_assignment ($x, $k, $v);
+            $x = sql_append_assignment ($x, $k, $v, $padding);
     return $x;
 }
 
