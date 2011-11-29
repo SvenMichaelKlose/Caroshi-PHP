@@ -64,7 +64,7 @@ class DBOBJ {
             # Read all classes into the cache.
             if (!$cres = $db->select ('id,name', 'obj_classes'))
                 return;
-	    while ($tmp =& $cres->get ())
+	    while ($tmp = $cres->get ())
 	        $__DBOBJ_CLASSCACHE[$tmp['name']] = $tmp['id'];
         }
         if (!isset ($__DBOBJ_CLASSCACHE[$class]))
@@ -87,8 +87,9 @@ class DBOBJ {
 	        $__DBOBJ_KEYCACHE[$table][$id] = $this->_row = $db->select ('*', $table, "$pri=$id")->get ();
 	    } else {
 	        $this->_row =& $__DBOBJ_KEYCACHE[$table][$id];
-	        $row =& $this->_row;
 	    }
+
+            $row =& $this->_row;
 
             # Skip entry if object id is 0.
 	    if ($oid = $row[$dep->_obj_id[$table]]) {
