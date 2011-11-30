@@ -100,8 +100,8 @@ class DBOBJ {
 	            if (!isset ($__DBOBJ_DATACACHE[$oid][$cid][$fields])) {
 	                $__DBOBJ_DATACACHE[$oid][$cid][$fields] =
 	                    ($dres = $db->select ($fields, 'obj_data', "id_obj=$oid AND id_class='$cid'")) ?
-                                $dres->get () :
-                                0;
+                            $dres->get () :
+                            0;
 	            }
 
                     # Use object if it's in the cache now.
