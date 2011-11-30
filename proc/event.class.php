@@ -31,6 +31,17 @@ class event {
     }
 
     /**
+     * Copy event object.
+     *
+     * @access public
+     * @returns object event
+     */
+    function copy ()
+    {
+        return new event ($this->name, $this->args);
+    }
+
+    /**
      * Get an argument.
      *
      * @access public
