@@ -21,14 +21,15 @@ class DBDEPEND {
     var $_xref_tables;
     var $table;
 
-    var $_types;    # Column names and SQL types of registered tables
-    var $_exttypes; # Column names and extended types of registered tables
+    var $_fields;   # Field names.
+    var $_types;    # Field names and SQL types of registered tables
+    var $_exttypes; # Field names and extended types of registered tables
     var $_desc;	    # Human-readable field description, e.g. 'Phone'.
 
     var $_refs;
     var $_listrefs;
 
-    var $_primaries;     # Primaries of tables.
+    var $_primaries; # Primaries of tables.
 
     /**
      * Define columns of a table.
@@ -77,18 +78,24 @@ class DBDEPEND {
 	    $name = $field['n'];
 	    $type = $field['t'];
 	    $desc = isset ($field['d']) ? $desc = $field['d'] : '';
+	    $this->_fields[$table][] = $name;
 	    $this->_types[$table][$name] = $type;
 	    $this->_desc[$table][$name] = $desc;
 	    $this->_exttypes[$table][$name] = $field;
         }
     }
 
-    function table_names ()#
+    function table_names ()
     {
-        foreach ($this->_types as $name =>$dummy)
+        foreach ($this->_types as $name => $dummy)
             if (!is_numeric ($name))
                 $names[] = $name;
         return $names;
+    }
+
+    function field_names ($table)
+    {
+        return $this->_fields[$table];
     }
 
     /**
