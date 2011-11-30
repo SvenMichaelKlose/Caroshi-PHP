@@ -47,8 +47,6 @@ class DBOBJ {
     # Initialize and fetch object if exists.
     function DBOBJ (&$db, $class, &$dep, $table = '', $id = 0, $only_active = false, $fields = '*')
     {
-        global $__DBOBJ_KEYCACHE, $__DBOBJ_CLASSCACHE, $__DBOBJ_DATACACHE;
-
         $this->_db =& $db;
         $this->_class = $class;
         $this->_dep =& $dep;
@@ -73,63 +71,64 @@ class DBOBJ {
 
         # Traverse path to root until we've found something.
         $fetch_local = $found_local = true;
-        $xref = $dep->xref_table ($table);
-        while ($table && $id) {
-            # Check if table entry can contain an object.
-	    if (!$xref && !isset ($dep->_obj_id[$table]))
-	        die ("dbobj::dbobj(): No object reference defined for table '$table' (use dbdepend::set()).");
 
-	    # Fetch table entry.
-	    if (!isset ($__DBOBJ_KEYCACHE[$table][$id])) {
-	        # Read entry into cache.
-                if (!$pri = $dep->primary ($table))
-	            return;
-	        $__DBOBJ_KEYCACHE[$table][$id] = $this->_row = $db->select ('*', $table, "$pri=$id")->get ();
-	    } else {
-	        $this->_row =& $__DBOBJ_KEYCACHE[$table][$id];
-	    }
+        $t =& $this;
+        find_in_database_path_if ($db, $table, $id,
+            function ($table, $id, $row) use (&$t, $only_active)
+            {
+                global $__DBOBJ_KEYCACHE, $__DBOBJ_CLASSCACHE, $__DBOBJ_DATACACHE;
 
-            $row =& $this->_row;
+	        if (!isset ($dep->_obj_id[$table]))
+	            die_traced ("No object reference defined for table '$table' (use dbdepend::set_obj_id()).");
 
-            # Skip entry if object id is 0.
-	    if ($oid = $row[$dep->_obj_id[$table]]) {
-      	        # Seek data for id_obj/class combination if it's not in the cache.
-	        if (!isset ($__DBOBJ_DATACACHE[$oid][$cid][$fields])) {
-	            $__DBOBJ_DATACACHE[$oid][$cid][$fields] =
-	                ($dres = $db->select ($fields, 'obj_data', "id_obj=$oid AND id_class='$cid'")) ?
-                            $dres->get () :
-                            0;
+	        # Fetch table entry.
+	        if (!isset ($__DBOBJ_KEYCACHE[$table][$id])) {
+                    if (!$pri = $dep->primary ($table))
+	                die_traced ("No primary key defined for table '$table' (use dbdepend::set_primary()).");
+	            $__DBOBJ_KEYCACHE[$table][$id] = $t->_row = $db->select ('*', $table, "$pri=$id")->get ();
+	        } else {
+	            $t->_row =& $__DBOBJ_KEYCACHE[$table][$id];
 	        }
 
-                # Use object if it's in the cache now.
-      	        if (isset ($__DBOBJ_DATACACHE[$oid][$cid][$fields]) && is_array ($__DBOBJ_DATACACHE[$oid][$cid][$fields])) {
-      	            $tmp =& $__DBOBJ_DATACACHE[$oid][$cid][$fields];
+                $row =& $t->_row;
 
-	            # Read in object and return with the first one that's
-	            # visible. Ignore local objects which are not at our current
-	            # position.
-	            if (isset ($tmp['is_local']) && !($tmp['is_local'] && !$fetch_local)) {
-	                # Update active/inactive result set.
-	                # Add table and id and 'found_local' flag that shows if object
-	                # was found at the starting point.
-	                $tmp['found_local'] = $found_local;
-	                $tmp['_table'] = $this->_table = $table;
-	                $tmp['_id'] = $this->_id = $id;
-	                if (!isset ($this->active) || !is_array ($this->active)) {
-	                    $this->_oid = $oid;
-	                    $this->active =& $tmp;
-	                    if ($only_active)
-	                        return;
-	                } else
-	                    $this->inactive[] =& $tmp;
+                # Skip entry if object id is 0.
+	        if ($oid = $row[$dep->_obj_id[$table]]) {
+      	            # Seek data for id_obj/class combination if it's not in the cache.
+	            if (!isset ($__DBOBJ_DATACACHE[$oid][$cid][$fields])) {
+	                $__DBOBJ_DATACACHE[$oid][$cid][$fields] =
+	                    ($dres = $db->select ($fields, 'obj_data', "id_obj=$oid AND id_class='$cid'")) ?
+                                $dres->get () :
+                                0;
+	            }
+
+                    # Use object if it's in the cache now.
+      	            if (isset ($__DBOBJ_DATACACHE[$oid][$cid][$fields]) && is_array ($__DBOBJ_DATACACHE[$oid][$cid][$fields])) {
+      	                $tmp =& $__DBOBJ_DATACACHE[$oid][$cid][$fields];
+
+	                # Read in object and return with the first one that's
+	                # visible. Ignore local objects which are not at our current
+	                # position.
+	                if (isset ($tmp['is_local']) && !($tmp['is_local'] && !$fetch_local)) {
+	                    # Update active/inactive result set.
+	                    # Add table and id and 'found_local' flag that shows if object
+	                    # was found at the starting point.
+	                    $tmp['found_local'] = $found_local;
+	                    $tmp['_table'] = $t->_table = $table;
+	                    $tmp['_id'] = $t->_id = $id;
+	                    if (!isset ($t->active) || !is_array ($t->active)) {
+	                        $t->_oid = $oid;
+	                        $t->active =& $tmp;
+	                        if ($only_active)
+	                            return true;
+	                    } else
+	                        $t->inactive[] =& $tmp;
+                        }
 	            }
                 }
+                $fetch_local = $found_local = false;
             }
-
-	    # try again with parent table entry in hierarchy.
-	    dbitree_get_parent ($db, $table, $id);
-	    $fetch_local = $found_local = false;
-        }
+        );
     }
 
     # Associate object to table/id.
@@ -245,7 +244,6 @@ class DBOBJ {
 
     static function define_tables (&$def)
     {
-        # X-ref table for categories, pages, products <-> obj_data.
         $def->define_table (
   	    'objects',
             array (
@@ -258,7 +256,7 @@ class DBOBJ {
 	    )
         );
         $def->set_primary ('objects', 'id');
-        # Object classes.
+
         $def->define_table (
   	    'obj_classes',
             array (
@@ -276,7 +274,7 @@ class DBOBJ {
 	    )
         );
         $def->set_primary ('obj_classes', 'id');
-        # Object data table.
+
         $def->define_table (
   	    'obj_data',
             array (

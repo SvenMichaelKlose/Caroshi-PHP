@@ -11,8 +11,6 @@
 # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
 #
 # Licensed under the MIT, BSD and GPL licenses.
-
-
 $_DBITREE_CACHE_PARENT = array ();
 
 # Get table name and primary key of a parent record.
@@ -27,24 +25,37 @@ function dbitree_get_parent ($db, &$table, &$id)
         return;
     }
 
-    if ($xref = $def->xref_table ($table)) {
-        $res = $db->select ('id_parent', $xref, "id_child=$id");
-        $ntable = $table;
-    } else {
-        $res = $db->select ($def->ref_id ($table), $table, "id=$id");
-        $ntable = $def->ref_table ($table);
-    }
-
-    if (!$res) {
+    $ref_id = $def->ref_id ($table);
+    if (!$res = $db->select ($ref_id, $table, "id=$id")) {
         $table = $id = 0;
         return;
     }
 
-    list ($nid) = $res->get ();
-    $_DBITREE_CACHE_PARENT[$table][$id] = array ($ntable, $nid);
-    $table = $ntable;
-    $id = $nid;
+    $parent_id = $res->get ($ref_id);
+    $parent_table = $def->ref_table ($table);
+    $_DBITREE_CACHE_PARENT[$table][$id] = array ($parent_table, $parent_id);
+    $table = $parent_table;
+    $id = $parent_id;
 }
+
+function find_in_database_path_if ($db, $table, $id, $fun)                                                                                                     
+{
+    while ($table && $id) {
+        if (!$dep->ref_table ($table))
+            die_traced ("No reference to parent defined for table '$table' (use dbdepend::set_ref()).");
+
+        if (!$pri = $dep->primary ($table))
+            die_traced ("No primary key defined for table '$table' (use dbdepend::set_primary()).");
+
+        $row = $db->select ('*', $table, "$pri=$id")->get ();
+
+        if ($result = $fun ($table, $id, $row))
+            return $result;
+
+        dbitree_get_parent ($db, $table, $id);
+    }
+}
+
 
 # Return DB_result of records that reference a table.
 #
