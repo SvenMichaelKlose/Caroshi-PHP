@@ -51,32 +51,23 @@ class DBI extends DBCtrl {
     ######################
 
     # Create an empty row in $table.
-    function create_row ($table, $pre = 0)
+    function create_row ($table, $preset_values = 0)
     {
         $def =& $this->def;
         $pri = $def->primary ($table);
 
-        $hash = $def->types ($table);
-        if (!is_array ($hash))
+        if (!$types = $def->types ($table))
 	    die_traced ("No table '$table' defined.");
 
         # Check names of preset values.
-        if (is_array ($pre)) {
-            foreach ($hash as $f)
-                $names[$f['n']] = true;
-            foreach ($pre as $n => $tmp)
-                if (!isset ($names[$n]))
+        if ($preset_values) {
+            $names = $def->field_names ($table);
+            foreach ($preset_values as $n => $dummy)
+                if (!array_search ($n, $names))
                     die_traced ("No such field '$n' in table '$table'.");
         }
 
-        $set = '';
-        foreach ($hash as $v) {
-            $n = $v['n'];
-            if (!isset ($pre[$n]) || isset ($v['readonly']) || $n == $pri)
-                continue;
-	    $set = sql_append_assignment ($set, $n, $pre[$n]);
-        }
-        $this->insert ($table, $set);
+        $this->insert ($table, sql_assignments ($preset_values));
     }
 
 
