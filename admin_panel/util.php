@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Various useful functions.
  *
@@ -63,11 +64,12 @@ function util_add_raw_functions (&$app, &$handlers)
 function util_init_modules (&$app, &$modules)
 {
     type_array ($modules);
-        die ('util_add_modules(): Module list is not an array.');
+        die_traced ('Module list is not an array.');
 
     foreach ($modules as $m) {
         $m .= '_init';
         $m ($app);
     }
 }
+
 ?>

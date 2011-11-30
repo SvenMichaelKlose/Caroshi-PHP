@@ -22,7 +22,7 @@ class cursor_dbconf extends cursor {
     {
         global $__CURSOR_DBCONF_INSTANCE;
         if (!$__CURSOR_DBCONF_INSTANCE)
-            die ('cursor_dbconf::cursor_dbconf(): Use set_dbconf() before.');
+            die_traced ('Use set_dbconf() before.');
         $this->cursor ('dbconf');
         $this->conf =& $__CURSOR_DBCONF_INSTANCE;
     }
@@ -30,7 +30,7 @@ class cursor_dbconf extends cursor {
     function set_dbconf (&$dbconf)
     {
         if ($GLOBALS['__CURSOR_DBCONF_INSTANCE'])
-            die ('cursor_sql::set_db(): Connection already set.');
+            die_traced ('Connection already set.');
         $GLOBALS['__CURSOR_DBCONF_INSTANCE'] =& $dbconf;
     }
 
@@ -58,7 +58,7 @@ class cursor_dbconf extends cursor {
         $key = addslashes ($this->_key);
         $field = $this->_field;
         if (!$field)
-            die ('cursor_dbconf::set(): No field to set.');
+            die_traced ('No field to set.');
 
         if (!isset ($this->conf))
             $this->conf =& $GLOBALS['__CURSOR_DBCONF_INSTANCE'];

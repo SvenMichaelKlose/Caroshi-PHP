@@ -195,9 +195,9 @@ function _tk_dbisearch_create_query (&$app, &$query, $field)
 
     isset ($fields) && type_array ($fields);
     if ($empty_fields && $empty_fields != 'skip' && $empty_fields != 'match')
-        die ("tk_dbisearch: Unknown value '$empty_fields' for empty_fields.");
+        die_traced ("Unknown value '$empty_fields' for empty_fields.");
     if (!isset ($app->named_elements[$field]))
-        die ("tk_dbisearch: Unknown form field '$field'.");
+        die_traced ("Unknown form field '$field'.");
 
     $val = $app->named_elements[$field];
     $val = trim ($val);
@@ -219,7 +219,7 @@ function _tk_dbisearch_create_query (&$app, &$query, $field)
           $fieldnames = array_keys ($def->types ($source));
 
       if (!is_array ($fieldnames))
-          die ("tk_dbisearch(): Field list ist not an array for source '$source', field '$field'.");
+          die_traced ("Field list ist not an array for source '$source', field '$field'.");
 
       # Assemble query for source.
       $qt = '';

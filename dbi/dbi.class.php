@@ -39,7 +39,7 @@ class DBI extends DBCtrl {
     function column ($table, $column, $id)
     {
         if (!$pri = $this->def->primary ($table))
-	    die ("dbi::column(): No primary key specified for table '$table'.");
+	    die_traced ("No primary key specified for table '$table'.");
 
         return $this->select ($column, $table, "$pri='$id'")->get ($column);
     }
@@ -56,7 +56,7 @@ class DBI extends DBCtrl {
 
         $hash = $def->types ($table);
         if (!is_array ($hash))
-	    die ("dbi::create_row(): No table '$table' defined.");
+	    die_traced ("No table '$table' defined.");
 
         # Check names of preset values.
         if (is_array ($pre)) {
@@ -64,7 +64,7 @@ class DBI extends DBCtrl {
                 $names[$f['n']] = true;
             foreach ($pre as $n => $tmp)
                 if (!isset ($names[$n]))
-                    die ("No such field '$n' in table '$table'.");
+                    die_traced ("No such field '$n' in table '$table'.");
         }
 
         $set = '';
@@ -215,7 +215,7 @@ class DBI extends DBCtrl {
                 return $out;
 	    }
         }
-        die ("Nothing referencing table '$table'/id '$id'.");
+        die_traced ("Nothing referencing table '$table'/id '$id'.");
     }
 
     # Append new record to end of doubly linked list identified by the
@@ -228,7 +228,7 @@ class DBI extends DBCtrl {
         $def =& $this->def;
 
         if (!$def->types ($table))
-            die ("dbi::append_new(): Table $table isn't defined.");
+            die_traced ("Table $table isn't defined.");
 
         # Get column names.
         $id = $def->primary ($table);
@@ -308,7 +308,7 @@ class DBI extends DBCtrl {
         $row = $nodes[$id];
         if ($c_id_parent && !$id_parent) {
             if (!$id_next)
-                die ('dbi::move(): No destination specified.');
+                die_traced ('No destination specified.');
             $id_parent = $nodes[$id_next][$c_id_parent];
         }
 
@@ -337,7 +337,7 @@ class DBI extends DBCtrl {
 	    # Update references in new siblings.
 	    if ($id_next) {
 	        if (!$next = $nodes[$id_next])
-	            die ("No next of id $id_next.");
+	            die_traced ("No next of id $id_next.");
 	        if ($c_id_parent && $id_parent != $next[$c_id_parent])
 	            $id_parent = $next[$c_id_parent];
 	        if ($next[$c_last])

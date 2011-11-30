@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Standard event handler for context cursor manipulation.
  *
@@ -48,7 +49,7 @@ function _record_create_continue (&$app, $keys)
     $ui =& $app->ui;
 
     if (!$keys)
-        die ('Couldn\'t create record.');
+        die_traced ('Couldn\'t create record.');
 
     if ($keys && isset ($app->record_messages['create_done']))
         $ui->msgbox ($app->record_messages['create_done']);
@@ -87,7 +88,7 @@ function record_create_set (&$app, &$set)
 
         foreach ($sources as $source => $pre) {
             if (!is_array ($pre))
-                die ("Can't create record. Preset values are not in an array for source $source.");
+                die_traced ("Can't create record. Preset values are not in an array for source $source.");
 
             # Replace aliases by key to inserted record in specified source in
             # this function. An alias is placed in preset_values' field data in
@@ -96,7 +97,7 @@ function record_create_set (&$app, &$set)
                 if (substr ($data, 0, 1) == '@') {
                     $s = substr ($data, 1);
                     if (!isset ($aliases[$s]))
-                        die ("No record in source $source created source $s could point to.");
+                        die_traced ("No record in source $source created source $s could point to.");
 
                     # Replace alias by id of inserted record.
                     $pre[$field] = $aliases[$s];
@@ -145,7 +146,7 @@ function record_create (&$app)
         $sources[$cursor->type ()][$cursor->source ()] = $pre ? $pre : array ();
     } else
         if ($app->arg ('preset_values', ARG_OPTIONAL))
-            die ("record_create(): Arguments 'preset_values' and 'sources' can't be used together.");
+            die_traced ("Arguments 'preset_values' and 'sources' can't be used together.");
 
     $key = record_create_set ($app, $sources);
     return _record_create_continue ($app, $key);
@@ -200,9 +201,9 @@ function record_delete (&$app)
     # Highlight records, check available cursors.
     if (!$cursor_list && !is_array ($cursor_list)) {
         if (!$cursor)
-            die ('record_delete(): No cursor.');
+            die_traced ('No cursor.');
         if (!$cursor->key ())
-            die ("record_delete(): No key of any record in source '{${$cursor->source ()}}'.");
+            die_traced ("No key of any record in source '{${$cursor->source ()}}'.");
 
         # Highlight record.
         $ui->highlight[$cursor->id ()] = '#FFAAAA';
@@ -220,12 +221,12 @@ function record_delete (&$app)
 
     if (!$yes_view) {
         if (!$tv->next)
-            die ('record_delete(): No argument \'yes_view\' nor next view.');
+            die_traced ('No argument \'yes_view\' nor next view.');
         $yes_view = $tv->next;
     }
     if (!$no_view) {
         if (!$tv->next)
-            die ('record_delete(): No argument \'no_view\' nor next view.');
+            die_traced ('No argument \'no_view\' nor next view.');
         $no_view = $tv->next;
     }
 
@@ -255,7 +256,7 @@ function record_delete_force (&$app)
 
     if (!$cursor_list) {
         if (!$cursor)
-            die ('record_delete_force(): No context cursor or cursor_list.');
+            die_traced ('No context cursor or cursor_list.');
 
         $err = $cursor->delete ();
         if (!$err)
@@ -271,4 +272,5 @@ function record_delete_force (&$app)
 
     $ui->msgbox ($app->record_messages['delete_done']);
 }
+
 ?>

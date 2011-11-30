@@ -58,7 +58,7 @@ function tk_range_edit_select (&$app)
             $source = $s; # Set source the first time.
         else
             if ($source != $s) # No other sources allowed.
-                die ('tk_range_edit_select(): Markers from multiple sources.');
+                die_traced ('Markers from multiple sources.');
 
         if (!isset ($fetched_keys[$k])) {
             $fetched_keys[$k] = sizeof ($markers);
@@ -69,7 +69,7 @@ function tk_range_edit_select (&$app)
         }
     }
     if (!isset ($markers))
-        die ("tk_range_edit_select(): No element called '$marker_field' in form.");
+        die_traced ("No element called '$marker_field' in form.");
 
     # Collect changed marker indices and markers that occured the first time.
     if (isset ($app->subargs['tk_range_edit'][$source])) {
@@ -107,7 +107,7 @@ function tk_range_edit_select (&$app)
             if (isset ($record_cache[$source][$key][$marker_field]))
                 $record_cache[$source][$key][$marker_field] ^= 1;
             else
-	        #die ('tk_range_edit(): Need form filter form_safe() - stop.');
+	        #die_traced ('Need form filter form_safe() - stop.');
                 $record_cache[$source][$key][$marker_field] = 1;
             $start++;
         }

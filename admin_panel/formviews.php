@@ -36,7 +36,7 @@ function _form_collect (&$app, &$forms, &$formevents, &$filteredelements)
 
     # Sort elements by form function and read the token data.
     if (!isset ($item) || !is_array ($item))
-        die ('No form content to process.');
+        die_traced ('No form content to process.');
 
     $forms = array ();
     $formevents = array ();
@@ -193,7 +193,7 @@ function form_update (&$app)
     $ui =& $app->ui;
 
     if (!isset ($app->elements))
-        die ('form_update(): No form posted.');
+        die_traced ('No form posted.');
 
     # Update form element by element.
     foreach ($app->elements as $token => $e) {
@@ -211,7 +211,7 @@ function form_update (&$app)
         if (!$cursor->key ()) {
             # Die if there's no key.
             if (!$keyset || !isset ($keyset[$type][$src]))
-                die ("form_update(): No key for field '{${$cursor->field ()}}' in source '$source' of type '$type'.");
+                die_traced ("No key for field '{${$cursor->field ()}}' in source '$source' of type '$type'.");
 
             $cursor->set_key ($keyset[$type][$source]);
         }
@@ -355,7 +355,7 @@ function form_check (&$app)
     }
 
     if ($panic)
-        die ("$panic error(s) in form_check() configuration - stop.");
+        die_traced ("$panic error(s) in form_check() configuration - stop.");
 
     # Continue with next function if there're no errors.
     if (!$errors)
@@ -376,7 +376,7 @@ function form_check (&$app)
 function form_has_content (&$app)
 {
     if (!isset ($app->elements))
-        die ('form_has_content(): Form function called without posted form.');
+        die_traced ('Form function called without posted form.');
 
     foreach ($app->elements as $e)
         if (isset ($e->val) && $e->val)

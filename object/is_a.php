@@ -21,7 +21,7 @@ if (!function_exists ('is_a')) {
         if (!is_object ($object))
             return;
         if (!is_string ($class))
-            die ('is_a(): Class name is not a string.');
+            die_traced ('Class name is not a string.');
 
         $class = strtolower ($class);
         if (get_class ($object) == $class)

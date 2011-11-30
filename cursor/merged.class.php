@@ -41,7 +41,7 @@ class cursor_merged extends cursor {
     function _query (&$cursors)
     {
         if (!is_array ($cursors))
-            die ('cursor_merged::query(): Need an array.');
+            die_traced ('Need an array.');
 
         $this->_cursors =& $cursors;
         $this->_index = 0;
@@ -49,7 +49,7 @@ class cursor_merged extends cursor {
         $i = 0;
         foreach ($cursors as $cursor) {
             if (!is_a ($cursor, 'cursor'))
-                die ("Index $i in array is not a cursor - stop.");
+                die_traced ("Index $i in array is not a cursor - stop.");
             $this->_size += $cursor->size ();
         }
 
@@ -145,19 +145,9 @@ class cursor_merged extends cursor {
         return $this->_size;
     }
 
-    /**
-     * Print an error message for an unsupported function.
-     *
-     * @access private
-     */
-    function _die ($func)
-    {
-        die ("cursor_merged::$func(): Invalid method for this type of cursor.");
-    }
-
     function set_source ()
     {
-        $this->_die ('set_source');
+        die_traced ();
     }
 
     /**

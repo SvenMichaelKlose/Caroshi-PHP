@@ -198,7 +198,7 @@ class application {
             static $called = array ();
             $sv = serialize ($e);
             if (isset ($called[$sv]))
-                die ("application::call (): Infinite loop detected before call to event handler '$handler'.");
+                die_traced ("Infinite loop detected before call to event handler '$handler'.");
             $called[$sv] = true;
 
 	    $ret = $this->call_single ($e);
@@ -279,7 +279,7 @@ class application {
             if ($te->subsession)
 	        $e->subsession = $te->subsession;
             else
-                die ('application::link(): Internal error - no subsession in current event.');
+                die_traced ('Internal error - no subsession in current event.');
         }
 
         # Store event object in token.
@@ -304,7 +304,7 @@ class application {
         $p = $s->parent;
 
         if (!$p)
-	    die ('application::return2caller(): No session to return to.');
+	    die_traced ('No session to return to.');
 
         # Return to previous subsession.
         $this->call ($p);
@@ -334,9 +334,9 @@ class application {
         if (($flags & ARG_OPTIONAL) == false) {
             if ($flags & ARG_SUB) {
                 if (!isset ($sub))
-                    die ("$func(): subsession argument $name: not set");
+                    die_traced ("$func(): subsession argument $name: not set");
             } else if (!isset ($arg))
-                die ("$func(): argument '$name': not set");
+                die_traced ("$func(): argument '$name': not set");
         }
 
         # Return argument of specified type.
@@ -365,7 +365,7 @@ class application {
     function application_define_database ()
     {
         if (!$this->session)
-            die ('Authorisation required.');
+            die_traced ('Authorisation required.');
 
         $def =& $this->db->def;
         $this->session->define_tables ();
@@ -416,7 +416,7 @@ class application {
     function _set_type ($name, $t)
     {
         if ($t != TOKEN_DEFAULT && $t != TOKEN_ONETIME && $t != TOKEN_REUSE)
-            die ("application::add_function(), add_method(): Unknown token type $t for event handler $name.");
+            die_traced ("Unknown token type $t for event handler $name.");
         $this->_types[$name] = $t;
     }
 
@@ -484,11 +484,11 @@ class application {
         $this->application_define_database ();
         $db->create_tables ();
         if ($err = $db->error ())
-            die ("<b>application.class install failed: $err</b><br>" .
-                 "Please check file 'config.php' and try again.<br>" .
-                 "Bitte &Uuml;berpr&uuml;fen Sie die Eintr&auml;ge in der " .
-                 "Datei 'config.php' und versuchen Sie es erneut.");
-        die ("<font color=\"green\"><b>application base installed - <a href=\"$SCRIPT_NAME\">Please reload</a>.</b>");
+            die_traced ("Install failed: $err<br>" .
+                        "Please check file 'config.php' and try again.<br>" .
+                        "Bitte &Uuml;berpr&uuml;fen Sie die Eintr&auml;ge in der " .
+                        "Datei 'config.php' und versuchen Sie es erneut.");
+        die_traced ("<font color=\"green\"><b>application base installed - <a href=\"$SCRIPT_NAME\">Please reload</a>.</b>");
     }
 
     /**

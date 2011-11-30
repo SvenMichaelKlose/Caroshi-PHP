@@ -127,7 +127,7 @@ class DBSESSION {
     {
         $id = $this->_id;
         if (!$id)
-	    die ('dbsession::lock(): No session.');
+	    die_traced ('No session.');
 
         $this->_db->update ($this->_table, 'is_locked=1', "id=$id");
     }
@@ -143,7 +143,7 @@ class DBSESSION {
     {
         $id = $this->_id;
         if (!$id)
-	    die ('dbsession::destroy(): No session.');
+	    die_traced ('No session.');
 
         $this->_db->delete ($this->_table, "id=$id");
         $this->_clear ();
@@ -233,9 +233,9 @@ class DBSESSION {
     function set_table ($table)
     {
         if (!trim ($table))
-            die ('dbsession::set_table(): Table name must not be empty.');
+            die_traced ('Table name must not be empty.');
         if (!is_string ($table))
-            die ('dbsession::set_table(): Table name must be a string.');
+            die_traced ('Table name must be a string.');
 
         $this->_table = $table;
     }

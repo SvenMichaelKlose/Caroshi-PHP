@@ -1,4 +1,5 @@
 <?php
+
 # Copyright (c) 2000-2002 dev/consulting GmbH
 # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
 #
@@ -161,7 +162,7 @@ class XML_SCANNER {
     function pop_context ()
     {
         if (!sizeof($this->context_stack))
-            die ('scanner::pop_context(): Context stack underflow.');
+            die_traced ('Context stack underflow.');
 
         $this->context = $this->parent_context;
         $this->dirtype = $this->parent_dirtype;
@@ -250,7 +251,7 @@ class XML_SCANNER {
     function _err ($msg)
     {
         echo "<b>Error in XML syntax:</b><hr><pre>" . htmlentities ($this->_in) . "<font color='red'>$msg</font></pre>";
-        die ();
+        die_traced ();
     }
 
     function _tags2tree (&$data, $ptr = 0)
@@ -415,4 +416,5 @@ class XML_SCANNER {
         return $tree;
     }
 }
+
 ?>

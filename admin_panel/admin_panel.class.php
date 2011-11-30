@@ -202,7 +202,7 @@ class admin_panel {
 
         # Check if all data source contexts are closed.
         if ($openviews = sizeof ($this->_viewstack))
-	    die ("admin_panel::close(): $openviews view(s) still open for source '$source' - stop.");
+	    die_traced ("$openviews view(s) still open for source '$source' - stop.");
 
         # Call user defined function or output standard footer or do nothing.
         if (!method_exists ($app, 'end_view')) {
@@ -509,7 +509,7 @@ class admin_panel {
     function close_form ()
     {
         if (!$this->_openform--)
-            die ('admin_panel.class->close_form(): No form opened - stop.');
+            die_traced ('No form opened - stop.');
 
         if (!$this->_openform)
             $this->widgets->close_form ();
@@ -538,14 +538,14 @@ class admin_panel {
     function close_table ()
     {
         if (!$this->_opentable--)
-            die ('admin_panel::close_table(): Table stack underflow - stop.');
+            die_traced ('Table stack underflow - stop.');
         if ($this->_opentable)
             return;
 
         if ($this->_openrow)
-            die ("admin_panel::close_table(): $this->_openrow rows still open.");
+            die_traced ("$this->_openrow rows still open.");
         if ($this->_opencells)
-            die ("admin_panel::close_table(): $this->_opencells cells still open.");
+            die_traced ("$this->_opencells cells still open.");
 
         $this->widgets->close_table ();
     }
@@ -601,11 +601,11 @@ class admin_panel {
     function close_row ()
     {
         if (!$this->_openrow--)
-            die ('ADMIN_PANEL->close_row(): Table row stack underflow - stop.');
+            die_traced ('Table row stack underflow - stop.');
         if ($this->_openrow)
             return;
         if ($this->_opencells)
-            die ("admin_panel::close_row(): $this->_opencells cells still open.");
+            die_traced ("$this->_opencells cells still open.");
 
         $this->widgets->close_row ();
     }
@@ -624,7 +624,7 @@ class admin_panel {
         if ($this->_opencells++)
             return;
         if (!$this->_openrow)
-            die ('ADMIN_PANEL->open_cell(): No row for cell.');
+            die_traced ('No row for cell.');
 
         $this->_do_highlighting ($attrs);
 
@@ -643,7 +643,7 @@ class admin_panel {
         if (--$this->_opencells)
             return;
         if ($this->_opencells < 0)
-            die ('ADMIN_PANEL->close_cell(): Table cell stack underflow - stop.');
+            die_traced ('Table cell stack underflow - stop.');
         $this->widgets->close_cell ();
     }
 

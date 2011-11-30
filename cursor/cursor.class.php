@@ -155,7 +155,7 @@ class cursor {
      */
     function size ()
     {
-        die ('cursor::size(): Function not implemented by derived class.');
+        die_traced ('Function not implemented by derived class.');
     }
 
     /**

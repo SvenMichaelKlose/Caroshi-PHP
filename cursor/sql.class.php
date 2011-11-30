@@ -27,7 +27,7 @@ class cursor_sql extends cursor {
     static function set_db (&$db)
     {
         if ($GLOBALS['__CURSOR_SQL_INSTANCE'])
-            die ('cursor_sql::set_db(): Connection already set.');
+            die_traced ('Connection already set.');
         $GLOBALS['__CURSOR_SQL_INSTANCE'] =& $db;
     }
 
@@ -156,7 +156,7 @@ class cursor_sql extends cursor {
         $db =& $GLOBALS['__CURSOR_SQL_INSTANCE'];
         $source = $this->_source;
         if (!$source)
-            die ('cursor_sql::delete(): No source.');
+            die_traced ('No source.');
         $key = addslashes ($this->_key);
 
         $db->multi_delete ($source, $key);

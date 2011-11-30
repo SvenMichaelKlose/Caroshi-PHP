@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Generic editor for records in a single table.
  *
@@ -45,7 +46,7 @@ function tk_autoform_create_widget (&$app, $source, $field, $flags = 0)
 
     $type = $def->types ($source);
     if (!$type)
-        die ("tk_autoform_create_widget(): No dbdepend definition for table '$source.'");
+        die_traced ("No dbdepend definition for table '$source.'");
     $type = $type[$field];
 
     # Don't print hidden fields.
@@ -182,7 +183,7 @@ function tk_autoform_list_cursor (&$app, &$c, $config)
         @$fields = $co['fields'];
         if (!$fields) {
             if (!$tt)
-                die ("No field list or dbdepend for source '$source'.");
+                die_traced ("No field list or dbdepend for source '$source'.");
             foreach ($tt as $n => $dummy)
                 if ($n != $pri)
                     $fields[] = $n;
@@ -223,4 +224,5 @@ function tk_autoform_list_cursor (&$app, &$c, $config)
     $p->paragraph ();
     $p->print_text ("<b>Total: $num</b>");
 }
+
 ?>

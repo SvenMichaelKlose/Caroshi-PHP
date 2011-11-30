@@ -18,11 +18,11 @@ class singleton {
         global $__SINGLETONS;
 
         if (!is_object ($instance))
-            die ('singleton constructor: Argument is not an object.');
+            die_traced ('singleton constructor: Argument is not an object.');
 
         $class = get_class ($instance);
         if (isset ( $__SINGLETONS[$class]))
-            die ("$class is a singleton class - can't construct twice.");
+            die_traced ("$class is a singleton class - can't construct twice.");
 
         $__SINGLETONS[$class] =& $instance;
     }

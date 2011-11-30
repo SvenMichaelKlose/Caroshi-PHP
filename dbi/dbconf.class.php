@@ -28,9 +28,9 @@ class dbconf {
 
         # Check application ID.
         if (!isset ($application_id) || !$application_id)
-            die ('$application_id missing.');
+            die_traced ('$application_id missing.');
         if (!isset ($config_table) || !$config_table)
-            die ('$config_table missing.');
+            die_traced ('$config_table missing.');
 
         $this->db =& $db;
     }
@@ -47,7 +47,7 @@ class dbconf {
         global $application_id, $config_table;
 
         if (!isset ($application_id) || !$application_id)
-            die ('DBConf::exists(): No $application_id.');
+            die_traced ('No $application_id.');
         list ($num) = $this->db->select ('COUNT(id)', $config_table, "id_application=$application_id AND name='" . addslashes ($name) . "'")->get ();
         return $num;
     }

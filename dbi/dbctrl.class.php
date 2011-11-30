@@ -78,7 +78,7 @@ class DBCtrl extends DBWrapper {
     {
         $q = "UPDATE $this->prefix$table SET $set";
         if (!$where)
-            die ("dbctrl::update(): Need where clause. $q");
+            die_traced ("Need where clause. $q");
         $q .= " WHERE $where";
         return $this->query ($q);
     }

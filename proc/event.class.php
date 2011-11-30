@@ -57,7 +57,7 @@ class event {
         if (is_string ($e))
             $e = new event ($e);
         if (!is_a ($e, 'event'))
-            die ('event::set_next(): Argument is not an event object.');
+            die_traced ('event::set_next(): Argument is not an event object.');
         $this->next = $e;
         return $e;
     }

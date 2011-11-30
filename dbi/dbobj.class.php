@@ -142,7 +142,7 @@ class DBOBJ {
         $db =& $this->_db;
 
         if (!is_array ($this->active))
-            die ('No contents for object.');
+            die_traced ('No contents for object.');
         if (!$table || !$id) {
             if (!$this->_table || !$this->_id)
                 return; # Can't sync unassociated.
@@ -167,7 +167,7 @@ class DBOBJ {
         }
 
         if (!$this->_oid)
-            die ('dbobj::assoc(): Object has no id.');
+            die_traced ('Object has no id.');
 
         # Unset unknown fields.
         $tmp = $this->active;

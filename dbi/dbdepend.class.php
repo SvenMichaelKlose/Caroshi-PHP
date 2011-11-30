@@ -61,7 +61,7 @@ class DBDEPEND {
     function define_table ($table, $fields)
     {
         if (isset ($this->_types[$table]))
-            die ("dbdepend::define_table(): Table $table already exists.");
+            die_traced ("Table $table already exists.");
 
         # Fill up hashes we can access fast.
         foreach ($fields as $field) {
@@ -129,7 +129,7 @@ class DBDEPEND {
      */
     function set_ref ($table, $ref_table, $ref_id)
     {
-        $this->_chktbl ($table, 'set_ref');
+        $this->_chktbl ($table);
 
         $this->_refs[$table][] = array ('table' => $ref_table, 'id' => $ref_id);
         $this->_ref_table[$ref_table] = $table;
@@ -178,7 +178,7 @@ class DBDEPEND {
      */
     function set_listref ($table, $id_last, $id_next)
     {
-        $this->_chktbl ($table, 'set_listref');
+        $this->_chktbl ($table);
 
         $this->_listrefs[$table]['last'] = $id_last;
         $this->_listrefs[$table]['next'] = $id_next;
@@ -255,9 +255,9 @@ class DBDEPEND {
      */
     function set_primary ($table, $primary)
     {
-        $this->_chktbl ($table, 'set_primary');
+        $this->_chktbl ($table);
         if (isset ($this->_primaries[$table]))
-            die ("dbdepend::set_primary(): Primary key for table $table already exists.");
+            die_traced ("Primary key for table $table already exists.");
 
         $this->_primaries[$table] = $primary;
     }
@@ -282,10 +282,11 @@ class DBDEPEND {
      * @param string $table The table name.
      * @param string $func  Function name to show if function dies.
      */
-    function _chktbl ($table, $func)
+    function _chktbl ($table)
     {
         if (!isset ($this->_types[$table]))
-            die ("dbdepend::$func(): Table $table isn't defined.");
+            die_traced ("Table $table isn't defined.");
     }
 }
+
 ?>
