@@ -47,15 +47,13 @@ class DBOBJ {
     # Initialize and fetch object if exists.
     function DBOBJ (&$db, $class, &$dep, $table = '', $id = 0, $only_active = false, $fields = '*')
     {
+        global $__DBOBJ_CLASSCACHE;
+
         $this->_db =& $db;
         $this->_class = $class;
         $this->_dep =& $dep;
         $this->_table = $table; # Remember starting point.
         $this->_id = $id;
-
-        # Force fetching field 'is_local'.
-        if ($fields != '*')
-	    $fields .= ', is_local';
 
         # Get class id, update cache if class is not found.
         if (!sizeof ($__DBOBJ_CLASSCACHE)) {
@@ -67,14 +65,18 @@ class DBOBJ {
         }
         if (!isset ($__DBOBJ_CLASSCACHE[$class]))
 	    return;
-        $cid = $this->_cid = $__DBOBJ_CLASSCACHE[$class];
 
         # Traverse path to root until we've found something.
         $fetch_local = $found_local = true;
 
+        # Force fetching field 'is_local'.
+        if ($fields != '*')
+	    $fields .= ', is_local';
+
+        $cid = $this->_cid = $__DBOBJ_CLASSCACHE[$class];
         $t =& $this;
         find_in_database_path_if ($db, $table, $id,
-            function ($table, $id, $row) use (&$t, $only_active)
+            function ($table, $id, $row) use (&$t, &$db, &$dep, &$fetch_local, &$found_local, $cid, $fields, $only_active)
             {
                 global $__DBOBJ_KEYCACHE, $__DBOBJ_CLASSCACHE, $__DBOBJ_DATACACHE;
 

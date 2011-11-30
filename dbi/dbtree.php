@@ -40,6 +40,8 @@ function dbitree_get_parent ($db, &$table, &$id)
 
 function find_in_database_path_if ($db, $table, $id, $fun)                                                                                                     
 {
+    $dep = $db->def;
+
     while ($table && $id) {
         if (!$dep->ref_table ($table))
             die_traced ("No reference to parent defined for table '$table' (use dbdepend::set_ref()).");
