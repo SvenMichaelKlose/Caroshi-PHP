@@ -1,4 +1,5 @@
 <?php
+
 # Copyright (c) 2000-2002 dev/consulting GmbH
 # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
 #
@@ -143,4 +144,5 @@ class DBCtrl extends DBWrapper {
         return $this->prefix . $table;
     }
 }
+
 ?>

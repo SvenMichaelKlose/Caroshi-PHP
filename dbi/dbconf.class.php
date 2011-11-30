@@ -1,4 +1,5 @@
 <?php
+
 # Copyright (c) 2000-2001 dev/consulting GmbH
 # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
 #
@@ -28,11 +29,19 @@ class dbconf {
 
         # Check application ID.
         if (!isset ($application_id) || !$application_id)
-            die_traced ('$application_id missing.');
+            die_traced ("$application_id missing.");
         if (!isset ($config_table) || !$config_table)
-            die_traced ('$config_table missing.');
+            die_traced ("$config_table missing.");
 
         $this->db =& $db;
+    }
+
+    function _where ($app_id, $name = false)
+    {
+        $arr = array ('id_application' => $application_id);
+        if ($name)
+            $arr['name'] = $name;
+        return sql_assignments ($arr, " AND ");
     }
 
     /**
@@ -48,7 +57,7 @@ class dbconf {
 
         if (!isset ($application_id) || !$application_id)
             die_traced ('No $application_id.');
-        list ($num) = $this->db->select ('COUNT(id)', $config_table, "id_application=$application_id AND name='" . addslashes ($name) . "'")->get ();
+        list ($num) = $this->db->select ('COUNT(id)', $config_table, $this->_where ($application_id, $name))->get ();
         return $num;
     }
 
@@ -57,7 +66,7 @@ class dbconf {
         global $application_id, $config_table;
 
         # Fetch flags and data from config record.
-        $this->_res =& $this->db->select ('is_file, data', $config_table, "id_application=$application_id AND name='" . addslashes ($name) . "'");
+        $this->_res =& $this->db->select ('is_file, data', $config_table, $this->_where ($application_id, $name));
         return $this->_res && $this->_res->get ();
     }
 
@@ -121,7 +130,7 @@ class dbconf {
 
         $db = $this->db;
 
-        list ($tmp) = $db->select ('COUNT(id)', $config_table, "id_application=$application_id")->get ();
+        list ($tmp) = $db->select ('COUNT(id)', $config_table, $this->_where ($application_id))->get ();
         $q = "data='" . addslashes ($data) . "',is_file=$is_file";
         $q2 = "id_application=$application_id";
         if ($tmp)
@@ -189,4 +198,5 @@ class dbconf {
         $def->set_primary ($config_table, 'name');
     }
 }
+
 ?>

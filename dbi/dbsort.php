@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Sorting doubly linked lists and trees of them (deprecated).
  *
@@ -6,6 +7,7 @@
  * @module dbsort
  * @package Database interfaces
  */
+
 
 # Copyright (c) 2000-2001 dev/consulting GmbH
 # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
@@ -32,8 +34,6 @@ function _sort_update ($db, $reftab, $id_parent, $last, $next, $order_clause, $f
 #
 # All lists that reference $table/$id will be sorted if you don't specify the
 # only $child_table to sort.
-#
-# TODO: php4 will puke on too much recursions, so better unroll this.
 function sort_linked_list ($db, $table, $id, $order_clause, $follows = false, $child_table = 0)
 {
     $refs =& $db->def->_refs;
@@ -43,7 +43,7 @@ function sort_linked_list ($db, $table, $id, $order_clause, $follows = false, $c
     $ref = reset ($refs[$table]);
     if ($child_table)
         while (!$r[$child_table])
-            $ref = next ($refs[$table]);
+    $ref = next ($refs[$table]);
 
     do {
         $reftab = $ref['table'];
@@ -74,4 +74,5 @@ function sort_linked_list ($db, $table, $id, $order_clause, $follows = false, $c
         _sort_update ($db, $reftab, $former, $last, 0, $order_clause, $follows);
     } while (!$child_table && $ref = next ($refs[$table]));
 }
+
 ?>

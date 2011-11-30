@@ -1,4 +1,5 @@
 <?php
+
 # Copyright (c) 2000-2002 dev/consulting GmbH
 # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
 #
@@ -16,7 +17,6 @@ require_once PATH_TO_CAROSHI . '/dbi/dbdepend.class.php';
  * @package Database interfaces
  */
 class DBI extends DBCtrl {
-
     var $def;	# Database definitions.
 
     # <func name="DBI">
@@ -27,6 +27,7 @@ class DBI extends DBCtrl {
         !$class_dbdef ? $this->def = new DBDEPEND : $this->def = $class_dbdef;
         $this->DBCtrl ($dbname, $host, $user, $passwd);
     }
+
 
     #########################
     ### Column operations ###
@@ -43,6 +44,7 @@ class DBI extends DBCtrl {
 
         return $this->select ($column, $table, "$pri='$id'")->get ($column);
     }
+
 
     ######################
     ### Row operations ###
@@ -77,6 +79,7 @@ class DBI extends DBCtrl {
         $this->insert ($table, $set);
     }
 
+
     ########################
     ### Table operations ###
     ########################
@@ -94,6 +97,7 @@ class DBI extends DBCtrl {
     {
         $this->query ("DROP TABLE $prefix$name");
     }
+
 
     ###########################
     ### Database operations ###
@@ -128,6 +132,7 @@ class DBI extends DBCtrl {
         $this->query ('UNLOCK TABLES');
     }
 
+
     # Create a new working copy from an existing table set.
     function copy_all_tables ($frompre, $topre)
     {
@@ -139,6 +144,7 @@ class DBI extends DBCtrl {
         }
         $this->unlock_tables ();
     }
+
 
     #######################################
     ### Operations with multiple tables ###
@@ -284,7 +290,7 @@ class DBI extends DBCtrl {
         $def =& $this->def;
 
         if ($table == $def->ref_table ($table) && ($id == $id_parent || $id == $id_next || ($id_parent && $id_parent == $id_next)))
-            return true; # Would cause record to disappear somewhere in the db.
+            die_traced ("Cannot move - record corrupted.");
 
         $c_last = $def->prev_of ($table);
         $c_next = $def->next_of ($table);
@@ -357,7 +363,7 @@ class DBI extends DBCtrl {
 	            $this->update ($table, "$c_next=$id", "$c_id=$last");
 	        }
             }
-            $this->update ($table, "$c_last=$last,$c_next=$next", "$c_id=$id");
+            $this->update ($table, "$c_last=$last, $c_next=$next", "$c_id=$id");
         }
 
         # Update reference to new parent.

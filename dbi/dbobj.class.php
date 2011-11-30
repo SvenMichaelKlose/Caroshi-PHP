@@ -1,4 +1,5 @@
 <?php
+
 # Copyright (c) 2000-2001 dev/consulting GmbH
 # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
 #
@@ -24,6 +25,7 @@
 # Remove object. After removal the object contents can be associated to
 # another table entry. This is used by assoc to move data.
 #	$obj->remove ();
+
 
 /**
  * Databased directory service (deprecated)
@@ -327,4 +329,5 @@ class DBOBJ {
 }
 
 DBOBJ::_drop_cache ();
+
 ?>

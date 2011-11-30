@@ -1,4 +1,5 @@
 <?php
+
 # Copyright (c) 2000-2002 dev/consulting GmbH
 # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
 #
@@ -52,8 +53,6 @@ class DBDEPEND {
      *   'i' - Index is created for faster lookups if true.
      *   'e' - Extended type from dbi/types.php
      *
-     * TODO: Generic primary key handling.
-     *
      * @access public
      * @param string $table  Table name.
      * @param array  $fields Array of field descriptions.
@@ -67,9 +66,9 @@ class DBDEPEND {
         foreach ($fields as $field) {
             # Check if info is complete.
 	    if (!isset ($field['n']))
-	        panic ('dbdepend::define_table(): field without a name.');
+	        die_traced ('Field without a name.');
 	    if (!isset ($field['t']))
-	        panic ('dbdepend::define_table(): field without a SQL type.');
+	        die_traced ('Field without a SQL type.');
 
             # Default extended type is 'string'.
 	    if (!isset ($field['e']))
