@@ -95,7 +95,7 @@ function dbtree_get_objects_in_path ($db, $table, $id)
 
     $path_objects = array ();
     while ($t && $i) {
-        foreach (dbtree_get_objects_for_record ($db, $table, $id) as $row) {
+        foreach (dbtree_get_objects_for_record ($db, $t, $i) as $row) {
             $row['_table'] = $t;
             $row['_id'] = $i;
             $path_objects[$row['id_class']][] = $row;
