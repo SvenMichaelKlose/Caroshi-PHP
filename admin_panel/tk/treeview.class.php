@@ -1,4 +1,5 @@
 <?php
+
 # Copyright (c) 2000-2001 dev/consulting GmbH
 # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
 #
@@ -15,7 +16,6 @@
 class DBTREE {
     var $db;
     var $_nodes;
-    var $_xrefs;
     var $_table;
     var $_c_id;
     var $_c_id_parent;
@@ -47,13 +47,6 @@ class DBTREE {
             $this->_nodes[$r[$c_id]] = $r;
         }
 
-        # Read in xref nodes.
-        if ($xref = $db->def->xref_table ($table)) {
-            $res = $db->select ('*', $xref);
-            while ($res && $r = $res->get ())
-                $this->_xrefs[$r['id_parent']][] = $r['id_child'];
-        }
-
         $this->db =& $db;
         $this->_table = $table;
         $this->_c_id = $c_id;
@@ -72,13 +65,9 @@ class DBTREE {
         if (!is_array ($this->_nodes))
 	    return 0;
         $r = '';
-        if (!$xref = $def->xref_table ($table)) {
-            for ($val = reset ($this->_nodes); $val; $val = next ($this->_nodes))
-                if ($val[$this->_c_id_parent] == $id)
-                    $r[] = $val[$this->_c_id];
-        } else
-            if (isset ($this->_xrefs[$id]))
-                $r = $this->_xrefs[$id];
+        for ($val = reset ($this->_nodes); $val; $val = next ($this->_nodes))
+            if ($val[$this->_c_id_parent] == $id)
+                $r[] = $val[$this->_c_id];
         if (!is_array ($r) || !$this->_c_last)
             return $r;
 
@@ -130,14 +119,9 @@ class DBTREE {
         if (!isset ($this->_nodes))
 	    return;
         echo '<table border=0><tr><td bgcolor="#cccccc">';
-        if ($t = $def->xref_table ($this->_table)) {
-            $child = 'id_child';
-            $ref = 'id_parent';
-        } else {
-            $child = $def->primary ($table);
-            $ref = $def->ref_id ($table);
-            $t = $table;
-        }
+        $child = $def->primary ($table);
+        $ref = $def->ref_id ($table);
+        $t = $table;
         $root_id = $db->select ($child, $t, "$ref=0")->get ($child);
         echo $view ($app, $this->_nodes[$root_id]);
         echo '</td>';
@@ -145,4 +129,5 @@ class DBTREE {
         echo '</table>';
     }
 }
+
 ?>

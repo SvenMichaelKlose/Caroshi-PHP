@@ -17,7 +17,6 @@ class DBDEPEND {
     var $_ref_table;
     var $_ref_id;
     var $_obj_id;
-    var $_xref_tables;
     var $table;
 
     var $_fields;   # Field names.
@@ -228,31 +227,6 @@ class DBDEPEND {
         $this->_chktbl ($table);
         if (isset ($this->_obj_id[$table]))
             return $this->_obj_id[$table];
-    }
-
-    /**
-     * Define n:n reference table.
-     *
-     * @access public
-     * @param string $table      The table name.
-     * @param string $xref_table The reference table name.
-     */
-    function set_xref ($table, $xref_table)
-    {
-        $this->_xref_tables[$table] = $xref_table;
-    }
-
-    /**
-     * Get name of n:n reference table.
-     *
-     * @access public
-     * @param string $table The table name.
-     * @returns string Reference Table name.
-     */
-    function xref_table ($table)
-    {
-        if (isset ($this->_xref_tables[$table]))
-            return $this->_xref_tables[$table];
     }
 
     /**

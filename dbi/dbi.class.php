@@ -183,9 +183,6 @@ class DBI extends DBCtrl {
 
 	    # Finally remove node.
             $this->delete ($table, $def->primary ($table) . "='$id'");
-
-            if ($xref = $def->xref_table ($table))
-                $this->delete ($xref, "id_child=$id");
         }
     }
 
@@ -268,11 +265,6 @@ class DBI extends DBCtrl {
         if ($last)
             $this->update ($table, "$id_next=$nid", "$id=$last");
 
-/*
-        if ($xref = $def->xref_table ($table))
-            $this->insert ($xref, "id_parent=$id_dest_parent, id_child=$nid");
-*/
-
         return $nid;
     }
 
@@ -308,9 +300,6 @@ class DBI extends DBCtrl {
                 die_traced ('No destination specified.');
             $id_parent = $nodes[$id_next][$c_id_parent];
         }
-
-        if ($xref = $def->xref_table ($table))
-            list ($id_srcparent) = $db->select ('id_parent', $xref, 'id_child=' . $row['id_child'])->get ();
 
         # Check if the record has no siblings and the destination has the
         # same parent. If so, don't move anything.
@@ -358,9 +347,7 @@ class DBI extends DBCtrl {
         }
 
         # Update reference to new parent.
-        if ($xref)
-            $this->update ($xref, "id_parent=$id_parent", "id_parent=$id_srcparent AND id_child=$id");
-        else if ($c_id_parent)
+        if ($c_id_parent)
             $this->update ($table, "$c_id_parent=$id_parent", "$c_id=$id");
       }
 }
