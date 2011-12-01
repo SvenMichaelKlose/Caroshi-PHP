@@ -32,7 +32,7 @@ class application {
     public $session;	# dbsession.class instance.
 
     # Private. Hands off.
-    var $_subargs;  # Current subsession arguments.
+    var $_subsession;  # Current subsession arguments.
     var $_event;    # Current function's event object.
     var $_handlers; # Array of event handler keyed by name.
     var $_null_handler = 'defaultview'; # Name of null event handler.
@@ -113,21 +113,10 @@ class application {
     function call_single (&$e)
     {
         type ($e, 'event');
-
         $tokens =& $this->_tokens;
-
-        # Save current event and subsession.
-        $oldevent =& $this->_event;
-        $oldsub =& $this->_subargs;
-
+        $oldevent = $this->_event;
         $handler = $e->name;
-
-        # Set new event and subsession information.
-        $this->_event =& $e;
-        if (!isset ($e->subsession) || !$e->subsession)
-            $e->subsession = $oldevent->subsession;
-        $sub = $tokens->get ($e->subsession);
-        $this->_subargs =& $sub->args;
+        $this->_event = $e;
 
         # Dump arguments in debug mode.
         if ($this->debug) {
@@ -135,39 +124,26 @@ class application {
 	    $this->_application_dump ();
         }
 
-        # Don't output header or footer for internal functions.
-        $f = $handler != 'return2caller' && $handler != '__call_sub' ?
-             true : false;
+        $is_silent_event = ($handler != 'return2caller' && $handler != '__call_sub');
  
-        # Call header function if so desired.
-        if ($f && method_exists ($this, 'start_view'))
+        if (!$is_silent_event && method_exists ($this, 'start_view'))
             $this->start_view ();
 
-        # Call event handler.
-        if (($obj =& $this->_handlers[$handler]))
-	    $ret = $obj->$handler ($this);
+        if (($obj = $this->_handlers[$handler]))
+	    $obj->$handler ($this);
         else
-	    $ret = $handler ($this);
+	    $handler ($this);
 
         if ($this->debug) {
             echo "<b>Return value of event handler '$handler':</b>";
             debug_dump ($ret);
         }
 
-        # Call footer function if so desired.
-        if ($f && method_exists ($this, 'end_view'))
+        if (!$is_silent_event && method_exists ($this, 'end_view'))
             $this->end_view ();
 
-        # Save subsession.
-        if ($e->subsession)
-            $tokens->write ($e->subsession, $sub);
-
         # Restore former event object and subsession.
-        $this->_event =& $oldevent;
-        $this->_subargs =& $oldsub;
-
-        if (isset ($ret))
-            return $ret;
+        $this->_event = $oldevent;
     }
 
     /**
@@ -180,19 +156,14 @@ class application {
     {
         global $debug;
 
-        if (is_string ($e)) {
+        if (is_string ($e))
             $e = new event ($e);
-            $e->subsession = $this->_event->subsession;
-        } else type ($e, 'event');
 
         $handler = $e->name;
         do {
-	    # Check if event handler is registered.
-            if (!isset ($this->_handlers[$handler])) {
-	        if ($handler)
-	            echo "Unknown event handler '$handler'.<BR>";
-                $e = new event ($this->_null_handler);
-            }
+            type ($e, 'event');
+            if (!isset ($this->_handlers[$handler]))
+                die_traced ("Unknown event handler '$handler'.");
 
             # Detect infinite loops.
             static $called = array ();
@@ -201,18 +172,12 @@ class application {
                 die_traced ("Infinite loop detected before call to event handler '$handler'.");
             $called[$sv] = true;
 
-	    $ret = $this->call_single ($e);
+	    $this->call_single ($e);
 
             $e = $e->next;
-	    if (!is_a ($e, 'event'))
-	        break;
-
 	    if ($debug)
 	        echo '<B>Calling next event handler:</B>';
         } while ($e);
-
-        if (isset ($ret))
-            return $ret;
     }
 
     /**
@@ -290,6 +255,20 @@ class application {
     }
 
     /**
+     * Create new subsession for next event.
+     *
+     * @access private
+     */
+    function __call_sub ()
+    {
+        $e = $this->arg ('caller');
+        $s = new _application_subsession ($e);
+        $s->args = $this->_subargs;
+        $token = $this->_tokens->create ($s);
+        $this->_event->next->subsession = $token;
+    }
+
+    /**
      * Return from a subsession.
      *
      * @access public
@@ -319,31 +298,25 @@ class application {
      */
     function arg ($name, $flags = 0)
     { 
-        $e =& $this->_event;
-        $func = $e->name;
-        $arg = $e->arg ($name);
-        $sub = $this->_subargs[$name];
-
         type_string ($name);
+        type_int ($flags);
+        $e =& $this->_event;
 
-        # Load session argument with argument of the same name.
-        if ($flags & ARG_SUB && isset ($arg))
-            $sub = $arg;
-
-        # Check if queried type of argument exists if non-optional.
-        if (($flags & ARG_OPTIONAL) == false) {
-            if ($flags & ARG_SUB) {
-                if (!isset ($sub))
-                    die_traced ("$func(): subsession argument $name: not set");
-            } else if (!isset ($arg))
-                die_traced ("$func(): argument '$name': not set");
+        if ($flags & ARG_SUB) {
+            if (isset ($this->_subargs[$name]))
+                return $this->_subargs[$name];
+            if ($e->has_arg ($name))
+                return $this->_subargs[$name] = $e->arg ($name);
+            if ($flags & ARG_OPTIONAL)
+                return;
+            die_traced ("Session argument '$name' missing.");
         }
 
-        # Return argument of specified type.
-        if (($flags & ARG_SUB) && isset ($sub))
-            return $sub;
-        if (isset ($arg))
-            return $arg;
+        if ($e->has_arg ($name))
+            return $e->arg ($name);
+        if ($flags & ARG_OPTIONAL)
+            return;
+        die_traced ("Argument '$name' missing.");
     }
 
     /**
@@ -418,23 +391,6 @@ class application {
         if ($t != TOKEN_DEFAULT && $t != TOKEN_ONETIME && $t != TOKEN_REUSE)
             die_traced ("Unknown token type $t for event handler $name.");
         $this->_types[$name] = $t;
-    }
-
-    /**
-     * Create new subsession for next event.
-     *
-     * Argument 'caller' contains the event object of the caller. It is
-     * stored in a new subsession object and called by return2caller().
-     *
-     * @access private
-     */
-    function __call_sub ()
-    {
-        $e = $this->arg ('caller');
-        $s = new _application_subsession ($e);
-        $s->args = $this->_subargs;
-        $token = $this->_tokens->create ($s);
-        $this->_event->next->subsession = $token;
     }
 
     function _application_dump ()

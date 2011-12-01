@@ -42,6 +42,18 @@ class event {
     }
 
     /**
+     * Check on argument.
+     *
+     * @access public
+     * @param string $name Argument name.
+     * @returns bool
+     */
+    function has_arg ($name)
+    {
+        return isset ($this->args[$name]);
+    }
+
+    /**
      * Get an argument.
      *
      * @access public
@@ -73,9 +85,7 @@ class event {
         return $e;
     }
 
-    /* Set return function for call to subsession.
-     *
-     * If the caller isn't set, no new subsession is opened.
+    /* Set return event for call to subsession.
      *
      * @access public
      * @param object event $e Function to return to.

@@ -1,9 +1,9 @@
 <?php
+
 # Copyright (c) 2002 dev/consulting GmbH
 # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
 #
 # Licensed under the MIT, BSD and GPL licenses.
-
 
 /**
  * Subsession object
@@ -20,4 +20,5 @@ class _application_subsession {
         $this->parent = $parent;
     }
 }
+
 ?>
