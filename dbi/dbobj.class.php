@@ -209,7 +209,6 @@ class DBOBJ {
     }
 
     # Remove an object.
-    # Returns 'true' if successful.
     function remove ()
     {
         $db = $this->_db;
@@ -217,7 +216,7 @@ class DBOBJ {
 
         DBOBJ::_drop_cache ();
         if (!$this->_class || !$this->active['_table'] || !$this->active['_id'])
-            return false; # Object doesn't exist.
+            die_traced ('Object doesn\'t exist.');
 
         # Remove this data object from the database
         $db->delete ('obj_data', 'id=' . $this->active['id']);
