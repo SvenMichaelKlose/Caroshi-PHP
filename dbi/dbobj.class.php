@@ -43,11 +43,10 @@ class DBOBJ {
     var $_oid = 0;
     var $_cid = 0;
 
-    var $active;	# Content of active object found.
-    var $inactive;	# Contents of all other objects found.
+    var $data;
 
     # Initialize and fetch object if exists.
-    function DBOBJ (&$db, $class, &$dep, $table = '', $id = 0, $only_active = false, $fields = '*')
+    function DBOBJ (&$db, $class, &$dep, $table = '', $id = 0, $fields = '*')
     {
         global $__DBOBJ_CLASSCACHE;
 
@@ -68,71 +67,74 @@ class DBOBJ {
         if (!isset ($__DBOBJ_CLASSCACHE[$class]))
 	    return;
 
-        # Traverse path to root until we've found something.
-        $fetch_local = $found_local = true;
-
         # Force fetching field 'is_local'.
         if ($fields != '*')
 	    $fields .= ', is_local';
 
         $cid = $this->_cid = $__DBOBJ_CLASSCACHE[$class];
         $t =& $this;
+        $fetch_local = $found_local = false;
         find_in_database_path_if ($db, $table, $id,
-            function ($table, $id, $row) use (&$t, &$db, &$dep, &$fetch_local, &$found_local, $cid, $fields, $only_active)
+            function ($table, $id, $row) use (&$t, &$db, &$dep, &$fetch_local, &$found_local, $cid, $fields)
             {
                 global $__DBOBJ_KEYCACHE, $__DBOBJ_CLASSCACHE, $__DBOBJ_DATACACHE;
 
-	        if (!isset ($dep->_obj_id[$table]))
-	            die_traced ("No object reference defined for table '$table' (use dbdepend::set_obj_id()).");
+	        if (!$oid_field = $dep->obj_id ($table))
+                    return;
 
 	        # Fetch table entry.
-	        if (!isset ($__DBOBJ_KEYCACHE[$table][$id])) {
-                    if (!$pri = $dep->primary ($table))
-	                die_traced ("No primary key defined for table '$table' (use dbdepend::set_primary()).");
-	            $__DBOBJ_KEYCACHE[$table][$id] = $t->_row = $db->select ('*', $table, "$pri=$id")->get ();
-	        } else {
+	        if (!isset ($__DBOBJ_KEYCACHE[$table][$id]))
 	            $t->_row =& $__DBOBJ_KEYCACHE[$table][$id];
-	        }
+	        else
+	            $__DBOBJ_KEYCACHE[$table][$id] = $t->_row = $db->select ('*', $table, "$pri=$id")->get ();
 
                 $row =& $t->_row;
 
                 # Skip entry if object id is 0.
-	        if ($oid = $row[$dep->_obj_id[$table]]) {
-      	            # Seek data for id_obj/class combination if it's not in the cache.
-	            if (!isset ($__DBOBJ_DATACACHE[$oid][$cid][$fields])) {
-	                $__DBOBJ_DATACACHE[$oid][$cid][$fields] =
-	                    ($dres = $db->select ($fields, 'obj_data', "id_obj=$oid AND id_class='$cid'")) ?
-                            $dres->get () :
-                            0;
-	            }
+	        if (!$oid = $row[$oid_field])
+                    return;
 
-                    # Use object if it's in the cache now.
-      	            if (isset ($__DBOBJ_DATACACHE[$oid][$cid][$fields]) && is_array ($__DBOBJ_DATACACHE[$oid][$cid][$fields])) {
-      	                $tmp =& $__DBOBJ_DATACACHE[$oid][$cid][$fields];
+      	        # Seek data for id_obj/class combination if it's not in the cache.
+	        if (!isset ($__DBOBJ_DATACACHE[$oid][$cid][$fields])) {
+	            $__DBOBJ_DATACACHE[$oid][$cid][$fields] =
+	                (($dres = $db->select ($fields, 'obj_data', "id_obj=$oid AND id_class='$cid'")) ?
+                         $dres->get () :
+                         0);
+	        }
 
-	                # Read in object and return with the first one that's
-	                # visible. Ignore local objects which are not at our current
-	                # position.
-	                if (isset ($tmp['is_local']) && !($tmp['is_local'] && !$fetch_local)) {
-	                    # Update active/inactive result set.
-	                    # Add table and id and 'found_local' flag that shows if object
-	                    # was found at the starting point.
-	                    $tmp['found_local'] = $found_local;
-	                    $tmp['_table'] = $t->_table = $table;
-	                    $tmp['_id'] = $t->_id = $id;
-	                    if (!isset ($t->active) || !is_array ($t->active)) {
-	                        $t->_oid = $oid;
-	                        $t->active =& $tmp;
-	                        if ($only_active)
-	                            return true;
-	                    } else
-	                        $t->inactive[] =& $tmp;
-                        }
-	            }
-                }
-                $fetch_local = $found_local = false;
+                # Use object if it's in the cache now.
+      	        if (!(isset ($__DBOBJ_DATACACHE[$oid][$cid][$fields]) && is_array ($__DBOBJ_DATACACHE[$oid][$cid][$fields])))
+                    return;
+
+      	        $tmp =& $__DBOBJ_DATACACHE[$oid][$cid][$fields];
+
+	        # Read in object and return with the first one that's
+	        # visible. Ignore local objects which are not at our current
+	        # position.
+	        if (!(isset ($tmp['is_local']) && !($tmp['is_local'] && !$fetch_local)))
+                    return;
+
+	        $tmp['found_local'] = ($t->_table == $table && $t->_id == $id);
+	        $tmp['_table'] = $t->_table = $table;
+	        $tmp['_id'] = $t->_id = $id;
+	        $t->data = $tmp;
+
+                return true;
             }
         );
+    }
+
+    function _make_object_id_if_not_exists ($table, $id)
+    {
+        $dep =& $this->_dep;
+        $db =& $this->_db;
+
+        if (!$res = $db->select ($dep->obj_id ($table), $table, $dep->primary ($table) . "=$id")) {
+	    $db->insert ('objects', 'dummy=0');  
+	    $this->_oid = $db->insert_id ();
+	    $db->update ($table, "id_obj=$this->_oid", "id=$id");
+        } else
+            list ($this->_oid) = $res->get ();
     }
 
     # Associate object to table/id.
@@ -140,70 +142,30 @@ class DBOBJ {
     # Write new object contents to database (no args).
     function assoc ($table = '', $id = 0)
     {
+        type_array ($this->data);
+        if (!$table || !$id)
+             die_traced ('Empty arguments.');
+
         $dep =& $this->_dep;
         $db =& $this->_db;
 
-        if (!is_array ($this->active))
-            die_traced ('No contents for object.');
-        if (!$table || !$id) {
-            if (!$this->_table || !$this->_id)
-                return; # Can't sync unassociated.
-        } else {
-            if ($this->_table != $table || $this->_id != $id) {
-                # Remove old reference in directory if we're going to move.
-                if ($this->_table && $this->_id)
-                    $this->remove ();
+        if ($this->_table == $table && $this->_id == $id)
+            die_traced ('Object already at position specified in arguments.');
 
-                # Get object id of new table/id pair
-	        if ($res = $db->select ($dep->_obj_id[$table], $table, $dep->primary ($table) . "=$id"))
-	            list ($this->_oid) = $res->get ();
-	        if (!$this->_oid) {  
-	            # Create object id for new table/id and store it
-	            $db->insert ('objects', 'dummy=0');  
+        if ($this->_table && $this->_id)
+            $this->remove ();
 
-	            # Update object reference.
-	            $this->_oid = $db->insert_id ();
-	            $db->update ($table, "id_obj=$this->_oid", "id=$id");
-	        }
-            }
-        }
+        $this->_make_object_id_if_not_exists ($table, $id);
 
-        if (!$this->_oid)
-            die_traced ('Object has no id.');
-
-        # Unset unknown fields.
-        $tmp = $this->active;
+        $tmp = $this->data;
         unset ($tmp['found_local']);
         unset ($tmp['_table']);
         unset ($tmp['_id']);
-
-        # Create SET clause from array.
-        $set = '';
-        $first = true;
-        if (is_array ($tmp)) {
-            foreach ($tmp as $k => $v) {
-	        if (!$k || is_int ($k) || $k == 'id')
-	            continue;
-                if ($first == false)
-                    $set .= ', ';
-                else
-                    $first = false;
-	        $set .= "$k='" . addslashes ($v) . "'";
-	    }
-
-	    # Make sure there's a comma to append something.
-            if (!$first)
-	        $set .= ", ";
-        }
-        $set .= 'id_obj=' . $this->_oid . ', id_class=' . $this->_cid;
-
-        # Write object contents to database.  
-        if (isset ($tmp['id'])) {
-            $db->update ('obj_data', $set, 'id=' . $tmp['id']);
-        } else {
-            $db->insert ('obj_data', $set);
-            $this->active['id'] = $db->insert_id ();
-        }  
+        unset ($tmp['id']);
+        $set = sql_assignments ($tmp);
+        $set .= ($set ? ', ' : '') . 'id_obj=' . $this->_oid . ', id_class=' . $this->_cid;
+        $db->insert ('obj_data', $set);
+        $this->data['id'] = $db->insert_id ();
 
         DBOBJ::_drop_cache ();
     }
@@ -215,11 +177,11 @@ class DBOBJ {
         $dep = $this->_dep;
 
         DBOBJ::_drop_cache ();
-        if (!$this->_class || !$this->active['_table'] || !$this->active['_id'])
+        if (!$this->_class || !$this->data['_table'] || !$this->data['_id'])
             die_traced ('Object doesn\'t exist.');
 
         # Remove this data object from the database
-        $db->delete ('obj_data', 'id=' . $this->active['id']);
+        $db->delete ('obj_data', 'id=' . $this->data['id']);
 
         # Remove object reference and entry in table 'objects' if there're
         # no more referenced objects.
@@ -227,13 +189,11 @@ class DBOBJ {
             $db->delete ('objects', "id=$this->_oid");
 	    $table = $this->_table;
 	    $id = $this->_id;
-            $db->update ($table, $dep->_obj_id[$table] . '=0', $dep->primary ($table) . "=$id");
+            $db->update ($table, $dep->obj_id ($table) . '=0', $dep->primary ($table) . "=$id");
         }
 
         # Now the object can be copied to another table; used by assoc ().
         $this->_table = $this->_id = $this->_oid = 0;
-
-        return true;
     }
 
     static function _drop_cache ()
