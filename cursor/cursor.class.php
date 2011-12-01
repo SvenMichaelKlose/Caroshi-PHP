@@ -120,9 +120,21 @@ class cursor {
      * @returns mixed Record.
      * @see key(), get()
      */
-    function &current ()
+    function current ()
     {
         return $this->_current;
+    }
+
+    /**
+     * Return field of last fetched record.
+     *
+     * @access public
+     * @returns mixed Record.
+     * @see key(), get()
+     */
+    function value ($name)
+    {
+        return $this->_current[$name];
     }
 
     /**
