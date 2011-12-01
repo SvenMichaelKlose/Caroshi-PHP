@@ -5,7 +5,6 @@
 #
 # Licensed under the MIT, BSD and GPL licenses.
 
-
 /**
  * SQL database description.
  *
@@ -14,7 +13,7 @@
  * @author Sven Michael Klose <pixel@copei.de>
  */
 class DBDEPEND {
-
+    var $_definitions;
     var $_ref_table;
     var $_ref_id;
     var $_obj_id;
@@ -78,11 +77,17 @@ class DBDEPEND {
 	    $name = $field['n'];
 	    $type = $field['t'];
 	    $desc = isset ($field['d']) ? $desc = $field['d'] : '';
+	    $this->_definitions[$table][$name] = $field;
 	    $this->_fields[$table][] = $name;
 	    $this->_types[$table][$name] = $type;
 	    $this->_desc[$table][$name] = $desc;
 	    $this->_exttypes[$table][$name] = $field;
         }
+    }
+
+    function definition ($table)
+    {
+        return $this->_definitions[$table];
     }
 
     function table_names ()
