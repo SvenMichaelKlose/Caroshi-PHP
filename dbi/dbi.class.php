@@ -242,12 +242,10 @@ class DBI extends DBCtrl {
         $q = "$id_next=0";
         if ($id_parent)
             $q .= " AND $id_parent=" . $pre[$id_parent];
-        if ($res = $this->select ($id, $table, $q))
-            list ($last) = $res->get ();
-        else
-          $last = 0;
+        $last = ($res = $this->select ($id, $table, $q)) ?
+                $res->get ($id) :
+                0;
 
-        # Insert new element and let it point to the last one.
         $pre[$id_last] = $last;
         $pre[$id_next] = 0;
         $this->create_row ($table, $pre);
