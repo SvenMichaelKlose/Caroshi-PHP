@@ -146,9 +146,6 @@ class DBDEPEND {
         $this->_ref_table[$ref_table] = $table;
         $this->_ref_id[$ref_table] = $ref_id;
         $this->table[$table][] = $ref_table;
-
-        # TODO: Move this to exttypes.
-        $this->_obj_id[$ref_table] = 'id_obj';
     }
 
     /**
@@ -204,6 +201,33 @@ class DBDEPEND {
     function is_list ($table)
     {
         return isset ($this->_listrefs[$table]);
+    }
+
+    /**
+     * Define object ID.
+     *
+     * @access public
+     * @param string $table  The table name.
+     * @param string $name   The field name.
+     */
+    function set_obj_id ($table, $name)
+    {
+        $this->_chktbl ($table);
+        $this->_obj_id[$table] = $name;
+    }
+
+    /**
+     * Get name of  object ID field.
+     *
+     * @access public
+     * @param string $table The table name.
+     * @returns string      The field name.
+     */
+    function obj_id ($table)
+    {
+        $this->_chktbl ($table);
+        if (isset ($this->_obj_id[$table]))
+            return $this->_obj_id[$table];
     }
 
     /**
