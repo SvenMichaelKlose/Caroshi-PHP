@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Stepping through SQL trees
  *
@@ -7,10 +8,13 @@
  * @package Database interfaces
  */
 
+
 # Copyright (c) 2000-2001 dev/consulting GmbH
 # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
 #
 # Licensed under the MIT, BSD and GPL licenses.
+
+
 $_DBITREE_CACHE_PARENT = array ();
 
 # Get table name and primary key of a parent record.
@@ -58,35 +62,6 @@ function find_in_database_path_if ($db, $table, $id, $fun)
     }
 }
 
-
-# Return DB_result of records that reference a table.
-#
-# $db:		A database connection.
-# $table/$id:	The table that is referenced.
-# $subtype:		The table name of records.
-#			If emptry, it's set to $table.
-function dbitree_get_children ($db, $table, $id, $subtype = '')
-{
-    $def = $db->def;
-
-    if (!$xref = $db->def->xref_table ($table)) {
-        if (!$subtype)
-            $subtype = $table;
-        return $db->select ('*', $subtype, $def->ref_id ($subtype) . "=$id");
-    }
-
-    $q = '';
-    $res = $db->select ('id_child', $xref, "id_parent=$id");
-    while ($res && list ($id) = $res->get ()) {
-        if ($q)
-            $q .= ' OR ';
-        $q .= "id=$id";
-    }
-    if ($subtype)
-        $q = "id_type=$subtype AND ($q)";
-    return $db->select ('*', $table, $q);
-}
-
 function dbtree_get_object_id ($db, $table, $id)
 {
     $res = $db->select ('*', $table, "id=$id");
@@ -130,4 +105,5 @@ function dbtree_get_objects_in_path ($db, $table, $id)
 
     return $path_objects;
 }
+
 ?>
