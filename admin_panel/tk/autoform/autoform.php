@@ -10,6 +10,7 @@
  * @package User interface toolkits
  */
 
+
 # Copyright (c) 2001-2002 dev/consulting GmbH
 # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
 #
@@ -142,87 +143,63 @@ function tk_autoform_create_form (&$app, $source)
         tk_autoform_create_widget ($app, $source, $field, TK_AUTOFORM_LABELS);
 }
 
+function tk_autoform_list_cursor_field (&$app, &$c, &$conf, $field)
+{
+    global $lang;
+
+    $p =& $app->ui;
+    $def =& $app->db->def;
+    $source = $c->source ();
+    $pri = $def->primary ($source);
+
+    $sdef = $def->definition ($source);
+    $sdef = $sdef[$field];
+    if (isset ($sdef['tk_auto']) && $sdef['tk_auto'] == 'hide')
+        return;
+
+    $p->open_cell ();
+    $v = $c->value ($field);
+    if (!$v)
+        $v = $conf->txt_empty;
+    $p->link ($v, new event ($conf->record_view, array ($conf->record_view_arg => $c->value ($pri))));
+    $p->close_cell ();
+}
+
+class tk_auto_list_conf {
+    var $record_view;
+    var $record_view_arg;
+    var $txt_empty;
+}
+
 /**
- * List a result set initiated by get() before.
- *
- * The configuration array contains arrays keyed by source name, that can
- * contain the entries 'argname', 'view', 'call', 'fields' and 'selection'.
- * 'fields' can contain an array of record field names that should be
- * displayed. 'view' can contain the name of the event handler for links.
- * 'argname' takes the event argument name that takes the primary key of the
- * linked record (deprecated).
+ * List cursor.
  *
  * @access public
  * @param object application $app
  * @param object cursor $c
  * @param array $config Configuration
  */
-function tk_autoform_list_cursor (&$app, &$c, $config)
+function tk_autoform_list_cursor (&$app, &$c, $conf)
 {
+    type ($app, 'application');
     type ($c, 'cursor');
-    type_array ($config);
 
     $p =& $app->ui;
 
-    if (isset ($config['head_fields']))
-        $p->table_headers ($config['head_fields']);
-
+    $index = 0;
     $p->open_context ($c);
-
-    $num = 0;
-    while ($rec =& $c->get ()) {
-        $source = $c->source ();
-        $co = $config[$source];
-        $pri = $app->db->def->primary ($source);
-        $tt = $app->db->def->types ($source);
-        $num++;
-
-        @$argname = $co['argname'];
-        @$view = $co['view'];
-        @$call = $co['call'];
-        @$fields = $co['fields'];
-        if (!$fields) {
-            if (!$tt)
-                die_traced ("No field list or dbdepend for source '$source'.");
-            foreach ($tt as $n => $dummy)
-                if ($n != $pri)
-                    $fields[] = $n;
-        }
-        type_array ($fields);
-
+    while ($c->get ()) {
+        $index++;
         $p->open_row ();
-        foreach ($fields as $name) {
-            $p->open_cell (array ('ALIGN' => 'LEFT'));
-            if (isset ($co['cell_functions'][$name])) {
-                $co['cell_functions'][$name] (&$app);
-            } else {
-                if (isset ($tt[$name]['tk_autoform']['lookup'])) {
-                    $l =& $tt[$name]['tk_autoform']['lookup'];
-                    $table = $l['table'];
-                    $field = $l['field'];
-                    $p->show_ref ($name, $table, $field, $pri);
-                } else {
- 	            if (!$data = $rec[$name])
-	                $data = '-';
-	            if ($data) {
-                        $data = ereg_replace (' ', '&nbsp;', $data);
-                        $arg = array ($argname => $rec[$pri]);
-                        $v =& new event ($view, $arg);
-                        if ($call)
-                            $v->set_caller ($app->event ());
-                        $p->link ($data, $v);
-	            } else
-	                $p->label ('&nbsp;');
-                }
-            }
-            $p->close_cell ();
-        }
+        $p->label ("$index.");
+        foreach ($app->db->def->field_names ($c->source ()) as $field)
+            tk_autoform_list_cursor_field ($app, $c, $conf, $field);
         $p->close_row ();
     }
     $p->close_context ();
 
     $p->paragraph ();
-    $p->print_text ("<b>Total: $num</b>");
+    $p->print_text ("<b>Total: $index</b>");
 }
 
 ?>
