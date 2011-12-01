@@ -1,4 +1,5 @@
 <?php
+
 # Copyright (c) 2000-2002 dev/consulting GmbH
 # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
 #
@@ -8,6 +9,7 @@
 require_once PATH_TO_CAROSHI . '/cursor/cursor.class.php';
 
 $__CURSOR_SQL_INSTANCE = 0;
+
 
 /**
  * SQL cursor via global dbctrl object.
@@ -32,45 +34,24 @@ class cursor_sql extends cursor {
     }
 
     # Perform query and read the first row
-    function _query ($whereclause = '', $order = '')
+    function _query ($where = '', $order = '')
     {
         $db =& $GLOBALS['__CURSOR_SQL_INSTANCE'];
         $def =& $db->def;
-
         $table = $this->_source;
         $pri = $def->primary ($table);
-        $size = $this->_size;
-        $size = 0;
 
-        # Make query with selection.
-        $q = "SELECT * FROM " . $db->table_prefix ($table) . ($whereclause ? " WHERE $whereclause" : '');
-
-        # If we have a list limit query to record without reference to previous
-        # one.
         if ($is_list = $def->is_list ($table)) {
-            $w = ' ' . $def->prev_of ($table) . '=0';
-            $qp = ($whereclause ? ' AND ' : ' WHERE ') . $w;
-
-            $res = $db->query ($q . $qp);
-            $size = $res->num_rows ();
-            if ($size < 1) {
-	        # Couldn't fetch list start, try without next record.
-                $res = $db->query ($q);
-                $size = $res->num_rows ();
-                if ($size < 1)
-                    return false;
-	    }
-
-            # Remember reference to first record.
+            $this->_get_next_id = 0;
+            if (!$res = $db->select ('*', $table, $where . ($where ? ' AND ' : '') . $def->prev_of ($table) . '=0'))
+                return;
             $row = $res->get ();
             $this->_get_next_id = $row[$pri];
-        } else {
-            $res = $db->query ("$q $order");
-            $size = $res->num_rows ();
-            if ($size < 1)
-                return false;
-        }
+        } else
+            if (!$res = $db->select ('*', $table, $where, $order))
+                return;
 
+        $this->_size = $res->num_rows ();
         $this->_res = $res;
         return true;
     }
@@ -82,33 +63,17 @@ class cursor_sql extends cursor {
         $table = $this->_source;
         $pri = $def->primary ($table);
 
-        # If record is stored in a list, do a new query using the reference in
-        # the last record stored in $v->_get_next_id.
         if ($is_list = $def->is_list ($table)) {
-            if (!isset ($this->_get_next_id))
-	        return false;
-
-            $wtable = $db->table_prefix ($table);
             $key_of_next = $this->_get_next_id;
-            $q = "SELECT * FROM $wtable WHERE $pri='$key_of_next'";
-            $this->_res = $db->query ($q);
-            if ($this->_res->num_rows () < 1)
-                return false;
+            if (!$this->_res = $db->select ('*', $table, "$pri=$key_of_next"))
+                return;
         }
 
-        # Fetch next record.
         $row = $this->_res ? $this->_res->get () : null;
-        if ($e = $db->error ())
-            $this->panic ($e);
-
-        # Remember reference to next record.
         if ($is_list)
             $this->_get_next_id = $row[$def->next_of ($table)];
 
-        # Store record key.
-        if ($pri)
-            $this->_key = $row[$pri];
-
+        $this->_key = $row[$pri];
         return $row;
     }
 
