@@ -73,7 +73,6 @@ class DBOBJ {
 
         $cid = $this->_cid = $__DBOBJ_CLASSCACHE[$class];
         $t =& $this;
-        $fetch_local = $found_local = false;
         find_in_database_path_if ($db, $table, $id,
             function ($table, $id, $row) use (&$t, &$db, &$dep, &$fetch_local, &$found_local, $cid, $fields)
             {
@@ -95,25 +94,15 @@ class DBOBJ {
                     return;
 
       	        # Seek data for id_obj/class combination if it's not in the cache.
-	        if (!isset ($__DBOBJ_DATACACHE[$oid][$cid][$fields])) {
-	            $__DBOBJ_DATACACHE[$oid][$cid][$fields] =
-	                (($dres = $db->select ($fields, 'obj_data', "id_obj=$oid AND id_class='$cid'")) ?
-                         $dres->get () :
-                         0);
-	        }
+	        if (!isset ($__DBOBJ_DATACACHE[$oid][$cid][$fields]))
+	            if ($dres = $db->select ($fields, 'obj_data', "id_obj=$oid AND id_class='$cid'"))
+	                $__DBOBJ_DATACACHE[$oid][$cid][$fields] = $dres->get ();
 
                 # Use object if it's in the cache now.
-      	        if (!(isset ($__DBOBJ_DATACACHE[$oid][$cid][$fields]) && is_array ($__DBOBJ_DATACACHE[$oid][$cid][$fields])))
+      	        if (!isset ($__DBOBJ_DATACACHE[$oid][$cid][$fields]))
                     return;
 
       	        $tmp =& $__DBOBJ_DATACACHE[$oid][$cid][$fields];
-
-	        # Read in object and return with the first one that's
-	        # visible. Ignore local objects which are not at our current
-	        # position.
-	        if (!(isset ($tmp['is_local']) && !($tmp['is_local'] && !$fetch_local)))
-                    return;
-
 	        $tmp['found_local'] = ($t->_table == $table && $t->_id == $id);
 	        $tmp['_table'] = $t->_table = $table;
 	        $tmp['_id'] = $t->_id = $id;
