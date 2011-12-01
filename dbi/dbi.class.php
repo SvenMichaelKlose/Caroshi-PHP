@@ -228,17 +228,9 @@ class DBI extends DBCtrl {
         $id = $def->primary ($table);
         $id_last = $def->prev_of ($table);
         $id_next = $def->next_of ($table);
-        $id_parent = $def->ref_id ($table);
-
-/*
-        # Get destination list's parent record if required.
-        if ($id_parent) {
-            if (!$id_dest_parent)
-                $id_dest_parent = $this->column ($table, $id_parent, $id_next);
+        if ($id_parent = $def->ref_id ($table))
             if (!isset ($pre[$id_parent]))
-                $pre[$id_parent] = $id_dest_parent;
-        }
-*/
+                die_traced ("Preset reference '$id_parent' to parent table missing.");
 
         # Do simple append if no list or list references are overridden.
         if (!$def->is_list ($table) || isset ($pre[$id_last]) || isset ($pre[$id_next])) {
