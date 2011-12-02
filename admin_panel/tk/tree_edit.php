@@ -98,7 +98,7 @@ function tv_move_to_node (&$app, &$node)
     $id_src = $app->arg ('id_src');
     $table = $app->arg ('source');
 
-    $id_parent = $node[$app->db->def->ref_id ($table)];
+    $id_parent = $node[$app->db->def->id_parent ($table)];
 
     if ($id == $id_src)
         return "<B>$name</B>";

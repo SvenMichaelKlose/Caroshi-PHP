@@ -93,7 +93,7 @@ function _tk_list_move_destlink (&$app)
     $p->open_row ();
     $p->open_cell (array ('ALIGN' => 'CENTER'));
     $arg = array ('id_from' => $id_from, 'id_to' => $p->v->key);
-    if ($c_parent = $app->db->def->ref_id ($source))
+    if ($c_parent = $app->db->def->id_parent ($source))
         $arg['id_parent'] = $app->db->column ($source, $c_parent, $id_from);
     $p->link ($txt, new event ('_tk_list_move_go', $arg));
     $p->close_cell ();

@@ -150,8 +150,8 @@ class DBI extends DBCtrl {
             return;
 
         $c_id = $def->primary ($table);
-        $c_last = $def->prev_of ($table);
-        $c_next = $def->next_of ($table);
+        $c_last = $def->id_prev ($table);
+        $c_next = $def->id_next ($table);
 
         if (!$res = $this->select ("$c_last,$c_next", $table, "$c_id=$id"))
             return;
@@ -226,9 +226,9 @@ class DBI extends DBCtrl {
 
         # Get column names.
         $id = $def->primary ($table);
-        $id_last = $def->prev_of ($table);
-        $id_next = $def->next_of ($table);
-        if ($id_parent = $def->ref_id ($table))
+        $id_last = $def->id_prev ($table);
+        $id_next = $def->id_next ($table);
+        if ($id_parent = $def->id_parent ($table))
             if (!isset ($pre[$id_parent]))
                 die_traced ("Preset reference '$id_parent' to parent table missing.");
 
@@ -265,10 +265,10 @@ class DBI extends DBCtrl {
         if ($table == $def->ref_table ($table) && ($id == $id_parent || $id == $id_next || ($id_parent && $id_parent == $id_next)))
             die_traced ("Cannot move - record corrupted.");
 
-        $c_last = $def->prev_of ($table);
-        $c_next = $def->next_of ($table);
+        $c_last = $def->id_prev ($table);
+        $c_next = $def->id_next ($table);
         $c_id = $def->primary ($table);
-        $c_id_parent = $def->ref_id ($table);
+        $c_id_parent = $def->id_parent ($table);
 
         # Read in tree nodes.
         $fields = "$c_id";

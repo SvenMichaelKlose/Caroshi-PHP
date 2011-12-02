@@ -15,7 +15,7 @@
 class DBDEPEND {
     var $_definitions;
     var $_ref_table;
-    var $_ref_id;
+    var $_id_parent;
     var $_obj_id;
     var $table;
 
@@ -130,20 +130,20 @@ class DBDEPEND {
      * @access public
      * @param string $table
      *        Name of table that holds the reference.
-     * @param string $ref_id
+     * @param string $id_parent
      *        Name of the column that holds the primary key's value of the
      *        referenced row.
      * @param string $ref_table
      *        Name of the table that is referenced.  The table's primary key
      *        must be defined using set_primary().
      */
-    function set_ref ($table, $ref_table, $ref_id)
+    function set_ref ($table, $ref_table, $id_parent)
     {
         $this->_chktbl ($table);
 
-        $this->_refs[$table][] = array ('table' => $ref_table, 'id' => $ref_id);
+        $this->_refs[$table][] = array ('table' => $ref_table, 'id' => $id_parent);
         $this->_ref_table[$ref_table] = $table;
-        $this->_ref_id[$ref_table] = $ref_id;
+        $this->_id_parent[$ref_table] = $id_parent;
         $this->table[$table][] = $ref_table;
     }
 
@@ -167,10 +167,10 @@ class DBDEPEND {
      * @param string $table Table name.
      * @returns string Name of the field in $table.
      */
-    function ref_id ($table)
+    function id_parent ($table)
     {
-        if (isset ($this->_ref_id[$table]))
-            return $this->_ref_id[$table];
+        if (isset ($this->_id_parent[$table]))
+            return $this->_id_parent[$table];
     }
 
     /**
@@ -236,7 +236,7 @@ class DBDEPEND {
      * @param string $table The table name.
      * @returns string Field name.
      */
-    function prev_of ($table)
+    function id_prev ($table)
     {
         if (isset ($this->_listrefs[$table]['last']))
             return $this->_listrefs[$table]['last'];
@@ -249,7 +249,7 @@ class DBDEPEND {
      * @param string $table The table name.
      * @returns string Field name.
      */
-    function next_of ($table)
+    function id_next ($table)
     {
         if (isset ($this->_listrefs[$table]['next']))
             return $this->_listrefs[$table]['next'];

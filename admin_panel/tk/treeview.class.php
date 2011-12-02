@@ -31,11 +31,11 @@ class DBTREE {
     function DBTREE (&$db, $table, $c_id, $c_id_parent = '', $c_last = '', $c_next = '')
     {
         if (!$c_id_parent)
-            $c_id_parent = $db->def->ref_id ($table);
+            $c_id_parent = $db->def->id_parent ($table);
         if (!$c_last)
-            $c_last = $db->def->prev_of ($table);
+            $c_last = $db->def->id_prev ($table);
         if (!$c_next)
-            $c_next = $db->def->next_of ($table);
+            $c_next = $db->def->id_next ($table);
 
         # Read in tree nodes.
         $res = $db->select ('*', $table);
@@ -120,9 +120,9 @@ class DBTREE {
 	    return;
         echo '<table border=0><tr><td bgcolor="#cccccc">';
         $child = $def->primary ($table);
-        $ref = $def->ref_id ($table);
+        $id_parent = $def->id_parent ($table);
         $t = $table;
-        $root_id = $db->select ($child, $t, "$ref=0")->get ($child);
+        $root_id = $db->select ($child, $t, "$id_parent=0")->get ($child);
         echo $view ($app, $this->_nodes[$root_id]);
         echo '</td>';
         $this->print_childs_of ($root_id, '', $view, $app);

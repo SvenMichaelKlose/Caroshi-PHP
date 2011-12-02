@@ -29,13 +29,13 @@ function dbitree_get_parent ($db, &$table, &$id)
         return;
     }
 
-    $ref_id = $def->ref_id ($table);
-    if (!$res = $db->select ($ref_id, $table, "id=$id")) {
+    $id_parent = $def->id_parent ($table);
+    if (!$res = $db->select ($id_parent, $table, "id=$id")) {
         $table = $id = 0;
         return;
     }
 
-    $parent_id = $res->get ($ref_id);
+    $parent_id = $res->get ($id_parent);
     $parent_table = $def->ref_table ($table);
     $_DBITREE_CACHE_PARENT[$table][$id] = array ($parent_table, $parent_id);
     $table = $parent_table;

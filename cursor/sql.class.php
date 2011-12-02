@@ -43,7 +43,7 @@ class cursor_sql extends cursor {
 
         if ($is_list = $def->is_list ($table)) {
             $this->_get_next_id = 0;
-            if (!$res = $db->select ('*', $table, $where . ($where ? ' AND ' : '') . $def->prev_of ($table) . '=0'))
+            if (!$res = $db->select ('*', $table, $where . ($where ? ' AND ' : '') . $def->id_prev ($table) . '=0'))
                 return;
             $row = $res->get ();
             $this->_get_next_id = $row[$pri];
@@ -71,7 +71,7 @@ class cursor_sql extends cursor {
 
         $row = $this->_res ? $this->_res->get () : null;
         if ($is_list)
-            $this->_get_next_id = $row[$def->next_of ($table)];
+            $this->_get_next_id = $row[$def->id_next ($table)];
 
         $this->_key = $row[$pri];
         return $row;
