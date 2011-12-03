@@ -40,12 +40,13 @@ class cursor_sql extends cursor {
         $def =& $db->def;
         $table = $this->_source;
 
+        $this->_size = 0;
+        $this->_get_next_id = 0;
         if (!$res = $db->select ('*', $table, $where, $order))
             return;
         $this->_size = $res->num_rows ();
 
         if ($is_list = $def->is_list ($table)) {
-            $this->_get_next_id = 0;
             $pri = $def->primary ($table);
             $res = $db->select ('*', $table, $where . (strpos ($where, "$pri=") == 0 ? (($where ? ' AND ' : '') . $def->id_prev ($table) . '=0') : ''));
             $row = $res->get ();
