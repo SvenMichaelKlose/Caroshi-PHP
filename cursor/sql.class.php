@@ -39,19 +39,19 @@ class cursor_sql extends cursor {
         $db =& $GLOBALS['__CURSOR_SQL_INSTANCE'];
         $def =& $db->def;
         $table = $this->_source;
-        $pri = $def->primary ($table);
+
+        if (!$res = $db->select ('*', $table, $where, $order))
+            return;
+        $this->_size = $res->num_rows ();
 
         if ($is_list = $def->is_list ($table)) {
             $this->_get_next_id = 0;
-            if (!$res = $db->select ('*', $table, $where . ($where ? ' AND ' : '') . $def->id_prev ($table) . '=0'))
-                return;
+            $pri = $def->primary ($table);
+            $res = $db->select ('*', $table, $where . (strpos ($where, "$pri=") == 0 ? (($where ? ' AND ' : '') . $def->id_prev ($table) . '=0') : ''));
             $row = $res->get ();
             $this->_get_next_id = $row[$pri];
-        } else
-            if (!$res = $db->select ('*', $table, $where, $order))
-                return;
+        }
 
-        $this->_size = $res->num_rows ();
         $this->_res = $res;
         return true;
     }
