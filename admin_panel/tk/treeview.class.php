@@ -22,23 +22,21 @@ class DBTREE {
     var $_c_last;
     var $_c_next;
     var $highlight;
+    var $_preset_values;
 
     # Initialize with basic tree info.
     # $db     = DBCtrl || DBI object.
     # $table  = Name of table that contains tree nodes.
     # $c_id   = Name of primary key.
     # $c_id_parent = Name of column referencing a parent node.
-    function DBTREE (&$db, $table, $c_id, $c_id_parent = '', $c_last = '', $c_next = '')
+    function DBTREE (&$db, $table, $c_id, $preset_values)
     {
-        if (!$c_id_parent)
-            $c_id_parent = $db->def->id_parent ($table);
-        if (!$c_last)
-            $c_last = $db->def->id_prev ($table);
-        if (!$c_next)
-            $c_next = $db->def->id_next ($table);
+        $c_id_parent = $db->def->id_parent ($table);
+        $c_last = $db->def->id_prev ($table);
+        $c_next = $db->def->id_next ($table);
 
         # Read in tree nodes.
-        $res = $db->select ('*', $table);
+        $res = $db->select ('*', $table, sql_selection_assignments ($preset_values));
         while ($res && $r = $res->get ()) {
             if (!$c_id_parent || !$r[$c_id_parent])
                 $r[$c_id_parent] = '0';
@@ -53,11 +51,12 @@ class DBTREE {
         $this->_c_id_parent = $c_id_parent;
         $this->_c_last = $c_last;
         $this->_c_next = $c_next;
+        $this->_preset_values = $preset_values;
     }
 
     # Returns sorted primary keys of child nodes.
     # $id = Primary key of the parent node.
-    function _childs_of ($id)
+    function _children_of ($id)
     {
         $def =& $this->db->def;
         $table = $this->_table;
@@ -84,13 +83,13 @@ class DBTREE {
         return $o;
     }
 
-    function print_childs_of ($id, $indent, $view, &$app)
+    function print_children_of ($id, $indent, $view, &$app)
     {
         if (!$id)
             $id = '0';
-        if (!$childs = $this->_childs_of ($id))
+        if (!$children = $this->_children_of ($id))
             return false;
-        for ($id = reset ($childs); $id; $id = next ($childs)) {
+        for ($id = reset ($children); $id; $id = next ($children)) {
             if (!isset ($newindent))
                 $newindent = "$indent<td>&nbsp;</td>";
             else
@@ -103,7 +102,7 @@ class DBTREE {
             echo '">';
             echo $view ($app, $this->_nodes[$id]);
 	    echo '</td>';
-            if (!$this->print_childs_of ($id, $newindent, $view, $app))
+            if (!$this->print_children_of ($id, $newindent, $view, $app))
 	        echo "</tr>\n";
         }
         return true;
@@ -119,13 +118,12 @@ class DBTREE {
         if (!isset ($this->_nodes))
 	    return;
         echo '<table border=0><tr><td bgcolor="#cccccc">';
-        $child = $def->primary ($table);
+        $pri = $def->primary ($table);
         $id_parent = $def->id_parent ($table);
-        $t = $table;
-        $root_id = $db->select ($child, $t, "$id_parent=0")->get ($child);
+        $root_id = $db->select ($pri, $table, sql_selection_assignments (array_merge ($this->_preset_values, array ($id_parent, '0'))))->get ($pri);
         echo $view ($app, $this->_nodes[$root_id]);
         echo '</td>';
-        $this->print_childs_of ($root_id, '', $view, $app);
+        $this->print_children_of ($root_id, '', $view, $app);
         echo '</table>';
     }
 }
