@@ -37,7 +37,7 @@ function sql_append_assignment ($x, $k, $v, $padding = ', ')
 }
 
 /**
- * Convert array to SQL assignment list.
+ * Convert array to comma-separated SQL assignment list.
  *
  * @access public
  * @param array $values Field values keyed by their names.
@@ -53,6 +53,19 @@ function sql_assignments ($values, $padding = ', ')
         if (!is_numeric ($k))
             $x = sql_append_assignment ($x, $k, $v, $padding);
     return $x;
+}
+
+/**
+ * Convert array to ANDed SQL assignment list.
+ *
+ * @access public
+ * @param array $values Field values keyed by their names.
+ * @returns string
+ * @package Database interfaces
+ */
+function sql_selection_assignments ($values)
+{
+    sql_assignments ($values, ' AND ');
 }
 
 ?>
