@@ -10,7 +10,6 @@ function die_traced ($msg)
     echo "<html><body>";
     echo "$msg<pre>";
     debug_print_backtrace ();
-    print_r ($context);
     echo "</pre>";
     echo "</body></html>";
     die ();

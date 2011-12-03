@@ -47,9 +47,7 @@ class tree_edit_conf {
 function tree_edit (&$app, &$conf)
 {
     $ui =& $app->ui;
-    $te = $app->event ();
-
-    $te->set_arg ('conf', $conf);
+    $app->event ()->set_arg ('conf', $conf);
 
     # Display category tree.
     echo "<CENTER><TABLE BORDER=0 BGCOLOR=\"#EEEEEE\"><TR><TD>";
