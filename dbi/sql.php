@@ -65,7 +65,7 @@ function sql_assignments ($values, $padding = ', ')
  */
 function sql_selection_assignments ($values)
 {
-    sql_assignments ($values, ' AND ');
+    return sql_assignments ($values, ' AND ');
 }
 
 ?>
