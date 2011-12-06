@@ -63,8 +63,7 @@ class cursor_sql extends cursor {
                                               $where : sql_append_string ($where,
                                                                           sql_selection_assignments (array_merge ($this->_pre,
                                                                                                                    array ($def->id_prev ($table) => 0))),
-                                                                                                     " AND ") :
-                                              $where));
+                                                                                                     " AND ")));
             $row = $res->get ();
             $this->_get_next_id = $row[$pri];
         }
