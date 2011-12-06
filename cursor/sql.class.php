@@ -53,17 +53,21 @@ class cursor_sql extends cursor {
 
         $this->_size = 0;
         $this->_get_next_id = 0;
-        if (!$res = $db->select ('*', $table, sql_append_string ($where, sql_selection_assignments ($this->_pre), " AND "), $order))
+        if (!$res = $db->select ('*', $table, (selection_has_primary ($def, $table, $where) ?
+                                               $where :
+                                               sql_append_string ($where, sql_selection_assignments ($this->_pre), " AND ")),
+                                 $order))
             return;
         $this->_size = $res->num_rows ();
 
         if ($is_list = $def->is_list ($table)) {
             $pri = $def->primary ($table);
-            $res = $db->select ('*', $table, (strpos ($where, "$pri=") === 0 ?
-                                              $where : sql_append_string ($where,
-                                                                          sql_selection_assignments (array_merge ($this->_pre,
-                                                                                                                   array ($def->id_prev ($table) => 0))),
-                                                                                                     " AND ")));
+            $res = $db->select ('*', $table, (selection_has_primary ($def, $table, $where) ?
+                                              $where :
+                                              sql_append_string ($where,
+                                                                 sql_selection_assignments (array_merge ($this->_pre,
+                                                                                                         array ($def->id_prev ($table) => 0))),
+                                                                                            " AND ")));
             $row = $res->get ();
             $this->_get_next_id = $row[$pri];
         }

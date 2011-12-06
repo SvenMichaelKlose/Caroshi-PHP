@@ -9,6 +9,7 @@
  * @author Sven Michael Klose
  */
 
+
 # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
 #
 # Licensed under the MIT, BSD and GPL licenses.
@@ -73,6 +74,11 @@ function sql_assignments ($values, $padding = ', ')
 function sql_selection_assignments ($values)
 {
     return sql_assignments ($values, ' AND ');
+}
+
+function selection_has_primary ($def, $table, $selection)
+{
+    return strpos ($selection, $def->primary ($table)) === 0;
 }
 
 ?>
