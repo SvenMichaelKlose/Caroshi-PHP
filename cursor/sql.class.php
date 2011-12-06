@@ -20,7 +20,7 @@ $__CURSOR_SQL_INSTANCE = 0;
 class cursor_sql extends cursor {
 
     var $_db;
-    var $_pre = null;
+    var $_pre = array ();
     var $_res;  # db_result object.
     var $_size; # Number of entries in result set.
 
@@ -59,7 +59,12 @@ class cursor_sql extends cursor {
 
         if ($is_list = $def->is_list ($table)) {
             $pri = $def->primary ($table);
-            $res = $db->select ('*', $table, (strpos ($where, "$pri=") == 0 ? $where : sql_append_assignment ($where , $def->id_prev ($table) . '=0')));
+            $res = $db->select ('*', $table, (strpos ($where, "$pri=") === 0 ?
+                                              $where : sql_append_string ($where,
+                                                                          sql_selection_assignments (array_merge ($this->_pre,
+                                                                                                                   array ($def->id_prev ($table) => 0))),
+                                                                                                     " AND ") :
+                                              $where));
             $row = $res->get ();
             $this->_get_next_id = $row[$pri];
         }
