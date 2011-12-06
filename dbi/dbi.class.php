@@ -213,9 +213,11 @@ class DBI extends DBCtrl {
     }
 
     # Append new record to end of doubly linked list identified by the
-    # parent node in the tree $id_dest_parent.
-    function append_new ($table, $pre = 0)
+    # selection in $pre.
+    function append_new ($table, $values = 0, $pre = 0)
     {
+        if (!$values)
+            $values = array ();
         if (!$pre)
             $pre = array ();
 
@@ -228,32 +230,31 @@ class DBI extends DBCtrl {
         $id = $def->primary ($table);
         $id_last = $def->id_prev ($table);
         $id_next = $def->id_next ($table);
+
+        # Do simple append if no list or list references are overridden.
+        if (!$def->is_list ($table) || isset ($values[$id_last]) || isset ($pre[$id_last]) || isset ($values[$id_next]) || isset ($pre[$id_next])) {
+            $this->create_row ($table, $pre);
+	        return $this->insert_id ();
+        }
+
         if ($id_parent = $def->id_parent ($table))
             if (!isset ($pre[$id_parent]))
                 die_traced ("Preset reference '$id_parent' to parent table missing.");
 
-        # Do simple append if no list or list references are overridden.
-        if (!$def->is_list ($table) || isset ($pre[$id_last]) || isset ($pre[$id_next])) {
-            $this->create_row ($table, $pre);
-	    return $this->insert_id ();
-        }
-
         # Get id of last record in list.
-        $q = "$id_next=0";
-        if ($id_parent)
-            $q .= " AND $id_parent=" . $pre[$id_parent];
-        $last = ($res = $this->select ($id, $table, $q)) ?
+        $q = array_merge ($pre, array ($id_next => 0));
+        $last = ($res = $this->select ($id, $table, sql_selection_assignments ($pre))) ?
                 $res->get ($id) :
                 0;
 
         $pre[$id_last] = $last;
         $pre[$id_next] = 0;
-        $this->create_row ($table, $pre);
+        $this->create_row ($table, array_merge ($pre, $values));
 
         # Let previous element point to ours.
         $nid = $this->insert_id ();
         if ($last)
-            $this->update ($table, "$id_next=$nid", "$id=$last");
+            $this->update ($table, "$id_next=$nid", array_merge ($pre, array ($id => $last)));
 
         return $nid;
     }
@@ -322,16 +323,16 @@ class DBI extends DBCtrl {
 	        $last = $next[$c_last];
 	        $next = $next[$c_id];
             } else {
-	        # Append to end of list.
-	        $last = '0';
-	        $next = '0';
-	        $q = "$c_next=0 AND $c_id!=$id";
-	        if ($c_id_parent)
-	            $q .= " AND $c_id_parent=$id_parent";
-	        if ($res = $this->select ($c_id, $table, $q)) {
-	            list ($last) = $res->get ();
-	            $this->update ($table, "$c_next=$id", "$c_id=$last");
-	        }
+	            # Append to end of list.
+	            $last = '0';
+	            $next = '0';
+	            $q = "$c_next=0 AND $c_id!=$id";
+	            if ($c_id_parent)
+	                $q .= " AND $c_id_parent=$id_parent";
+	            if ($res = $this->select ($c_id, $table, $q)) {
+	                list ($last) = $res->get ();
+	                $this->update ($table, "$c_next=$id", "$c_id=$last");
+	            }
             }
             $this->update ($table, "$c_last=$last, $c_next=$next", "$c_id=$id");
         }
@@ -341,4 +342,5 @@ class DBI extends DBCtrl {
             $this->update ($table, "$c_id_parent=$id_parent", "$c_id=$id");
       }
 }
+
 ?>

@@ -58,12 +58,12 @@ function _record_create_continue (&$app, $keys)
     if ($next_view) {
         if (is_string ($next_view))
             $next_view = new event ($next_view);
-            if ($ret) {
-                $k = $keys;
-                $k = array_pop ($k);
-                reset ($k);
-                $next_view->args[$ret] = $k[key ($k)];
-            }
+        if ($ret) {
+            $k = $keys;
+            $k = array_pop ($k);
+            reset ($k);
+            $next_view->args[$ret] = $k[key ($k)];
+        }
         $app->call ($next_view);
     }
 
@@ -86,7 +86,8 @@ function record_create_set (&$app, &$set)
         $tmp = "cursor_$cursortype";
         $cursor = new $tmp;
 
-        foreach ($sources as $source => $pre) {
+        foreach ($sources as $source => $v) {
+            list ($values, $pre) = $v;
             if (!is_array ($pre))
                 die_traced ("Can't create record. Preset values are not in an array for source $source.");
 
@@ -106,7 +107,8 @@ function record_create_set (&$app, &$set)
 
             # Create record.
             $cursor->set_source ($source);
-            $key = $cursor->create ($pre);
+            $cursor->set_preset_values ($pre);
+            $key = $cursor->create ($values);
             $keyset[$cursor->type ()][$source] = $key;
 
             # Remeber key for alias.
@@ -143,7 +145,7 @@ function record_create (&$app)
     # single element from the argument's cursor.
     if (!$sources) {
         $cursor = $app->arg ('_cursor');
-        $sources[$cursor->type ()][$cursor->source ()] = $pre ? $pre : array ();
+        $sources[$cursor->type ()][$cursor->source ()] = array (null, $pre ? $pre : array ());
     } else
         if ($app->arg ('preset_values', ARG_OPTIONAL))
             die_traced ("Arguments 'preset_values' and 'sources' can't be used together.");

@@ -19,9 +19,15 @@ $__CURSOR_SQL_INSTANCE = 0;
  */
 class cursor_sql extends cursor {
 
+    var $_db;
+    var $_pre = null;
+    var $_res;  # db_result object.
+    var $_size; # Number of entries in result set.
+
     function cursor_sql ()
     {
         $this->cursor ('sql');
+        $this->_db =& $GLOBALS['__CURSOR_SQL_INSTANCE'];
     }
 
     # Set database connection for all cursor_sql instances.
@@ -33,22 +39,27 @@ class cursor_sql extends cursor {
         $GLOBALS['__CURSOR_SQL_INSTANCE'] =& $db;
     }
 
+    function set_preset_values ($pre)
+    {
+        return $this->_pre = $pre;
+    }
+
     # Perform query and read the first row
     function _query ($where = '', $order = '')
     {
-        $db =& $GLOBALS['__CURSOR_SQL_INSTANCE'];
+        $db =& $this->_db;
         $def =& $db->def;
         $table = $this->_source;
 
         $this->_size = 0;
         $this->_get_next_id = 0;
-        if (!$res = $db->select ('*', $table, $where, $order))
+        if (!$res = $db->select ('*', $table, sql_append_string ($where, sql_selection_assignments ($this->_pre), " AND "), $order))
             return;
         $this->_size = $res->num_rows ();
 
         if ($is_list = $def->is_list ($table)) {
             $pri = $def->primary ($table);
-            $res = $db->select ('*', $table, $where . (strpos ($where, "$pri=") == 0 ? (($where ? ' AND ' : '') . $def->id_prev ($table) . '=0') : ''));
+            $res = $db->select ('*', $table, (strpos ($where, "$pri=") == 0 ? $where : sql_append_assignment ($where , $def->id_prev ($table) . '=0')));
             $row = $res->get ();
             $this->_get_next_id = $row[$pri];
         }
@@ -59,7 +70,7 @@ class cursor_sql extends cursor {
 
     function _get ()
     {
-        $db =& $GLOBALS['__CURSOR_SQL_INSTANCE'];
+        $db =& $this->_db;
         $def =& $db->def;
         $table = $this->_source;
         $pri = $def->primary ($table);
@@ -106,20 +117,19 @@ class cursor_sql extends cursor {
         type_string ($field);
         type_string ($value);
 
-        $db =& $GLOBALS['__CURSOR_SQL_INSTANCE'];
+        $db =& $this->_db;
         $primary = $db->def->primary ($this->_source);
         $db->update ($this->_source, sql_assignment ($field, $value), sql_assignment ($primary, $this->_key));
     }
 
-    function create ($pre = 0)
+    function create ($values = 0)
     {
-        $db =& $GLOBALS['__CURSOR_SQL_INSTANCE'];
-        return $db->append_new ($this->_source, $pre);
+        return $this->_db->append_new ($this->_source, $values, $this->_pre);
     }
 
     function delete ()
     {
-        $db =& $GLOBALS['__CURSOR_SQL_INSTANCE'];
+        $db =& $this->_db;
         $source = $this->_source;
         if (!$source)
             die_traced ('No source.');
@@ -135,15 +145,17 @@ class cursor_sql extends cursor {
     }
 
     # Serialise only the cursor.
-    function &__sleep ()
+    function __sleep ()
     {
         $elements = cursor::__sleep ();
         $elements[] = '_size';
         return $elements;
     }
 
-    # Private. Hands off.
-    var $_res;  # db_result object.
-    var $_size; # Number of entries in result set.
+    function __wakeup ()
+    {
+        $this->_db =& $GLOBALS['__CURSOR_SQL_INSTANCE'];
+    }
 }
+
 ?>
