@@ -254,7 +254,7 @@ class DBI extends DBCtrl {
         # Let previous element point to ours.
         $nid = $this->insert_id ();
         if ($last)
-            $this->update ($table, "$id_next=$nid", array_merge ($pre, array ($id => $last)));
+            $this->update ($table, "$id_next=$nid", "$id=$last");
 
         return $nid;
     }
