@@ -36,41 +36,6 @@ function _records_init (&$app)
 }
 
 /**
- * Create records, print messagebox and jump to next view.
- *
- * @param object application $app
- * @param array Keyset created by record_create_set().
- * @see record_create_set()
- */
-function _record_create_continue (&$app, $keys)
-{
-    $next_view = $app->arg ('next_view', ARG_OPTIONAL);
-    $ret = $app->arg ('ret', ARG_OPTIONAL);
-    $ui =& $app->ui;
-
-    if (!$keys)
-        die_traced ('Couldn\'t create record.');
-
-    if ($keys && isset ($app->record_messages['create_done']))
-        $ui->msgbox ($app->record_messages['create_done']);
-
-    # Call next function.
-    if ($next_view) {
-        if (is_string ($next_view))
-            $next_view = new event ($next_view);
-        if ($ret) {
-            $k = $keys;
-            $k = array_pop ($k);
-            reset ($k);
-            $next_view->args[$ret] = $k[key ($k)];
-        }
-        $app->call ($next_view);
-    }
-
-    return $keys;
-}
-
-/**
  * Create record listed in $sources with optional field values or aliases.
  *
  * @access public
@@ -120,6 +85,11 @@ function record_create_set (&$app, &$set)
         }
     }
 
+    if (!$keyset)
+        die_traced ('Couldn\'t create record.');
+    if ($keyset && isset ($app->record_messages['create_done']))
+        $ui->msgbox ($app->record_messages['create_done']);
+
     return $keyset;
 }
 
@@ -150,8 +120,7 @@ function record_create (&$app)
         if ($app->arg ('preset_values', ARG_OPTIONAL))
             die_traced ("Arguments 'preset_values' and 'sources' can't be used together.");
 
-    $key = record_create_set ($app, $sources);
-    return _record_create_continue ($app, $key);
+    return record_create_set ($app, $sources);
 }
 
 /**

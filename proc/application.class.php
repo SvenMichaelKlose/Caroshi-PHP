@@ -38,6 +38,7 @@ class application {
     var $_null_handler = 'defaultview'; # Name of null event handler.
     var $_types;
     var $_tokens;   # Reference to dbtoken.class instance.
+    var $_return_value; # Return value of last event.
 
     /**
      * Execute application.
@@ -102,6 +103,17 @@ class application {
     }
 
     /**
+     * Return value of last event.
+     *
+     * @access public
+     * @returns mixed
+     */
+    function return_value ()
+    {
+        return $this->_return_value;
+    }
+
+    /**
      * Call single event.
      *
      * Even if a next event is defined by use of event::set_caller() this
@@ -121,7 +133,7 @@ class application {
         # Dump arguments in debug mode.
         if ($this->debug) {
             echo "<hr><b>Call to event handler '$handler':</b>";
-	    $this->_application_dump ();
+	        $this->_application_dump ();
         }
 
         $is_silent_event = ($handler != 'return2caller' && $handler != '__call_sub');
@@ -130,9 +142,9 @@ class application {
             $this->start_view ();
 
         if (($obj = $this->_handlers[$handler]))
-	    $obj->$handler ($this);
+	        $this->_return_value = $obj->$handler ($this);
         else
-	    $handler ($this);
+	        $this->_return_value = $handler ($this);
 
         if ($this->debug) {
             echo "<b>Return value of event handler '$handler':</b>";
@@ -229,7 +241,8 @@ class application {
         # Make event object from event handler name or check its class.
         if (is_string ($e))
             $e = new event ($e);
-        else type ($e, 'event');
+        else
+            type ($e, 'event');
 
         # Die if the event handler doesn't exist.
         $handler = $e->name;
@@ -242,7 +255,7 @@ class application {
         # Add current subsession if the event doesn't have one.
         if (!isset ($e->subsession) || !$e->subsession) {
             if ($te->subsession)
-	        $e->subsession = $te->subsession;
+	            $e->subsession = $te->subsession;
             else
                 die_traced ('Internal error - no subsession in current event.');
         }
