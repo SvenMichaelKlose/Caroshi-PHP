@@ -51,7 +51,7 @@ class DBI extends DBCtrl {
     ######################
 
     # Create an empty row in $table.
-    function create_row ($table, $preset_values = 0)
+    function create_row ($table, $values = 0)
     {
         $def =& $this->def;
         $pri = $def->primary ($table);
@@ -67,7 +67,7 @@ class DBI extends DBCtrl {
                     die_traced ("No such field '$n' in table '$table'.");
         }
 
-        $this->insert ($table, sql_assignments ($preset_values));
+        $this->insert ($table, sql_assignments ($values));
     }
 
 
@@ -169,9 +169,9 @@ class DBI extends DBCtrl {
         $id = addslashes ($id);
 
         if (!isset ($def->_refs[$table])) {
-	    $this->_delete_update_siblings ($table, $id);
-	    $this->delete ($table, $def->primary ($table) . "='$id'");
-	    return;
+	        $this->_delete_update_siblings ($table, $id);
+	        $this->delete ($table, $def->primary ($table) . "='$id'");
+	        return;
         }
         $info = $def->_refs[$table];
         foreach ($info as $ref) {
@@ -179,9 +179,9 @@ class DBI extends DBCtrl {
             if ($res)
                 while (list ($id_ref) = $res->get ())
                     $this->multi_delete ($ref['table'], $id_ref);
-	    $this->_delete_update_siblings ($table, $id);
+	        $this->_delete_update_siblings ($table, $id);
 
-	    # Finally remove node.
+	        # Finally remove node.
             $this->delete ($table, $def->primary ($table) . "='$id'");
         }
     }
@@ -193,8 +193,8 @@ class DBI extends DBCtrl {
 
         $out = '';
         foreach ($def->_refs as $parent_table => $ref_tables) {
-	    foreach ($ref_tables as $tab) {
-	        if ($tab['table'] != $table)
+	        foreach ($ref_tables as $tab) {
+	            if ($tab['table'] != $table)
                     continue;
                 if (!$res = $this->select ('*', $table, $def->primary ($table) . "=$id"))
                     continue;
@@ -207,7 +207,7 @@ class DBI extends DBCtrl {
                 if (!$backwards)
                     $out .= $function ($app, $table, $row, $arguments);
                 return $out;
-	    }
+	        }
         }
         die_traced ("Nothing referencing table '$table'/id '$id'.");
     }
@@ -295,33 +295,33 @@ class DBI extends DBCtrl {
         # Check if the record has no siblings and the destination has the
         # same parent. If so, don't move anything.
         if ($id_parent == $nodes[$id][$c_id_parent] && $c_last && $c_next && !$nodes[$id][$c_last] && !$nodes[$id][$c_next])
-            return true;
+            return;
 
         if ($c_next) {
             if ($row[$c_next] == $id_next)
 	        return; # Nothing to do.
 
-	    # Remove record from list.
-	    if ($row[$c_last]) {
-	        $this->update ($table, "$c_next=" . $row[$c_next], "$c_id=" . $row[$c_last]);
-	        $nodes[$row[$c_last]][$c_next] = $row[$c_next];
-	    }
-	    if ($row[$c_next]) {
-	        $this->update ($table, $c_last . '=' . $row[$c_last], $c_id . '=' . $row[$c_next]);
-	        $nodes[$row[$c_next]][$c_last] = $row[$c_last];
-	    }
+	        # Remove record from list.
+	        if ($row[$c_last]) {
+	            $this->update ($table, "$c_next=" . $row[$c_next], "$c_id=" . $row[$c_last]);
+	            $nodes[$row[$c_last]][$c_next] = $row[$c_next];
+	        }
+	        if ($row[$c_next]) {
+	            $this->update ($table, $c_last . '=' . $row[$c_last], $c_id . '=' . $row[$c_next]);
+	            $nodes[$row[$c_next]][$c_last] = $row[$c_last];
+	        }
 
-	    # Update references in new siblings.
-	    if ($id_next) {
-	        if (!$next = $nodes[$id_next])
-	            die_traced ("No next of id $id_next.");
-	        if ($c_id_parent && $id_parent != $next[$c_id_parent])
-	            $id_parent = $next[$c_id_parent];
-	        if ($next[$c_last])
-	            $this->update ($table, "$c_next=$id", "$c_id=" . $next[$c_last]);
-	        $this->update ($table, "$c_last=$id", "$c_id=" . $next[$c_id]);
-	        $last = $next[$c_last];
-	        $next = $next[$c_id];
+	        # Update references in new siblings.
+	        if ($id_next) {
+	            if (!$next = $nodes[$id_next])
+	                die_traced ("No next of id $id_next.");
+	            if ($c_id_parent && $id_parent != $next[$c_id_parent])
+	                $id_parent = $next[$c_id_parent];
+	            if ($next[$c_last])
+	                $this->update ($table, "$c_next=$id", "$c_id=" . $next[$c_last]);
+	            $this->update ($table, "$c_last=$id", "$c_id=" . $next[$c_id]);
+	            $last = $next[$c_last];
+	            $next = $next[$c_id];
             } else {
 	            # Append to end of list.
 	            $last = '0';
@@ -340,7 +340,7 @@ class DBI extends DBCtrl {
         # Update reference to new parent.
         if ($c_id_parent)
             $this->update ($table, "$c_id_parent=$id_parent", "$c_id=$id");
-      }
+    }
 }
 
 ?>
