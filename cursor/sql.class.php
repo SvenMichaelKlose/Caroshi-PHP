@@ -163,6 +163,7 @@ class cursor_sql extends cursor {
     function __wakeup ()
     {
         $this->_db =& $GLOBALS['__CURSOR_SQL_INSTANCE'];
+        cursor::__wakeup ();
     }
 }
 
