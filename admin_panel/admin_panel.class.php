@@ -266,6 +266,28 @@ class admin_panel {
     }
 
     /**
+     * Get context cursor.
+     *
+     * @access public
+     * @returns object cursor
+     */
+    function cursor ()
+    {
+        return $this->v->cursor;
+    }
+
+    /**
+     * Set context cursor.
+     *
+     * @access public
+     * @param object cursor $x
+     */
+    function set_cursor (&$x)
+    {
+        return $this->v->cursor =& $x;
+    }
+
+    /**
      * Set form filter function.
      *
      * Filters are used indepently from the context.
