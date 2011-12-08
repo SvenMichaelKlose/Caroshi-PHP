@@ -39,8 +39,8 @@ function type ($x, $typelist)
     $req = '';
     foreach ($args as $type)
         $req .= ($req ? ', ' : '') . $type;
-    die ("In file <b>'" . $trace[1]['file'] . "'</b> on line <b>" . $trace[1]['line'] . "</b>: " .
-         "Type assertion found <b><i>'" . gettype ($x) . "'</i></b> found but need one of these: <b><i>$req</i></b>.");
+    die_traced ("In file <b>'" . $trace[1]['file'] . "'</b> on line <b>" . $trace[1]['line'] . "</b>: " .
+                "Type assertion found <b><i>'" . gettype ($x) . "'</i></b> found but need one of these: <b><i>$req</i></b>.");
 }
 
 function type_bool ($x) { return type ($x, 'bool'); }
