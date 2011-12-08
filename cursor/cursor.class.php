@@ -1,4 +1,5 @@
 <?php
+
 # Copyright (c) 2001-2002 dev/consulting GmbH
 # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
 #
@@ -6,6 +7,7 @@
 
 
 require_once PATH_TO_CAROSHI . '/object/is_a.php';
+
 
 /**
  * Cursor base class
@@ -310,4 +312,5 @@ class cursor {
             $this->get ();
     }
 }
+
 ?>
