@@ -204,6 +204,8 @@ class application {
     function add_function ($handler, $token_type = TOKEN_DEFAULT)
     {
         type_string ($handler);
+        if (!function_exists ($handler))
+            die_traced ("Function '$handler' doesn't exist.");
 
         $this->_set_type ($handler, $token_type);
         $this->_handlers[$handler] = false;
