@@ -40,7 +40,7 @@ class DBI extends DBCtrl {
     function column ($table, $column, $id)
     {
         if (!$pri = $this->def->primary ($table))
-	    die_traced ("No primary key specified for table '$table'.");
+	        die_traced ("No primary key specified for table '$table'.");
 
         return $this->select ($column, $table, "$pri='$id'")->get ($column);
     }
@@ -57,7 +57,7 @@ class DBI extends DBCtrl {
         $pri = $def->primary ($table);
 
         if (!$types = $def->types ($table))
-	    die_traced ("No table '$table' defined.");
+	        die_traced ("No table '$table' defined.");
 
         # Check names of preset values.
         if ($preset_values) {
@@ -110,10 +110,10 @@ class DBI extends DBCtrl {
         $q = '';
         while ($tmp) {
             $tab = key ($types);
-	    $q .= "$tab WRITE, _wrk$tab WRITE";
-	    $tmp = next ($types);
-	    if ($tmp)
-	        $q .= ', ';
+	        $q .= "$tab WRITE, _wrk$tab WRITE";
+	        $tmp = next ($types);
+	        if ($tmp)
+	            $q .= ', ';
         }
         $this->query ("LOCK TABLES $q");
     }
@@ -130,8 +130,8 @@ class DBI extends DBCtrl {
         $this->create_all_tables ($topre);
         $this->lock_tables ();
         foreach ($this->def->types () as $tab) {
-	    $this->query ("DELETE FROM $topre$tab");
-	    $this->query ("INSERT INTO $topre$tab SELECT * FROM $frompre$tab");
+	        $this->query ("DELETE FROM $topre$tab");
+	        $this->query ("INSERT INTO $topre$tab SELECT * FROM $frompre$tab");
         }
         $this->unlock_tables ();
     }

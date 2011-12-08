@@ -108,7 +108,7 @@ function form_parser (&$app)
     # Trigger events in forms.
     foreach ($formevents as $index => $view) {
         if (!isset ($forms[$index]))
-	    $forms[$index] = array ();
+	        $forms[$index] = array ();
 
         # Sort in elements for form/event.
         unset ($app->elements);
@@ -226,7 +226,7 @@ function form_update (&$app)
 
         # Add slashes if not already done.
         if ($quote || !get_magic_quotes_gpc () && !get_magic_quotes_runtime ())
-	    $v = addslashes ($v);
+	        $v = addslashes ($v);
 
         # Update field in database.
         $cursor->set_value ($field, $v);
@@ -258,7 +258,7 @@ function form_safe (&$app)
         $s = $cursor->source ();
         $f = $cursor->field ();
         if ($s && $f)
-	    $record_cache[$s][$key][$f] = $v;
+	        $record_cache[$s][$key][$f] = $v;
       }
 
       record_cache_safe ($app);

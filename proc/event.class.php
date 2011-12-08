@@ -1,4 +1,5 @@
 <?php
+
 # Copyright (c) 2000-2002 dev/consulting GmbH
 # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
 #
@@ -133,4 +134,5 @@ class event {
     var $next = 0;
     var $subsession;
 }
+
 ?>

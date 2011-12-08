@@ -1,4 +1,5 @@
 <?php
+
 # Copyright (c) 2000-2002 dev/consulting GmbH
 # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
 #
@@ -19,6 +20,7 @@ require_once PATH_TO_CAROSHI . '/admin_panel/widgets.php';
 
 require_once PATH_TO_CAROSHI . '/admin_panel/_view.class.php';
 require_once PATH_TO_CAROSHI . '/admin_panel/_form_element.class.php';
+
 
 /**
  * User interface
@@ -345,7 +347,7 @@ class admin_panel {
         # Check if there's something in the cache.
         if (isset ($source)) {
             $i =& $record_cache[$source][$key][$field_name];
-	    if (isset ($i))
+	        if (isset ($i))
                 return $i;
         }
 
@@ -673,7 +675,7 @@ class admin_panel {
 
         $text = $this->value ($field);
         if (!$text)
-	    $text = '&nbsp;';
+	        $text = '&nbsp;';
 
         $this->open_widget ($field);
         $this->widgets->print_text ($text);
@@ -775,7 +777,7 @@ class admin_panel {
     function print_text ($text)
     {
         if (!$text)
-	    $text = '&nbsp;';
+	        $text = '&nbsp;';
 
         $this->open_widget ();
         $this->widgets->print_text ($text);
@@ -794,7 +796,7 @@ class admin_panel {
     function label ($text)
     {
         if (!$text)
-	    $text = '&nbsp;';
+	        $text = '&nbsp;';
 
         $this->open_widget ();
         $this->widgets->print_label ($text);
@@ -1217,7 +1219,7 @@ class admin_panel {
     {
         $pri = $this->db->def->primary ($source);
         $arg = array ('source' => $source, 'column' => $field,
-	              'primary' => $pri, 'key' => $key, 'type' => $mime_type);
+	                  'primary' => $pri, 'key' => $key, 'type' => $mime_type);
         return $this->application->link ('__return_mime', $arg) .
                md5 (substr ($data, 0, 1024)) .
                '.' . substr ($mime_type, strpos ($mime_type, '/') + 1);
@@ -1236,7 +1238,8 @@ class admin_panel {
         $c =& $this->v->cursor;
         if (is_string ($event))
             $event = new event ($event);
-        else type ($event, 'event');
+        else
+            type ($event, 'event');
 
         # Create a link.
         if (!$event->arg ('_cursor'))
@@ -1245,7 +1248,7 @@ class admin_panel {
 
         # Add anchor if activated and the link points to this event handler.
         if ($this->_anchor)
-	    $link .= "#a$this->_anchors";
+	        $link .= "#a$this->_anchors";
 
         return $link;
     }
@@ -1289,7 +1292,7 @@ class admin_panel {
 
         $df =& $this->v->defaultfunc;
         if (isset ($df))
-	    $element->defaultfunc = $df;
+	        $element->defaultfunc = $df;
 
         $element->use_filter = $this->_form_filter;
         $element->element_filter_write = $this->_element_filter_write;
@@ -1306,4 +1309,5 @@ class admin_panel {
         return 'item[' . $this->application->_tokens->create ($element) . ']';
     }
 }
+
 ?>

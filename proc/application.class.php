@@ -5,6 +5,7 @@
 #
 # Licensed under the MIT, BSD and GPL licenses.
 
+
 require_once PATH_TO_CAROSHI . '/proc/debug_dump.php';
 require_once PATH_TO_CAROSHI . '/proc/error.php';
 require_once PATH_TO_CAROSHI . '/dbi/dbi.class.php';
@@ -18,6 +19,7 @@ require_once PATH_TO_CAROSHI . '/proc/_subsession.class.php';
 # Flags to application::arg().
 define ('ARG_OPTIONAL', 1);
 define ('ARG_SUB', 2);
+
 
 /**
  * Application base class
@@ -55,9 +57,9 @@ class application {
 
         # Call null event handler if there's no event.
         if (!isset ($this->_event)) {
-	    if ($debug)
-	        echo 'No event.<BR>';
-	    $this->_event = new event ($this->_null_handler);
+	        if ($debug)
+	            echo 'No event.<BR>';
+	        $this->_event = new event ($this->_null_handler);
             $sub = new _application_subsession;
             $this->_event->subsession = $tokens->create ($sub);
         }
@@ -66,7 +68,7 @@ class application {
         $handler = $this->_event->name;
         if (!isset ($this->_handlers[$handler]))
             if (isset ($this->debug) && $this->debug)
-	        $this->_application_dump ();
+	            $this->_application_dump ();
 
         $this->call ($this->_event);
 
@@ -184,11 +186,11 @@ class application {
                 die_traced ("Infinite loop detected before call to event handler '$handler'.");
             $called[$sv] = true;
 
-	    $this->call_single ($e);
+	        $this->call_single ($e);
 
             $e = $e->next;
-	    if ($debug)
-	        echo '<B>Calling next event handler:</B>';
+	        if ($debug)
+	            echo '<B>Calling next event handler:</B>';
         } while ($e);
     }
 
@@ -296,7 +298,7 @@ class application {
         $p = $s->parent;
 
         if (!$p)
-	    die_traced ('No session to return to.');
+	        die_traced ('No session to return to.');
 
         # Return to previous subsession.
         $this->call ($p);
@@ -431,7 +433,7 @@ class application {
 
         $path = explode ('/', $url);
         if (!$path[1])
-	    return;
+	        return;
         $e = $tokens->get ($path[1]);
         if (!is_a ($e, 'event'))
             return;

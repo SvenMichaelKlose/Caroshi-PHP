@@ -8,6 +8,7 @@
  * @package User interface
  */
 
+
 # Copyright (c) 2000-2002 dev/consulting GmbH
 # Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
 #
@@ -232,11 +233,10 @@ function record_delete_force (&$app)
         $err = $cursor->delete ();
         if (!$err)
             return;
-    } else {
+    } else
         foreach ($cursor_list as $cursor)
             if ($err = $cursor->delete ())
                 break;
-    }
 
     if (isset ($err))
         $ui->panic ($err);
