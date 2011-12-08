@@ -40,15 +40,10 @@ function tk_autoform_init (&$app)
  * @param string $field Field name.
  * @param string $flags TK_AUTOFORM_LABELS or TK_AUTOFORM_NO_INPUT.
  */
-function tk_autoform_create_widget (&$app, $source, $field, $flags = 0)
+function tk_autoform_create_widget (&$app, $cursor, $type, $field, $flags = 0)
 {
     $p =& $app->ui;
     $def =& $app->db->def;
-
-    $type = $def->types ($source);
-    if (!$type)
-        die_traced ("No dbdepend definition for table '$source.'");
-    $type = $type[$field];
 
     # Don't print hidden fields.
     if (isset ($type['tk_autoform']['hide']))
@@ -57,11 +52,11 @@ function tk_autoform_create_widget (&$app, $source, $field, $flags = 0)
     $p->open_row ();
     if ($flags & TK_AUTOFORM_LABELS)
         $p->label (isset ($type['d']) ? $type['d'] : $field);
-    _tk_autoform_create_widget ($app, $type, $field, $flags);
+    _tk_autoform_create_widget ($app, $cursor, $type, $field, $flags);
     $p->close_row ();
 }
 
-function _tk_autoform_create_widget (&$app, &$type, $field, $flags)
+function _tk_autoform_create_widget (&$app, &$cursor, $type, $field, $flags)
 {
     $p =& $app->ui;
     $def =& $app->db->def;
@@ -134,13 +129,13 @@ function _tk_autoform_create_widget (&$app, &$type, $field, $flags)
  * @param object application $app
  * @param string $source Source name.
  */
-function tk_autoform_create_form (&$app, $source)
+function tk_autoform_create_form (&$app, $cursor)
 {
     $def =& $app->db->def;
-    $defs =& $def->types ($source);
+    $types = $def->types ($cursor->source ());
 
-    foreach ($defs as $field => $dummy)
-        tk_autoform_create_widget ($app, $source, $field, TK_AUTOFORM_LABELS);
+    foreach ($types as $field => $type)
+        tk_autoform_create_widget ($app, $cursor, $type, $field, TK_AUTOFORM_LABELS);
 }
 
 function tk_autoform_list_cursor_field (&$app, &$c, &$conf, $field)
