@@ -9,7 +9,7 @@
  */
 
 # Copyright (c) 2000-2001 dev/consulting GmbH
-# Copyright (c) 2011 Sven Michael Klose <pixel@copei.de>
+# Copyright (c) 2011,2018 Sven Michael Klose <pixel@hugbox.org>
 #
 # Licensed under the MIT, BSD and GPL licenses.
 
@@ -20,9 +20,9 @@
       "sven@devcon.net",
       "ILOVEYOU",
       rfc2110_attachment (
-        "Worx.\n", "text/plain; charset=ISO-8859-1"
+        "Worx.\n", "text/plain; charset=UTF-8"
       ) .
-      rfc2110_file (
+      rfc2110_attachment_file (
         "some.gif", "image/gif"
       ) .
       rfc2110_tail (), 
@@ -41,7 +41,18 @@ $__rfc2110boundary = uniqid (rand ());
 function rfc2110_boundary ()
 {
     global $__rfc2110boundary;
+
     return "rfc2110_boundary_cs$__rfc2110boundary";
+}
+
+/**
+ * Initialise mail.
+ *
+ * @access public
+ */
+function rfc2110_init ()
+{
+    $GLOBALS['_rfc2110comment'] = FALSE;
 }
 
 /**
@@ -61,17 +72,6 @@ function rfc2110_header ($fromemail)
 }
 
 /**
- * End of message body.
- *
- * @access public
- * @returns string
- */
-function rfc2110_tail ()
-{
-    return "--" . rfc2110_boundary () . "--\n";
-}
-
-/**
  * Create attachment
  *
  * @access public
@@ -84,8 +84,9 @@ function rfc2110_tail ()
 function rfc2110_attachment ($content, $type, $encoding = 0, $contentid = 0)
 {
     global $_rfc2110comment;
+
     if (!$_rfc2110comment) {
-        $_rfc2110comment = true;
+        $_rfc2110comment = TRUE;
         $header = "  This is a multipart mime message.\n\n";
     }
     $header .= "--" . rfc2110_boundary () . "\n";
@@ -95,6 +96,7 @@ function rfc2110_attachment ($content, $type, $encoding = 0, $contentid = 0)
         $header .= "Content-Type: $type\n";
     if ($encoding)
         $header .= "Content-Transfer-Encoding: $encoding\n";
+
     return "$header\n$content";
 }
 
@@ -106,7 +108,7 @@ function rfc2110_attachment ($content, $type, $encoding = 0, $contentid = 0)
  * @param string $type MIME type of file.
  * @returns string
  */
-function rfc2110_file ($filename, $type)
+function rfc2110_attachment_file ($filename, $type)
 {
     # Read in file, encode base64
     $fd = fopen ($filename, "r");
@@ -125,5 +127,16 @@ function rfc2110_file ($filename, $type)
 	    "Content-MD5: ". md5 ($bin),
         "base64"
     );
+}
+
+/**
+ * End of message body.
+ *
+ * @access public
+ * @returns string
+ */
+function rfc2110_tail ()
+{
+    return "--" . rfc2110_boundary () . "--\n";
 }
 ?>
