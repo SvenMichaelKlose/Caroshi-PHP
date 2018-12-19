@@ -130,6 +130,18 @@ function rfc2110_attachment_file ($filename, $type)
 }
 
 /**
+ * Create HTML file attachment
+ *
+ * @access public
+ * @param string $filename Path to file.
+ * @returns string
+ */
+function rfc2110_attachment_html_file ($filename, $type)
+{
+    rfc2110_attachment_file ($filename, "text/html")
+}
+
+/**
  * End of message body.
  *
  * @access public
